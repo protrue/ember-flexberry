@@ -4417,30 +4417,45 @@ define('dummy/controllers/components-examples/flexberry-lookup/lookup-block-form
 });
 define('dummy/controllers/components-examples/flexberry-lookup/lookup-in-modal', ['exports', 'ember', 'ember-flexberry/controllers/edit-form'], function (exports, _ember, _emberFlexberryControllersEditForm) {
   exports['default'] = _emberFlexberryControllersEditForm['default'].extend({
+    /**
+      Defaul style of modal context.
+       @property readonly
+      @type String
+      @default #example
+    */
+    _style: '#example',
 
     actions: {
-      modalWindow: function modalWindow() {
+      modalWindow: function modalWindow(style) {
+        if (!_ember['default'].isNone(style)) {
+          this.set('_style', style);
+        }
+
         var repeatWindow = _ember['default'].$('#repeat-window').modal({
           closable: false,
           autofocus: false,
           detachable: false,
           allowMultiple: true,
-          context: '#example'
+          context: this.get('_style')
         });
         this.set('repeatWindow', repeatWindow);
-        this.get('repeatWindow').modal('refresh').modal('show');
+        this.get('repeatWindow').modal('show').modal('refresh');
       },
 
-      modalWindowDouble: function modalWindowDouble() {
+      modalWindowDouble: function modalWindowDouble(style) {
+        if (!_ember['default'].isNone(style)) {
+          this.set('_style', style);
+        }
+
         var repeatWindow = _ember['default'].$('#repeat-window-double').modal({
           closable: false,
           autofocus: false,
           detachable: false,
           allowMultiple: true,
-          context: '#example'
+          context: this.get('_style')
         });
         this.set('repeatWindowdouble', repeatWindow);
-        this.get('repeatWindowdouble').modal('refresh').modal('show');
+        this.get('repeatWindowdouble').modal('show').modal('refresh');
       },
 
       logOut: function logOut() {
@@ -4450,6 +4465,7 @@ define('dummy/controllers/components-examples/flexberry-lookup/lookup-in-modal',
       logOutDouble: function logOutDouble() {
         this.get('repeatWindowdouble').modal('hide');
       }
+
     }
   });
 });
@@ -26063,7 +26079,7 @@ define("dummy/templates/components-examples/flexberry-lookup/lookup-in-modal", [
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["element", "action", ["modalWindow"], [], ["loc", [null, [4, 28], [4, 52]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModal"], [], ["loc", [null, [4, 53], [4, 131]]]], ["element", "action", ["modalWindowDouble"], [], ["loc", [null, [5, 28], [5, 58]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModalDouble"], [], ["loc", [null, [5, 59], [5, 143]]]], ["block", "ui-modal", [], ["id", "repeat-window"], 0, null, ["loc", [null, [8, 0], [27, 13]]]], ["block", "ui-modal", [], ["id", "repeat-window-double"], 1, null, ["loc", [null, [29, 0], [48, 13]]]]],
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["element", "action", ["modalWindow", "#example"], [], ["loc", [null, [4, 28], [4, 63]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModal"], [], ["loc", [null, [4, 64], [4, 142]]]], ["element", "action", ["modalWindowDouble", "#example"], [], ["loc", [null, [5, 28], [5, 69]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModalDouble"], [], ["loc", [null, [5, 70], [5, 154]]]], ["block", "ui-modal", [], ["id", "repeat-window"], 0, null, ["loc", [null, [8, 0], [27, 13]]]], ["block", "ui-modal", [], ["id", "repeat-window-double"], 1, null, ["loc", [null, [29, 0], [48, 13]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -52904,6 +52920,256 @@ define("dummy/templates/mobile/components-examples/flexberry-lookup/lookup-block
     };
   })());
 });
+define("dummy/templates/mobile/components-examples/flexberry-lookup/lookup-in-modal", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 8,
+              "column": 0
+            },
+            "end": {
+              "line": 27,
+              "column": 0
+            }
+          },
+          "moduleName": "dummy/templates/mobile/components-examples/flexberry-lookup/lookup-in-modal.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "header");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "content");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui form flexberry-vertical-form");
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("button");
+          dom.setAttribute(el3, "class", "ui button");
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element2 = dom.childAt(fragment, [3, 1]);
+          var element3 = dom.childAt(element2, [3]);
+          var morphs = new Array(4);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element2, [1]), 1, 1);
+          morphs[2] = dom.createElementMorph(element3);
+          morphs[3] = dom.createMorphAt(element3, 0, 0);
+          return morphs;
+        },
+        statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.captionModal"], [], ["loc", [null, [9, 22], [9, 101]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.editor1", ["loc", [null, [14, 16], [14, 29]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [15, 23], [15, 28]]]]], [], []], "relationName", "editor1", "projection", "ApplicationUserL", "displayAttributeName", "name", "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [19, 19], [19, 27]]]]], [], []], "choose", ["subexpr", "action", ["showLookupDialog"], [], ["loc", [null, [20, 17], [20, 44]]]], "remove", ["subexpr", "action", ["removeLookupValue"], [], ["loc", [null, [21, 17], [21, 45]]]]], ["loc", [null, [13, 8], [22, 10]]]], ["element", "action", ["logOut"], [], ["loc", [null, [24, 32], [24, 51]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonClose"], [], ["loc", [null, [24, 52], [24, 130]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 29,
+              "column": 0
+            },
+            "end": {
+              "line": 48,
+              "column": 0
+            }
+          },
+          "moduleName": "dummy/templates/mobile/components-examples/flexberry-lookup/lookup-in-modal.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "header");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "content");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui form flexberry-vertical-form");
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("button");
+          dom.setAttribute(el3, "class", "ui button");
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [3, 1]);
+          var element1 = dom.childAt(element0, [3]);
+          var morphs = new Array(4);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+          morphs[2] = dom.createElementMorph(element1);
+          morphs[3] = dom.createMorphAt(element1, 0, 0);
+          return morphs;
+        },
+        statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.captionModalDouble"], [], ["loc", [null, [30, 22], [30, 107]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [35, 16], [35, 26]]]]], [], []], "projection", "SuggestionTypeL", "displayAttributeName", "name", "title", "Master", "relationName", "type", "choose", ["subexpr", "action", ["showLookupDialog"], [], ["loc", [null, [40, 17], [40, 44]]]], "remove", ["subexpr", "action", ["removeLookupValue"], [], ["loc", [null, [41, 17], [41, 45]]]], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [42, 19], [42, 27]]]]], [], []]], ["loc", [null, [34, 8], [43, 10]]]], ["element", "action", ["logOutDouble"], [], ["loc", [null, [45, 32], [45, 57]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonClose"], [], ["loc", [null, [45, 58], [45, 136]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes", "wrong-type"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 49,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/mobile/components-examples/flexberry-lookup/lookup-in-modal.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h3");
+        dom.setAttribute(el1, "class", "ui header");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "ui form flexberry-vertical-form");
+        dom.setAttribute(el1, "role", "form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "class", "ui button");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "class", "ui button");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element4 = dom.childAt(fragment, [2]);
+        var element5 = dom.childAt(element4, [1]);
+        var element6 = dom.childAt(element4, [3]);
+        var morphs = new Array(7);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
+        morphs[1] = dom.createElementMorph(element5);
+        morphs[2] = dom.createMorphAt(element5, 0, 0);
+        morphs[3] = dom.createElementMorph(element6);
+        morphs[4] = dom.createMorphAt(element6, 0, 0);
+        morphs[5] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        morphs[6] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["element", "action", ["modalWindow", "#example-mobile"], [], ["loc", [null, [4, 28], [4, 70]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModal"], [], ["loc", [null, [4, 71], [4, 149]]]], ["element", "action", ["modalWindowDouble", "#example-mobile"], [], ["loc", [null, [5, 28], [5, 76]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModalDouble"], [], ["loc", [null, [5, 77], [5, 161]]]], ["block", "ui-modal", [], ["id", "repeat-window"], 0, null, ["loc", [null, [8, 0], [27, 13]]]], ["block", "ui-modal", [], ["id", "repeat-window-double"], 1, null, ["loc", [null, [29, 0], [48, 13]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
 define("dummy/templates/mobile/components/flexberry-file", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -56824,7 +57090,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+b73cae94"});
 }
 
 /* jshint ignore:end */
