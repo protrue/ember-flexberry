@@ -1562,6 +1562,576 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-date-format-moment-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
+  var Builder = _emberFlexberryData.Query.Builder;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check delete before record data cancel test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+
+    // Add records for deliting.
+    _ember['default'].run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new Builder(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = _ember['default'].$(olvContainerClass);
+            var $rows = function $rows() {
+              return _ember['default'].$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = _ember['default'].$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records have been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new Builder(store, modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
+  var Builder = _emberFlexberryData.Query.Builder;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check delete before record data immediately test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+
+    // Add records for deliting.
+    _ember['default'].run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new Builder(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = _ember['default'].$(olvContainerClass);
+            var $rows = function $rows() {
+              return _ember['default'].$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = _ember['default'].$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new Builder(store, modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
+  var Builder = _emberFlexberryData.Query.Builder;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check delete before record test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+
+    // Add records for deliting.
+    _ember['default'].run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new Builder(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = _ember['default'].$(olvContainerClass);
+            var $rows = function $rows() {
+              return _ember['default'].$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = _ember['default'].$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records have been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new Builder(store, modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
+  var Builder = _emberFlexberryData.Query.Builder;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check delete before record with promise data cancel test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+
+    // Add records for deliting.
+    _ember['default'].run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new Builder(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = _ember['default'].$(olvContainerClass);
+            var $rows = function $rows() {
+              return _ember['default'].$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = _ember['default'].$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records haven't been removed into store.
+            var builder2 = new Builder(store, modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
+  var Builder = _emberFlexberryData.Query.Builder;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check delete before record with promise data immediately test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+
+    // Add records for deliting.
+    _ember['default'].run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new Builder(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = _ember['default'].$(olvContainerClass);
+            var $rows = function $rows() {
+              return _ember['default'].$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = _ember['default'].$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new Builder(store, modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
+  var Builder = _emberFlexberryData.Query.Builder;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check delete before record with promise test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+
+    // Add records for deliting.
+    _ember['default'].run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new Builder(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = _ember['default'].$(olvContainerClass);
+            var $rows = function $rows() {
+              return _ember['default'].$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = _ember['default'].$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records haven't been removed into store.
+            var builder2 = new Builder(store, modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-button-in-row-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryDataUtilsGenerateUniqueId, _emberFlexberryData) {
   var Builder = _emberFlexberryData.Query.Builder;
 
@@ -4684,6 +5254,108 @@ define('dummy/tests/controllers/components-examples/flexberry-menu/settings-exam
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-menu/settings-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/before-delete-record');
+  test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/before-delete-record');
+  test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/before-delete-record');
+  test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/before-delete-record');
+  test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/before-delete-record');
+  test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/before-delete-record');
+  test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-examples/flexberry-objectlistview/configurate-rows.jscs-test', ['exports'], function (exports) {
@@ -17946,6 +18618,108 @@ define('dummy/tests/routes/components-examples/flexberry-menu/settings-example.j
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-menu/settings-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/before-delete-record');
+  test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/before-delete-record');
+  test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/before-delete-record');
+  test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/before-delete-record');
+  test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/before-delete-record');
+  test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/before-delete-record');
+  test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-objectlistview/configurate-rows.jscs-test', ['exports'], function (exports) {
