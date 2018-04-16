@@ -2563,6 +2563,90 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-goto-edi
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-goto-editform-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-limit-function-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check limit function', function (store, assert, app) {
+    assert.expect(6);
+    var path = 'components-examples/flexberry-objectlistview/limit-function-example?perPage=500';
+    var modelName = 'ember-flexberry-dummy-suggestion';
+    var result1 = undefined;
+    var result2 = undefined;
+    var count = undefined;
+
+    visit(path);
+    andThen(function () {
+      var builder1 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL');
+      store.query(modelName, builder1.build()).then(function (result) {
+        var arr = result.toArray();
+        count = arr.length;
+      }).then(function () {
+        var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Neq, '');
+        store.query(modelName, builder2.build()).then(function (result) {
+          var arr = result.toArray();
+          result1 = arr.objectAt(0).get('address');
+          result2 = arr.objectAt(1).get('address');
+
+          if (!result1 && !result2) {
+            assert.ok(false, 'Laad empty data');
+          }
+        }).then(function () {
+          var controller = app.__container__.lookup('controller:' + currentRouteName());
+          controller.set('limitFunction', result1);
+
+          var refreshFunction = function refreshFunction() {
+            var refreshButton = _ember['default'].$('.refresh-button')[0];
+            refreshButton.click();
+          };
+
+          assert.equal(controller.model.content.length, count, 'Folv load with current object count');
+
+          var done1 = assert.async();
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
+            var resultText = _ember['default'].$('.oveflow-text')[0];
+            assert.notEqual(controller.model.content.length, count, 'Folv load with object current count');
+            assert.equal(resultText.innerText, result1, 'Correct result afther apply limitFunction');
+
+            controller.set('limitFunction', result2);
+
+            var done2 = assert.async();
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
+              var resultText = _ember['default'].$('.oveflow-text')[0];
+              assert.notEqual(controller.model.content.length, count, 'Folv load with current object count');
+              assert.equal(resultText.innerText, result2, 'Correct result afther apply limitFunction');
+
+              controller.set('limitFunction', undefined);
+
+              var done3 = assert.async();
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
+                assert.equal(controller.model.content.length, count, 'Folv load with current object count');
+                done3();
+              });
+              done2();
+            });
+            done1();
+          });
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-limit-function-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-limit-function-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-limit-function-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-limit-function-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-limit-function-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-limit-function-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-locales-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations', 'ember-flexberry/locales/en/translations'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryLocalesRuTranslations, _emberFlexberryLocalesEnTranslations) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check locale change', function (store, assert, app) {
