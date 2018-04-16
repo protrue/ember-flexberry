@@ -2877,6 +2877,75 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-n
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-paging-navigation-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData) {
+
+  // Need to add sort by multiple columns.
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check sorting by computable field', function (store, assert, app) {
+    assert.expect(6);
+    var path = 'components-acceptance-tests/flexberry-objectlistview/computable-field';
+    var modelName = 'ember-flexberry-dummy-suggestion';
+    var minValue = undefined;
+    var maxValue = undefined;
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').orderBy('commentsCount');
+      store.query(modelName, builder.build()).then(function (result) {
+        var arr = result.toArray();
+        minValue = arr.objectAt(0).get('commentsCount');
+        maxValue = arr.objectAt(arr.length - 1).get('commentsCount');
+      }).then(function () {
+
+        var $olv = _ember['default'].$('.object-list-view ');
+        var $thead = _ember['default'].$('th.dt-head-left', $olv)[9];
+        var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+        // Refresh function.
+        var refreshFunction = function refreshFunction() {
+          $thead.click();
+        };
+
+        var done1 = assert.async();
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+          var $cellText = _ember['default'].$('div.oveflow-text')[9];
+          assert.equal(controller.sort, '+commentsCount', 'sorting symbol added');
+          assert.equal($cellText.innerText, minValue, 'sorting symbol added');
+          var done2 = assert.async();
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+            var $cellText = _ember['default'].$('div.oveflow-text')[9];
+            assert.equal(controller.sort, '-commentsCount', 'sorting symbol added');
+            assert.equal($cellText.innerText, maxValue, 'sorting symbol added');
+            var done3 = assert.async();
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+              assert.equal(controller.sort, '!commentsCount', 'sorting symbol added');
+              done3();
+            });
+            done2();
+          });
+          done1();
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-clear-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryLocalesRuTranslations) {
 
   // Need to add sort by multiple columns.
@@ -4860,6 +4929,23 @@ define('dummy/tests/controllers/components-acceptance-tests/flexberry-objectlist
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-objectlistview/base-operations.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-acceptance-tests/flexberry-objectlistview');
+  test('controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass jscs', function () {
+    ok(true, 'controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-acceptance-tests/flexberry-objectlistview/custom-filter.jscs-test', ['exports'], function (exports) {
@@ -18275,6 +18361,23 @@ define('dummy/tests/routes/components-acceptance-tests/flexberry-objectlistview/
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-objectlistview/base-operations.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-objectlistview/computable-field.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-acceptance-tests/flexberry-objectlistview');
+  test('routes/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass jscs', function () {
+    ok(true, 'routes/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-objectlistview/computable-field.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-acceptance-tests/flexberry-objectlistview/computable-field.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-acceptance-tests/flexberry-objectlistview/custom-filter.jscs-test', ['exports'], function (exports) {

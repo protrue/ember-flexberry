@@ -2130,6 +2130,145 @@ define('dummy/controllers/components-acceptance-tests/flexberry-objectlistview/b
     records: []
   });
 });
+define('dummy/controllers/components-acceptance-tests/flexberry-objectlistview/computable-field', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _emberFlexberryControllersListForm) {
+  exports['default'] = _emberFlexberryControllersListForm['default'].extend({
+
+    /**
+      Model projection for 'flexberry-objectlistview' component 'modelProjection' property.
+       @property projection
+      @type Object
+     */
+    projection: 'SuggestionL',
+
+    /**
+      Name of related edit form route (for 'flexberry-objectlistview' component 'editFormRoute' property).
+       @property editFormRoute
+      @type String
+     */
+    editFormRoute: 'ember-flexberry-dummy-suggestion-edit',
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'readonly' mode or not.
+       @property readonly
+      @type Boolean
+     */
+    readonly: false,
+
+    /**
+      Flag for 'flexberry-objectlistview' component 'tableStriped' property.
+       @property tableStriped
+      @type Boolean
+     */
+    tableStriped: true,
+
+    /**
+      Flag for 'flexberry-objectlistview' component 'allowColumnResize' property.
+       @property allowColumnResize
+      @type Boolean
+     */
+    allowColumnResize: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'createNewButton' mode or not.
+       @property createNewButton
+      @type Boolean
+     */
+    createNewButton: true,
+
+    /**
+      Flag for 'flexberry-objectlistview' component 'deleteButton' property.
+       @property deleteButton
+      @type Boolean
+     */
+    deleteButton: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'enableFilters' mode or not.
+       @property enableFilters
+      @type Boolean
+     */
+    enableFilters: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'filterButton' mode or not.
+       @property filterButton
+      @type Boolean
+     */
+    filterButton: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'refreshButton' mode or not.
+       @property refreshButton
+      @type Boolean
+     */
+    refreshButton: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showCheckBoxInRow' mode or not.
+       @property showCheckBoxInRow
+      @type Boolean
+     */
+    showCheckBoxInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showDeleteButtonInRow' mode or not.
+       @property showDeleteButtonInRow
+      @type Boolean
+     */
+    showDeleteButtonInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showEditMenuItemInRow' mode or not.
+       @property showEditMenuItemInRow
+      @type Boolean
+     */
+    showEditMenuItemInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showDeleteMenuItemInRow' mode or not.
+       @property showDeleteMenuItemInRow
+      @type Boolean
+     */
+    showDeleteMenuItemInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'rowClickable' mode or not.
+       @property rowClickable
+      @type Boolean
+     */
+    rowClickable: false,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'orderable' mode or not.
+       @property orderable
+      @type Boolean
+     */
+    orderable: true,
+
+    /**
+      Тext for 'flexberry-objectlistview' component 'singleColumnHeaderTitle' property.
+       @property singleColumnHeaderTitle
+      @type String
+     */
+    singleColumnHeaderTitle: undefined,
+
+    /**
+      Cout of list loading.
+       @property loadCount
+      @type Int
+    */
+    loadCount: 0,
+
+    /**
+      Current records.
+       @property _records
+      @type Object[]
+      @protected
+      @readOnly
+    */
+    records: []
+  });
+});
 define('dummy/controllers/components-acceptance-tests/flexberry-objectlistview/custom-filter', ['exports', 'ember', 'ember-flexberry/controllers/list-form'], function (exports, _ember, _emberFlexberryControllersListForm) {
   exports['default'] = _emberFlexberryControllersListForm['default'].extend({
     filterByAnyWord: false,
@@ -15559,6 +15698,7 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
 
     this.route('components-acceptance-tests/flexberry-objectlistview/base-operations');
+    this.route('components-acceptance-tests/flexberry-objectlistview/computable-field');
     this.route('components-acceptance-tests/flexberry-objectlistview/folv-paging');
     this.route('components-acceptance-tests/flexberry-objectlistview/date-format');
     this.route('components-acceptance-tests/edit-form-readonly');
@@ -16048,6 +16188,63 @@ define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/base-o
       @default 'SuggestionL'
      */
     modelProjection: 'SuggestionE',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    @default {}
+    */
+    developerUserSettings: {
+      FOLVSettingExampleObjectListView: {
+        'DEFAULT': {
+          'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 120 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+        }
+      }
+    },
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    /**
+      This method will be invoked always when load operation completed,
+      regardless of load promise's state (was it fulfilled or rejected).
+       @method onModelLoadingAlways.
+      @param {Object} data Data about completed load operation.
+     */
+    onModelLoadingAlways: function onModelLoadingAlways(data) {
+      var loadCount = this.get('controller.loadCount') + 1;
+      this.set('controller.loadCount', loadCount);
+    }
+  });
+});
+define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/computable-field', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _emberFlexberryRoutesListForm) {
+  exports['default'] = _emberFlexberryRoutesListForm['default'].extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'SuggestionL'
+     */
+    modelProjection: 'SuggestionL',
 
     /**
     developerUserSettings.
@@ -22843,6 +23040,52 @@ define("dummy/templates/components-acceptance-tests/flexberry-objectlistview/bas
           }
         },
         "moduleName": "dummy/templates/components-acceptance-tests/flexberry-objectlistview/base-operations.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["inline", "flexberry-objectlistview", [], ["editFormRoute", ["subexpr", "@mut", [["get", "editFormRoute", ["loc", [null, [2, 16], [2, 29]]]]], [], []], "showCheckBoxInRow", true, "modelName", "ember-flexberry-dummy-suggestion", "modelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [5, 18], [5, 33]]]]], [], []], "content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [6, 10], [6, 15]]]]], [], []], "createNewButton", true, "refreshButton", true, "sorting", ["subexpr", "@mut", [["get", "computedSorting", ["loc", [null, [9, 10], [9, 25]]]]], [], []], "orderable", true, "sortByColumn", ["subexpr", "action", ["sortByColumn"], [], ["loc", [null, [11, 15], [11, 38]]]], "addColumnToSorting", ["subexpr", "action", ["addColumnToSorting"], [], ["loc", [null, [12, 21], [12, 50]]]], "pages", ["subexpr", "@mut", [["get", "pages", ["loc", [null, [13, 8], [13, 13]]]]], [], []], "perPageValue", ["subexpr", "@mut", [["get", "perPageValue", ["loc", [null, [14, 15], [14, 27]]]]], [], []], "perPageValues", ["subexpr", "@mut", [["get", "perPageValues", ["loc", [null, [15, 16], [15, 29]]]]], [], []], "recordsTotalCount", ["subexpr", "@mut", [["get", "recordsTotalCount", ["loc", [null, [16, 20], [16, 37]]]]], [], []], "hasPreviousPage", ["subexpr", "@mut", [["get", "hasPreviousPage", ["loc", [null, [17, 18], [17, 33]]]]], [], []], "hasNextPage", ["subexpr", "@mut", [["get", "hasNextPage", ["loc", [null, [18, 14], [18, 25]]]]], [], []], "previousPage", ["subexpr", "action", ["previousPage"], [], ["loc", [null, [19, 15], [19, 38]]]], "gotoPage", ["subexpr", "action", ["gotoPage"], [], ["loc", [null, [20, 11], [20, 30]]]], "nextPage", ["subexpr", "action", ["nextPage"], [], ["loc", [null, [21, 11], [21, 30]]]], "componentName", "FOLVSettingExampleObjectListView", "showDeleteMenuItemInRow", true, "deleteButton", true, "rowClickable", ["subexpr", "@mut", [["get", "rowClickable", ["loc", [null, [25, 15], [25, 27]]]]], [], []]], ["loc", [null, [1, 0], [26, 2]]]]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("dummy/templates/components-acceptance-tests/flexberry-objectlistview/computable-field", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["wrong-type"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 27,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/components-acceptance-tests/flexberry-objectlistview/computable-field.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -58771,7 +59014,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+8f100503"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+f70b8b28"});
 }
 
 /* jshint ignore:end */
