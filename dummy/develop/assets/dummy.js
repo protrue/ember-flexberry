@@ -7602,7 +7602,7 @@ define('dummy/controllers/components-examples/flexberry-toggler/settings-example
        @property componentTemplateText
       @type String
      */
-    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{#flexberry-toggler<br>' + '  caption=caption<br>' + '  expandedCaption=expandedCaption<br>' + '  collapsedCaption=collapsedCaption<br>' + '  expanded=true<br>' + '  iconClass=iconClass<br>' + '}}<br>' + '  {{t "forms.components-examples.flexberry-toggler.settings-example.togglerContent"}}<br>' + '{{/flexberry-toggler}}'),
+    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{#flexberry-toggler<br>' + '  caption=caption<br>' + '  expandedCaption=expandedCaption<br>' + '  collapsedCaption=collapsedCaption<br>' + '  expanded=true<br>' + '  componentName="myToggler"<br>' + '  iconClass=iconClass<br>' + '}}<br>' + '  {{t "forms.components-examples.flexberry-toggler.settings-example.togglerContent"}}<br>' + '{{/flexberry-toggler}}'),
 
     /**
       Component settings metadata.
@@ -34431,7 +34431,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
                 "column": 6
               },
               "end": {
-                "line": 17,
+                "line": 18,
                 "column": 6
               }
             },
@@ -34456,7 +34456,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example.togglerContent"], [], ["loc", [null, [16, 8], [16, 91]]]]],
+          statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example.togglerContent"], [], ["loc", [null, [17, 8], [17, 91]]]]],
           locals: [],
           templates: []
         };
@@ -34472,7 +34472,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
               "column": 4
             },
             "end": {
-              "line": 18,
+              "line": 19,
               "column": 4
             }
           },
@@ -34495,7 +34495,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "@mut", [["get", "caption", ["loc", [null, [10, 16], [10, 23]]]]], [], []], "expandedCaption", ["subexpr", "@mut", [["get", "expandedCaption", ["loc", [null, [11, 24], [11, 39]]]]], [], []], "collapsedCaption", ["subexpr", "@mut", [["get", "collapsedCaption", ["loc", [null, [12, 25], [12, 41]]]]], [], []], "expanded", ["subexpr", "@mut", [["get", "expanded", ["loc", [null, [13, 17], [13, 25]]]]], [], []], "iconClass", ["subexpr", "@mut", [["get", "iconClass", ["loc", [null, [14, 18], [14, 27]]]]], [], []]], 0, null, ["loc", [null, [9, 6], [17, 28]]]]],
+        statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "@mut", [["get", "caption", ["loc", [null, [10, 16], [10, 23]]]]], [], []], "expandedCaption", ["subexpr", "@mut", [["get", "expandedCaption", ["loc", [null, [11, 24], [11, 39]]]]], [], []], "collapsedCaption", ["subexpr", "@mut", [["get", "collapsedCaption", ["loc", [null, [12, 25], [12, 41]]]]], [], []], "expanded", ["subexpr", "@mut", [["get", "expanded", ["loc", [null, [13, 17], [13, 25]]]]], [], []], "iconClass", ["subexpr", "@mut", [["get", "iconClass", ["loc", [null, [14, 18], [14, 27]]]]], [], []], "componentName", "myToggler"], 0, null, ["loc", [null, [9, 6], [18, 28]]]]],
         locals: [],
         templates: [child0]
       };
@@ -34514,7 +34514,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
             "column": 0
           },
           "end": {
-            "line": 21,
+            "line": 22,
             "column": 0
           }
         },
@@ -34560,7 +34560,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2, 1]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 98]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [7, 28], [7, 49]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [18, 25]]]]],
+      statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 98]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [7, 28], [7, 49]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [19, 25]]]]],
       locals: [],
       templates: [child0]
     };
@@ -58764,7 +58764,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+c14a7686"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+bb300b61"});
 }
 
 /* jshint ignore:end */
