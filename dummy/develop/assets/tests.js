@@ -556,7 +556,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     var filtreInsertOperation = 'empty';
     var filtreInsertParametr = '';
     _ember['default'].run(function () {
-      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).where('address', _emberFlexberryData.Query.FilterOperator.Eq, '');
+      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Eq, '');
       store.query(modelName, builder.build()).then(function (result) {
         var arr = result.toArray();
 
@@ -655,10 +655,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
+      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
       store.query(modelName, builder.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = _ember['default'].$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -863,7 +866,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
+      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertValueArr = [arr.objectAt(0).get('address'), undefined, arr.objectAt(0).get('votes'), arr.objectAt(0).get('moderated'), arr.objectAt(0).get('type.name'), arr.objectAt(0).get('author.name')];
@@ -924,7 +927,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path + '?perPage=500');
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).top(1);
+      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('votes') - 1;
@@ -994,7 +997,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path + '?perPage=500');
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).top(1);
+      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('votes') + 1;
@@ -1064,11 +1067,14 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
+      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
         filtreInsertParametr = filtreInsertParametr.slice(1, filtreInsertParametr.length);
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = _ember['default'].$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -1135,10 +1141,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path + '?perPage=500');
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
+      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = _ember['default'].$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -1205,11 +1214,14 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
+      var builder2 = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
         filtreInsertParametr = filtreInsertParametr.slice(1, filtreInsertParametr.length);
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = _ember['default'].$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -2337,7 +2349,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-button-test.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-button-in-row-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-button-in-row-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions) {
 
   // Need to add sort by multiple columns.
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check edit button in row', function (store, assert, app) {
@@ -2353,16 +2365,18 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-but
 
       assert.equal($editButtonInRow.length, 5, 'All row have editButton');
 
-      var $button = $editButtonInRow[0];
-      $button.click();
+      // Apply filter function.
+      var openEditFormFunction = function openEditFormFunction() {
+        var editButtonInRow = _ember['default'].$('.object-list-view-row-edit-button')[0];
+        editButtonInRow.click();
+      };
 
-      var done = assert.async();
-
-      window.setTimeout(function () {
-        var saveButton = _ember['default'].$('.save-button');
-        assert.equal(saveButton.length, 1, 'Edit button in row open editform');
-        done();
-      }, 1000);
+      // Open editform.
+      var done1 = assert.async();
+      (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.openEditFormByFunction)(openEditFormFunction).then(function () {
+        assert.ok(true, 'edit form open');
+        done1();
+      });
     });
   });
 });
@@ -2960,6 +2974,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', ['exports', 'ember', 'ember-flexberry-data'], function (exports, _ember, _emberFlexberryData) {
   exports.loadingList = loadingList;
+  exports.openEditFormByFunction = openEditFormByFunction;
   exports.refreshListByFunction = refreshListByFunction;
   exports.checkSortingList = checkSortingList;
   exports.addRecords = addRecords;
@@ -2996,6 +3011,57 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
           window.clearInterval(checkIntervalId);
           checkIntervalSucceed = true;
           resolve($list);
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      _ember['default'].run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('editForm load operation is timed out');
+        }, timeout);
+      });
+    });
+  }
+
+  /**
+    Function for waiting editform loading afther open editform by function at acceptance test.
+  
+    @public
+    @method openEditFormByFunction
+    @param {Function} openEditFormFunction Method options.
+   */
+
+  function openEditFormByFunction(openEditFormFunction) {
+    return new _ember['default'].RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = undefined;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+      var timeout = 10000;
+
+      openEditFormFunction();
+
+      _ember['default'].run(function () {
+        checkIntervalId = window.setInterval(function () {
+          if (_ember['default'].$('.ui.button.close-button').length === 0) {
+
+            // Edit form isn't loaded yet.
+            return;
+          }
+
+          // Edit form is loaded, wait to render.
+          // Stop interval & resolve promise.
+          window.setTimeout(function () {
+            window.clearInterval(checkIntervalId);
+            checkIntervalSucceed = true;
+            resolve();
+          });
         }, checkInterval);
       });
 

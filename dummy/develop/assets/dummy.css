@@ -5163,6 +5163,57 @@ ui.button.ui-clear:hover {
 .ui.clear-sorting-button.button:hover i.icon.sort:before {
   color: #FF7500;
 }
+.ui.check-all-at-page-button-mobile.button {
+  padding: 0px;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  border: 0px;
+  background: none;
+  margin: 0 0 0 0px;
+}
+.ui.check-all-at-page-button-mobile.button:active {
+  border: 0px;
+  background: none;
+}
+.ui.check-all-at-page-button-mobile.button:active i.icon.check-square-o:before {
+  color: #FF7500;
+}
+.ui.check-all-button-mobile.button {
+  padding: 0px;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  border: 0px;
+  background: none;
+  margin: 0 0 0 0px;
+}
+.ui.check-all-button-mobile.button:active {
+  border: 0px;
+  background: none;
+}
+.ui.check-all-button-mobile.button:active i.icon.check-all-square-o:before {
+  color: #FF7500;
+}
+.ui.check-all-button-mobile.button.activated i.icon.check-all-square-o:before {
+  color: #FF7500;
+}
+.ui.clear-sorting-button-mobile.button {
+  padding: 0px;
+  height: 25px;
+  width: 10px;
+  text-align: center;
+  border: 0px;
+  background: none;
+  margin: 0 0 0 0px;
+}
+.ui.clear-sorting-button-mobile.button:active {
+  border: 0px;
+  background: none;
+}
+.ui.clear-sorting-button-mobile.button:active i.icon.sort:before {
+  color: #FF7500;
+}
 .ui.ui-edit.button {
   padding: 0px;
   height: 30px;
