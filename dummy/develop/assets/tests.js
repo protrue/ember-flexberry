@@ -3449,6 +3449,46 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-tests-functions.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('user button test', function (store, assert, app) {
+    assert.expect(3);
+    var path = 'components-examples/flexberry-objectlistview/toolbar-custom-buttons-example';
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var $testBudtton = _ember['default'].$('.test-click-button')[0];
+
+      // First click.
+      $testBudtton.click();
+      assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+
+      // Second click.
+      $testBudtton.click();
+      assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-user-button-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-user-button-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-user-button-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-user-button-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-projection-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check wrapper and projection', function (store, assert, app) {
