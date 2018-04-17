@@ -1477,6 +1477,56 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-checked-
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-checked-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-configurate-row-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check configurate row test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/configurate-rows';
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var $folvContainer = _ember['default'].$('.object-list-view-container');
+
+      // Get all positive row.
+      var $positivRow = _ember['default'].$('.positive', $folvContainer);
+      assert.equal($positivRow.length, 2, 'One positive row at component');
+
+      // Check positive row at folv.
+      var $folvRow = $positivRow[0];
+      var $cell = _ember['default'].$('.oveflow-text', $folvRow);
+      assert.equal($cell[0].innerText, controller.configurateRowByAddress, '');
+
+      // Check positive row at GroupEdit.
+      var $geRow = $positivRow[1];
+      $cell = _ember['default'].$('.oveflow-text', $geRow);
+      assert.equal($cell[0].innerText, controller.configurateRowByAddress, '');
+
+      // Get all negative row.
+      var $negativRow = _ember['default'].$('.negative', $folvContainer);
+      assert.equal($negativRow.length, 8, 'Four negative row at component');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-configurate-row-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-configurate-row-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-configurate-row-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-configurate-row-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-configurate-row-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-configurate-row-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-format-moment-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryLocalesRuTranslations) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('date format moment L', function (store, assert, app) {
