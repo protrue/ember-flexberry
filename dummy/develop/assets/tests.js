@@ -558,6 +558,72 @@ define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-
     assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
+
+  var app = undefined;
+  var path = 'components-examples/flexberry-groupedit/configurate-row-example';
+  var testName = 'configurate row';
+
+  (0, _qunit.module)('Acceptance | flexberry-groupedit | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _dummyTestsHelpersStartApp['default'])();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+
+    afterEach: function afterEach() {
+      _ember['default'].run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(58);
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path, 'Path is correctly');
+      var $folvRows = _ember['default'].$('.object-list-view-container tbody tr');
+
+      for (var i = 0; i < $folvRows.length; i++) {
+        var $row = $folvRows[i];
+        var $deleteButton = _ember['default'].$('.object-list-view-row-delete-button', $row);
+        var $flagField = _ember['default'].$('.field .flexberry-checkbox', $row);
+
+        if (i % 2 === 0) {
+          assert.equal($deleteButton.hasClass('disabled'), true, 'Delete button in an even row is disabled');
+          assert.equal($flagField.hasClass('checked'), true, 'CheckBox in an even row is checked');
+        } else {
+          assert.equal($deleteButton.hasClass('disabled'), false, 'Delete button in a non-even row isn\'t disabled');
+          assert.equal($flagField.hasClass('checked'), false, 'CheckBox in an even row isn\'t checked');
+        }
+
+        var $textField = _ember['default'].$('.field .flexberry-textbox input', $row);
+        assert.equal($textField[0].value, i + 1 + 'test', 'TextBox have currect text');
+      }
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-groupedit');
+  test('acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/checkbox-at-editform-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check checkbox at editform', function (store, assert, app) {
