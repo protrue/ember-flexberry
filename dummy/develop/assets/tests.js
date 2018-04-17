@@ -441,6 +441,123 @@ define('dummy/tests/acceptance/components/base-flexberry-lookup-test.jshint', ['
     assert.ok(true, 'acceptance/components/base-flexberry-lookup-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
+
+  var app = undefined;
+  var path = 'components-examples/flexberry-dropdown/conditional-render-example';
+  var testName = 'conditional render test';
+
+  (0, _qunit.module)('Acceptance | flexberry-dropdown | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _dummyTestsHelpersStartApp['default'])();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+
+    afterEach: function afterEach() {
+      _ember['default'].run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(4);
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path, 'Path is correctly');
+
+      var $dropdown = _ember['default'].$('.flexberry-dropdown');
+      assert.equal($dropdown.length, 1, 'Dropdown is render');
+
+      // Select dropdown item.
+      $dropdown.dropdown('set selected', 'Enum value №1');
+
+      var done = assert.async();
+      var timeout = 100;
+      _ember['default'].run.later(function () {
+        var $dropdown = _ember['default'].$('.flexberry-dropdown');
+        assert.equal($dropdown.length, 0, 'Dropdown isn\'t render');
+
+        var $span = _ember['default'].$('div.field span');
+        assert.equal($span.text(), 'Enum value №1', 'Span is render');
+        done();
+      }, timeout);
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-dropdown');
+  test('acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
+
+  var app = undefined;
+  var path = 'components-examples/flexberry-dropdown/empty-value-example';
+  var testName = 'empty value test';
+
+  (0, _qunit.module)('Acceptance | flexberry-dropdown | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _dummyTestsHelpersStartApp['default'])();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+
+    afterEach: function afterEach() {
+      _ember['default'].run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(3);
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path, 'Path is correctly');
+
+      var $dropdown = _ember['default'].$('.flexberry-dropdown');
+      assert.equal($dropdown.length, 1, 'Dropdown is render');
+      assert.equal($dropdown[0].innerText, 'Enum value №2', 'Dropdown value is "Enum value №2"');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-dropdown');
+  test('acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/checkbox-at-editform-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check checkbox at editform', function (store, assert, app) {
