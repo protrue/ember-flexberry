@@ -4511,6 +4511,8 @@ define('dummy/controllers/components-examples/flexberry-lookup/limit-function-th
      */
     secondLimitType: undefined,
 
+    lookupCustomLimitPredicate: undefined,
+
     actions: {
 
       /**
@@ -26493,7 +26495,7 @@ define("dummy/templates/components-examples/flexberry-lookup/limit-function-thro
             "column": 0
           },
           "end": {
-            "line": 28,
+            "line": 29,
             "column": 0
           }
         },
@@ -26533,7 +26535,7 @@ define("dummy/templates/components-examples/flexberry-lookup/limit-function-thro
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("button");
-        dom.setAttribute(el2, "class", "ui button");
+        dom.setAttribute(el2, "class", "ui button firstLimitFunction");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -26544,7 +26546,7 @@ define("dummy/templates/components-examples/flexberry-lookup/limit-function-thro
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("button");
-        dom.setAttribute(el2, "class", "ui button");
+        dom.setAttribute(el2, "class", "ui button secondLimitFunction");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -26555,7 +26557,7 @@ define("dummy/templates/components-examples/flexberry-lookup/limit-function-thro
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("button");
-        dom.setAttribute(el2, "class", "ui button");
+        dom.setAttribute(el2, "class", "ui button clearLimitFunction");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -26586,7 +26588,7 @@ define("dummy/templates/components-examples/flexberry-lookup/limit-function-thro
         morphs[7] = dom.createMorphAt(element3, 1, 1);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.caption"], [], ["loc", [null, [1, 22], [1, 130]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [5, 12], [5, 22]]]]], [], []], "projection", "LookupWithLimitFunctionExampleView", "displayAttributeName", "name", "title", ["subexpr", "t", ["forms.components-examples.flexberry-lookup.limit-function-example.titleLookup"], [], ["loc", [null, [8, 12], [8, 95]]]], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [12, 15], [12, 23]]]]], [], []], "autocomplete", true, "dynamicProperties", ["subexpr", "@mut", [["get", "dynamicProperties", ["loc", [null, [14, 24], [14, 41]]]]], [], []]], ["loc", [null, [4, 4], [15, 6]]]], ["element", "action", ["firstLimitFunction"], ["on", "click"], ["loc", [null, [18, 28], [18, 70]]]], ["inline", "concat", [["subexpr", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionFirstLimitFunction"], [], ["loc", [null, [19, 13], [19, 137]]]], ": ", ["get", "firstLimitType", ["loc", [null, [19, 143], [19, 157]]]]], [], ["loc", [null, [19, 4], [19, 159]]]], ["element", "action", ["secondLimitFunction"], ["on", "click"], ["loc", [null, [21, 28], [21, 71]]]], ["inline", "concat", [["subexpr", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionSecondLimitFunction"], [], ["loc", [null, [22, 13], [22, 138]]]], ": ", ["get", "secondLimitType", ["loc", [null, [22, 144], [22, 159]]]]], [], ["loc", [null, [22, 4], [22, 161]]]], ["element", "action", ["clearLimitFunction"], ["on", "click"], ["loc", [null, [24, 28], [24, 70]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionClearLimitFunction"], [], ["loc", [null, [25, 4], [25, 130]]]]],
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.caption"], [], ["loc", [null, [1, 22], [1, 130]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [5, 12], [5, 22]]]]], [], []], "projection", "LookupWithLimitFunctionExampleView", "displayAttributeName", "name", "title", ["subexpr", "t", ["forms.components-examples.flexberry-lookup.limit-function-example.titleLookup"], [], ["loc", [null, [8, 12], [8, 95]]]], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [12, 15], [12, 23]]]]], [], []], "autocomplete", true, "dynamicProperties", ["subexpr", "@mut", [["get", "dynamicProperties", ["loc", [null, [14, 24], [14, 41]]]]], [], []], "lookupLimitPredicate", ["subexpr", "@mut", [["get", "lookupCustomLimitPredicate", ["loc", [null, [15, 27], [15, 53]]]]], [], []]], ["loc", [null, [4, 4], [16, 6]]]], ["element", "action", ["firstLimitFunction"], ["on", "click"], ["loc", [null, [19, 47], [19, 89]]]], ["inline", "concat", [["subexpr", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionFirstLimitFunction"], [], ["loc", [null, [20, 13], [20, 137]]]], ": ", ["get", "firstLimitType", ["loc", [null, [20, 143], [20, 157]]]]], [], ["loc", [null, [20, 4], [20, 159]]]], ["element", "action", ["secondLimitFunction"], ["on", "click"], ["loc", [null, [22, 48], [22, 91]]]], ["inline", "concat", [["subexpr", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionSecondLimitFunction"], [], ["loc", [null, [23, 13], [23, 138]]]], ": ", ["get", "secondLimitType", ["loc", [null, [23, 144], [23, 159]]]]], [], ["loc", [null, [23, 4], [23, 161]]]], ["element", "action", ["clearLimitFunction"], ["on", "click"], ["loc", [null, [25, 47], [25, 89]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionClearLimitFunction"], [], ["loc", [null, [26, 4], [26, 130]]]]],
       locals: [],
       templates: []
     };
@@ -59014,7 +59016,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+ad470c08"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+d7b9022d"});
 }
 
 /* jshint ignore:end */
