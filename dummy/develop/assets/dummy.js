@@ -55824,7 +55824,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
                 "column": 4
               },
               "end": {
-                "line": 35,
+                "line": 37,
                 "column": 4
               }
             },
@@ -55841,8 +55841,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
             var el1 = dom.createElement("button");
             var el2 = dom.createTextNode("\n        ");
             dom.appendChild(el1, el2);
-            var el2 = dom.createElement("i");
-            dom.setAttribute(el2, "class", "remove icon");
+            var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
@@ -55853,12 +55852,13 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
             var element0 = dom.childAt(fragment, [1]);
-            var morphs = new Array(2);
+            var morphs = new Array(3);
             morphs[0] = dom.createAttrMorph(element0, 'class');
             morphs[1] = dom.createElementMorph(element0);
+            morphs[2] = dom.createUnsafeMorphAt(element0, 1, 1);
             return morphs;
           },
-          statements: [["attribute", "class", ["concat", ["ui icon ", ["get", "removeButtonClass", ["loc", [null, [32, 31], [32, 48]]]], " ", ["subexpr", "if", [["subexpr", "or", [["get", "readonly", ["loc", [null, [32, 60], [32, 68]]]], ["get", "isBlocked", ["loc", [null, [32, 69], [32, 78]]]]], [], ["loc", [null, [32, 56], [32, 79]]]], " disabled"], [], ["loc", [null, [32, 51], [32, 93]]]], " button"]]], ["element", "action", ["remove", ["get", "removeData", ["loc", [null, [32, 120], [32, 130]]]]], [], ["loc", [null, [32, 102], [32, 132]]]]],
+          statements: [["attribute", "class", ["concat", ["ui ui-clear ", ["subexpr", "if", [["subexpr", "or", [["get", "readonly", ["loc", [null, [33, 36], [33, 44]]]], ["get", "isBlocked", ["loc", [null, [33, 45], [33, 54]]]]], [], ["loc", [null, [33, 32], [33, 55]]]], " disabled"], [], ["loc", [null, [33, 27], [33, 69]]]], " ", ["get", "removeButtonClass", ["loc", [null, [33, 72], [33, 89]]]], " button"]]], ["element", "action", ["remove", ["get", "removeData", ["loc", [null, [34, 26], [34, 36]]]]], [], ["loc", [null, [34, 8], [34, 38]]]], ["content", "removeText", ["loc", [null, [35, 8], [35, 24]]]]],
           locals: [],
           templates: []
         };
@@ -55874,7 +55874,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
               "column": 0
             },
             "end": {
-              "line": 37,
+              "line": 39,
               "column": 0
             }
           },
@@ -55933,7 +55933,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
           morphs[4] = dom.createMorphAt(element1, 3, 3);
           return morphs;
         },
-        statements: [["attribute", "class", ["concat", ["ui transparent ", ["subexpr", "if", [["subexpr", "or", [["get", "readonly", ["loc", [null, [15, 37], [15, 45]]]], ["get", "isBlocked", ["loc", [null, [15, 46], [15, 55]]]]], [], ["loc", [null, [15, 33], [15, 56]]]], " disabled"], [], ["loc", [null, [15, 28], [15, 70]]]], " ", ["subexpr", "if", [["subexpr", "or", [["get", "modalIsBeforeToShow", ["loc", [null, [15, 80], [15, 99]]]], ["get", "modalIsStartToShow", ["loc", [null, [15, 100], [15, 118]]]]], [], ["loc", [null, [15, 76], [15, 119]]]], " loading"], [], ["loc", [null, [15, 71], [15, 132]]]], " icon input "]]], ["element", "action", ["choose", ["get", "chooseData", ["loc", [null, [14, 24], [14, 34]]]]], [], ["loc", [null, [14, 6], [14, 36]]]], ["block", "if", [["get", "value", ["loc", [null, [17, 14], [17, 19]]]]], [], 0, 1, ["loc", [null, [17, 8], [25, 15]]]], ["block", "unless", [["get", "readonly", ["loc", [null, [27, 16], [27, 24]]]]], [], 2, null, ["loc", [null, [27, 6], [29, 17]]]], ["block", "unless", [["get", "readonly", ["loc", [null, [31, 14], [31, 22]]]]], [], 3, null, ["loc", [null, [31, 4], [35, 15]]]]],
+        statements: [["attribute", "class", ["concat", ["ui transparent ", ["subexpr", "if", [["subexpr", "or", [["get", "readonly", ["loc", [null, [15, 37], [15, 45]]]], ["get", "isBlocked", ["loc", [null, [15, 46], [15, 55]]]]], [], ["loc", [null, [15, 33], [15, 56]]]], " disabled"], [], ["loc", [null, [15, 28], [15, 70]]]], " ", ["subexpr", "if", [["subexpr", "or", [["get", "modalIsBeforeToShow", ["loc", [null, [15, 80], [15, 99]]]], ["get", "modalIsStartToShow", ["loc", [null, [15, 100], [15, 118]]]]], [], ["loc", [null, [15, 76], [15, 119]]]], " loading"], [], ["loc", [null, [15, 71], [15, 132]]]], " icon input "]]], ["element", "action", ["choose", ["get", "chooseData", ["loc", [null, [14, 24], [14, 34]]]]], [], ["loc", [null, [14, 6], [14, 36]]]], ["block", "if", [["get", "value", ["loc", [null, [17, 14], [17, 19]]]]], [], 0, 1, ["loc", [null, [17, 8], [25, 15]]]], ["block", "unless", [["get", "readonly", ["loc", [null, [27, 16], [27, 24]]]]], [], 2, null, ["loc", [null, [27, 6], [29, 17]]]], ["block", "unless", [["get", "readonly", ["loc", [null, [31, 14], [31, 22]]]]], [], 3, null, ["loc", [null, [31, 4], [37, 15]]]]],
         locals: [],
         templates: [child0, child1, child2, child3]
       };
@@ -55952,7 +55952,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
             "column": 0
           },
           "end": {
-            "line": 38,
+            "line": 40,
             "column": 0
           }
         },
@@ -55975,7 +55975,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "dropdown", ["loc", [null, [1, 6], [1, 14]]]]], [], 0, 1, ["loc", [null, [1, 0], [37, 7]]]]],
+      statements: [["block", "if", [["get", "dropdown", ["loc", [null, [1, 6], [1, 14]]]]], [], 0, 1, ["loc", [null, [1, 0], [39, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -59066,7 +59066,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+753a43fd"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+0623230b"});
 }
 
 /* jshint ignore:end */
