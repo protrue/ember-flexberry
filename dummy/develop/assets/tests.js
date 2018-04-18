@@ -3387,7 +3387,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
   // Need to add sort by multiple columns.
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check sorting', function (store, assert, app) {
-    assert.expect(9);
+    assert.expect(14);
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
     andThen(function () {
@@ -3410,6 +3410,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
             // Check sortihg icon in the first column. Sorting icon is not added.
             assert.equal($thead.children[0].children.length, 1, 'no sorting icon in the first column');
+            assert.equal(controller.sort, undefined, 'no sorting in URL');
 
             // Refresh function.
             var refreshFunction = function refreshFunction() {
@@ -3424,6 +3425,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
               assert.equal($divOrd.attr('title'), _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.object-list-view.sort-ascending'), 'title is Order ascending');
               assert.equal(_ember['default'].$.trim($divOrd.text()), String.fromCharCode('9650') + '1', 'sorting symbol added');
+              assert.equal(controller.sort, '+address', 'up sorting in URL');
 
               var done2 = assert.async();
               (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, 'address asc').then(function (isTrue) {
@@ -3436,10 +3438,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
                   assert.equal($divOrd.attr('title'), _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.object-list-view.sort-descending'), 'title is Order descending');
                   assert.equal(_ember['default'].$.trim($divOrd.text()), String.fromCharCode('9660') + '1', 'sorting symbol changed');
+                  assert.equal(controller.sort, '-address', 'down sorting in URL');
 
                   var done4 = assert.async();
                   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, 'address desc').then(function (isTrue) {
                     assert.ok(isTrue, 'sorting applied');
+
+                    var done5 = assert.async();
+                    (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                      assert.equal(controller.sort, '!address', 'no sorting in URL');
+                      var done6 = assert.async();
+                      (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                        assert.equal(controller.sort, '+address', 'up sorting in URL');
+                        done6();
+                      });
+                      done5();
+                    });
                     done4();
                   });
                 })['finally'](function () {
@@ -3471,6 +3485,81 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryLocalesRuTranslations) {
+
+  // Need to add sort by multiple columns.
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check sorting with default setting', function (store, assert, app) {
+    assert.expect(9);
+    var path = 'components-acceptance-tests/flexberry-objectlistview/folv-paging';
+    visit(path);
+    andThen(function () {
+
+      // Check page path.
+      assert.equal(currentPath(), path);
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+      var $olv = _ember['default'].$('.object-list-view ');
+
+      _ember['default'].run(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('ru', app).then(function () {
+          // Refresh function.
+          var refreshFunction = function refreshFunction() {
+            $thead.click();
+          };
+
+          var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+          var $ord = _ember['default'].$('.object-list-view-order-icon', $thead);
+          var $divOrd = _ember['default'].$('div', $ord);
+
+          assert.equal($divOrd.attr('title'), _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.object-list-view.sort-ascending'), 'title is Order ascending');
+          assert.equal(_ember['default'].$.trim($divOrd.text()), String.fromCharCode('9650') + '1', 'sorting symbol added');
+          assert.equal(controller.sort, '+name', 'up sorting in URL');
+
+          var done1 = assert.async();
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+            var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+            var $ord = _ember['default'].$('.object-list-view-order-icon', $thead);
+            var $divOrd = _ember['default'].$('div', $ord);
+
+            assert.equal($divOrd.attr('title'), _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.object-list-view.sort-descending'), 'title is Order descending');
+            assert.equal(_ember['default'].$.trim($divOrd.text()), String.fromCharCode('9660') + '1', 'sorting symbol changed');
+            assert.equal(controller.sort, '-name', 'down sorting in URL');
+
+            var done2 = assert.async();
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+              assert.equal(controller.sort, '!name', 'no sorting in URL');
+              var done3 = assert.async();
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                assert.equal(controller.sort, '+name', 'up sorting in URL');
+                done3();
+              });
+              done2();
+            });
+          })['finally'](function () {
+            done1();
+          });
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.js should pass jshint.');
   });
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', ['exports', 'ember', 'ember-flexberry-data'], function (exports, _ember, _emberFlexberryData) {
