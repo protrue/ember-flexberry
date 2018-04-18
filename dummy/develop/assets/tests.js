@@ -3150,6 +3150,81 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-n
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-paging-navigation-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-select-record-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _emberFlexberryData) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check configurate selected rows', function (store, assert, app) {
+    assert.expect(8);
+    var path = 'components-examples/flexberry-objectlistview/selected-rows';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var count = undefined;
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName);
+      store.query(modelName, builder.build()).then(function (result) {
+        var arr = result.toArray();
+        count = arr.length;
+      }).then(function () {
+        var $folvContainer = _ember['default'].$('.object-list-view-container');
+        var $checkAllButtton = _ember['default'].$('.check-all-button', $folvContainer).first();
+        var $checkAllAtPageButton = _ember['default'].$('.check-all-at-page-button', $folvContainer).first();
+        var $row = _ember['default'].$('table.object-list-view tbody tr', $folvContainer);
+        var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+        var $firstCell = _ember['default'].$('.flexberry-checkbox', $row[0]);
+        var $secondCell = _ember['default'].$('.flexberry-checkbox', $row[1]);
+
+        // Сheck first record.
+        $firstCell.click();
+        assert.equal(controller.countSelectedRows, 1, 'First row is checked');
+
+        // Сheck second record.
+        $secondCell.click();
+        assert.equal(controller.countSelectedRows, 2, 'Second row is checked');
+
+        // Uncheck second record.
+        $firstCell.click();
+        assert.equal(controller.countSelectedRows, 1, 'First row is checked');
+
+        // Сheck all record at page.
+        $checkAllAtPageButton.click();
+        assert.equal(controller.countSelectedRows, 5, 'First row is checked');
+
+        // Uncheck all record at page.
+        $checkAllAtPageButton.click();
+        assert.equal(controller.countSelectedRows, 0, 'First row is checked');
+
+        // Сheck fist reccord and all record.
+        $firstCell.click();
+        $checkAllButtton.click();
+        assert.equal(controller.countSelectedRows, count, 'First row is checked');
+
+        // Uncheck all record.
+        $checkAllButtton.click();
+        assert.equal(controller.countSelectedRows, 0, 'First row is checked');
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-select-record-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-objectlistview');
+  test('acceptance/components/flexberry-objectlistview/folv-select-record-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-objectlistview/folv-select-record-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-select-record-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-objectlistview/folv-select-record-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-select-record-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData) {
 
   // Need to add sort by multiple columns.

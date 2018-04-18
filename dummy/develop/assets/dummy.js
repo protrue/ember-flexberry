@@ -5932,6 +5932,14 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/selected-
     editFormRoute: 'ember-flexberry-dummy-suggestion-type-edit',
 
     /**
+      Name of compoent.
+       @property componentName
+      @type String
+      @default 'suggestionTypeLocalizedTypesObjectListView'
+     */
+    componentName: 'suggestionTypeLocalizedTypesObjectListView',
+
+    /**
       Count selected rows.
        @property countSelectedRows
       @type Number
@@ -5941,8 +5949,28 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/selected-
 
     actions: {
       configurateSelectedRows: function configurateSelectedRows(selectedRecords) {
-        this.set('countSelectedRows', selectedRecords.length);
+        if (this.get('allSelect')) {
+          this.set('countSelectedRows', this.model.meta.count);
+        } else {
+          this.set('countSelectedRows', selectedRecords.length);
+        }
       }
+    },
+
+    _selectAll: function _selectAll(componentName, selectAllParameter) {
+      if (componentName === this.get('componentName')) {
+        this.set('allSelect', selectAllParameter);
+      }
+    },
+
+    init: function init() {
+      this.get('objectlistviewEventsService').on('updateSelectAll', this, this._selectAll);
+      this._super.apply(this, arguments);
+    },
+
+    willDestroyElement: function willDestroyElement() {
+      this._super.apply(this, arguments);
+      this.get('objectlistviewEventsService').off('updateSelectAll', this, this._selectAll);
     }
   });
 });
@@ -6959,6 +6987,14 @@ define('dummy/controllers/components-examples/flexberry-simpleolv/selected-rows'
     editFormRoute: 'ember-flexberry-dummy-suggestion-type-edit',
 
     /**
+      Name of compoent.
+       @property componentName
+      @type String
+      @default 'suggestionTypeLocalizedTypesObjectListView'
+     */
+    componentName: 'SOLVsuggestionTypeLocalizedTypesObjectListView',
+
+    /**
       Count selected rows.
        @property countSelectedRows
       @type Number
@@ -6968,8 +7004,22 @@ define('dummy/controllers/components-examples/flexberry-simpleolv/selected-rows'
 
     actions: {
       configurateSelectedRows: function configurateSelectedRows(selectedRecords) {
-        this.set('countSelectedRows', selectedRecords.length);
+        if (this.get('allSelect')) {
+          this.set('countSelectedRows', this.model.meta.count);
+        } else {
+          this.set('countSelectedRows', selectedRecords.length);
+        }
       }
+    },
+
+    _selectAll: function _selectAll(componentName, selectAllParameter) {
+      if (componentName === this.get('componentName')) {
+        this.set('allSelect', selectAllParameter);
+      }
+    },
+
+    init: function init() {
+      this.get('objectlistviewEventsService').on('updateSelectAll', this, this._selectAll);
     }
   });
 });
@@ -32270,7 +32320,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/selected-ro
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "flexberry-error", [], ["error", ["subexpr", "@mut", [["get", "error", ["loc", [null, [1, 24], [1, 29]]]]], [], []]], ["loc", [null, [1, 0], [1, 31]]]], ["inline", "t", ["forms.components-examples.flexberry-objectlistview.selected-rows.caption"], [], ["loc", [null, [2, 22], [2, 102]]]], ["content", "countSelectedRows", ["loc", [null, [6, 31], [6, 52]]]], ["inline", "flexberry-objectlistview", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 14], [10, 19]]]]], [], []], "modelName", "ember-flexberry-dummy-suggestion-type", "modelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [12, 22], [12, 37]]]]], [], []], "editFormRoute", ["subexpr", "@mut", [["get", "editFormRoute", ["loc", [null, [13, 20], [13, 33]]]]], [], []], "orderable", false, "showShowingEntries", false, "componentName", "suggestionTypeLocalizedTypesObjectListView", "colsConfigButton", false, "disableHierarchicalMode", true, "showCheckBoxInRow", true, "configurateSelectedRows", ["subexpr", "action", ["configurateSelectedRows"], [], ["loc", [null, [20, 30], [20, 64]]]]], ["loc", [null, [9, 4], [21, 6]]]]],
+      statements: [["inline", "flexberry-error", [], ["error", ["subexpr", "@mut", [["get", "error", ["loc", [null, [1, 24], [1, 29]]]]], [], []]], ["loc", [null, [1, 0], [1, 31]]]], ["inline", "t", ["forms.components-examples.flexberry-objectlistview.selected-rows.caption"], [], ["loc", [null, [2, 22], [2, 102]]]], ["content", "countSelectedRows", ["loc", [null, [6, 31], [6, 52]]]], ["inline", "flexberry-objectlistview", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 14], [10, 19]]]]], [], []], "modelName", "ember-flexberry-dummy-suggestion-type", "modelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [12, 22], [12, 37]]]]], [], []], "editFormRoute", ["subexpr", "@mut", [["get", "editFormRoute", ["loc", [null, [13, 20], [13, 33]]]]], [], []], "orderable", false, "showShowingEntries", false, "componentName", ["subexpr", "@mut", [["get", "componentName", ["loc", [null, [16, 20], [16, 33]]]]], [], []], "colsConfigButton", false, "disableHierarchicalMode", true, "showCheckBoxInRow", true, "configurateSelectedRows", ["subexpr", "action", ["configurateSelectedRows"], [], ["loc", [null, [20, 30], [20, 64]]]]], ["loc", [null, [9, 4], [21, 6]]]]],
       locals: [],
       templates: []
     };
@@ -34205,7 +34255,7 @@ define("dummy/templates/components-examples/flexberry-simpleolv/selected-rows", 
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "flexberry-error", [], ["error", ["subexpr", "@mut", [["get", "error", ["loc", [null, [1, 24], [1, 29]]]]], [], []]], ["loc", [null, [1, 0], [1, 31]]]], ["inline", "t", ["forms.components-examples.flexberry-simpleolv.selected-rows.caption"], [], ["loc", [null, [2, 22], [2, 97]]]], ["content", "countSelectedRows", ["loc", [null, [6, 31], [6, 52]]]], ["inline", "flexberry-simpleolv", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 14], [10, 19]]]]], [], []], "modelName", "ember-flexberry-dummy-suggestion-type", "modelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [12, 22], [12, 37]]]]], [], []], "editFormRoute", ["subexpr", "@mut", [["get", "editFormRoute", ["loc", [null, [13, 20], [13, 33]]]]], [], []], "orderable", false, "showShowingEntries", false, "componentName", "SOLVsuggestionTypeLocalizedTypesObjectListView", "colsConfigButton", false, "disableHierarchicalMode", true, "showCheckBoxInRow", true, "configurateSelectedRows", ["subexpr", "action", ["configurateSelectedRows"], [], ["loc", [null, [20, 30], [20, 64]]]]], ["loc", [null, [9, 4], [21, 6]]]]],
+      statements: [["inline", "flexberry-error", [], ["error", ["subexpr", "@mut", [["get", "error", ["loc", [null, [1, 24], [1, 29]]]]], [], []]], ["loc", [null, [1, 0], [1, 31]]]], ["inline", "t", ["forms.components-examples.flexberry-simpleolv.selected-rows.caption"], [], ["loc", [null, [2, 22], [2, 97]]]], ["content", "countSelectedRows", ["loc", [null, [6, 31], [6, 52]]]], ["inline", "flexberry-simpleolv", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 14], [10, 19]]]]], [], []], "modelName", "ember-flexberry-dummy-suggestion-type", "modelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [12, 22], [12, 37]]]]], [], []], "editFormRoute", ["subexpr", "@mut", [["get", "editFormRoute", ["loc", [null, [13, 20], [13, 33]]]]], [], []], "orderable", false, "showShowingEntries", false, "componentName", ["subexpr", "@mut", [["get", "componentName", ["loc", [null, [16, 20], [16, 33]]]]], [], []], "colsConfigButton", false, "disableHierarchicalMode", true, "showCheckBoxInRow", true, "configurateSelectedRows", ["subexpr", "action", ["configurateSelectedRows"], [], ["loc", [null, [20, 30], [20, 64]]]]], ["loc", [null, [9, 4], [21, 6]]]]],
       locals: [],
       templates: []
     };
@@ -59016,7 +59066,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+dd4663e6"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+42e421b2"});
 }
 
 /* jshint ignore:end */
