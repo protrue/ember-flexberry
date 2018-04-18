@@ -4410,6 +4410,13 @@ define('dummy/controllers/components-examples/flexberry-lookup/dropdown-mode-exa
 define('dummy/controllers/components-examples/flexberry-lookup/hierarchy-olv-in-lookup-example', ['exports', 'ember', 'ember-flexberry/controllers/edit-form'], function (exports, _ember, _emberFlexberryControllersEditForm) {
   exports['default'] = _emberFlexberryControllersEditForm['default'].extend({
 
+    init: function init() {
+      this._super.apply(this, arguments);
+
+      this.set('lookupController.inHierarchicalMode', true);
+      this.set('lookupController.hierarchicalAttribute', 'parent');
+    },
+
     actions: {
       /**
         This method returns custom properties for lookup window.
@@ -4429,7 +4436,9 @@ define('dummy/controllers/components-examples/flexberry-lookup/hierarchy-olv-in-
           return {
             disableHierarchicalMode: false,
             modelName: 'ember-flexberry-dummy-suggestion-type',
-            modelProjection: 'SettingLookupExampleView'
+            modelProjection: 'SettingLookupExampleView',
+            inHierarchicalMode: true,
+            hierarchicalAttribute: 'Name'
           };
         }
 
@@ -5521,6 +5530,24 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/edit-form
 });
 define('dummy/controllers/components-examples/flexberry-objectlistview/hierarchy-example', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _emberFlexberryControllersListForm) {
   exports['default'] = _emberFlexberryControllersListForm['default'].extend({
+
+    /**
+      Flag indicate when component is in the hierarchical mode.
+       @property _inHierarchicalMode
+      @type Boolean
+      @default false
+      @private
+    */
+    inHierarchicalMode: true,
+
+    /**
+      Store the attribute parent set by `hierarchyByAttribute`.
+       @property _hierarchicalAttribute
+      @type String
+      @private
+    */
+    hierarchicalAttribute: 'parent',
+
     /**
       Name of related edit form route.
        @property editFormRoute
@@ -59066,7 +59093,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+5f0c1f18"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+cd78d15e"});
 }
 
 /* jshint ignore:end */
