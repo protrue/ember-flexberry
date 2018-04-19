@@ -3889,7 +3889,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('user button test', function (store, assert, app) {
-    assert.expect(3);
+    assert.expect(5);
     var path = 'components-examples/flexberry-objectlistview/toolbar-custom-buttons-example';
 
     visit(path);
@@ -3906,6 +3906,12 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-but
       // Second click.
       $testBudtton.click();
       assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+
+      assert.notOk(controller.get('modelFromClickedRow'));
+      click('.ui.button > .bug.icon:first');
+      andThen(function () {
+        assert.equal(controller.get('modelFromClickedRow.id'), controller.get('model.firstObject.id'));
+      });
     });
   });
 });
