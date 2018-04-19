@@ -35420,6 +35420,86 @@ define("dummy/templates/components-examples/ui-message/settings-example", ["expo
 define("dummy/templates/components/colsconfig-dialog-content", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 26,
+                "column": 56
+              },
+              "end": {
+                "line": 26,
+                "column": 118
+              }
+            },
+            "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "colDesc.name", ["loc", [null, [26, 104], [26, 116]]]]], [], []]], ["loc", [null, [26, 90], [26, 118]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 26,
+                "column": 118
+              },
+              "end": {
+                "line": 26,
+                "column": 142
+              }
+            },
+            "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["content", "colDesc.name", ["loc", [null, [26, 126], [26, 142]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
       return {
         meta: {
           "fragmentReason": false,
@@ -35601,9 +35681,9 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           morphs[31] = dom.createElementMorph(element16);
           return morphs;
         },
-        statements: [["attribute", "id", ["concat", [["get", "colDesc.trId", ["loc", [null, [16, 20], [16, 32]]]]]]], ["attribute", "propName", ["concat", [["get", "colDesc.propName", ["loc", [null, [16, 48], [16, 64]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.hideId", ["loc", [null, [17, 26], [17, 40]]]]]]], ["attribute", "class", ["concat", ["large ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [17, 62], [17, 74]]]], "hide", "unhide"], [], ["loc", [null, [17, 57], [17, 92]]]], " icon"]]], ["element", "action", ["invertVisibility", ["get", "n", ["loc", [null, [17, 150], [17, 151]]]]], [], ["loc", [null, [17, 122], [17, 153]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [18, 29], [18, 41]]]], "disabled", ""], [], ["loc", [null, [18, 24], [18, 57]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.rowUpId", ["loc", [null, [19, 49], [19, 64]]]]]]], ["element", "action", ["rowUp", ["get", "n", ["loc", [null, [19, 39], [19, 40]]]]], [], ["loc", [null, [19, 22], [19, 42]]]], ["attribute", "id", ["concat", [["get", "colDesc.rowDownId", ["loc", [null, [22, 53], [22, 70]]]]]]], ["element", "action", ["rowDown", ["get", "n", ["loc", [null, [22, 42], [22, 43]]]]], [], ["loc", [null, [22, 23], [22, 45]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [26, 29], [26, 41]]]], "disabled", ""], [], ["loc", [null, [26, 24], [26, 57]]]]]]], ["content", "colDesc.name", ["loc", [null, [26, 59], [26, 75]]]], ["attribute", "class", ["concat", ["ui compact dropdown selection sort-direction-dropdown ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [28, 89], [28, 101]]]], "disabled", ""], [], ["loc", [null, [28, 84], [28, 117]]]], " ", ["subexpr", "if", [["get", "colDesc.isHasMany", ["loc", [null, [28, 123], [28, 140]]]], "hidden", ""], [], ["loc", [null, [28, 118], [28, 154]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.sortOrderId", ["loc", [null, [28, 163], [28, 182]]]]]]], ["attribute", "name", ["concat", ["sortorder[", ["get", "colDesc.name", ["loc", [null, [28, 204], [28, 216]]]], "]"]]], ["element", "action", ["setSortOrder", ["get", "n", ["loc", [null, [28, 245], [28, 246]]]]], ["on", "change"], ["loc", [null, [28, 221], [28, 260]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderNot", ["loc", [null, [29, 36], [29, 56]]]]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderAsc", ["loc", [null, [30, 36], [30, 56]]]]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderDesc", ["loc", [null, [31, 36], [31, 57]]]]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [34, 29], [34, 41]]]], "disabled", ""], [], ["loc", [null, [34, 24], [34, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [35, 40], [35, 52]]]], "disabled", ""], [], ["loc", [null, [35, 35], [35, 68]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.sortPriorityId", ["loc", [null, [36, 29], [36, 51]]]]]]], ["attribute", "class", ["concat", ["sortPriority ", ["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [36, 89], [36, 106]]]], "", "hidden"], [], ["loc", [null, [36, 84], [36, 120]]]]]]], ["attribute", "disabled", ["concat", [["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [36, 137], [36, 154]]]], "", "disabled"], [], ["loc", [null, [36, 132], [36, 170]]]]]]], ["attribute", "value", ["concat", [["get", "colDesc.sortPriority", ["loc", [null, [36, 181], [36, 201]]]]]]], ["attribute", "prevValue", ["concat", [["get", "colDesc.sortPriority", ["loc", [null, [37, 76], [37, 96]]]]]]], ["element", "action", ["setSortPriority", ["get", "n", ["loc", [null, [37, 45], [37, 46]]]]], ["on", "focusOut"], ["loc", [null, [37, 18], [37, 62]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [40, 29], [40, 41]]]], "disabled", ""], [], ["loc", [null, [40, 24], [40, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["subexpr", "or", [["get", "colDesc.hide", ["loc", [null, [41, 44], [41, 56]]]], ["subexpr", "or", [["get", "exportParams.isExportExcel", ["loc", [null, [41, 61], [41, 87]]]], ["subexpr", "or", [["get", "colDesc.fixed", ["loc", [null, [41, 92], [41, 105]]]], ["subexpr", "not", [["get", "saveColWidthState", ["loc", [null, [41, 111], [41, 128]]]]], [], ["loc", [null, [41, 106], [41, 129]]]]], [], ["loc", [null, [41, 88], [41, 130]]]]], [], ["loc", [null, [41, 57], [41, 131]]]]], [], ["loc", [null, [41, 40], [41, 132]]]], "disabled", ""], [], ["loc", [null, [41, 35], [41, 148]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.columnWidthId", ["loc", [null, [42, 29], [42, 50]]]]]]], ["attribute", "value", ["concat", [["get", "colDesc.columnWidth", ["loc", [null, [42, 92], [42, 111]]]]]]], ["element", "action", ["widthChanged"], ["on", "focusOut"], ["loc", [null, [42, 128], [42, 168]]]]],
+        statements: [["attribute", "id", ["concat", [["get", "colDesc.trId", ["loc", [null, [16, 20], [16, 32]]]]]]], ["attribute", "propName", ["concat", [["get", "colDesc.propName", ["loc", [null, [16, 48], [16, 64]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.hideId", ["loc", [null, [17, 26], [17, 40]]]]]]], ["attribute", "class", ["concat", ["large ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [17, 62], [17, 74]]]], "hide", "unhide"], [], ["loc", [null, [17, 57], [17, 92]]]], " icon"]]], ["element", "action", ["invertVisibility", ["get", "n", ["loc", [null, [17, 150], [17, 151]]]]], [], ["loc", [null, [17, 122], [17, 153]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [18, 29], [18, 41]]]], "disabled", ""], [], ["loc", [null, [18, 24], [18, 57]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.rowUpId", ["loc", [null, [19, 49], [19, 64]]]]]]], ["element", "action", ["rowUp", ["get", "n", ["loc", [null, [19, 39], [19, 40]]]]], [], ["loc", [null, [19, 22], [19, 42]]]], ["attribute", "id", ["concat", [["get", "colDesc.rowDownId", ["loc", [null, [22, 53], [22, 70]]]]]]], ["element", "action", ["rowDown", ["get", "n", ["loc", [null, [22, 42], [22, 43]]]]], [], ["loc", [null, [22, 23], [22, 45]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [26, 29], [26, 41]]]], "disabled"], [], ["loc", [null, [26, 24], [26, 54]]]]]]], ["block", "if", [["get", "exportParams.isExportExcel", ["loc", [null, [26, 62], [26, 88]]]]], [], 0, 1, ["loc", [null, [26, 56], [26, 149]]]], ["attribute", "class", ["concat", ["ui compact dropdown selection sort-direction-dropdown ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [28, 89], [28, 101]]]], "disabled", ""], [], ["loc", [null, [28, 84], [28, 117]]]], " ", ["subexpr", "if", [["get", "colDesc.isHasMany", ["loc", [null, [28, 123], [28, 140]]]], "hidden", ""], [], ["loc", [null, [28, 118], [28, 154]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.sortOrderId", ["loc", [null, [28, 163], [28, 182]]]]]]], ["attribute", "name", ["concat", ["sortorder[", ["get", "colDesc.name", ["loc", [null, [28, 204], [28, 216]]]], "]"]]], ["element", "action", ["setSortOrder", ["get", "n", ["loc", [null, [28, 245], [28, 246]]]]], ["on", "change"], ["loc", [null, [28, 221], [28, 260]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderNot", ["loc", [null, [29, 36], [29, 56]]]]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderAsc", ["loc", [null, [30, 36], [30, 56]]]]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderDesc", ["loc", [null, [31, 36], [31, 57]]]]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [34, 29], [34, 41]]]], "disabled", ""], [], ["loc", [null, [34, 24], [34, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [35, 40], [35, 52]]]], "disabled", ""], [], ["loc", [null, [35, 35], [35, 68]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.sortPriorityId", ["loc", [null, [36, 29], [36, 51]]]]]]], ["attribute", "class", ["concat", ["sortPriority ", ["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [36, 89], [36, 106]]]], "", "hidden"], [], ["loc", [null, [36, 84], [36, 120]]]]]]], ["attribute", "disabled", ["concat", [["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [36, 137], [36, 154]]]], "", "disabled"], [], ["loc", [null, [36, 132], [36, 170]]]]]]], ["attribute", "value", ["concat", [["get", "colDesc.sortPriority", ["loc", [null, [36, 181], [36, 201]]]]]]], ["attribute", "prevValue", ["concat", [["get", "colDesc.sortPriority", ["loc", [null, [37, 76], [37, 96]]]]]]], ["element", "action", ["setSortPriority", ["get", "n", ["loc", [null, [37, 45], [37, 46]]]]], ["on", "focusOut"], ["loc", [null, [37, 18], [37, 62]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [40, 29], [40, 41]]]], "disabled", ""], [], ["loc", [null, [40, 24], [40, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["subexpr", "or", [["get", "colDesc.hide", ["loc", [null, [41, 44], [41, 56]]]], ["subexpr", "or", [["get", "exportParams.isExportExcel", ["loc", [null, [41, 61], [41, 87]]]], ["subexpr", "or", [["get", "colDesc.fixed", ["loc", [null, [41, 92], [41, 105]]]], ["subexpr", "not", [["get", "saveColWidthState", ["loc", [null, [41, 111], [41, 128]]]]], [], ["loc", [null, [41, 106], [41, 129]]]]], [], ["loc", [null, [41, 88], [41, 130]]]]], [], ["loc", [null, [41, 57], [41, 131]]]]], [], ["loc", [null, [41, 40], [41, 132]]]], "disabled", ""], [], ["loc", [null, [41, 35], [41, 148]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.columnWidthId", ["loc", [null, [42, 29], [42, 50]]]]]]], ["attribute", "value", ["concat", [["get", "colDesc.columnWidth", ["loc", [null, [42, 92], [42, 111]]]]]]], ["element", "action", ["widthChanged"], ["on", "focusOut"], ["loc", [null, [42, 128], [42, 168]]]]],
         locals: ["colDesc", "n"],
-        templates: []
+        templates: [child0, child1]
       };
     })();
     var child1 = (function () {
@@ -59170,7 +59250,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+7fb2ad65"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+ee2a011d"});
 }
 
 /* jshint ignore:end */
