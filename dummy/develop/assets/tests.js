@@ -1518,15 +1518,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
       var controller = app.__container__.lookup('controller:' + currentRouteName());
       var projectionName = _ember['default'].get(controller, 'modelProjection');
 
+      var orderByClause = null;
+
       var $olv = _ember['default'].$('.object-list-view ');
       var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+
+      var currentSorting = controller.get('computedSorting');
+      if (!$.isEmptyObject(currentSorting)) {
+        orderByClause = (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.getOrderByClause)(currentSorting);
+      }
 
       _ember['default'].run(function () {
         var done = assert.async();
 
         // Check sortihg in the first column. Sorting is not append.
         (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('ru', app).then(function () {
-          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, null).then(function (isTrue) {
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, orderByClause).then(function (isTrue) {
             assert.ok(isTrue, 'sorting is not applied');
 
             // Check sortihg icon in the first column. Sorting icon is not added.
@@ -1598,15 +1605,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
       var controller = app.__container__.lookup('controller:' + currentRouteName());
       var projectionName = _ember['default'].get(controller, 'modelProjection');
 
+      var orderByClause = null;
+
       var $olv = _ember['default'].$('.object-list-view ');
       var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+
+      var currentSorting = controller.get('computedSorting');
+      if (!$.isEmptyObject(currentSorting)) {
+        orderByClause = (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.getOrderByClause)(currentSorting);
+      }
 
       _ember['default'].run(function () {
         var done = assert.async();
 
         // Check sortihg in the first column. Sorting is not append.
         (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('ru', app).then(function () {
-          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, null).then(function (isTrue) {
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, orderByClause).then(function (isTrue) {
             assert.ok(isTrue, 'sorting is not applied');
 
             // Check sortihg icon in the first column. Sorting icon is not added.
@@ -3308,15 +3322,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
       var controller = app.__container__.lookup('controller:' + currentRouteName());
       var projectionName = _ember['default'].get(controller, 'modelProjection');
 
+      var orderByClause = null;
+
       var $olv = _ember['default'].$('.object-list-view ');
       var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+
+      var currentSorting = controller.get('computedSorting');
+      if (!$.isEmptyObject(currentSorting)) {
+        orderByClause = (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.getOrderByClause)(currentSorting);
+      }
 
       _ember['default'].run(function () {
         var done = assert.async();
 
         // Check sortihg in the first column. Sorting is not append.
         (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('ru', app).then(function () {
-          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, null).then(function (isTrue) {
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, orderByClause).then(function (isTrue) {
             assert.ok(isTrue, 'sorting is not applied');
 
             // Check sortihg icon in the first column. Sorting icon is not added.
@@ -3397,15 +3418,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
       var controller = app.__container__.lookup('controller:' + currentRouteName());
       var projectionName = _ember['default'].get(controller, 'modelProjection');
 
+      var orderByClause = null;
+
       var $olv = _ember['default'].$('.object-list-view ');
       var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+
+      var currentSorting = controller.get('computedSorting');
+      if (!$.isEmptyObject(currentSorting)) {
+        orderByClause = (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.getOrderByClause)(currentSorting);
+      }
 
       _ember['default'].run(function () {
         var done = assert.async();
 
         // Check sortihg in the first column. Sorting is not append.
         (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('ru', app).then(function () {
-          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, null).then(function (isTrue) {
+          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, orderByClause).then(function (isTrue) {
             assert.ok(isTrue, 'sorting is not applied');
 
             // Check sortihg icon in the first column. Sorting icon is not added.
@@ -3572,6 +3600,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
   exports.loadingLocales = loadingLocales;
   exports.filterObjectListView = filterObjectListView;
   exports.filterCollumn = filterCollumn;
+  exports.getOrderByClause = getOrderByClause;
 
   // Function for waiting list loading.
 
@@ -3868,6 +3897,24 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       }, timeout);
     });
   }
+
+  function getOrderByClause(currentSorting) {
+    return Object.keys(currentSorting).map(function (key) {
+      return { name: key, sortOrder: currentSorting[key].sortAscending ? 'asc' : 'desc', sortNumber: currentSorting[key].sortNumber };
+    }).sort(function (obj1, obj2) {
+      if (obj1.sortNumber < obj2.sortNumber) {
+        return -1;
+      }
+
+      if (obj1.sortNumber > obj2.sortNumber) {
+        return 1;
+      }
+
+      return 0;
+    }).map(function (obj) {
+      return obj.name + ' ' + obj.sortOrder;
+    }).join(', ');
+  }
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions.jscs-test', ['exports'], function (exports) {
   'use strict';
@@ -3956,8 +4003,15 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-
 
       var dtHeadTable = _ember['default'].$('.dt-head-left.me.class', 'thead', $tableInFolvContainer);
 
+      var orderByClause = null;
+
+      var currentSorting = controller.get('computedSorting');
+      if (!$.isEmptyObject(currentSorting)) {
+        orderByClause = (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.getOrderByClause)(currentSorting);
+      }
+
       var done = assert.async();
-      (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName(), $olv, null).then(function (isTrue) {
+      (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName(), $olv, orderByClause).then(function (isTrue) {
         assert.ok(isTrue, 'records are displayed correctly');
         done();
       });
