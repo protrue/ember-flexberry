@@ -11,15 +11,6 @@ define('dummy/adapters/application', ['exports', 'ember-flexberry-data', 'dummy/
     host: _dummyConfigEnvironment['default'].APP.backendUrls.api
   });
 });
-define('dummy/adapters/new-platform-flexberry-services-lock', ['exports', 'ember-flexberry/adapters/new-platform-flexberry-services-lock', 'dummy/config/environment'], function (exports, _emberFlexberryAdaptersNewPlatformFlexberryServicesLock, _dummyConfigEnvironment) {
-  exports['default'] = _emberFlexberryAdaptersNewPlatformFlexberryServicesLock['default'].extend({
-    /**
-      @property host
-      @type String
-    */
-    host: _dummyConfigEnvironment['default'].APP.backendUrls.api
-  });
-});
 define('dummy/adapters/odata', ['exports', 'ember-flexberry-data/adapters/odata'], function (exports, _emberFlexberryDataAdaptersOdata) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -8999,19 +8990,6 @@ define('dummy/controllers/user-setting-forms/user-setting-delete', ['exports', '
         });
       }
     }
-  });
-});
-define('dummy/ember-flexberry/tests/modules/ember-flexberry/adapters/new-platform-flexberry-services-lock.jscs-test', ['exports'], function (exports) {
-  module('JSCS - modules/ember-flexberry/adapters');
-  test('modules/ember-flexberry/adapters/new-platform-flexberry-services-lock.js should pass jscs', function () {
-    ok(true, 'modules/ember-flexberry/adapters/new-platform-flexberry-services-lock.js should pass jscs.');
-  });
-});
-define('dummy/ember-flexberry/tests/modules/ember-flexberry/adapters/new-platform-flexberry-services-lock.jshint', ['exports'], function (exports) {
-  QUnit.module('JSHint - modules/ember-flexberry/adapters/new-platform-flexberry-services-lock.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'modules/ember-flexberry/adapters/new-platform-flexberry-services-lock.js should pass jshint.');
   });
 });
 define('dummy/ember-flexberry/tests/modules/ember-flexberry/components/colsconfig-dialog-content.jscs-test', ['exports'], function (exports) {
@@ -59914,7 +59892,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+41ef71f1"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+453fede5"});
 }
 
 /* jshint ignore:end */

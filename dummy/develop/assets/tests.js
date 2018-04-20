@@ -21073,32 +21073,6 @@ define('dummy/tests/unit/adapters/application-test.jshint', ['exports'], functio
     assert.ok(true, 'unit/adapters/application-test.js should pass jshint.');
   });
 });
-define('dummy/tests/unit/adapters/new-platform-flexberry-services-lock-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('adapter:new-platform-flexberry-services-lock', 'Unit | Adapter | new-platform-flexberry-services-lock');
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var adapter = this.subject();
-    assert.ok(adapter);
-  });
-});
-define('dummy/tests/unit/adapters/new-platform-flexberry-services-lock-test.jscs-test', ['exports'], function (exports) {
-  'use strict';
-
-  module('JSCS - unit/adapters');
-  test('unit/adapters/new-platform-flexberry-services-lock-test.js should pass jscs', function () {
-    ok(true, 'unit/adapters/new-platform-flexberry-services-lock-test.js should pass jscs.');
-  });
-});
-define('dummy/tests/unit/adapters/new-platform-flexberry-services-lock-test.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - unit/adapters/new-platform-flexberry-services-lock-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/adapters/new-platform-flexberry-services-lock-test.js should pass jshint.');
-  });
-});
 define('dummy/tests/unit/controllers/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('controller:application', {
