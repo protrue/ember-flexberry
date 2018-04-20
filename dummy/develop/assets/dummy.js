@@ -37069,8 +37069,6 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     dom.setAttribute(el1, "class", "item");
                     var el2 = dom.createComment("");
                     dom.appendChild(el1, el2);
-                    var el2 = dom.createTextNode(" er0");
-                    dom.appendChild(el1, el2);
                     dom.appendChild(el0, el1);
                     var el1 = dom.createTextNode("\n");
                     dom.appendChild(el0, el1);
@@ -37175,6 +37173,48 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
           })();
           var child1 = (function () {
             var child0 = (function () {
+              return {
+                meta: {
+                  "fragmentReason": false,
+                  "revision": "Ember@2.4.6",
+                  "loc": {
+                    "source": null,
+                    "start": {
+                      "line": 17,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 8
+                    }
+                  },
+                  "moduleName": "dummy/templates/components/flexberry-error.hbs"
+                },
+                isEmpty: false,
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                  var el0 = dom.createDocumentFragment();
+                  var el1 = dom.createTextNode("          ");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createComment("");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createTextNode("\n");
+                  dom.appendChild(el0, el1);
+                  return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                  var morphs = new Array(1);
+                  morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                  return morphs;
+                },
+                statements: [["inline", "t", [["get", "error.messageLocaleKey", ["loc", [null, [18, 14], [18, 36]]]]], [], ["loc", [null, [18, 10], [18, 38]]]]],
+                locals: [],
+                templates: []
+              };
+            })();
+            var child1 = (function () {
               var child0 = (function () {
                 return {
                   meta: {
@@ -37183,12 +37223,12 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     "loc": {
                       "source": null,
                       "start": {
-                        "line": 18,
-                        "column": 10
+                        "line": 19,
+                        "column": 8
                       },
                       "end": {
-                        "line": 20,
-                        "column": 10
+                        "line": 21,
+                        "column": 8
                       }
                     },
                     "moduleName": "dummy/templates/components/flexberry-error.hbs"
@@ -37199,7 +37239,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   hasRendered: false,
                   buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode("            ");
+                    var el1 = dom.createTextNode("          ");
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment("");
                     dom.appendChild(el0, el1);
@@ -37212,54 +37252,12 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                   },
-                  statements: [["inline", "t", [["get", "error.messageLocaleKey", ["loc", [null, [19, 16], [19, 38]]]]], [], ["loc", [null, [19, 12], [19, 40]]]]],
+                  statements: [["content", "error.message", ["loc", [null, [20, 10], [20, 27]]]]],
                   locals: [],
                   templates: []
                 };
               })();
               var child1 = (function () {
-                var child0 = (function () {
-                  return {
-                    meta: {
-                      "fragmentReason": false,
-                      "revision": "Ember@2.4.6",
-                      "loc": {
-                        "source": null,
-                        "start": {
-                          "line": 20,
-                          "column": 10
-                        },
-                        "end": {
-                          "line": 22,
-                          "column": 10
-                        }
-                      },
-                      "moduleName": "dummy/templates/components/flexberry-error.hbs"
-                    },
-                    isEmpty: false,
-                    arity: 0,
-                    cachedFragment: null,
-                    hasRendered: false,
-                    buildFragment: function buildFragment(dom) {
-                      var el0 = dom.createDocumentFragment();
-                      var el1 = dom.createTextNode("            ");
-                      dom.appendChild(el0, el1);
-                      var el1 = dom.createComment("");
-                      dom.appendChild(el0, el1);
-                      var el1 = dom.createTextNode("\n          ");
-                      dom.appendChild(el0, el1);
-                      return el0;
-                    },
-                    buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                      var morphs = new Array(1);
-                      morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                      return morphs;
-                    },
-                    statements: [["content", "error.message", ["loc", [null, [21, 12], [21, 29]]]]],
-                    locals: [],
-                    templates: []
-                  };
-                })();
                 return {
                   meta: {
                     "fragmentReason": false,
@@ -37267,12 +37265,12 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     "loc": {
                       "source": null,
                       "start": {
-                        "line": 20,
-                        "column": 10
+                        "line": 21,
+                        "column": 8
                       },
                       "end": {
-                        "line": 22,
-                        "column": 10
+                        "line": 23,
+                        "column": 8
                       }
                     },
                     "moduleName": "dummy/templates/components/flexberry-error.hbs"
@@ -37283,20 +37281,22 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   hasRendered: false,
                   buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode("          ");
+                    dom.appendChild(el0, el1);
                     var el1 = dom.createComment("");
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode("\n        ");
                     dom.appendChild(el0, el1);
                     return el0;
                   },
                   buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
                     var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-                    dom.insertBoundary(fragment, 0);
-                    dom.insertBoundary(fragment, null);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                   },
-                  statements: [["block", "if", [["get", "error.message", ["loc", [null, [20, 20], [20, 33]]]]], [], 0, null, ["loc", [null, [20, 10], [22, 10]]]]],
+                  statements: [["inline", "t", ["components.flexberry-error.unknown-error"], [], ["loc", [null, [22, 10], [22, 58]]]]],
                   locals: [],
-                  templates: [child0]
+                  templates: []
                 };
               })();
               return {
@@ -37306,7 +37306,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 17,
+                      "line": 19,
                       "column": 8
                     },
                     "end": {
@@ -37333,51 +37333,9 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   dom.insertBoundary(fragment, null);
                   return morphs;
                 },
-                statements: [["block", "if", [["get", "error.messageLocaleKey", ["loc", [null, [18, 16], [18, 38]]]]], [], 0, 1, ["loc", [null, [18, 10], [22, 17]]]]],
+                statements: [["block", "if", [["get", "error.message", ["loc", [null, [19, 18], [19, 31]]]]], [], 0, 1, ["loc", [null, [19, 8], [23, 8]]]]],
                 locals: [],
                 templates: [child0, child1]
-              };
-            })();
-            var child1 = (function () {
-              return {
-                meta: {
-                  "fragmentReason": false,
-                  "revision": "Ember@2.4.6",
-                  "loc": {
-                    "source": null,
-                    "start": {
-                      "line": 23,
-                      "column": 8
-                    },
-                    "end": {
-                      "line": 25,
-                      "column": 8
-                    }
-                  },
-                  "moduleName": "dummy/templates/components/flexberry-error.hbs"
-                },
-                isEmpty: false,
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                  var el0 = dom.createDocumentFragment();
-                  var el1 = dom.createTextNode("          ");
-                  dom.appendChild(el0, el1);
-                  var el1 = dom.createComment("");
-                  dom.appendChild(el0, el1);
-                  var el1 = dom.createTextNode("\n        ");
-                  dom.appendChild(el0, el1);
-                  return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                  var morphs = new Array(1);
-                  morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                  return morphs;
-                },
-                statements: [["inline", "t", ["components.flexberry-error.unknown-error"], [], ["loc", [null, [24, 10], [24, 58]]]]],
-                locals: [],
-                templates: []
               };
             })();
             return {
@@ -37391,7 +37349,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     "column": 8
                   },
                   "end": {
-                    "line": 25,
+                    "line": 23,
                     "column": 8
                   }
                 },
@@ -37414,7 +37372,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["block", "if", [["subexpr", "or", [["get", "error.messageLocaleKey", ["loc", [null, [17, 22], [17, 44]]]], ["get", "error.message", ["loc", [null, [17, 45], [17, 58]]]]], [], ["loc", [null, [17, 18], [17, 59]]]]], [], 0, 1, ["loc", [null, [17, 8], [25, 8]]]]],
+              statements: [["block", "if", [["get", "error.messageLocaleKey", ["loc", [null, [17, 18], [17, 40]]]]], [], 0, 1, ["loc", [null, [17, 8], [23, 8]]]]],
               locals: [],
               templates: [child0, child1]
             };
@@ -37430,11 +37388,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       "loc": {
                         "source": null,
                         "start": {
-                          "line": 33,
+                          "line": 31,
                           "column": 14
                         },
                         "end": {
-                          "line": 35,
+                          "line": 33,
                           "column": 14
                         }
                       },
@@ -37459,7 +37417,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                       return morphs;
                     },
-                    statements: [["inline", "t", [["get", "e.messageLocaleKey", ["loc", [null, [34, 20], [34, 38]]]]], [], ["loc", [null, [34, 16], [34, 40]]]]],
+                    statements: [["inline", "t", [["get", "e.messageLocaleKey", ["loc", [null, [32, 20], [32, 38]]]]], [], ["loc", [null, [32, 16], [32, 40]]]]],
                     locals: [],
                     templates: []
                   };
@@ -37473,11 +37431,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                         "loc": {
                           "source": null,
                           "start": {
-                            "line": 35,
+                            "line": 33,
                             "column": 14
                           },
                           "end": {
-                            "line": 37,
+                            "line": 35,
                             "column": 14
                           }
                         },
@@ -37502,7 +37460,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                         morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                         return morphs;
                       },
-                      statements: [["content", "e.message", ["loc", [null, [36, 16], [36, 29]]]]],
+                      statements: [["content", "e.message", ["loc", [null, [34, 16], [34, 29]]]]],
                       locals: [],
                       templates: []
                     };
@@ -37514,11 +37472,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       "loc": {
                         "source": null,
                         "start": {
-                          "line": 35,
+                          "line": 33,
                           "column": 14
                         },
                         "end": {
-                          "line": 37,
+                          "line": 35,
                           "column": 14
                         }
                       },
@@ -37541,7 +37499,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       dom.insertBoundary(fragment, null);
                       return morphs;
                     },
-                    statements: [["block", "if", [["get", "e.message", ["loc", [null, [35, 24], [35, 33]]]]], [], 0, null, ["loc", [null, [35, 14], [37, 14]]]]],
+                    statements: [["block", "if", [["get", "e.message", ["loc", [null, [33, 24], [33, 33]]]]], [], 0, null, ["loc", [null, [33, 14], [35, 14]]]]],
                     locals: [],
                     templates: [child0]
                   };
@@ -37553,11 +37511,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     "loc": {
                       "source": null,
                       "start": {
-                        "line": 31,
+                        "line": 29,
                         "column": 10
                       },
                       "end": {
-                        "line": 40,
+                        "line": 38,
                         "column": 10
                       }
                     },
@@ -37596,7 +37554,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
                     return morphs;
                   },
-                  statements: [["block", "if", [["get", "e.messageLocaleKey", ["loc", [null, [33, 20], [33, 38]]]]], [], 0, 1, ["loc", [null, [33, 14], [37, 21]]]], ["content", "e.stack", ["loc", [null, [39, 17], [39, 28]]]]],
+                  statements: [["block", "if", [["get", "e.messageLocaleKey", ["loc", [null, [31, 20], [31, 38]]]]], [], 0, 1, ["loc", [null, [31, 14], [35, 21]]]], ["content", "e.stack", ["loc", [null, [37, 17], [37, 28]]]]],
                   locals: ["e"],
                   templates: [child0, child1]
                 };
@@ -37608,11 +37566,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 28,
+                      "line": 26,
                       "column": 8
                     },
                     "end": {
-                      "line": 41,
+                      "line": 39,
                       "column": 8
                     }
                   },
@@ -37635,7 +37593,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   dom.insertBoundary(fragment, null);
                   return morphs;
                 },
-                statements: [["block", "each", [["get", "error.errors", ["loc", [null, [31, 18], [31, 30]]]]], [], 0, null, ["loc", [null, [31, 10], [40, 19]]]]],
+                statements: [["block", "each", [["get", "error.errors", ["loc", [null, [29, 18], [29, 30]]]]], [], 0, null, ["loc", [null, [29, 10], [38, 19]]]]],
                 locals: [],
                 templates: [child0]
               };
@@ -37647,11 +37605,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 27,
+                    "line": 25,
                     "column": 6
                   },
                   "end": {
-                    "line": 42,
+                    "line": 40,
                     "column": 6
                   }
                 },
@@ -37674,7 +37632,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "t", ["components.flexberry-error.show-more"], [], ["loc", [null, [29, 18], [29, 60]]]]], 0, null, ["loc", [null, [28, 8], [41, 30]]]]],
+              statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "t", ["components.flexberry-error.show-more"], [], ["loc", [null, [27, 18], [27, 60]]]]], 0, null, ["loc", [null, [26, 8], [39, 30]]]]],
               locals: [],
               templates: [child0]
             };
@@ -37690,7 +37648,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   "column": 4
                 },
                 "end": {
-                  "line": 43,
+                  "line": 41,
                   "column": 4
                 }
               },
@@ -37726,7 +37684,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
               dom.insertBoundary(fragment, null);
               return morphs;
             },
-            statements: [["block", "if", [["subexpr", "and", [["get", "_errorIsArray", ["loc", [null, [9, 19], [9, 32]]]], ["get", "_messageIsNotSpecified", ["loc", [null, [9, 33], [9, 55]]]]], [], ["loc", [null, [9, 14], [9, 56]]]]], [], 0, 1, ["loc", [null, [9, 8], [25, 15]]]], ["block", "if", [["get", "error.errors", ["loc", [null, [27, 12], [27, 24]]]]], [], 2, null, ["loc", [null, [27, 6], [42, 13]]]]],
+            statements: [["block", "if", [["subexpr", "and", [["get", "_errorIsArray", ["loc", [null, [9, 19], [9, 32]]]], ["get", "_messageIsNotSpecified", ["loc", [null, [9, 33], [9, 55]]]]], [], ["loc", [null, [9, 14], [9, 56]]]]], [], 0, 1, ["loc", [null, [9, 8], [23, 15]]]], ["block", "if", [["get", "error.errors", ["loc", [null, [25, 12], [25, 24]]]]], [], 2, null, ["loc", [null, [25, 6], [40, 13]]]]],
             locals: [],
             templates: [child0, child1, child2]
           };
@@ -37742,7 +37700,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 "column": 2
               },
               "end": {
-                "line": 44,
+                "line": 42,
                 "column": 2
               }
             },
@@ -37765,7 +37723,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "modal-dialog", [], ["title", ["subexpr", "t", ["components.flexberry-error.caption"], [], ["loc", [null, [4, 12], [4, 52]]]], "useOkButton", false, "settings", ["subexpr", "hash", [], ["context", ["get", "modalContext", ["loc", [null, [6, 29], [6, 41]]]], "onHidden", ["subexpr", "action", ["close"], [], ["loc", [null, [6, 51], [6, 67]]]]], ["loc", [null, [6, 15], [6, 68]]]]], 0, null, ["loc", [null, [3, 4], [43, 21]]]]],
+          statements: [["block", "modal-dialog", [], ["title", ["subexpr", "t", ["components.flexberry-error.caption"], [], ["loc", [null, [4, 12], [4, 52]]]], "useOkButton", false, "settings", ["subexpr", "hash", [], ["context", ["get", "modalContext", ["loc", [null, [6, 29], [6, 41]]]], "onHidden", ["subexpr", "action", ["close"], [], ["loc", [null, [6, 51], [6, 67]]]]], ["loc", [null, [6, 15], [6, 68]]]]], 0, null, ["loc", [null, [3, 4], [41, 21]]]]],
           locals: [],
           templates: [child0]
         };
@@ -37780,11 +37738,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 51,
+                    "line": 49,
                     "column": 8
                   },
                   "end": {
-                    "line": 53,
+                    "line": 51,
                     "column": 8
                   }
                 },
@@ -37809,13 +37767,55 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                 return morphs;
               },
-              statements: [["inline", "t", [["get", "error.messageLocaleKey", ["loc", [null, [52, 14], [52, 36]]]]], [], ["loc", [null, [52, 10], [52, 38]]]]],
+              statements: [["inline", "t", [["get", "error.messageLocaleKey", ["loc", [null, [50, 14], [50, 36]]]]], [], ["loc", [null, [50, 10], [50, 38]]]]],
               locals: [],
               templates: []
             };
           })();
           var child1 = (function () {
             var child0 = (function () {
+              return {
+                meta: {
+                  "fragmentReason": false,
+                  "revision": "Ember@2.4.6",
+                  "loc": {
+                    "source": null,
+                    "start": {
+                      "line": 51,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 53,
+                      "column": 8
+                    }
+                  },
+                  "moduleName": "dummy/templates/components/flexberry-error.hbs"
+                },
+                isEmpty: false,
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                  var el0 = dom.createDocumentFragment();
+                  var el1 = dom.createTextNode("          ");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createComment("");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createTextNode("\n");
+                  dom.appendChild(el0, el1);
+                  return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                  var morphs = new Array(1);
+                  morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                  return morphs;
+                },
+                statements: [["content", "error.message", ["loc", [null, [52, 10], [52, 27]]]]],
+                locals: [],
+                templates: []
+              };
+            })();
+            var child1 = (function () {
               return {
                 meta: {
                   "fragmentReason": false,
@@ -37843,48 +37843,6 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   dom.appendChild(el0, el1);
                   var el1 = dom.createComment("");
                   dom.appendChild(el0, el1);
-                  var el1 = dom.createTextNode("\n");
-                  dom.appendChild(el0, el1);
-                  return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                  var morphs = new Array(1);
-                  morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                  return morphs;
-                },
-                statements: [["content", "error.message", ["loc", [null, [54, 10], [54, 27]]]]],
-                locals: [],
-                templates: []
-              };
-            })();
-            var child1 = (function () {
-              return {
-                meta: {
-                  "fragmentReason": false,
-                  "revision": "Ember@2.4.6",
-                  "loc": {
-                    "source": null,
-                    "start": {
-                      "line": 55,
-                      "column": 8
-                    },
-                    "end": {
-                      "line": 57,
-                      "column": 8
-                    }
-                  },
-                  "moduleName": "dummy/templates/components/flexberry-error.hbs"
-                },
-                isEmpty: false,
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                  var el0 = dom.createDocumentFragment();
-                  var el1 = dom.createTextNode("          ");
-                  dom.appendChild(el0, el1);
-                  var el1 = dom.createComment("");
-                  dom.appendChild(el0, el1);
                   var el1 = dom.createTextNode("\n        ");
                   dom.appendChild(el0, el1);
                   return el0;
@@ -37894,7 +37852,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                   return morphs;
                 },
-                statements: [["inline", "t", ["components.flexberry-error.unknown-error"], [], ["loc", [null, [56, 10], [56, 58]]]]],
+                statements: [["inline", "t", ["components.flexberry-error.unknown-error"], [], ["loc", [null, [54, 10], [54, 58]]]]],
                 locals: [],
                 templates: []
               };
@@ -37906,11 +37864,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 53,
+                    "line": 51,
                     "column": 8
                   },
                   "end": {
-                    "line": 57,
+                    "line": 55,
                     "column": 8
                   }
                 },
@@ -37933,7 +37891,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["block", "if", [["get", "error.message", ["loc", [null, [53, 18], [53, 31]]]]], [], 0, 1, ["loc", [null, [53, 8], [57, 8]]]]],
+              statements: [["block", "if", [["get", "error.message", ["loc", [null, [51, 18], [51, 31]]]]], [], 0, 1, ["loc", [null, [51, 8], [55, 8]]]]],
               locals: [],
               templates: [child0, child1]
             };
@@ -37949,11 +37907,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       "loc": {
                         "source": null,
                         "start": {
-                          "line": 65,
+                          "line": 63,
                           "column": 14
                         },
                         "end": {
-                          "line": 67,
+                          "line": 65,
                           "column": 14
                         }
                       },
@@ -37978,7 +37936,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                       return morphs;
                     },
-                    statements: [["inline", "t", [["get", "e.messageLocaleKey", ["loc", [null, [66, 20], [66, 38]]]]], [], ["loc", [null, [66, 16], [66, 40]]]]],
+                    statements: [["inline", "t", [["get", "e.messageLocaleKey", ["loc", [null, [64, 20], [64, 38]]]]], [], ["loc", [null, [64, 16], [64, 40]]]]],
                     locals: [],
                     templates: []
                   };
@@ -37992,11 +37950,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                         "loc": {
                           "source": null,
                           "start": {
-                            "line": 67,
+                            "line": 65,
                             "column": 14
                           },
                           "end": {
-                            "line": 69,
+                            "line": 67,
                             "column": 14
                           }
                         },
@@ -38021,7 +37979,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                         morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                         return morphs;
                       },
-                      statements: [["content", "e.message", ["loc", [null, [68, 16], [68, 29]]]]],
+                      statements: [["content", "e.message", ["loc", [null, [66, 16], [66, 29]]]]],
                       locals: [],
                       templates: []
                     };
@@ -38033,11 +37991,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       "loc": {
                         "source": null,
                         "start": {
-                          "line": 67,
+                          "line": 65,
                           "column": 14
                         },
                         "end": {
-                          "line": 69,
+                          "line": 67,
                           "column": 14
                         }
                       },
@@ -38060,7 +38018,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                       dom.insertBoundary(fragment, null);
                       return morphs;
                     },
-                    statements: [["block", "if", [["get", "e.message", ["loc", [null, [67, 24], [67, 33]]]]], [], 0, null, ["loc", [null, [67, 14], [69, 14]]]]],
+                    statements: [["block", "if", [["get", "e.message", ["loc", [null, [65, 24], [65, 33]]]]], [], 0, null, ["loc", [null, [65, 14], [67, 14]]]]],
                     locals: [],
                     templates: [child0]
                   };
@@ -38072,11 +38030,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     "loc": {
                       "source": null,
                       "start": {
-                        "line": 63,
+                        "line": 61,
                         "column": 10
                       },
                       "end": {
-                        "line": 72,
+                        "line": 70,
                         "column": 10
                       }
                     },
@@ -38115,7 +38073,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                     morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
                     return morphs;
                   },
-                  statements: [["block", "if", [["get", "e.messageLocaleKey", ["loc", [null, [65, 20], [65, 38]]]]], [], 0, 1, ["loc", [null, [65, 14], [69, 21]]]], ["content", "e.stack", ["loc", [null, [71, 17], [71, 28]]]]],
+                  statements: [["block", "if", [["get", "e.messageLocaleKey", ["loc", [null, [63, 20], [63, 38]]]]], [], 0, 1, ["loc", [null, [63, 14], [67, 21]]]], ["content", "e.stack", ["loc", [null, [69, 17], [69, 28]]]]],
                   locals: ["e"],
                   templates: [child0, child1]
                 };
@@ -38127,11 +38085,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 60,
+                      "line": 58,
                       "column": 8
                     },
                     "end": {
-                      "line": 73,
+                      "line": 71,
                       "column": 8
                     }
                   },
@@ -38154,7 +38112,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                   dom.insertBoundary(fragment, null);
                   return morphs;
                 },
-                statements: [["block", "each", [["get", "error.errors", ["loc", [null, [63, 18], [63, 30]]]]], [], 0, null, ["loc", [null, [63, 10], [72, 19]]]]],
+                statements: [["block", "each", [["get", "error.errors", ["loc", [null, [61, 18], [61, 30]]]]], [], 0, null, ["loc", [null, [61, 10], [70, 19]]]]],
                 locals: [],
                 templates: [child0]
               };
@@ -38166,11 +38124,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 59,
+                    "line": 57,
                     "column": 6
                   },
                   "end": {
-                    "line": 74,
+                    "line": 72,
                     "column": 6
                   }
                 },
@@ -38193,7 +38151,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "t", ["components.flexberry-error.show-more"], [], ["loc", [null, [61, 18], [61, 60]]]]], 0, null, ["loc", [null, [60, 8], [73, 30]]]]],
+              statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "t", ["components.flexberry-error.show-more"], [], ["loc", [null, [59, 18], [59, 60]]]]], 0, null, ["loc", [null, [58, 8], [71, 30]]]]],
               locals: [],
               templates: [child0]
             };
@@ -38205,11 +38163,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 45,
+                  "line": 43,
                   "column": 4
                 },
                 "end": {
-                  "line": 75,
+                  "line": 73,
                   "column": 4
                 }
               },
@@ -38245,7 +38203,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
               dom.insertBoundary(fragment, null);
               return morphs;
             },
-            statements: [["block", "if", [["get", "error.messageLocaleKey", ["loc", [null, [51, 14], [51, 36]]]]], [], 0, 1, ["loc", [null, [51, 8], [57, 15]]]], ["block", "if", [["get", "error.errors", ["loc", [null, [59, 12], [59, 24]]]]], [], 2, null, ["loc", [null, [59, 6], [74, 13]]]]],
+            statements: [["block", "if", [["get", "error.messageLocaleKey", ["loc", [null, [49, 14], [49, 36]]]]], [], 0, 1, ["loc", [null, [49, 8], [55, 15]]]], ["block", "if", [["get", "error.errors", ["loc", [null, [57, 12], [57, 24]]]]], [], 2, null, ["loc", [null, [57, 6], [72, 13]]]]],
             locals: [],
             templates: [child0, child1, child2]
           };
@@ -38257,11 +38215,11 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
             "loc": {
               "source": null,
               "start": {
-                "line": 44,
+                "line": 42,
                 "column": 2
               },
               "end": {
-                "line": 76,
+                "line": 74,
                 "column": 2
               }
             },
@@ -38284,7 +38242,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "ui-message", [], ["type", "negative", "onHide", "close", "closeable", true], 0, null, ["loc", [null, [45, 4], [75, 19]]]]],
+          statements: [["block", "ui-message", [], ["type", "negative", "onHide", "close", "closeable", true], 0, null, ["loc", [null, [43, 4], [73, 19]]]]],
           locals: [],
           templates: [child0]
         };
@@ -38303,7 +38261,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
               "column": 0
             },
             "end": {
-              "line": 77,
+              "line": 75,
               "column": 0
             }
           },
@@ -38326,7 +38284,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "modal", ["loc", [null, [2, 8], [2, 13]]]]], [], 0, 1, ["loc", [null, [2, 2], [76, 9]]]]],
+        statements: [["block", "if", [["get", "modal", ["loc", [null, [2, 8], [2, 13]]]]], [], 0, 1, ["loc", [null, [2, 2], [74, 9]]]]],
         locals: [],
         templates: [child0, child1]
       };
@@ -38345,7 +38303,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
             "column": 0
           },
           "end": {
-            "line": 78,
+            "line": 76,
             "column": 0
           }
         },
@@ -38368,7 +38326,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "error", ["loc", [null, [1, 6], [1, 11]]]]], [], 0, null, ["loc", [null, [1, 0], [77, 7]]]]],
+      statements: [["block", "if", [["get", "error", ["loc", [null, [1, 6], [1, 11]]]]], [], 0, null, ["loc", [null, [1, 0], [75, 7]]]]],
       locals: [],
       templates: [child0]
     };
@@ -51600,130 +51558,6 @@ define("dummy/templates/ember-flexberry-dummy-toggler-example-master-e", ["expor
 define("dummy/templates/error", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.4.6",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 4,
-                "column": 4
-              },
-              "end": {
-                "line": 6,
-                "column": 4
-              }
-            },
-            "moduleName": "dummy/templates/error.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("      ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode(":\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["inline", "t", [["get", "model.nameLocaleKey", ["loc", [null, [5, 10], [5, 29]]]]], [], ["loc", [null, [5, 6], [5, 31]]]]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child1 = (function () {
-        var child0 = (function () {
-          return {
-            meta: {
-              "fragmentReason": false,
-              "revision": "Ember@2.4.6",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 6,
-                  "column": 4
-                },
-                "end": {
-                  "line": 8,
-                  "column": 4
-                }
-              },
-              "moduleName": "dummy/templates/error.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("      ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createComment("");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode(":\n    ");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-              return morphs;
-            },
-            statements: [["content", "model.name", ["loc", [null, [7, 6], [7, 20]]]]],
-            locals: [],
-            templates: []
-          };
-        })();
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.4.6",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 6,
-                "column": 4
-              },
-              "end": {
-                "line": 8,
-                "column": 4
-              }
-            },
-            "moduleName": "dummy/templates/error.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-            dom.insertBoundary(fragment, 0);
-            dom.insertBoundary(fragment, null);
-            return morphs;
-          },
-          statements: [["block", "if", [["get", "model.name", ["loc", [null, [6, 14], [6, 24]]]]], [], 0, null, ["loc", [null, [6, 4], [8, 4]]]]],
-          locals: [],
-          templates: [child0]
-        };
-      })();
       return {
         meta: {
           "fragmentReason": false,
@@ -51735,7 +51569,91 @@ define("dummy/templates/error", ["exports"], function (exports) {
               "column": 2
             },
             "end": {
-              "line": 9,
+              "line": 5,
+              "column": 2
+            }
+          },
+          "moduleName": "dummy/templates/error.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(":\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "t", [["get", "model.nameLocaleKey", ["loc", [null, [4, 8], [4, 27]]]]], [], ["loc", [null, [4, 4], [4, 29]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 5,
+                "column": 2
+              },
+              "end": {
+                "line": 7,
+                "column": 2
+              }
+            },
+            "moduleName": "dummy/templates/error.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode(":\n  ");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            return morphs;
+          },
+          statements: [["content", "model.name", ["loc", [null, [6, 4], [6, 18]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 2
+            },
+            "end": {
+              "line": 7,
               "column": 2
             }
           },
@@ -51758,12 +51676,54 @@ define("dummy/templates/error", ["exports"], function (exports) {
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "model.nameLocaleKey", ["loc", [null, [4, 10], [4, 29]]]]], [], 0, 1, ["loc", [null, [4, 4], [8, 11]]]]],
+        statements: [["block", "if", [["get", "model.name", ["loc", [null, [5, 12], [5, 22]]]]], [], 0, null, ["loc", [null, [5, 2], [7, 2]]]]],
         locals: [],
-        templates: [child0, child1]
+        templates: [child0]
       };
     })();
-    var child1 = (function () {
+    var child2 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 8,
+              "column": 2
+            },
+            "end": {
+              "line": 10,
+              "column": 2
+            }
+          },
+          "moduleName": "dummy/templates/error.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "t", [["get", "model.messageLocaleKey", ["loc", [null, [9, 8], [9, 30]]]]], [], ["loc", [null, [9, 4], [9, 32]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child3 = (function () {
       var child0 = (function () {
         return {
           meta: {
@@ -51772,12 +51732,12 @@ define("dummy/templates/error", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 11,
-                "column": 4
+                "line": 10,
+                "column": 2
               },
               "end": {
-                "line": 13,
-                "column": 4
+                "line": 12,
+                "column": 2
               }
             },
             "moduleName": "dummy/templates/error.hbs"
@@ -51788,11 +51748,11 @@ define("dummy/templates/error", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("      ");
+            var el1 = dom.createTextNode("    ");
             dom.appendChild(el0, el1);
             var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
+            var el1 = dom.createTextNode("\n  ");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -51801,91 +51761,9 @@ define("dummy/templates/error", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "t", [["get", "model.messageLocaleKey", ["loc", [null, [12, 10], [12, 32]]]]], [], ["loc", [null, [12, 6], [12, 34]]]]],
+          statements: [["content", "model.message", ["loc", [null, [11, 4], [11, 21]]]]],
           locals: [],
           templates: []
-        };
-      })();
-      var child1 = (function () {
-        var child0 = (function () {
-          return {
-            meta: {
-              "fragmentReason": false,
-              "revision": "Ember@2.4.6",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 13,
-                  "column": 4
-                },
-                "end": {
-                  "line": 15,
-                  "column": 4
-                }
-              },
-              "moduleName": "dummy/templates/error.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("      ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createComment("");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n    ");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-              return morphs;
-            },
-            statements: [["inline", "t", [["get", "model.message", ["loc", [null, [14, 10], [14, 23]]]]], [], ["loc", [null, [14, 6], [14, 25]]]]],
-            locals: [],
-            templates: []
-          };
-        })();
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.4.6",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 13,
-                "column": 4
-              },
-              "end": {
-                "line": 15,
-                "column": 4
-              }
-            },
-            "moduleName": "dummy/templates/error.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-            dom.insertBoundary(fragment, 0);
-            dom.insertBoundary(fragment, null);
-            return morphs;
-          },
-          statements: [["block", "if", [["get", "model.message", ["loc", [null, [13, 14], [13, 27]]]]], [], 0, null, ["loc", [null, [13, 4], [15, 4]]]]],
-          locals: [],
-          templates: [child0]
         };
       })();
       return {
@@ -51899,7 +51777,7 @@ define("dummy/templates/error", ["exports"], function (exports) {
               "column": 2
             },
             "end": {
-              "line": 16,
+              "line": 12,
               "column": 2
             }
           },
@@ -51922,12 +51800,12 @@ define("dummy/templates/error", ["exports"], function (exports) {
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "model.messageLocaleKey", ["loc", [null, [11, 10], [11, 32]]]]], [], 0, 1, ["loc", [null, [11, 4], [15, 11]]]]],
+        statements: [["block", "if", [["get", "model.message", ["loc", [null, [10, 12], [10, 25]]]]], [], 0, null, ["loc", [null, [10, 2], [12, 2]]]]],
         locals: [],
-        templates: [child0, child1]
+        templates: [child0]
       };
     })();
-    var child2 = (function () {
+    var child4 = (function () {
       var child0 = (function () {
         return {
           meta: {
@@ -51936,11 +51814,11 @@ define("dummy/templates/error", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 19,
+                "line": 15,
                 "column": 2
               },
               "end": {
-                "line": 23,
+                "line": 19,
                 "column": 2
               }
             },
@@ -51967,7 +51845,7 @@ define("dummy/templates/error", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
             return morphs;
           },
-          statements: [["content", "model.stack", ["loc", [null, [22, 9], [22, 24]]]]],
+          statements: [["content", "model.stack", ["loc", [null, [18, 9], [18, 24]]]]],
           locals: [],
           templates: []
         };
@@ -51979,11 +51857,11 @@ define("dummy/templates/error", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 18,
+              "line": 14,
               "column": 0
             },
             "end": {
-              "line": 24,
+              "line": 20,
               "column": 0
             }
           },
@@ -52006,12 +51884,12 @@ define("dummy/templates/error", ["exports"], function (exports) {
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "t", ["forms.error-form.show-more"], [], ["loc", [null, [20, 12], [20, 44]]]]], 0, null, ["loc", [null, [19, 2], [23, 24]]]]],
+        statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "t", ["forms.error-form.show-more"], [], ["loc", [null, [16, 12], [16, 44]]]]], 0, null, ["loc", [null, [15, 2], [19, 24]]]]],
         locals: [],
         templates: [child0]
       };
     })();
-    var child3 = (function () {
+    var child5 = (function () {
       var child0 = (function () {
         return {
           meta: {
@@ -52020,11 +51898,11 @@ define("dummy/templates/error", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 26,
+                "line": 22,
                 "column": 2
               },
               "end": {
-                "line": 32,
+                "line": 28,
                 "column": 2
               }
             },
@@ -52049,7 +51927,7 @@ define("dummy/templates/error", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "link-to", [["subexpr", "t", ["forms.error-form.retry"], [], ["loc", [null, [27, 14], [27, 42]]]], ["get", "model.retryRoute", ["loc", [null, [27, 43], [27, 59]]]], ["get", "model.id", ["loc", [null, [27, 60], [27, 68]]]]], ["tagName", "button", "activeClass", "", "class", "ui button"], ["loc", [null, [27, 4], [31, 6]]]]],
+          statements: [["inline", "link-to", [["subexpr", "t", ["forms.error-form.retry"], [], ["loc", [null, [23, 14], [23, 42]]]], ["get", "model.retryRoute", ["loc", [null, [23, 43], [23, 59]]]], ["get", "model.id", ["loc", [null, [23, 60], [23, 68]]]]], ["tagName", "button", "activeClass", "", "class", "ui button"], ["loc", [null, [23, 4], [27, 6]]]]],
           locals: [],
           templates: []
         };
@@ -52062,11 +51940,11 @@ define("dummy/templates/error", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 32,
+                "line": 28,
                 "column": 2
               },
               "end": {
-                "line": 38,
+                "line": 34,
                 "column": 2
               }
             },
@@ -52091,7 +51969,7 @@ define("dummy/templates/error", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "link-to", [["subexpr", "t", ["forms.error-form.retry"], [], ["loc", [null, [33, 14], [33, 42]]]], ["get", "model.retryRoute", ["loc", [null, [33, 43], [33, 59]]]]], ["tagName", "button", "activeClass", "", "class", "ui button"], ["loc", [null, [33, 4], [37, 6]]]]],
+          statements: [["inline", "link-to", [["subexpr", "t", ["forms.error-form.retry"], [], ["loc", [null, [29, 14], [29, 42]]]], ["get", "model.retryRoute", ["loc", [null, [29, 43], [29, 59]]]]], ["tagName", "button", "activeClass", "", "class", "ui button"], ["loc", [null, [29, 4], [33, 6]]]]],
           locals: [],
           templates: []
         };
@@ -52103,11 +51981,11 @@ define("dummy/templates/error", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 25,
+              "line": 21,
               "column": 0
             },
             "end": {
-              "line": 39,
+              "line": 35,
               "column": 0
             }
           },
@@ -52130,7 +52008,7 @@ define("dummy/templates/error", ["exports"], function (exports) {
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "model.id", ["loc", [null, [26, 8], [26, 16]]]]], [], 0, 1, ["loc", [null, [26, 2], [38, 9]]]]],
+        statements: [["block", "if", [["get", "model.id", ["loc", [null, [22, 8], [22, 16]]]]], [], 0, 1, ["loc", [null, [22, 2], [34, 9]]]]],
         locals: [],
         templates: [child0, child1]
       };
@@ -52149,8 +52027,8 @@ define("dummy/templates/error", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 40,
-            "column": 0
+            "line": 35,
+            "column": 7
           }
         },
         "moduleName": "dummy/templates/error.hbs"
@@ -52196,9 +52074,9 @@ define("dummy/templates/error", ["exports"], function (exports) {
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.error-form.caption"], [], ["loc", [null, [1, 22], [1, 54]]]], ["block", "if", [["subexpr", "or", [["get", "model.name", ["loc", [null, [3, 12], [3, 22]]]], ["get", "model.nameLocaleKey", ["loc", [null, [3, 23], [3, 42]]]]], [], ["loc", [null, [3, 8], [3, 43]]]]], [], 0, null, ["loc", [null, [3, 2], [9, 9]]]], ["block", "if", [["subexpr", "or", [["get", "model.message", ["loc", [null, [10, 12], [10, 25]]]], ["get", "model.messageLocaleKey", ["loc", [null, [10, 26], [10, 48]]]]], [], ["loc", [null, [10, 8], [10, 49]]]]], [], 1, null, ["loc", [null, [10, 2], [16, 9]]]], ["block", "if", [["get", "model.stack", ["loc", [null, [18, 6], [18, 17]]]]], [], 2, null, ["loc", [null, [18, 0], [24, 7]]]], ["block", "if", [["get", "model.retryRoute", ["loc", [null, [25, 6], [25, 22]]]]], [], 3, null, ["loc", [null, [25, 0], [39, 7]]]]],
+      statements: [["inline", "t", ["forms.error-form.caption"], [], ["loc", [null, [1, 22], [1, 54]]]], ["block", "if", [["get", "model.nameLocaleKey", ["loc", [null, [3, 8], [3, 27]]]]], [], 0, 1, ["loc", [null, [3, 2], [7, 9]]]], ["block", "if", [["get", "model.messageLocaleKey", ["loc", [null, [8, 8], [8, 30]]]]], [], 2, 3, ["loc", [null, [8, 2], [12, 9]]]], ["block", "if", [["get", "model.stack", ["loc", [null, [14, 6], [14, 17]]]]], [], 4, null, ["loc", [null, [14, 0], [20, 7]]]], ["block", "if", [["get", "model.retryRoute", ["loc", [null, [21, 6], [21, 22]]]]], [], 5, null, ["loc", [null, [21, 0], [35, 7]]]]],
       locals: [],
-      templates: [child0, child1, child2, child3]
+      templates: [child0, child1, child2, child3, child4, child5]
     };
   })());
 });
@@ -60036,7 +59914,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+8b143939"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+41ef71f1"});
 }
 
 /* jshint ignore:end */
