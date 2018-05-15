@@ -2997,7 +2997,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-open-new
         var $toolBar = _ember['default'].$('.ui.secondary.menu')[0];
         var $toolBarButtons = $toolBar.children;
 
-        assert.equal($toolBarButtons[1].innerText, _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.olv-toolbar.add-button-text'), 'button create exist');
+        assert.equal($toolBarButtons[1].innerText.trim(), _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.olv-toolbar.add-button-text'), 'button create exist');
 
         var asyncOperationsCompleted = assert.async();
         (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($toolBarButtons[1], 'form', '.field').then(function ($editForm) {
@@ -4878,10 +4878,10 @@ define('dummy/tests/acceptance/edit-form-validation-test/validation-test', ['exp
         // Open datepicker calendar.
         $validationDataField.click();
         var $validationDateButton = _ember['default'].$('.available');
-        $validationDateButton = _ember['default'].$($validationDateButton[16]);
 
         // Select date.
-        $validationDateButton.click();
+        _ember['default'].$($validationDateButton[15]).click();
+        _ember['default'].$($validationDateButton[16]).click();
       });
 
       var $validationFlexberryLookupButtons = _ember['default'].$('.ui.button');
@@ -13840,13 +13840,13 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['exports',
     var $component = this.$().children();
     var $textareaInput = $component.children('textarea');
 
-    // Check that <textarea>'s wrap attribute 'soft'.
-    this.set('wrap', 'soft');
-    assert.strictEqual(_ember['default'].$.trim($textareaInput.attr('wrap')), 'soft', 'Component\'s inner <textarea> wrap attribute \'soft\'');
-
     // Check that <textarea>'s wrap attribute 'hard'.
     this.set('wrap', 'hard');
     assert.strictEqual(_ember['default'].$.trim($textareaInput.attr('wrap')), 'hard', 'Component\'s inner <textarea> wrap attribute \'hard\'');
+
+    // Check that <textarea>'s wrap attribute 'soft'.
+    this.set('wrap', 'soft');
+    assert.strictEqual(_ember['default'].$.trim($textareaInput.attr('wrap')), 'soft', 'Component\'s inner <textarea> wrap attribute \'soft\'');
 
     // Check that <textarea>'s wrap attribute 'off'.
     this.set('wrap', 'off');
@@ -14106,15 +14106,21 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['exports',
     $textareaInput.change();
 
     //Generate a random value 'selectionStart' and convert to a string.
-    var selectionStartValue = Math.floor(Math.random() * 10);
+    var selectionStartValue = Math.floor(Math.random() * 10 + 1);
 
-    // Check that <textarea>'s selectionStart attribute.
-    this.set('selectionStart', selectionStartValue);
-    assert.strictEqual($textareaInput.prop('selectionStart'), selectionStartValue, 'Component\'s inner <textarea>\'s value \'selectionStart\' is equals to \'' + selectionStartValue + '\'');
+    var $this = this;
 
-    // Check that <textarea>'s hasn\'t value maxlength attribute.
-    this.set('selectionStart', null);
-    assert.strictEqual(_ember['default'].$.trim($textareaInput.attr('selectionStart')), '', 'Component\'s inner <textarea> hasn\'t value selectionStart attribute');
+    // This timeout  is correcting problem with selectionStart in Mozila Firefox.
+    var done = assert.async();
+    setTimeout(function () {
+      $this.set('selectionStart', selectionStartValue);
+      assert.strictEqual($textareaInput.prop('selectionStart'), selectionStartValue, 'Component\'s inner <textarea>\'s value \'selectionStart\' is equals to \'' + selectionStartValue + '\'');
+
+      // Check that <textarea>'s hasn\'t value maxlength attribute.
+      $this.set('selectionStart', null);
+      assert.strictEqual(_ember['default'].$.trim($textareaInput.attr('selectionStart')), '', 'Component\'s inner <textarea> hasn\'t value selectionStart attribute');
+      done();
+    }, 10);
   });
 
   (0, _emberQunit.test)('selectionEnd mode works properly', function (assert) {
@@ -14175,7 +14181,7 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['exports',
     $textareaInput.change();
 
     //Generate a random value 'selectionEnd' and convert to a string.
-    var selectionEndValue = Math.floor(Math.random() * 10);
+    var selectionEndValue = Math.floor(Math.random() * 10 + 1);
 
     // Check that <textarea>'s selectionEnd attribute.
     this.set('selectionEnd', selectionEndValue);

@@ -5786,8 +5786,12 @@ div.ui.secondary.menu.no-margin {
   padding-top: 80px;
 }
 .full.height {
-  height: calc(100vh - 80px - 40px) !important;
+  height: calc(100vh - 80px - 40px);
   overflow: auto;
+}
+.pusher.mobile .ui.form .full.height {
+  height: calc(100vh - 50px - 40px);
+  min-height: calc(100vh - 50px - 40px);
 }
 .ui.attached.segment {
   width: 100%!important;
@@ -18308,6 +18312,15 @@ ol.ui.horizontal.list li:before,
   border-bottom: none;
 }
 .flexberry-lookup .ui.fluid.action.input {
+  border: none;
+  border-bottom: 1px solid #b1cae8;
+  border-radius: 0px;
+  outline: none;
+}
+.ember-view.example-simpledatetime input.flatpickr-input {
+  border-bottom: none;
+}
+.flexberry-simpledatetime .ui.fluid.action.input {
   border: none;
   border-bottom: 1px solid #b1cae8;
   border-radius: 0px;
@@ -32109,6 +32122,12 @@ select.ui.dropdown {
 .ui.buttons.export-config > .ui.dropdown:last-child .menu {
   left: auto;
   right: -5em;
+}
+.flexberry-dropdown {
+  max-width: 100%;
+}
+.flexberry-dropdown div.text {
+  max-width: inherit;
 }
 /*!
  * # Semantic UI - Video
