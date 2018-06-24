@@ -5290,12 +5290,17 @@ div.ui.secondary.menu.no-margin {
 .ui.loading.button.ui-change i.icon.change:before {
   content: '';
 }
-.ui.button.ui-change i.icon,
-.ui.button.ui-clear i.icon {
-  margin: 0em 0.5em 0em 0.5em;
+.flexberry-lookup .ui.action.input .ui.button.ui-change,
+.flexberry-lookup .ui.action.input .ui.button.ui-clear {
+  padding: 0em 0.3em 0em 0.3em;
   font-size: 1em;
+  border: none;
 }
-ui.button.ui-clear:hover {
+.flexberry-lookup .ui.action.input .ui.button.ui-change i.icon,
+.flexberry-lookup .ui.action.input .ui.button.ui-clear i.icon {
+  margin: 0px 3px 0px 3px;
+}
+.flexberry-lookup .ui.fluid.action.input .ui.button.ui-clear:hover {
   color: #FF7500;
   opacity: 1;
 }
@@ -5309,18 +5314,6 @@ ui.button.ui-clear:hover {
 }
 .ui.fluid.action.input > button:hover {
   color: #7ba7d9;
-}
-.ui.fluid.action.input .ui.button.ui-change {
-  position: absolute;
-  right: 30px;
-}
-.ui.fluid.action.input .ui.button.ui-clear {
-  position: absolute;
-  right: 0px;
-}
-.ui.fluid.action.input .ui.loading.button.ui-change {
-  position: absolute;
-  right: 30px;
 }
 /* Table cell buttons */
 .cell .button:hover {
@@ -5388,6 +5381,57 @@ ui.button.ui-clear:hover {
   background: none;
 }
 .ui.clear-sorting-button.button:hover i.icon.sort:before {
+  color: #FF7500;
+}
+.ui.check-all-at-page-button-mobile.button {
+  padding: 0px;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  border: 0px;
+  background: none;
+  margin: 0 0 0 0px;
+}
+.ui.check-all-at-page-button-mobile.button:active {
+  border: 0px;
+  background: none;
+}
+.ui.check-all-at-page-button-mobile.button:active i.icon.check-square-o:before {
+  color: #FF7500;
+}
+.ui.check-all-button-mobile.button {
+  padding: 0px;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  border: 0px;
+  background: none;
+  margin: 0 0 0 0px;
+}
+.ui.check-all-button-mobile.button:active {
+  border: 0px;
+  background: none;
+}
+.ui.check-all-button-mobile.button:active i.icon.check-all-square-o:before {
+  color: #FF7500;
+}
+.ui.check-all-button-mobile.button.activated i.icon.check-all-square-o:before {
+  color: #FF7500;
+}
+.ui.clear-sorting-button-mobile.button {
+  padding: 0px;
+  height: 25px;
+  width: 10px;
+  text-align: center;
+  border: 0px;
+  background: none;
+  margin: 0 0 0 0px;
+}
+.ui.clear-sorting-button-mobile.button:active {
+  border: 0px;
+  background: none;
+}
+.ui.clear-sorting-button-mobile.button:active i.icon.sort:before {
   color: #FF7500;
 }
 .ui.ui-edit.button {
@@ -5975,8 +6019,12 @@ ui.button.ui-clear:hover {
   padding-top: 80px;
 }
 .full.height {
-  height: calc(100vh - 80px - 40px) !important;
+  height: calc(100vh - 80px - 40px);
   overflow: auto;
+}
+.pusher.mobile .ui.form .full.height {
+  height: calc(100vh - 50px - 40px);
+  min-height: calc(100vh - 50px - 40px);
 }
 .ui.attached.segment {
   width: 100%!important;
@@ -9027,8 +9075,8 @@ a.ui.inverted.grey.header:hover {
 *******************************/
 @font-face {
   font-family: 'Icons';
-  src: url("themes/default/assets/fonts/icons.eot");
-  src: url("themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("themes/default/assets/fonts/icons.woff2") format('woff2'), url("themes/default/assets/fonts/icons.woff") format('woff'), url("themes/default/assets/fonts/icons.ttf") format('truetype'), url("themes/default/assets/fonts/icons.svg#icons") format('svg');
+  src: url("fonts/icons.eot");
+  src: url("fonts/icons.eot?#iefix") format('embedded-opentype'), url("fonts/icons.woff2") format('woff2'), url("fonts/icons.woff") format('woff'), url("fonts/icons.ttf") format('truetype'), url("fonts/icons.svg#icons") format('svg');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -9502,12 +9550,12 @@ i.icon.remove.circle:before {
   font-size: 16px;
   opacity: 1;
 }
-i.icon.plus:before {
+i.icon.plus:not(.square):before {
   content: "\e833";
   position: relative;
   font-family: 'Crimean';
 }
-i.icon.minus:before {
+i.icon.minus:not(.square):before {
   content: "\e834";
   font-size: 2px;
   position: relative;
@@ -10383,30 +10431,6 @@ img.ui.bordered.image {
 /*******************************
          Theme Overrides
 *******************************/
-div.item-plus {
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  margin-right: 10px;
-  margin-bottom: 1px;
-  background: url("themes/blue-sky/assets/images/plus.png") center no-repeat;
-  cursor: pointer;
-  float: left;
-  position: relative;
-  top: -2px;
-}
-div.item-minus {
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  margin-right: 10px;
-  margin-bottom: 1px;
-  background: url("themes/blue-sky/assets/images/minus.png") center no-repeat;
-  cursor: pointer;
-  float: left;
-  position: relative;
-  top: -2px;
-}
 .flexberry-file-image-preview-wrapper.ui.segment .ui.small.image {
   min-height: 57px;
 }
@@ -11171,6 +11195,14 @@ input {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
+}
+.flexberry-lookup .input span.lookup-field {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 15px;
+}
+span.lookup-field {
+  word-break: break-all;
 }
 /*!
  * # Semantic UI - Label
@@ -18784,6 +18816,24 @@ ol.ui.horizontal.list li:before,
 .ui.form input[type="time"],
 .ui.form input[type="text"],
 .ui.form input[type="url"] {
+  border: none;
+  border-bottom: 1px solid #b1cae8;
+  border-radius: 0px;
+  outline: none;
+}
+.ember-view.flexberry-lookup input.lookup-field.ember-view.ember-text-field {
+  border-bottom: none;
+}
+.flexberry-lookup .ui.fluid.action.input {
+  border: none;
+  border-bottom: 1px solid #b1cae8;
+  border-radius: 0px;
+  outline: none;
+}
+.ember-view.example-simpledatetime input.flatpickr-input {
+  border-bottom: none;
+}
+.flexberry-simpledatetime .ui.fluid.action.input {
   border: none;
   border-bottom: 1px solid #b1cae8;
   border-radius: 0px;
@@ -32851,6 +32901,12 @@ select.ui.dropdown {
 .ui.buttons.export-config > .ui.dropdown:last-child .menu {
   left: auto;
   right: -5em;
+}
+.flexberry-dropdown {
+  max-width: 100%;
+}
+.flexberry-dropdown div.text {
+  max-width: inherit;
 }
 /*!
  * # Semantic UI - Video

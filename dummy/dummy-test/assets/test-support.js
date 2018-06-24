@@ -8,7 +8,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   3.1.2
+ * @version   3.1.3
  */
 
 /*globals process */
@@ -22040,6 +22040,7 @@ define('@ember/test-helpers/-utils', ['exports'], function (exports) {
   });
   exports.nextTickPromise = nextTickPromise;
   exports.runDestroyablesFor = runDestroyablesFor;
+  exports.isNumeric = isNumeric;
   var nextTick = exports.nextTick = setTimeout;
   var futureTick = exports.futureTick = setTimeout;
 
@@ -22074,6 +22075,17 @@ define('@ember/test-helpers/-utils', ['exports'], function (exports) {
     }
 
     delete object[property];
+  }
+
+  /**
+   Returns whether the passed in string consists only of numeric characters.
+  
+   @private
+   @param {string} n input string
+   @returns {boolean} whether the input string consists only of numeric characters
+   */
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 });
 define('@ember/test-helpers/application', ['exports', '@ember/test-helpers/resolver'], function (exports, _resolver) {
@@ -22355,7 +22367,7 @@ define('@ember/test-helpers/dom/blur', ['exports', '@ember/test-helpers/dom/-get
     });
   }
 });
-define('@ember/test-helpers/dom/click', ['exports', '@ember/test-helpers/dom/-get-element', '@ember/test-helpers/dom/fire-event', '@ember/test-helpers/dom/focus', '@ember/test-helpers/settled', '@ember/test-helpers/dom/-is-focusable', '@ember/test-helpers/-utils'], function (exports, _getElement, _fireEvent, _focus, _settled, _isFocusable, _utils) {
+define('@ember/test-helpers/dom/click', ['exports', '@ember/test-helpers/dom/-get-element', '@ember/test-helpers/dom/fire-event', '@ember/test-helpers/dom/focus', '@ember/test-helpers/settled', '@ember/test-helpers/dom/-is-focusable', '@ember/test-helpers/-utils', '@ember/test-helpers/dom/-is-form-control'], function (exports, _getElement, _fireEvent, _focus, _settled, _isFocusable, _utils, _isFormControl) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -22419,7 +22431,12 @@ define('@ember/test-helpers/dom/click', ['exports', '@ember/test-helpers/dom/-ge
         throw new Error('Element not found when calling `click(\'' + target + '\')`.');
       }
 
-      __click__(element);
+      var isDisabledFormControl = (0, _isFormControl.default)(element) && element.disabled === true;
+
+      if (!isDisabledFormControl) {
+        __click__(element);
+      }
+
       return (0, _settled.default)();
     });
   }
@@ -22960,7 +22977,7 @@ define('@ember/test-helpers/dom/trigger-key-event', ['exports', '@ember/test-hel
     18: 'Alt',
     20: 'CapsLock',
     27: 'Escape',
-    32: '',
+    32: ' ',
     37: 'ArrowLeft',
     38: 'ArrowUp',
     39: 'ArrowRight',
@@ -23076,16 +23093,25 @@ define('@ember/test-helpers/dom/trigger-key-event', ['exports', '@ember/test-hel
         throw new Error('Must provide an `eventType` of ' + validEventTypes + ' to `triggerKeyEvent` but you passed `' + eventType + '`.');
       }
 
-      if (typeof key !== 'number' && typeof key !== 'string') {
-        throw new Error('Must provide a `key` or `keyCode` to `triggerKeyEvent`');
-      }
       var props = void 0;
       if (typeof key === 'number') {
         props = { keyCode: key, which: key, key: keyFromKeyCodeAndModifiers(key, modifiers) };
-      } else {
+      } else if (typeof key === 'string' && key.length !== 0) {
+        var firstCharacter = key[0];
+        if (firstCharacter !== firstCharacter.toUpperCase()) {
+          throw new Error('Must provide a `key` to `triggerKeyEvent` that starts with an uppercase character but you passed `' + key + '`.');
+        }
+
+        if ((0, _utils.isNumeric)(key)) {
+          throw new Error('Must provide a numeric `keyCode` to `triggerKeyEvent` but you passed `' + key + '` as a string.');
+        }
+
         var keyCode = keyCodeFromKey(key);
         props = { keyCode: keyCode, which: keyCode, key: key };
+      } else {
+        throw new Error('Must provide a `key` or `keyCode` to `triggerKeyEvent`');
       }
+
       var options = Ember.merge(props, modifiers);
 
       (0, _fireEvent.default)(element, eventType, options);
@@ -23829,11 +23855,15 @@ define('@ember/test-helpers/setup-context', ['exports', '@ember/test-helpers/bui
       return (0, _buildOwner.default)((0, _application.getApplication)(), (0, _resolver.getResolver)());
     }).then(function (owner) {
       Object.defineProperty(context, 'owner', {
+        configurable: true,
+        enumerable: true,
         value: owner,
         writable: false
       });
 
       Object.defineProperty(context, 'set', {
+        configurable: true,
+        enumerable: true,
         value: function value(key, _value) {
           var ret = Ember.run(function () {
             return Ember.set(context, key, _value);
@@ -23846,6 +23876,8 @@ define('@ember/test-helpers/setup-context', ['exports', '@ember/test-helpers/bui
       });
 
       Object.defineProperty(context, 'setProperties', {
+        configurable: true,
+        enumerable: true,
         value: function value(hash) {
           var ret = Ember.run(function () {
             return Ember.setProperties(context, hash);
@@ -23858,6 +23890,8 @@ define('@ember/test-helpers/setup-context', ['exports', '@ember/test-helpers/bui
       });
 
       Object.defineProperty(context, 'get', {
+        configurable: true,
+        enumerable: true,
         value: function value(key) {
           return Ember.get(context, key);
         },
@@ -23866,6 +23900,8 @@ define('@ember/test-helpers/setup-context', ['exports', '@ember/test-helpers/bui
       });
 
       Object.defineProperty(context, 'getProperties', {
+        configurable: true,
+        enumerable: true,
         value: function value() {
           for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
@@ -24178,14 +24214,26 @@ define('@ember/test-helpers/setup-rendering-context', ['exports', '@ember/test-h
       // these methods being placed on the context itself will be deprecated in
       // a future version (no giant rush) to remove some confusion about which
       // is the "right" way to things...
-      Object.defineProperty(context, 'render', { value: render, writable: false });
+      Object.defineProperty(context, 'render', {
+        configurable: true,
+        enumerable: true,
+        value: render,
+        writable: false
+      });
       Object.defineProperty(context, 'clearRender', {
+        configurable: true,
+        enumerable: true,
         value: clearRender,
         writable: false
       });
 
       if (_global.default.jQuery) {
-        Object.defineProperty(context, '$', { value: jQuerySelector, writable: false });
+        Object.defineProperty(context, '$', {
+          configurable: true,
+          enumerable: true,
+          value: jQuerySelector,
+          writable: false
+        });
       }
 
       // When the host app uses `setApplication` (instead of `setResolver`) the event dispatcher has
@@ -24215,6 +24263,8 @@ define('@ember/test-helpers/setup-rendering-context', ['exports', '@ember/test-h
       });
     }).then(function () {
       Object.defineProperty(context, 'element', {
+        configurable: true,
+        enumerable: true,
         // ensure the element is based on the wrapping toplevel view
         // Ember still wraps the main application template with a
         // normal tagged view

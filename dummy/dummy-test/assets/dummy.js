@@ -12,20 +12,6 @@ define('dummy/adapters/application', ['exports', 'ember-flexberry-data/adapters/
     host: _environment.default.APP.backendUrls.api
   });
 });
-define('dummy/adapters/new-platform-flexberry-services-lock', ['exports', 'ember-flexberry/adapters/new-platform-flexberry-services-lock', 'dummy/config/environment'], function (exports, _newPlatformFlexberryServicesLock, _environment) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _newPlatformFlexberryServicesLock.default.extend({
-    /**
-      @property host
-      @type String
-    */
-    host: _environment.default.APP.backendUrls.api
-  });
-});
 define('dummy/adapters/odata', ['exports', 'ember-flexberry-data/adapters/odata'], function (exports, _odata) {
   'use strict';
 
@@ -1232,6 +1218,11 @@ define('dummy/controllers/application', ['exports', 'dummy/config/environment'],
               caption: i18n.t('forms.application.sitemap.components-examples.flexberry-objectlistview.object-list-view-resize.caption'),
               title: i18n.t('forms.application.sitemap.components-examples.flexberry-objectlistview.object-list-view-resize.title'),
               children: null
+            }, {
+              link: 'components-examples/flexberry-objectlistview/lock-services-editor-view-list',
+              caption: i18n.t('forms.application.sitemap.components-examples.flexberry-objectlistview.lock-services-editor-view-list.caption'),
+              title: i18n.t('forms.application.sitemap.components-examples.flexberry-objectlistview.lock-services-editor-view-list.title'),
+              children: null
             }]
           }, {
             link: null,
@@ -2373,6 +2364,158 @@ define('dummy/controllers/components-acceptance-tests/flexberry-objectlistview/b
     */
     records: undefined,
 
+    init: function init() {
+      this._super.apply(this, arguments);
+      this.set('records', []);
+    }
+  });
+});
+define('dummy/controllers/components-acceptance-tests/flexberry-objectlistview/computable-field', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Model projection for 'flexberry-objectlistview' component 'modelProjection' property.
+       @property projection
+      @type Object
+     */
+    projection: 'SuggestionL',
+
+    /**
+      Name of related edit form route (for 'flexberry-objectlistview' component 'editFormRoute' property).
+       @property editFormRoute
+      @type String
+     */
+    editFormRoute: 'ember-flexberry-dummy-suggestion-edit',
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'readonly' mode or not.
+       @property readonly
+      @type Boolean
+     */
+    readonly: false,
+
+    /**
+      Flag for 'flexberry-objectlistview' component 'tableStriped' property.
+       @property tableStriped
+      @type Boolean
+     */
+    tableStriped: true,
+
+    /**
+      Flag for 'flexberry-objectlistview' component 'allowColumnResize' property.
+       @property allowColumnResize
+      @type Boolean
+     */
+    allowColumnResize: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'createNewButton' mode or not.
+       @property createNewButton
+      @type Boolean
+     */
+    createNewButton: true,
+
+    /**
+      Flag for 'flexberry-objectlistview' component 'deleteButton' property.
+       @property deleteButton
+      @type Boolean
+     */
+    deleteButton: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'enableFilters' mode or not.
+       @property enableFilters
+      @type Boolean
+     */
+    enableFilters: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'filterButton' mode or not.
+       @property filterButton
+      @type Boolean
+     */
+    filterButton: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'refreshButton' mode or not.
+       @property refreshButton
+      @type Boolean
+     */
+    refreshButton: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showCheckBoxInRow' mode or not.
+       @property showCheckBoxInRow
+      @type Boolean
+     */
+    showCheckBoxInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showDeleteButtonInRow' mode or not.
+       @property showDeleteButtonInRow
+      @type Boolean
+     */
+    showDeleteButtonInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showEditMenuItemInRow' mode or not.
+       @property showEditMenuItemInRow
+      @type Boolean
+     */
+    showEditMenuItemInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'showDeleteMenuItemInRow' mode or not.
+       @property showDeleteMenuItemInRow
+      @type Boolean
+     */
+    showDeleteMenuItemInRow: true,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'rowClickable' mode or not.
+       @property rowClickable
+      @type Boolean
+     */
+    rowClickable: false,
+
+    /**
+      Flag: indicates whether 'flexberry-objectlistview' component is in 'orderable' mode or not.
+       @property orderable
+      @type Boolean
+     */
+    orderable: true,
+
+    /**
+      Тext for 'flexberry-objectlistview' component 'singleColumnHeaderTitle' property.
+       @property singleColumnHeaderTitle
+      @type String
+     */
+    singleColumnHeaderTitle: undefined,
+
+    /**
+      Cout of list loading.
+       @property loadCount
+      @type Int
+    */
+    loadCount: 0,
+
+    /**
+      Current records.
+       @property _records
+      @type Object[]
+      @protected
+      @readOnly
+    */
+    records: undefined,
+
+    /**
+      An overridable method called when objects are instantiated.
+    */
     init: function init() {
       this._super.apply(this, arguments);
       this.set('records', []);
@@ -4428,13 +4571,15 @@ define('dummy/controllers/components-examples/flexberry-lookup/customizing-windo
     }
   });
 });
-define('dummy/controllers/components-examples/flexberry-lookup/default-ordering-example', ['exports', 'ember-flexberry/controllers/edit-form'], function (exports, _editForm) {
+define('dummy/controllers/components-examples/flexberry-lookup/default-ordering-example', ['exports', 'ember-flexberry/controllers/edit-form', 'ember-flexberry/utils/serialize-sorting-param', 'ember-i18n'], function (exports, _editForm, _serializeSortingParam, _emberI18n) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = _editForm.default.extend({
+    lookupComponentName: 'lookupUserSettings',
+
     actions: {
       /**
         This method returns custom properties for lookup window.
@@ -4445,6 +4590,8 @@ define('dummy/controllers/components-examples/flexberry-lookup/default-ordering-
         @return {Object} Set of options for lookup window.
        */
       getLookupFolvProperties: function getLookupFolvProperties(options) {
+        var _this = this;
+
         var methodArgs = Ember.merge({
           projection: undefined,
           relationName: undefined
@@ -4452,7 +4599,15 @@ define('dummy/controllers/components-examples/flexberry-lookup/default-ordering-
 
         if (methodArgs.relationName === 'type') {
           return {
-            filterButton: true
+            filterButton: true,
+            customButtons: [{
+              i18n: this.get('i18n'),
+              buttonName: (0, _emberI18n.translationMacro)('components.olv-toolbar.clear-sorting-button-text'),
+              buttonAction: function buttonAction() {
+                var defaultUserSetting = _this.get('userSettingsService').getDefaultDeveloperUserSetting(_this.get('lookupComponentName'));
+                _this.set('lookupController.sort', (0, _serializeSortingParam.default)(defaultUserSetting.sorting || []));
+              }
+            }]
           };
         }
 
@@ -4486,6 +4641,13 @@ define('dummy/controllers/components-examples/flexberry-lookup/hierarchy-olv-in-
     value: true
   });
   exports.default = _editForm.default.extend({
+    init: function init() {
+      this._super.apply(this, arguments);
+
+      this.set('lookupController.inHierarchicalMode', true);
+      this.set('lookupController.hierarchicalAttribute', 'parent');
+    },
+
 
     actions: {
       /**
@@ -4506,7 +4668,9 @@ define('dummy/controllers/components-examples/flexberry-lookup/hierarchy-olv-in-
           return {
             disableHierarchicalMode: false,
             modelName: 'ember-flexberry-dummy-suggestion-type',
-            modelProjection: 'SettingLookupExampleView'
+            modelProjection: 'SettingLookupExampleView',
+            inHierarchicalMode: true,
+            hierarchicalAttribute: 'Name'
           };
         }
 
@@ -4595,6 +4759,8 @@ define('dummy/controllers/components-examples/flexberry-lookup/limit-function-th
       @default undefined
      */
     secondLimitType: undefined,
+
+    lookupCustomLimitPredicate: undefined,
 
     actions: {
 
@@ -5169,6 +5335,172 @@ define('dummy/controllers/components-examples/flexberry-menu/settings-example', 
     })
   });
 });
+define('dummy/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Parameter for use in the test beforeDeleteRecord.
+       @property recordWasNotDelete
+      @type bool
+      @default false
+     */
+    recordWasNotDelete: false,
+
+    actions: {
+      beforeDeleteRecord: function beforeDeleteRecord(record, data) {
+        this.set('recordWasNotDelete', !record.get('isDeleted'));
+        data.cancel = true;
+        return;
+      }
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Parameter for use in the test beforeDeleteRecord.
+       @property recordWasNotDelete
+      @type bool
+      @default false
+     */
+    recordWasNotDelete: false,
+
+    actions: {
+      beforeDeleteRecord: function beforeDeleteRecord(record, data) {
+        this.set('recordWasNotDelete', !record.get('isDeleted'));
+        data.immediately = false;
+        return;
+      }
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Parameter for use in the test beforeDeleteRecord.
+       @property recordWasNotDelete
+      @type bool
+      @default false
+     */
+    recordWasNotDelete: false,
+
+    actions: {
+      beforeDeleteRecord: function beforeDeleteRecord(record, data) {
+        var _this = this;
+
+        return new Ember.RSVP.Promise(function (resolve) {
+          _this.set('recordWasNotDelete', !record.get('isDeleted'));
+          data.cancel = true;
+          resolve();
+        });
+      }
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Parameter for use in the test beforeDeleteRecord.
+       @property recordWasNotDelete
+      @type bool
+      @default false
+     */
+    recordWasNotDelete: false,
+
+    actions: {
+      beforeDeleteRecord: function beforeDeleteRecord(record, data) {
+        var _this = this;
+
+        return new Ember.RSVP.Promise(function (resolve) {
+          _this.set('recordWasNotDelete', !record.get('isDeleted'));
+          data.immediately = false;
+          resolve();
+        });
+      }
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Parameter for use in the test beforeDeleteRecord.
+       @property recordWasNotDelete
+      @type bool
+      @default false
+     */
+    recordWasNotDelete: false,
+
+    actions: {
+      /* eslint-disable no-unused-vars */
+      beforeDeleteRecord: function beforeDeleteRecord(record, data) {
+        var _this = this;
+
+        return new Ember.RSVP.Promise(function (resolve) {
+          _this.set('recordWasNotDelete', !record.get('isDeleted'));
+          resolve();
+        });
+      }
+      /* eslint-enable no-unused-vars */
+
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+
+    /**
+      Parameter for use in the test beforeDeleteRecord.
+       @property recordWasNotDelete
+      @type bool
+      @default false
+     */
+    recordWasNotDelete: false,
+
+    actions: {
+      /* eslint-disable no-unused-vars */
+      beforeDeleteRecord: function beforeDeleteRecord(record, data) {
+        this.set('recordWasNotDelete', !record.get('isDeleted'));
+        return;
+      }
+      /* eslint-enable no-unused-vars */
+
+    }
+  });
+});
 define('dummy/controllers/components-examples/flexberry-objectlistview/configurate-rows', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
   'use strict';
 
@@ -5562,6 +5894,24 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/hierarchy
     value: true
   });
   exports.default = _listForm.default.extend({
+
+    /**
+      Flag indicate when component is in the hierarchical mode.
+       @property _inHierarchicalMode
+      @type Boolean
+      @default false
+      @private
+    */
+    inHierarchicalMode: true,
+
+    /**
+      Store the attribute parent set by `hierarchyByAttribute`.
+       @property _hierarchicalAttribute
+      @type String
+      @private
+    */
+    hierarchicalAttribute: 'parent',
+
     /**
       Name of related edit form route.
        @property editFormRoute
@@ -5759,6 +6109,8 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/limit-fun
      */
     limitFunction: undefined,
 
+    loadCount: 0,
+
     actions: {
       /**
         This method set controller.limitFunction for olv window.
@@ -5789,6 +6141,92 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/limit-fun
         this.send('refreshModel');
       }
     }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-edit', ['exports', 'ember-flexberry/controllers/edit-form', 'ember-flexberry/mixins/edit-form-controller-operations-indication'], function (exports, _editForm, _editFormControllerOperationsIndication) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _editForm.default.extend(_editFormControllerOperationsIndication.default, {
+    /**
+      Route name for transition after close edit form.
+       @property parentRoute
+      @type String
+      @default 'ember-flexberry-dummy-suggestion-list'
+     */
+    parentRoute: 'components-examples/flexberry-objectlistview/lock-services-editor-view-list',
+
+    /**
+      Name of model.comments edit route.
+       @property commentsEditRoute
+      @type String
+      @default 'ember-flexberry-dummy-comment-edit'
+     */
+    commentsEditRoute: 'ember-flexberry-dummy-comment-edit',
+
+    /**
+      Method to get type and attributes of a component,
+      which will be embeded in object-list-view cell.
+       @method getCellComponent.
+      @param {Object} attr Attribute of projection property related to current table cell.
+      @param {String} bindingPath Path to model property related to current table cell.
+      @param {DS.Model} modelClass Model class of data record related to current table row.
+      @return {Object} Object containing name & properties of component, which will be used to render current table cell.
+      { componentName: 'my-component',  componentProperties: { ... } }.
+     */
+    getCellComponent: function getCellComponent(attr, bindingPath, model) {
+      var cellComponent = this._super.apply(this, arguments);
+      if (attr.kind === 'belongsTo') {
+        switch (model.modelName + '+' + bindingPath) {
+          case 'ember-flexberry-dummy-vote+author':
+            cellComponent.componentProperties = {
+              choose: 'showLookupDialog',
+              remove: 'removeLookupValue',
+              displayAttributeName: 'name',
+              required: true,
+              relationName: 'author',
+              projection: 'ApplicationUserL',
+              autocomplete: true
+            };
+            break;
+
+          case 'ember-flexberry-dummy-comment+author':
+            cellComponent.componentProperties = {
+              choose: 'showLookupDialog',
+              remove: 'removeLookupValue',
+              displayAttributeName: 'name',
+              required: true,
+              relationName: 'author',
+              projection: 'ApplicationUserL',
+              autocomplete: true
+            };
+            break;
+
+        }
+      }
+
+      return cellComponent;
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-list', ['exports', 'ember-flexberry/controllers/list-form', 'dummy/mixins/list-form-controller-operations-indication'], function (exports, _listForm, _listFormControllerOperationsIndication) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend(_listFormControllerOperationsIndication.default, {
+    /**
+      Name of related edit form route.
+       @property editFormRoute
+      @type String
+      @default 'ember-flexberry-dummy-suggestion-edit'
+     */
+    editFormRoute: 'components-examples/flexberry-objectlistview/lock-services-editor-view-edit',
+
+    exportExcelProjection: 'SuggestionL'
   });
 });
 define('dummy/controllers/components-examples/flexberry-objectlistview/object-list-view-resize', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _listForm) {
@@ -5971,6 +6409,14 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/selected-
     editFormRoute: 'ember-flexberry-dummy-suggestion-type-edit',
 
     /**
+      Name of compoent.
+       @property componentName
+      @type String
+      @default 'suggestionTypeLocalizedTypesObjectListView'
+     */
+    componentName: 'suggestionTypeLocalizedTypesObjectListView',
+
+    /**
       Count selected rows.
        @property countSelectedRows
       @type Number
@@ -5980,8 +6426,31 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/selected-
 
     actions: {
       configurateSelectedRows: function configurateSelectedRows(selectedRecords) {
-        this.set('countSelectedRows', selectedRecords.length);
+        if (this.get('allSelect')) {
+          this.set('countSelectedRows', this.model.meta.count);
+        } else {
+          this.set('countSelectedRows', selectedRecords.length);
+        }
       }
+    },
+
+    /* eslint-disable no-unused-vars */
+    _selectAll: function _selectAll(componentName, selectAllParameter, skipConfugureRows) {
+      if (componentName === this.get('componentName')) {
+        this.set('allSelect', selectAllParameter);
+      }
+    },
+
+    /* eslint-enable no-unused-vars */
+
+    init: function init() {
+      this.get('objectlistviewEventsService').on('updateSelectAll', this, this._selectAll);
+      this._super.apply(this, arguments);
+    },
+
+    willDestroyElement: function willDestroyElement() {
+      this.get('objectlistviewEventsService').off('updateSelectAll', this, this._selectAll);
+      this._super.apply(this, arguments);
     }
   });
 });
@@ -6148,7 +6617,7 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/settings-
        @property showCheckBoxInRow
       @type Boolean
      */
-    showCheckBoxInRow: false,
+    showCheckBoxInRow: true,
 
     /**
       Flag: indicates whether 'flexberry-objectlistview' component is in 'showDeleteButtonInRow' mode or not.
@@ -6169,14 +6638,14 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/settings-
        @property showEditMenuItemInRow
       @type Boolean
      */
-    showEditMenuItemInRow: false,
+    showEditMenuItemInRow: true,
 
     /**
       Flag: indicates whether 'flexberry-objectlistview' component is in 'showDeleteMenuItemInRow' mode or not.
        @property showDeleteMenuItemInRow
       @type Boolean
      */
-    showDeleteMenuItemInRow: false,
+    showDeleteMenuItemInRow: true,
 
     /**
       Flag: indicates whether 'flexberry-objectlistview' component is in 'rowClickable' mode or not.
@@ -6467,14 +6936,14 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/toolbar-c
        @property clickCounter
       @type Number
       @default 1
-     */
+    */
     clickCounter: 1,
 
     /**
       Property to show user message after click on user button.
        @property messageForUser
       @type String
-     */
+    */
     messageForUser: undefined,
 
     /**
@@ -6492,16 +6961,36 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/toolbar-c
       }];
     }),
 
+    customButtonsInRow: Ember.computed('i18n.locale', function () {
+      var i18n = this.get('i18n');
+      return [{
+        buttonName: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-row-button-name'),
+        buttonAction: 'userButtonInRowActionTest',
+        buttonClasses: 'icon',
+        buttonIcon: 'bug icon',
+        buttonTitle: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-row-button-name')
+      }];
+    }),
+
     actions: {
       /**
         Handler for click on custom user button.
          @method userButtonActionTest
-       */
+      */
       userButtonActionTest: function userButtonActionTest() {
         var i18n = this.get('i18n');
         var clickCounter = this.get('clickCounter');
         this.set('clickCounter', clickCounter + 1);
         this.set('messageForUser', i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-message').string + ' ' + clickCounter);
+      },
+
+
+      /**
+        Handler for click on custom user button in row.
+         @method userButtonActionTest
+      */
+      userButtonInRowActionTest: function userButtonInRowActionTest(model) {
+        this.set('modelFromClickedRow', model);
       }
     }
   });
@@ -7680,6 +8169,13 @@ define('dummy/controllers/ember-flexberry-dummy-suggestion-edit', ['exports', 'e
             break;
 
         }
+      } else if (attr.kind === 'attr') {
+        switch (model.modelName + '+' + bindingPath) {
+          case 'ember-flexberry-dummy-vote+author.eMail':
+            cellComponent.componentProperties = {
+              readonly: true
+            };
+        }
       }
 
       return cellComponent;
@@ -7714,7 +8210,17 @@ define('dummy/controllers/ember-flexberry-dummy-suggestion-list', ['exports', 'e
      */
     editFormRoute: 'ember-flexberry-dummy-suggestion-edit',
 
-    exportExcelProjection: 'SuggestionL'
+    exportExcelProjection: 'SuggestionL',
+
+    actions: {
+      /**
+        Hook that executes before deleting all records on all pages.
+        Need to be overriden in corresponding application controller.
+      */
+      beforeDeleteAllRecords: function beforeDeleteAllRecords(modelName, data) {
+        data.cancel = false;
+      }
+    }
   });
 });
 define('dummy/controllers/ember-flexberry-dummy-suggestion-type-edit', ['exports', 'ember-flexberry/controllers/edit-form', 'ember-flexberry/mixins/edit-form-controller-operations-indication'], function (exports, _editForm, _editFormControllerOperationsIndication) {
@@ -8109,7 +8615,7 @@ define('dummy/controllers/log-service-examples/settings-example', ['exports', 'e
 
       /**
         Handles ember assert button click.
-        Emulates failed Ember.assert call happened somewhere in application.
+        Emulates failed assert call happened somewhere in application.
          @method actions.onEmberAssertButtonClick
         @public
       */
@@ -8343,7 +8849,7 @@ define('dummy/controllers/new-platform-flexberry-services-lock-list', ['exports'
 
     /**
       An overridable method called when objects are instantiated.
-      [More info](http://emberjs.com/api/classes/Ember.Route.html#method_init).
+      [More info](https://www.emberjs.com/api/ember/release/classes/Route/methods/init?anchor=init).
        @method init
     */
     init: function init() {
@@ -8380,7 +8886,7 @@ define('dummy/controllers/user-setting-forms/user-setting-delete', ['exports', '
     actions: {
       /**
         Handler for click on custom user button.
-         @method userButtonActionTest
+         @method allDelButtonAction
        */
       allDelButtonAction: function allDelButtonAction() {
         var _this = this;
@@ -8403,11 +8909,6 @@ define('dummy/ember-flexberry/tests/addon.lint-test', [], function () {
   'use strict';
 
   QUnit.module('ESLint | addon');
-
-  QUnit.test('addon/adapters/new-platform-flexberry-services-lock.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'addon/adapters/new-platform-flexberry-services-lock.js should pass ESLint\n\n');
-  });
 
   QUnit.test('addon/components/colsconfig-dialog-content.js', function (assert) {
     assert.expect(1);
@@ -8707,11 +9208,6 @@ define('dummy/ember-flexberry/tests/addon.lint-test', [], function () {
   QUnit.test('addon/helpers/readonly-cell.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'addon/helpers/readonly-cell.js should pass ESLint\n\n');
-  });
-
-  QUnit.test('addon/initializers/ember-run-after.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'addon/initializers/ember-run-after.js should pass ESLint\n\n');
   });
 
   QUnit.test('addon/initializers/i18n.js', function (assert) {
@@ -9079,6 +9575,11 @@ define('dummy/ember-flexberry/tests/addon.lint-test', [], function () {
     assert.ok(true, 'addon/services/perf.js should pass ESLint\n\n');
   });
 
+  QUnit.test('addon/services/store.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'addon/services/store.js should pass ESLint\n\n');
+  });
+
   QUnit.test('addon/services/user-settings.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'addon/services/user-settings.js should pass ESLint\n\n');
@@ -9109,6 +9610,11 @@ define('dummy/ember-flexberry/tests/addon.lint-test', [], function () {
     assert.ok(true, 'addon/utils/need-save-current-agregator.js should pass ESLint\n\n');
   });
 
+  QUnit.test('addon/utils/run-after.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'addon/utils/run-after.js should pass ESLint\n\n');
+  });
+
   QUnit.test('addon/utils/serialize-sorting-param.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'addon/utils/serialize-sorting-param.js should pass ESLint\n\n');
@@ -9128,11 +9634,6 @@ define('dummy/ember-flexberry/tests/app.lint-test', [], function () {
   'use strict';
 
   QUnit.module('ESLint | app');
-
-  QUnit.test('app/adapters/new-platform-flexberry-services-lock.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'app/adapters/new-platform-flexberry-services-lock.js should pass ESLint\n\n');
-  });
 
   QUnit.test('app/browserify.js', function (assert) {
     assert.expect(1);
@@ -9429,11 +9930,6 @@ define('dummy/ember-flexberry/tests/app.lint-test', [], function () {
     assert.ok(true, 'app/helpers/readonly-cell.js should pass ESLint\n\n');
   });
 
-  QUnit.test('app/initializers/ember-run-after.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'app/initializers/ember-run-after.js should pass ESLint\n\n');
-  });
-
   QUnit.test('app/initializers/i18n.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'app/initializers/i18n.js should pass ESLint\n\n');
@@ -9612,6 +10108,11 @@ define('dummy/ember-flexberry/tests/app.lint-test', [], function () {
   QUnit.test('app/utils/need-save-current-agregator.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'app/utils/need-save-current-agregator.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('app/utils/run-after.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'app/utils/run-after.js should pass ESLint\n\n');
   });
 
   QUnit.test('app/utils/serialize-sorting-param.js', function (assert) {
@@ -10660,25 +11161,6 @@ define('dummy/initializers/ember-i18n', ['exports', 'ember-i18n/initializers/emb
     value: true
   });
   exports.default = _emberI18n.default;
-});
-define('dummy/initializers/ember-run-after', ['exports', 'ember-flexberry/initializers/ember-run-after'], function (exports, _emberRunAfter) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _emberRunAfter.default;
-    }
-  });
-  Object.defineProperty(exports, 'initialize', {
-    enumerable: true,
-    get: function () {
-      return _emberRunAfter.initialize;
-    }
-  });
 });
 define('dummy/initializers/export-application-global', ['exports', 'dummy/config/environment'], function (exports, _environment) {
   'use strict';
@@ -11793,6 +12275,10 @@ define('dummy/locales/en/translations', ['exports', 'ember-flexberry/locales/en/
               'object-list-view-resize': {
                 'caption': 'Columns markup',
                 'title': ''
+              },
+              'lock-services-editor-view-list': {
+                'caption': 'Example displaying username which the object was locked',
+                'title': ''
               }
             },
             'flexberry-simpledatetime': {
@@ -12005,7 +12491,7 @@ define('dummy/locales/en/translations', ['exports', 'ember-flexberry/locales/en/
           'ember-logger-debug-button-caption': 'Debug',
           'throw-exception-button-message': 'Exception thrown',
           'reject-rsvp-promise-button-message': 'Promise rejected',
-          'ember-assert-button-message': 'Ember.assert called',
+          'ember-assert-button-message': 'assert called',
           'ember-logger-error-button-message': 'Ember.Logger.error called',
           'ember-logger-warn-button-message': 'Ember.warn called',
           'ember-deprecate-button-message': 'Ember.deprecate called',
@@ -12170,7 +12656,8 @@ define('dummy/locales/en/translations', ['exports', 'ember-flexberry/locales/en/
           'toolbar-custom-buttons-example': {
             'caption': 'Flexberry-objectlistview. Custom buttons on toolbar',
             'custom-message': 'Hello!',
-            'custom-button-name': 'Send hello'
+            'custom-button-name': 'Send hello',
+            'custom-row-button-name': 'Custom button in row'
           },
           'on-edit-form': {
             'caption': 'Flexberry-objectlistview. FlexberryObjectlistview on edit form',
@@ -12195,6 +12682,9 @@ define('dummy/locales/en/translations', ['exports', 'ember-flexberry/locales/en/
             'caption': 'Flexberry-objectlistview. Columns markup',
             'button-сaption': 'Add',
             'title': ''
+          },
+          'lock-services-editor-view': {
+            'blocked-by': 'Blocked by user'
           }
         },
         'flexberry-simpledatetime': {
@@ -13036,6 +13526,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember-flexberry/locales/ru/
               'object-list-view-resize': {
                 'caption': 'Разметка столбцов',
                 'title': ''
+              },
+              'lock-services-editor-view-list': {
+                'caption': 'Пример отображение имени пользователя заблокировшего объект',
+                'title': ''
               }
             },
             'flexberry-simpledatetime': {
@@ -13248,7 +13742,7 @@ define('dummy/locales/ru/translations', ['exports', 'ember-flexberry/locales/ru/
           'ember-logger-debug-button-caption': 'Debug',
           'throw-exception-button-message': 'Брошено исключение',
           'reject-rsvp-promise-button-message': 'Promise отклонен',
-          'ember-assert-button-message': 'Вызван метод Ember.assert',
+          'ember-assert-button-message': 'Вызван метод assert',
           'ember-logger-error-button-message': 'Вызван метод Ember.Logger.error',
           'ember-logger-warn-button-message': 'Вызван метод Ember.warn',
           'ember-deprecate-button-message': 'Вызван метод Ember.deprecate',
@@ -13413,7 +13907,8 @@ define('dummy/locales/ru/translations', ['exports', 'ember-flexberry/locales/ru/
           'toolbar-custom-buttons-example': {
             'caption': 'Flexberry-objectlistview. Пользовательские кнопки',
             'custom-message': 'Привет!',
-            'custom-button-name': 'Передать привет'
+            'custom-button-name': 'Передать привет',
+            'custom-row-button-name': 'Пользовательская кнопка в строке'
           },
           'on-edit-form': {
             'caption': 'Flexberry-objectlistview. FlexberryObjectlistview на форме редактирования',
@@ -13438,6 +13933,9 @@ define('dummy/locales/ru/translations', ['exports', 'ember-flexberry/locales/ru/
             'caption': 'Flexberry-objectlistview. Разметка столбцов',
             'button-сaption': 'Добавить',
             'title': ''
+          },
+          'lock-services-editor-view': {
+            'blocked-by': 'Заблокированно пользователем'
           }
         },
         'flexberry-simpledatetime': {
@@ -15749,6 +16247,14 @@ define('dummy/router', ['exports', 'dummy/config/environment'], function (export
     this.route('components-examples/flexberry-objectlistview/selected-rows');
     this.route('components-examples/flexberry-objectlistview/downloading-files-from-olv-list');
     this.route('components-examples/flexberry-objectlistview/downloading-files-from-olv-edit', { path: 'components-examples/flexberry-objectlistview/downloading-files-from-olv-edit/:id' });
+    this.route('components-examples/flexberry-objectlistview/lock-services-editor-view-list');
+    this.route('components-examples/flexberry-objectlistview/lock-services-editor-view-edit', { path: 'components-examples/flexberry-objectlistview/lock-services-editor-view-edit/:id' });
+    this.route('components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record');
+    this.route('components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise');
+    this.route('components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel');
+    this.route('components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel');
+    this.route('components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately');
+    this.route('components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately');
 
     this.route('components-examples/flexberry-simpledatetime/settings-example');
     this.route('components-examples/flexberry-textarea/settings-example');
@@ -15776,6 +16282,7 @@ define('dummy/router', ['exports', 'dummy/config/environment'], function (export
     this.route('components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
 
     this.route('components-acceptance-tests/flexberry-objectlistview/base-operations');
+    this.route('components-acceptance-tests/flexberry-objectlistview/computable-field');
     this.route('components-acceptance-tests/flexberry-objectlistview/folv-paging');
     this.route('components-acceptance-tests/flexberry-objectlistview/date-format');
     this.route('components-acceptance-tests/edit-form-readonly');
@@ -15908,7 +16415,7 @@ define('dummy/routes/components-acceptance-tests/flexberry-checkbox/ember-flexbe
 
     /**
     A hook you can implement to convert the URL into the model for this route.
-    [More info](http://emberjs.com/api/classes/Ember.Route.html#method_model).
+    [More info](https://www.emberjs.com/api/ember/release/classes/Route/methods/model?anchor=model).
     @method model
     @param {Object} params
     @param {Object} transition
@@ -15945,7 +16452,6 @@ define('dummy/routes/components-acceptance-tests/flexberry-checkbox/ember-flexbe
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -16014,7 +16520,6 @@ define('dummy/routes/components-acceptance-tests/flexberry-checkbox/ember-flexbe
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -16436,7 +16941,72 @@ define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/base-o
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVSettingExampleObjectListView: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 120 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+          }
+        }
+      };
+    }),
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    /**
+      This method will be invoked always when load operation completed,
+      regardless of load promise's state (was it fulfilled or rejected).
+       @method onModelLoadingAlways.
+      @param {Object} data Data about completed load operation.
+     */
+    /* eslint-disable no-unused-vars */
+    onModelLoadingAlways: function onModelLoadingAlways(data) {
+      var loadCount = this.get('controller.loadCount') + 1;
+      this.set('controller.loadCount', loadCount);
+    }
+  }
+  /* eslint-enable no-unused-vars */
+  );
+});
+define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/computable-field', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'SuggestionL'
+     */
+    modelProjection: 'SuggestionL',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -16511,10 +17081,11 @@ define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/custom
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVCustomFilterObjectListView: {} };
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
     }),
 
     predicateForFilter: function predicateForFilter(filter) {
@@ -16609,10 +17180,11 @@ define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/date-f
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVSettingExampleObjectListView: {} };
+      return {
+        FOLVSettingExampleObjectListView: {}
+      };
     }),
 
     /**
@@ -16670,10 +17242,11 @@ define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/folv-f
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVSettingExampleObjectListView: {} };
+      return {
+        FOLVSettingExampleObjectListView: {}
+      };
     }),
 
     /**
@@ -16744,17 +17317,19 @@ define('dummy/routes/components-acceptance-tests/flexberry-objectlistview/folv-p
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVPagingObjectListView: {
+      return {
+        FOLVPagingObjectListView: {
           'DEFAULT': {
             'sorting': [{
               'propName': 'name',
               'direction': 'asc',
               'sortPriority': 1
-            }] }
-        } };
+            }]
+          }
+        }
+      };
     }),
 
     /**
@@ -17023,7 +17598,6 @@ define('dummy/routes/components-examples/flexberry-groupedit/ember-flexberry-dum
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -17091,7 +17665,6 @@ define('dummy/routes/components-examples/flexberry-groupedit/ember-flexberry-dum
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -17160,13 +17733,12 @@ define('dummy/routes/components-examples/flexberry-groupedit/ember-flexberry-dum
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
         SuggestionObjectListView: {
           'DEFAULT': {
-            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 86 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 90 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
           }
         }
       };
@@ -17214,13 +17786,12 @@ define('dummy/routes/components-examples/flexberry-groupedit/ember-flexberry-dum
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
         SuggestionObjectListView: {
           'DEFAULT': {
-            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 86 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 90 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
           }
         }
       };
@@ -17444,7 +18015,6 @@ define('dummy/routes/components-examples/flexberry-lookup/default-ordering-examp
     <componentName> may contain any of properties: sorting.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -17786,6 +18356,294 @@ define('dummy/routes/components-examples/flexberry-menu/settings-example', ['exp
   });
   exports.default = Ember.Route.extend({});
 });
+define('dummy/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'FlexberryObjectlistviewCustomFilter'
+    */
+    modelProjection: 'SuggestionTypeL',
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-application-user'
+    */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
+    })
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'FlexberryObjectlistviewCustomFilter'
+    */
+    modelProjection: 'SuggestionTypeL',
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-application-user'
+    */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
+    })
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'FlexberryObjectlistviewCustomFilter'
+    */
+    modelProjection: 'SuggestionTypeL',
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-application-user'
+    */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
+    })
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'FlexberryObjectlistviewCustomFilter'
+    */
+    modelProjection: 'SuggestionTypeL',
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-application-user'
+    */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
+    })
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'FlexberryObjectlistviewCustomFilter'
+    */
+    modelProjection: 'SuggestionTypeL',
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-application-user'
+    */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
+    })
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'FlexberryObjectlistviewCustomFilter'
+    */
+    modelProjection: 'SuggestionTypeL',
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-application-user'
+    */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
+    })
+  });
+});
 define('dummy/routes/components-examples/flexberry-objectlistview/configurate-rows', ['exports', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', 'ember-flexberry/routes/list-form'], function (exports, _builder, _filterOperator, _listForm) {
   'use strict';
 
@@ -17818,10 +18676,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/configurate-ro
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVSettingExampleObjectListView: {} };
+      return {
+        FOLVSettingExampleObjectListView: {}
+      };
     }),
 
     /**
@@ -17920,10 +18779,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter'
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVCustomFilterObjectListView: {} };
+      return {
+        FOLVCustomFilterObjectListView: {}
+      };
     }),
 
     predicateForFilter: function predicateForFilter(filter) {
@@ -18027,10 +18887,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/downloading-fi
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { DownloadingFilesFromOLV: {} };
+      return {
+        DownloadingFilesFromOLV: {}
+      };
     }),
 
     /**
@@ -18095,7 +18956,6 @@ define('dummy/routes/components-examples/flexberry-objectlistview/edit-form-with
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -18172,7 +19032,6 @@ define('dummy/routes/components-examples/flexberry-objectlistview/edit-form-with
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -18181,9 +19040,9 @@ define('dummy/routes/components-examples/flexberry-objectlistview/edit-form-with
             'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 100 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 65 }]
           }
         }
-
       };
     }),
+
     /**
       Name of model to be used as list's records types.
        @property modelName
@@ -18225,10 +19084,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/hierarchy-exam
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { HiearchyExampleObjectListView: {} };
+      return {
+        HiearchyExampleObjectListView: {}
+      };
     }),
 
     /**
@@ -18336,10 +19196,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/inheritance-mo
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { OLVInheritanceModels: {} };
+      return {
+        OLVInheritanceModels: {}
+      };
     }),
 
     /**
@@ -18439,10 +19300,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/inheritance-mo
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { OLVInheritanceModels: {} };
+      return {
+        OLVInheritanceModels: {}
+      };
     }),
 
     /**
@@ -18542,10 +19404,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/inheritance-mo
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { OLVInheritanceModels: {} };
+      return {
+        OLVInheritanceModels: {}
+      };
     }),
 
     /**
@@ -18606,10 +19469,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/limit-function
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVLimitFunctionExampleObjectListView: {} };
+      return {
+        FOLVLimitFunctionExampleObjectListView: {}
+      };
     }),
 
     /**
@@ -18664,7 +19528,7 @@ define('dummy/routes/components-examples/flexberry-objectlistview/limit-function
 
       var store = this.get('store');
 
-      var query = new _builder.default(store).from(this.get('modelName')).where('address', _filterOperator.default.Neq, '');
+      var query = new _builder.default(store).from(this.get('modelName')).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '');
 
       store.query('ember-flexberry-dummy-suggestion', query.build()).then(function (limitdata) {
         var limitTypesArr = limitdata.toArray();
@@ -18693,7 +19557,172 @@ define('dummy/routes/components-examples/flexberry-objectlistview/limit-function
       this.set('controller.firstLimitType', this.get('firstLimitType'));
 
       this.set('controller.secondLimitType', this.get('secondLimitType'));
+    },
+
+
+    /* eslint-disable no-unused-vars */
+    onModelLoadingAlways: function onModelLoadingAlways(data) {
+      var loadCount = this.get('controller.loadCount') + 1;
+      this.set('controller.loadCount', loadCount);
     }
+    /* eslint-enable no-unused-vars */
+
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/lock-services-editor-view-edit', ['exports', 'ember-flexberry/routes/edit-form', 'ember-flexberry/mixins/edit-form-route-operations-indication', 'ember-flexberry/mixins/lock-route'], function (exports, _editForm, _editFormRouteOperationsIndication, _lockRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _editForm.default.extend(_editFormRouteOperationsIndication.default, _lockRoute.default, {
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'SuggestionE'
+     */
+    modelProjection: 'SuggestionE',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: 'asc'|'desc' }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        suggestionUserVotesGroupEdit: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 65 }, { 'propName': 'voteType', 'width': 133 }, { 'propName': 'author', 'width': 348 }, { 'propName': 'author.eMail', 'width': 531 }],
+            'sorting': [{ 'propName': 'author', 'direction': 'asc', 'attributePath': 'author.name' }]
+          }
+        },
+        filesGroupEdit: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 65 }, { 'propName': 'order', 'width': 140 }, { 'propName': 'file', 'width': 893 }],
+            'colsOrder': [{ 'propName': 'file' }, { 'propName': 'order' }],
+            'sorting': [{ 'propName': 'order', 'direction': 'desc' }]
+          }
+        },
+        suggestionCommentsGroupEdit: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 65 }, { 'propName': 'votes', 'fixed': true }],
+            'sorting': [{ 'propName': 'votes', 'direction': 'asc' }, { 'propName': 'moderated', 'direction': 'desc' }, { 'propName': 'text', 'direction': 'asc' }]
+          }
+        }
+      };
+    }),
+
+    /**
+      Name of model to be used as form's record type.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    blockedByUser: undefined,
+
+    /**
+      This function will be called to solve open form read only or transition to parent route.
+      You can override function for custom behavior.
+       @method openReadOnly
+      @param {String} lockUserName
+      @return {Promise}
+      @for EditFormRoute
+    */
+
+    openReadOnly: function openReadOnly(lockUserName) {
+      this.set('blockedByUser', lockUserName);
+      return this._super.apply(this, arguments);
+    },
+
+
+    /**
+      Load limit accessible values for lookup.
+       @method setupController
+    */
+    setupController: function setupController() {
+      this._super.apply(this, arguments);
+
+      this.set('controller.blockedByUser', this.get('blockedByUser'));
+    },
+
+
+    /* eslint-disable no-unused-vars */
+    resetController: function resetController(controller, isExiting, transition) {
+      this._super.apply(this, arguments);
+
+      this.set('blockedByUser', undefined);
+    }
+    /* eslint-enable no-unused-vars */
+
+  });
+});
+define('dummy/routes/components-examples/flexberry-objectlistview/lock-services-editor-view-list', ['exports', 'ember-flexberry/routes/list-form', 'dummy/mixins/list-form-route-operations-indication'], function (exports, _listForm, _listFormRouteOperationsIndication) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _listForm.default.extend(_listFormRouteOperationsIndication.default, {
+    /**
+     Name of model projection to be used as record's properties limitation.
+      @property modelProjection
+     @type String
+     @default 'SuggestionL'
+     */
+    modelProjection: 'SuggestionL',
+
+    /**
+    developerUserSettings.
+    Format:
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    */
+    developerUserSettings: Ember.computed(function () {
+      return {
+        SuggestionObjectListView: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 90 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+          }
+        }
+      };
+    }),
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion'
   });
 });
 define('dummy/routes/components-examples/flexberry-objectlistview/object-list-view-resize', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _listForm) {
@@ -18751,10 +19780,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/on-edit-form',
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVOnEditFormObjectListView: {} };
+      return {
+        FOLVOnEditFormObjectListView: {}
+      };
     }),
 
     /**
@@ -18825,7 +19855,6 @@ define('dummy/routes/components-examples/flexberry-objectlistview/selected-rows'
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -18878,10 +19907,15 @@ define('dummy/routes/components-examples/flexberry-objectlistview/settings-examp
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVSettingsExampleObjectListView: {} };
+      return {
+        FOLVSettingsExampleObjectListView: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': false, 'width': 90 }]
+          }
+        }
+      };
     }),
 
     /**
@@ -18925,10 +19959,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/toolbar-custom
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVToolbarCustomButtonsExample: {} };
+      return {
+        FOLVToolbarCustomButtonsExample: {}
+      };
     }),
 
     /**
@@ -19042,7 +20077,6 @@ define('dummy/routes/components-examples/flexberry-toggler/ge-into-toggler-examp
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -19189,10 +20223,15 @@ define('dummy/routes/ember-flexberry-dummy-application-user-list', ['exports', '
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { applicationUserObjectListView: {} };
+      return {
+        applicationUserObjectListView: {
+          'DEFAULT': {
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': false, 'width': 90 }]
+          }
+        }
+      };
     }),
 
     /**
@@ -19404,10 +20443,11 @@ define('dummy/routes/ember-flexberry-dummy-localization-list', ['exports', 'embe
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { localizationObjectListView: {} };
+      return {
+        localizationObjectListView: {}
+      };
     }),
 
     /**
@@ -19451,7 +20491,6 @@ define('dummy/routes/ember-flexberry-dummy-suggestion-edit', ['exports', 'ember-
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -19576,13 +20615,12 @@ define('dummy/routes/ember-flexberry-dummy-suggestion-list', ['exports', 'ember-
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
         SuggestionObjectListView: {
           'DEFAULT': {
-            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 86 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 90 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
           }
         }
       };
@@ -19637,7 +20675,6 @@ define('dummy/routes/ember-flexberry-dummy-suggestion-type-edit', ['exports', 'e
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -19714,14 +20751,15 @@ define('dummy/routes/ember-flexberry-dummy-suggestion-type-list', ['exports', 'e
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { SOLVSuggestionTypeObjectListView: {
+      return {
+        SOLVSuggestionTypeObjectListView: {
           'DEFAULT': {
-            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 86 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+            'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 90 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
           }
-        } };
+        }
+      };
     }),
 
     /**
@@ -19767,7 +20805,6 @@ define('dummy/routes/ember-flexberry-dummy-toggler-example-master-e', ['exports'
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -19837,7 +20874,6 @@ define('dummy/routes/ember-flexberry-dummy-toggler-example-master-e/new', ['expo
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -19940,7 +20976,6 @@ define('dummy/routes/integration-examples/edit-form/readonly-mode', ['exports', 
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -20019,9 +21054,9 @@ define('dummy/routes/log-service-examples/clear-log-form', ['exports'], function
   exports.default = Ember.Route.extend({
     /**
       A hook you can use to setup the controller for the current route.
-      [More info](http://emberjs.com/api/classes/Ember.Route.html#method_setupController).
+      [More info](https://www.emberjs.com/api/ember/release/classes/Route/methods/setupController?anchor=setupController).
        @method setupController
-      @param {<a href="http://emberjs.com/api/classes/Ember.Controller.html">Ember.Controller</a>} controller
+      @param {<a href="https://emberjs.com/api/ember/release/classes/Controller">Controller</a>} controller
       @param {Object} model
     */
     /* eslint-disable no-unused-vars */
@@ -20064,10 +21099,10 @@ define('dummy/routes/log-service-examples/settings-example', ['exports', 'ember-
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
-      return { FOLVSettingExample: '\n    {\n      "DEFAULT": {\n        "colsOrder": [\n        {\n          "propName": "timestamp"\n        },\n        {\n          "propName": "category"\n        },\n        {\n          "propName": "machineName"\n        },\n        {\n          "propName": "appDomainName"\n        },\n        {\n          "propName": "processId"\n        },\n        {\n          "propName": "message"\n        },\n        {\n          "propName": "processName",\n          "hide": true\n        },\n        {\n          "propName": "formattedMessage",\n          "hide": true\n        },\n        {\n          "propName": "eventId",\n          "hide": true\n        },\n        {\n          "propName": "priority",\n          "hide": true\n        },\n        {\n          "propName": "severity",\n          "hide": true\n        },\n        {\n          "propName": "title",\n          "hide": true\n        },\n        {\n          "propName": "threadName",\n          "hide": true\n        },\n        {\n          "propName": "win32ThreadId",\n          "hide": true\n        }\n        ],\n        "sorting": [\n        {\n          "propName": "timestamp",\n          "direction": "desc",\n          "sortPriority": 1\n        }\n        ]\n      },\n      "Message": {\n        "colsOrder": [\n        {\n          "propName": "timestamp"\n        },\n        {\n          "propName": "category"\n        },\n        {\n          "propName": "machineName"\n        },\n        {\n          "propName": "appDomainName"\n        },\n        {\n          "propName": "processId"\n        },\n        {\n          "propName": "message"\n        },\n        {\n          "propName": "processName",\n          "hide": true\n        },\n        {\n          "propName": "formattedMessage",\n          "hide": true\n        },\n        {\n          "propName": "eventId",\n          "hide": true\n        },\n        {\n          "propName": "priority",\n          "hide": true\n        },\n        {\n          "propName": "severity",\n          "hide": true\n        },\n        {\n          "propName": "title",\n          "hide": true\n        },\n        {\n          "propName": "threadName",\n          "hide": true\n        },\n        {\n          "propName": "win32ThreadId",\n          "hide": true\n        }\n        ],\n        "sorting": [\n        {\n          "propName": "timestamp",\n          "direction": "desc",\n          "sortPriority": 1\n        }\n        ]\n      },\n      "FormattedMessage": {\n        "colsOrder": [\n        {\n          "propName": "timestamp"\n        },\n        {\n          "propName": "category"\n        },\n        {\n          "propName": "machineName"\n        },\n        {\n          "propName": "appDomainName"\n        },\n        {\n          "propName": "processId"\n        },\n        {\n          "propName": "formattedMessage",\n          "hide": false\n        },\n        {\n          "propName": "message",\n          "hide": true\n        },\n        {\n          "propName": "processName",\n          "hide": true\n        },\n        {\n          "propName": "eventId",\n          "hide": true\n        },\n        {\n          "propName": "priority",\n          "hide": true\n        },\n        {\n          "propName": "severity",\n          "hide": true\n        },\n        {\n          "propName": "title",\n          "hide": true\n        },\n        {\n          "propName": "threadName",\n          "hide": true\n        },\n        {\n          "propName": "win32ThreadId",\n          "hide": true\n        }\n        ],\n        "sorting": [\n        {\n          "propName": "timestamp",\n          "direction": "desc",\n          "sortPriority": 1\n        }\n        ]\n      }\n    }\n    '
+      return {
+        FOLVSettingExample: '\n        {\n          "DEFAULT": {\n            "colsOrder": [\n            {\n              "propName": "timestamp"\n            },\n            {\n              "propName": "category"\n            },\n            {\n              "propName": "machineName"\n            },\n            {\n              "propName": "appDomainName"\n            },\n            {\n              "propName": "processId"\n            },\n            {\n              "propName": "message"\n            },\n            {\n              "propName": "processName",\n              "hide": true\n            },\n            {\n              "propName": "formattedMessage",\n              "hide": true\n            },\n            {\n              "propName": "eventId",\n              "hide": true\n            },\n            {\n              "propName": "priority",\n              "hide": true\n            },\n            {\n              "propName": "severity",\n              "hide": true\n            },\n            {\n              "propName": "title",\n              "hide": true\n            },\n            {\n              "propName": "threadName",\n              "hide": true\n            },\n            {\n              "propName": "win32ThreadId",\n              "hide": true\n            }\n            ],\n            "sorting": [\n            {\n              "propName": "timestamp",\n              "direction": "desc",\n              "sortPriority": 1\n            }\n            ]\n          },\n          "Message": {\n            "colsOrder": [\n            {\n              "propName": "timestamp"\n            },\n            {\n              "propName": "category"\n            },\n            {\n              "propName": "machineName"\n            },\n            {\n              "propName": "appDomainName"\n            },\n            {\n              "propName": "processId"\n            },\n            {\n              "propName": "message"\n            },\n            {\n              "propName": "processName",\n              "hide": true\n            },\n            {\n              "propName": "formattedMessage",\n              "hide": true\n            },\n            {\n              "propName": "eventId",\n              "hide": true\n            },\n            {\n              "propName": "priority",\n              "hide": true\n            },\n            {\n              "propName": "severity",\n              "hide": true\n            },\n            {\n              "propName": "title",\n              "hide": true\n            },\n            {\n              "propName": "threadName",\n              "hide": true\n            },\n            {\n              "propName": "win32ThreadId",\n              "hide": true\n            }\n            ],\n            "sorting": [\n            {\n              "propName": "timestamp",\n              "direction": "desc",\n              "sortPriority": 1\n            }\n            ]\n          },\n          "FormattedMessage": {\n            "colsOrder": [\n            {\n              "propName": "timestamp"\n            },\n            {\n              "propName": "category"\n            },\n            {\n              "propName": "machineName"\n            },\n            {\n              "propName": "appDomainName"\n            },\n            {\n              "propName": "processId"\n            },\n            {\n              "propName": "formattedMessage",\n              "hide": false\n            },\n            {\n              "propName": "message",\n              "hide": true\n            },\n            {\n              "propName": "processName",\n              "hide": true\n            },\n            {\n              "propName": "eventId",\n              "hide": true\n            },\n            {\n              "propName": "priority",\n              "hide": true\n            },\n            {\n              "propName": "severity",\n              "hide": true\n            },\n            {\n              "propName": "title",\n              "hide": true\n            },\n            {\n              "propName": "threadName",\n              "hide": true\n            },\n            {\n              "propName": "win32ThreadId",\n              "hide": true\n            }\n            ],\n            "sorting": [\n            {\n              "propName": "timestamp",\n              "direction": "desc",\n              "sortPriority": 1\n            }\n            ]\n          }\n        }\n      '
       };
     }),
 
@@ -20126,7 +21161,6 @@ define('dummy/routes/user-setting-forms/user-setting-delete', ['exports', 'ember
     <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
      @property developerUserSettings
     @type Object
-    @default {}
     */
     developerUserSettings: Ember.computed(function () {
       return {
@@ -20845,13 +21879,13 @@ define('dummy/services/perf', ['exports', 'ember-flexberry/services/perf', 'dumm
 
   exports.default = _perf.default;
 });
-define('dummy/services/store', ['exports', 'ember-data', 'ember-flexberry-data/mixins/store'], function (exports, _emberData, _store) {
+define('dummy/services/store', ['exports', 'ember-flexberry-data/stores/online-store', 'ember-flexberry-data/mixins/store'], function (exports, _onlineStore, _store) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _emberData.default.Store.reopen(_store.default);
+  exports.default = _onlineStore.default.reopen(_store.default);
 });
 define('dummy/services/syncer', ['exports', 'ember-flexberry-data/services/syncer'], function (exports, _syncer) {
   'use strict';
@@ -20918,7 +21952,7 @@ define("dummy/templates/application-with-submenu", ["exports"], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "C9dFBwbC", "block": "{\"symbols\":[],\"statements\":[[4,\"flexberry-sidebar\",null,[[\"class\"],[\"inverted vertical main menu\"]],{\"statements\":[[0,\"  \"],[6,\"a\"],[10,\"class\",\"item\"],[10,\"href\",\"https://github.com/flexberry\"],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-name.title\"],null],null],[8],[0,\"\\n    \"],[6,\"img\"],[10,\"class\",\"ui centered image\"],[10,\"src\",\"assets/images/flexberry-logo.png\"],[8],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-version.title\"],null],null],[8],[0,\"\\n    \"],[1,[26,\"t\",[\"forms.application.sitemap.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[6,\"div\"],[10,\"id\",\"example-with-submenu\"],[10,\"class\",\"pusher\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"full height\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui fixed main menu\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui container\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"launch icon item\"],[3,\"action\",[[21,0,[]],\"toggleSidebar\"]],[8],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"sidebar icon\"],[8],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui main container segment flexberry-content\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui close left rail\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"ui sticky transition visible\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"flexberry-submenu ui large violet pointing secondary vertical following fluid menu\"],[8],[0,\"\\n            \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n      \"],[1,[20,\"outlet\"],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/application-with-submenu.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Nbdctswy", "block": "{\"symbols\":[],\"statements\":[[4,\"flexberry-sidebar\",null,[[\"class\"],[\"inverted vertical main menu\"]],{\"statements\":[[0,\"  \"],[6,\"a\"],[10,\"class\",\"item\"],[10,\"href\",\"https://github.com/flexberry\"],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-name.title\"],null],null],[8],[0,\"\\n    \"],[6,\"img\"],[10,\"class\",\"ui centered image\"],[10,\"src\",\"/assets/images/flexberry-logo.png\"],[8],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-version.title\"],null],null],[8],[0,\"\\n    \"],[1,[26,\"t\",[\"forms.application.sitemap.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[6,\"div\"],[10,\"id\",\"example-with-submenu\"],[10,\"class\",\"pusher\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"full height\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui fixed main menu\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui container\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"launch icon item\"],[3,\"action\",[[21,0,[]],\"toggleSidebar\"]],[8],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"sidebar icon\"],[8],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui main container segment flexberry-content\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui close left rail\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"ui sticky transition visible\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"flexberry-submenu ui large violet pointing secondary vertical following fluid menu\"],[8],[0,\"\\n            \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n      \"],[1,[20,\"outlet\"],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/application-with-submenu.hbs" } });
 });
 define("dummy/templates/application", ["exports"], function (exports) {
   "use strict";
@@ -20926,7 +21960,7 @@ define("dummy/templates/application", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "EjyZUQpy", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[22,[\"isInAcceptanceTestMode\"]]],null,{\"statements\":[[0,\"  \"],[1,[20,\"outlet\"],false],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"flexberry-sidebar\",null,[[\"class\",\"settings\"],[\"inverted vertical main menu\",[26,\"hash\",null,[[\"closable\",\"dimPage\",\"onShow\",\"onHidden\"],[false,false,[26,\"action\",[[21,0,[]],\"updateWidth\"],null],[26,\"action\",[[21,0,[]],\"updateWidth\"],null]]]]]],{\"statements\":[[0,\"    \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-version.title\"],null],null],[8],[0,\"\\n      \"],[1,[26,\"t\",[\"forms.application.sitemap.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n    \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[6,\"div\"],[10,\"class\",\"bgw-fix\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"background-logo\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui top attached\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"ui attached menu\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"ui container flex-container\"],[8],[0,\"\\n            \"],[6,\"a\"],[10,\"class\",\"launch icon item\"],[11,\"title\",[26,\"t\",[\"forms.application.header.menu.sitemap-button.title\"],null],null],[3,\"action\",[[21,0,[]],\"toggleSidebar\"]],[8],[0,\"\\n              \"],[1,[26,\"t\",[\"forms.application.header.menu.sitemap-button.caption\"],null],false],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"sidebar icon text-menu-show\"],[8],[6,\"span\"],[10,\"class\",\"text_menu \"],[8],[1,[26,\"t\",[\"forms.application.header.menu.show-menu.caption\"],null],false],[9],[6,\"span\"],[10,\"class\",\"text_menu hidden text-menu-hide\"],[8],[1,[26,\"t\",[\"forms.application.header.menu.hide-menu.caption\"],null],false],[9],[9],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"sidebar icon hidden text-menu-hide hidden-text\"],[8],[6,\"span\"],[10,\"class\",\"text_menu hidden-text\"],[8],[1,[26,\"t\",[\"forms.application.header.menu.hide-menu.caption\"],null],false],[9],[9],[0,\"\\n            \"],[9],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n      \"],[6,\"a\"],[10,\"class\",\"item logo\"],[10,\"href\",\"https://github.com/flexberry\"],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-name.title\"],null],null],[8],[0,\"\\n        \"],[6,\"img\"],[10,\"class\",\"ui centered image\"],[10,\"src\",\"assets/images/flexberry-logo.png\"],[8],[9],[0,\"\\n      \"],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"page-header-caption\"],[8],[6,\"a\"],[10,\"href\",\"https://github.com/flexberry\"],[8],[1,[26,\"t\",[\"application-name\"],null],false],[9],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"id\",\"example\"],[10,\"class\",\"pusher\"],[8],[0,\"\\n    \"],[6,\"div\"],[11,\"class\",[27,[\"ui form \",[22,[\"objectlistviewEventsService\",\"loadingState\"]]]]],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"bgw-opacity hidden\"],[8],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"full height\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"flexberry-content ui attached segment\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"stackable grid container\"],[8],[0,\"\\n              \"],[1,[20,\"outlet\"],false],[0,\"\\n            \"],[9],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n    \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"ui vertical footer segment\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui container flex-container\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui text menu\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"brand item\"],[10,\"href\",\"#\"],[8],[0,\"\\n          \"],[1,[26,\"t\",[\"forms.application.footer.application-name\"],null],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right item\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.user-settings-service-checkbox.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-checkbox\",null,[[\"class\",\"value\"],[\"toggle\",[22,[\"userSettingsService\",\"isUserSettingsServiceEnabled\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"item lang\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.language-dropdown.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-dropdown\",null,[[\"class\",\"items\",\"value\",\"placeholder\",\"settings\"],[\"compact\",[22,[\"locales\"]],[22,[\"i18n\",\"locale\"]],[26,\"t\",[\"forms.application.header.menu.language-dropdown.placeholder\"],null],[26,\"hash\",null,[[\"direction\"],[\"upward\"]]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n          \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.footer.application-version.title\"],null],null],[8],[0,\"\\n              \"],[1,[26,\"t\",[\"forms.application.footer.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/application.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Ud/53BAs", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[22,[\"isInAcceptanceTestMode\"]]],null,{\"statements\":[[0,\"  \"],[1,[20,\"outlet\"],false],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"flexberry-sidebar\",null,[[\"class\",\"settings\"],[\"inverted vertical main menu\",[26,\"hash\",null,[[\"closable\",\"dimPage\",\"onShow\",\"onHidden\"],[false,false,[26,\"action\",[[21,0,[]],\"updateWidth\"],null],[26,\"action\",[[21,0,[]],\"updateWidth\"],null]]]]]],{\"statements\":[[0,\"    \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-version.title\"],null],null],[8],[0,\"\\n      \"],[1,[26,\"t\",[\"forms.application.sitemap.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n    \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[6,\"div\"],[10,\"class\",\"bgw-fix\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"background-logo\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui top attached\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"ui attached menu\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"ui container flex-container\"],[8],[0,\"\\n            \"],[6,\"a\"],[10,\"class\",\"launch icon item\"],[11,\"title\",[26,\"t\",[\"forms.application.header.menu.sitemap-button.title\"],null],null],[3,\"action\",[[21,0,[]],\"toggleSidebar\"]],[8],[0,\"\\n              \"],[1,[26,\"t\",[\"forms.application.header.menu.sitemap-button.caption\"],null],false],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"sidebar icon text-menu-show\"],[8],[6,\"span\"],[10,\"class\",\"text_menu \"],[8],[1,[26,\"t\",[\"forms.application.header.menu.show-menu.caption\"],null],false],[9],[6,\"span\"],[10,\"class\",\"text_menu hidden text-menu-hide\"],[8],[1,[26,\"t\",[\"forms.application.header.menu.hide-menu.caption\"],null],false],[9],[9],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"sidebar icon hidden text-menu-hide hidden-text\"],[8],[6,\"span\"],[10,\"class\",\"text_menu hidden-text\"],[8],[1,[26,\"t\",[\"forms.application.header.menu.hide-menu.caption\"],null],false],[9],[9],[0,\"\\n            \"],[9],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n      \"],[6,\"a\"],[10,\"class\",\"item logo\"],[10,\"href\",\"https://github.com/flexberry\"],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-name.title\"],null],null],[8],[0,\"\\n        \"],[6,\"img\"],[10,\"class\",\"ui centered image\"],[10,\"src\",\"/assets/images/flexberry-logo.png\"],[8],[9],[0,\"\\n      \"],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"page-header-caption\"],[8],[6,\"a\"],[10,\"href\",\"https://github.com/flexberry\"],[8],[1,[26,\"t\",[\"application-name\"],null],false],[9],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"id\",\"example\"],[10,\"class\",\"pusher\"],[8],[0,\"\\n    \"],[6,\"div\"],[11,\"class\",[27,[\"ui form \",[22,[\"objectlistviewEventsService\",\"loadingState\"]]]]],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"bgw-opacity hidden\"],[8],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"full height\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"flexberry-content ui attached segment\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"stackable grid container\"],[8],[0,\"\\n              \"],[1,[20,\"outlet\"],false],[0,\"\\n            \"],[9],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n    \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"ui vertical footer segment\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui container flex-container\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui text menu\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"brand item\"],[10,\"href\",\"#\"],[8],[0,\"\\n          \"],[1,[26,\"t\",[\"forms.application.footer.application-name\"],null],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right item\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.user-settings-service-checkbox.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-checkbox\",null,[[\"class\",\"value\"],[\"toggle\",[22,[\"userSettingsService\",\"isUserSettingsServiceEnabled\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"item lang\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.language-dropdown.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-dropdown\",null,[[\"class\",\"items\",\"value\",\"placeholder\",\"settings\"],[\"compact\",[22,[\"locales\"]],[22,[\"i18n\",\"locale\"]],[26,\"t\",[\"forms.application.header.menu.language-dropdown.placeholder\"],null],[26,\"hash\",null,[[\"direction\"],[\"upward\"]]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n          \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.footer.application-version.title\"],null],null],[8],[0,\"\\n              \"],[1,[26,\"t\",[\"forms.application.footer.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/application.hbs" } });
 });
 define("dummy/templates/colsconfig-dialog-content", ["exports"], function (exports) {
   "use strict";
@@ -20974,7 +22008,7 @@ define("dummy/templates/components-acceptance-tests/flexberry-checkbox/ember-fle
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "ESao7YZp", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-acceptance-tests/flexberry-checkbox/ember-flexberry-dummy-suggestion-list-with-checked-checkbox.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "j+bDnHok", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-acceptance-tests/flexberry-checkbox/ember-flexberry-dummy-suggestion-list-with-checked-checkbox.hbs" } });
 });
 define("dummy/templates/components-acceptance-tests/flexberry-groupedit/properly-rerenders", ["exports"], function (exports) {
   "use strict";
@@ -21056,13 +22090,21 @@ define("dummy/templates/components-acceptance-tests/flexberry-objectlistview/bas
   });
   exports.default = Ember.HTMLBars.template({ "id": "Vnz9qFrj", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\",\"rowClickable\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVSettingExampleObjectListView\",true,true,[22,[\"rowClickable\"]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-acceptance-tests/flexberry-objectlistview/base-operations.hbs" } });
 });
+define("dummy/templates/components-acceptance-tests/flexberry-objectlistview/computable-field", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "f5+XaMzw", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\",\"rowClickable\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVSettingExampleObjectListView\",true,true,[22,[\"rowClickable\"]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-acceptance-tests/flexberry-objectlistview/computable-field.hbs" } });
+});
 define("dummy/templates/components-acceptance-tests/flexberry-objectlistview/custom-filter", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "dWzWID1V", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"enableFilters\",\"filters\",\"applyFilters\",\"resetFilters\",\"componentForFilter\",\"conditionsByType\",\"filterButton\",\"filterText\",\"filterByAnyWord\",\"filterByAllWords\",\"filterByAnyMatch\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"customButtons\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,true,[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[26,\"action\",[[21,0,[]],\"componentForFilter\"],null],[26,\"action\",[[21,0,[]],\"conditionsByType\"],null],true,[22,[\"filter\"]],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",[22,[\"customButtons\"]],\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-acceptance-tests/flexberry-objectlistview/custom-filter.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "CduQ8NRY", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"enableFilters\",\"filters\",\"applyFilters\",\"resetFilters\",\"componentForFilter\",\"conditionsByType\",\"filterButton\",\"filterText\",\"filterByAnyWord\",\"filterByAllWords\",\"filterByAnyMatch\",\"beforeDeleteAllRecords\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"customButtons\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,true,[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[26,\"action\",[[21,0,[]],\"componentForFilter\"],null],[26,\"action\",[[21,0,[]],\"conditionsByType\"],null],true,[22,[\"filter\"]],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",[22,[\"customButtons\"]],\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-acceptance-tests/flexberry-objectlistview/custom-filter.hbs" } });
 });
 define("dummy/templates/components-acceptance-tests/flexberry-objectlistview/date-format", ["exports"], function (exports) {
   "use strict";
@@ -21190,7 +22232,7 @@ define("dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "hEzvEPIA", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-list-groupedit-with-lookup-with-computed-atribute.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "oC3oIvhu", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-list-groupedit-with-lookup-with-computed-atribute.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-list-readonly-columns-by-configurate-row-example", ["exports"], function (exports) {
   "use strict";
@@ -21198,7 +22240,7 @@ define("dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "S84+C7dx", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.application.sitemap.components-examples.flexberry-groupedit.readonly-columns-by-configurate-row-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-list-readonly-columns-by-configurate-row-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "bh4snfac", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.application.sitemap.components-examples.flexberry-groupedit.readonly-columns-by-configurate-row-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-list-readonly-columns-by-configurate-row-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-groupedit/model-update-example", ["exports"], function (exports) {
   "use strict";
@@ -21238,7 +22280,7 @@ define("dummy/templates/components-examples/flexberry-lookup/default-ordering-ex
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "TB2W3xAm", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.default-ordering-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"projection\",\"displayAttributeName\",\"title\",\"relationName\",\"choose\",\"remove\",\"readonly\",\"limitFunction\",\"lookupWindowCustomProperties\",\"componentName\"],[[22,[\"model\",\"type\"]],\"CustomizeLookupWindowExampleView\",\"name\",[26,\"t\",[\"forms.components-examples.flexberry-lookup.default-ordering-example.titleLookup\"],null],\"type\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],null,[26,\"action\",[[21,0,[]],\"getLookupFolvProperties\"],null],\"lookupUserSettings\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-lookup/default-ordering-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nhZLx+Q3", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.default-ordering-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"projection\",\"displayAttributeName\",\"title\",\"relationName\",\"choose\",\"remove\",\"readonly\",\"limitFunction\",\"lookupWindowCustomProperties\",\"componentName\"],[[22,[\"model\",\"type\"]],\"CustomizeLookupWindowExampleView\",\"name\",[26,\"t\",[\"forms.components-examples.flexberry-lookup.default-ordering-example.titleLookup\"],null],\"type\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],null,[26,\"action\",[[21,0,[]],\"getLookupFolvProperties\"],null],[22,[\"lookupComponentName\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-lookup/default-ordering-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-lookup/dropdown-mode-example", ["exports"], function (exports) {
   "use strict";
@@ -21270,7 +22312,7 @@ define("dummy/templates/components-examples/flexberry-lookup/limit-function-thro
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "kYISFEZ7", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"projection\",\"displayAttributeName\",\"title\",\"relationName\",\"choose\",\"remove\",\"readonly\",\"autocomplete\",\"dynamicProperties\"],[[22,[\"model\",\"type\"]],\"LookupWithLimitFunctionExampleView\",\"name\",[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-example.titleLookup\"],null],\"type\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],true,[22,[\"dynamicProperties\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"br\"],[8],[9],[0,\"\\n  \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"firstLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n    \"],[1,[26,\"concat\",[[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionFirstLimitFunction\"],null],\": \",[22,[\"firstLimitType\"]]],null],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"secondLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n    \"],[1,[26,\"concat\",[[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionSecondLimitFunction\"],null],\": \",[22,[\"secondLimitType\"]]],null],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"clearLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n    \"],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionClearLimitFunction\"],null],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-lookup/limit-function-through-dynamic-properties-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nPiIp0pC", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"projection\",\"displayAttributeName\",\"title\",\"relationName\",\"choose\",\"remove\",\"readonly\",\"autocomplete\",\"dynamicProperties\",\"lookupLimitPredicate\"],[[22,[\"model\",\"type\"]],\"LookupWithLimitFunctionExampleView\",\"name\",[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-example.titleLookup\"],null],\"type\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],true,[22,[\"dynamicProperties\"]],[22,[\"lookupCustomLimitPredicate\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"br\"],[8],[9],[0,\"\\n  \"],[6,\"button\"],[10,\"class\",\"ui button firstLimitFunction\"],[3,\"action\",[[21,0,[]],\"firstLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n    \"],[1,[26,\"concat\",[[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionFirstLimitFunction\"],null],\": \",[22,[\"firstLimitType\"]]],null],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"button\"],[10,\"class\",\"ui button secondLimitFunction\"],[3,\"action\",[[21,0,[]],\"secondLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n    \"],[1,[26,\"concat\",[[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionSecondLimitFunction\"],null],\": \",[22,[\"secondLimitType\"]]],null],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"button\"],[10,\"class\",\"ui button clearLimitFunction\"],[3,\"action\",[[21,0,[]],\"clearLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n    \"],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.limit-function-through-dynamic-properties-example.captionClearLimitFunction\"],null],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-lookup/limit-function-through-dynamic-properties-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-lookup/lookup-block-form-example", ["exports"], function (exports) {
   "use strict";
@@ -21304,13 +22346,61 @@ define("dummy/templates/components-examples/flexberry-menu/settings-example", ["
   });
   exports.default = Ember.HTMLBars.template({ "id": "8usHUwb4", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-menu.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[0,\"    \"],[6,\"div\"],[11,\"class\",[20,\"menuPosition\"],null],[8],[0,\"\\n      \"],[1,[26,\"flexberry-menu\",null,[[\"items\",\"onItemClick\",\"collapseMenuOnItemClick\"],[[22,[\"itemsLeft\"]],[26,\"action\",[[21,0,[]],\"onMenuItemClick\"],null],[22,[\"collapseMenuOnItemClick\"]]]]],false],[0,\"\\n      \"],[1,[26,\"flexberry-menu\",null,[[\"items\",\"onItemClick\",\"collapseMenuOnItemClick\"],[[22,[\"itemsRight\"]],[26,\"action\",[[21,0,[]],\"onMenuItemClick\"],null],[22,[\"collapseMenuOnItemClick\"]]]]],false],[0,\"\\n      \"],[1,[26,\"flexberry-menu\",null,[[\"items\",\"onItemClick\",\"collapseMenuOnItemClick\"],[[22,[\"itemsSubmenu\"]],[26,\"action\",[[21,0,[]],\"onMenuItemClick\"],null],[22,[\"collapseMenuOnItemClick\"]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-menu/settings-example.hbs" } });
 });
+define("dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "8LlV4pei", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"beforeDeleteRecord\",\"beforeDeleteAllRecords\",\"showDeleteButtonInRow\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",[26,\"action\",[[21,0,[]],\"beforeDeleteRecord\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "RVrptCsY", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"beforeDeleteRecord\",\"beforeDeleteAllRecords\",\"showDeleteButtonInRow\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",[26,\"action\",[[21,0,[]],\"beforeDeleteRecord\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "SI5s6Hr+", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"beforeDeleteRecord\",\"beforeDeleteAllRecords\",\"showDeleteButtonInRow\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",[26,\"action\",[[21,0,[]],\"beforeDeleteRecord\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "r4hgogHY", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"beforeDeleteRecord\",\"beforeDeleteAllRecords\",\"showDeleteButtonInRow\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",[26,\"action\",[[21,0,[]],\"beforeDeleteRecord\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "/dP8VdCK", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"beforeDeleteRecord\",\"beforeDeleteAllRecords\",\"showDeleteButtonInRow\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",[26,\"action\",[[21,0,[]],\"beforeDeleteRecord\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "hvwsy+q/", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"beforeDeleteRecord\",\"beforeDeleteAllRecords\",\"showDeleteButtonInRow\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",[26,\"action\",[[21,0,[]],\"beforeDeleteRecord\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.hbs" } });
+});
 define("dummy/templates/components-examples/flexberry-objectlistview/configurate-rows", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "qnr+Tyl9", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.configurate-rows.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"changeAttribute2\"]],[8],[0,\"Change attribute 2\"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[0,\"      \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"editFormRoute\",\"modelProjection\",\"filterByAnyMatch\",\"refreshButton\",\"filterText\",\"sorting\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"configurateRow\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",\"ember-flexberry-dummy-suggestion-edit\",[22,[\"projection\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],true,[22,[\"filter\"]],[22,[\"computedSorting\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[26,\"action\",[[21,0,[]],\"configurateRow\"],null],\"FOLVConfigurateRowsObjectListView\"]]],false],[0,\"\\n      \"],[1,[26,\"flexberry-groupedit\",null,[[\"componentName\",\"content\",\"modelProjection\",\"placeholder\",\"readonly\",\"allowColumnResize\",\"createNewButton\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"rowClickable\",\"immediateDelete\",\"editOnSeperateRoute\",\"searchForContentChange\",\"orderable\",\"readonly\",\"configurateRow\"],[\"ConfigurateRowsGroupedit\",[22,[\"model\"]],[22,[\"projection\"]],[22,[\"placeholder\"]],[22,[\"readonly\"]],false,true,true,true,false,false,false,[22,[\"searchForContentChange\"]],false,[22,[\"readonly\"]],[26,\"action\",[[21,0,[]],\"configurateRow\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/configurate-rows.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "bJ1dsKjz", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.configurate-rows.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"changeAttribute2\"]],[8],[0,\"Change attribute 2\"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[0,\"      \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"editFormRoute\",\"modelProjection\",\"filterByAnyMatch\",\"refreshButton\",\"filterText\",\"sorting\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"configurateRow\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",\"ember-flexberry-dummy-suggestion-edit\",[22,[\"projection\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],true,[22,[\"filter\"]],[22,[\"computedSorting\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[26,\"action\",[[21,0,[]],\"configurateRow\"],null],\"FOLVConfigurateRowsObjectListView\"]]],false],[0,\"\\n      \"],[1,[26,\"flexberry-groupedit\",null,[[\"componentName\",\"content\",\"modelProjection\",\"placeholder\",\"readonly\",\"allowColumnResize\",\"createNewButton\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"rowClickable\",\"immediateDelete\",\"editOnSeperateRoute\",\"searchForContentChange\",\"orderable\",\"readonly\",\"configurateRow\"],[\"ConfigurateRowsGroupedit\",[22,[\"model\"]],[22,[\"projection\"]],[22,[\"placeholder\"]],[22,[\"readonly\"]],false,true,true,true,false,false,false,[22,[\"searchForContentChange\"]],false,[22,[\"readonly\"]],[26,\"action\",[[21,0,[]],\"configurateRow\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/configurate-rows.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/custom-filter", ["exports"], function (exports) {
   "use strict";
@@ -21318,7 +22408,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/custom-filt
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "iIZWTPoJ", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"enableFilters\",\"filters\",\"applyFilters\",\"resetFilters\",\"componentForFilter\",\"conditionsByType\",\"filterButton\",\"filterText\",\"filterByAnyWord\",\"filterByAllWords\",\"filterByAnyMatch\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"customButtons\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,true,[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[26,\"action\",[[21,0,[]],\"componentForFilter\"],null],[26,\"action\",[[21,0,[]],\"conditionsByType\"],null],true,[22,[\"filter\"]],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",[22,[\"customButtons\"]],\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/custom-filter.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "W/3RFgxa", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.custom-filter.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"enableFilters\",\"filters\",\"applyFilters\",\"resetFilters\",\"componentForFilter\",\"conditionsByType\",\"filterButton\",\"filterText\",\"filterByAnyWord\",\"filterByAllWords\",\"filterByAnyMatch\",\"beforeDeleteAllRecords\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"colsConfigButton\",\"componentName\",\"customButtons\",\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",\"showCheckBoxInRow\",\"deleteButton\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,true,[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[26,\"action\",[[21,0,[]],\"componentForFilter\"],null],[26,\"action\",[[21,0,[]],\"conditionsByType\"],null],true,[22,[\"filter\"]],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],false,\"FOLVCustomFilterObjectListView\",[22,[\"customButtons\"]],\"toggleFilterByAnyWord\",\"toggleFilterByAllWords\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/custom-filter.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/downloading-files-from-olv-edit", ["exports"], function (exports) {
   "use strict";
@@ -21334,7 +22424,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/downloading
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "T9ujxZaR", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.downloading-files-from-olv-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"refreshButton\",\"sorting\",\"rowClickable\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-file\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,[22,[\"computedSorting\"]],true,true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"DownloadingFilesFromOLV\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/downloading-files-from-olv-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "RMQTdAeq", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.downloading-files-from-olv-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"refreshButton\",\"sorting\",\"rowClickable\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-file\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,[22,[\"computedSorting\"]],true,true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"DownloadingFilesFromOLV\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/downloading-files-from-olv-list.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/edit-form-with-detail-edit", ["exports"], function (exports) {
   "use strict";
@@ -21350,7 +22440,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/edit-form-w
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "JVrSAgTf", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-type-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showCheckBoxInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"showDeleteButtonInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"suggestionTypeLocalizedTypesObjectListView\",true,true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/edit-form-with-detail-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "mPhYQ4uc", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-type-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showCheckBoxInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"showDeleteButtonInRow\",\"beforeDeleteAllRecords\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"suggestionTypeLocalizedTypesObjectListView\",true,true,true,true,[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null]]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/edit-form-with-detail-list.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/edit-form-with-detail-list/loading", ["exports"], function (exports) {
   "use strict";
@@ -21366,7 +22456,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/hierarchy-e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "MbHp+Gr6", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.hierarchy-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"orderable\",\"showShowingEntries\",\"componentName\",\"colsConfigButton\",\"disableHierarchicalMode\",\"showCheckBoxInRow\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"_availableCollExpandMode\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,false,\"HiearchyExampleObjectListView\",false,false,true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],true]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/hierarchy-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "qsnb7bTl", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.hierarchy-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"orderable\",\"showShowingEntries\",\"componentName\",\"beforeDeleteAllRecords\",\"colsConfigButton\",\"disableHierarchicalMode\",\"showCheckBoxInRow\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"_availableCollExpandMode\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,false,\"HiearchyExampleObjectListView\",[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],false,false,true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],true]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/hierarchy-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/inheritance-models", ["exports"], function (exports) {
   "use strict";
@@ -21390,7 +22480,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/inheritance
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "FAoLUZae", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.inheritance-models.buttonRoot\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-parent\",\"parentL\",[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"OLVInheritanceModels\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/parent-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "F5vodCZ/", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.inheritance-models.buttonRoot\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-parent\",\"parentL\",[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"OLVInheritanceModels\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/parent-list.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/successor-phone-edit", ["exports"], function (exports) {
   "use strict";
@@ -21406,7 +22496,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/inheritance
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "wc5ZMUKG", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.inheritance-models.buttonSuccessorPhone\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-successor-phone\",\"SuccessorL\",[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"OLVInheritanceModels\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/successor-phone-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "DSbAMs/O", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.inheritance-models.buttonSuccessorPhone\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-successor-phone\",\"SuccessorL\",[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"OLVInheritanceModels\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/successor-phone-list.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/successor-social-network-edit", ["exports"], function (exports) {
   "use strict";
@@ -21422,7 +22512,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/inheritance
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "h27TZiOO", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.inheritance-models.buttonSuccessorSoc\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-successor-social-network\",\"SuccessorL\",[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"OLVInheritanceModels\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/successor-social-network-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "p7+mPU/o", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.inheritance-models.buttonSuccessorSoc\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-successor-social-network\",\"SuccessorL\",[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"OLVInheritanceModels\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/inheritance-models/successor-social-network-list.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/limit-function-example", ["exports"], function (exports) {
   "use strict";
@@ -21431,6 +22521,22 @@ define("dummy/templates/components-examples/flexberry-objectlistview/limit-funct
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "+Oi2LG5R", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.limit-function-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[1,[26,\"flexberry-objectlistview\",null,[[\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"rowClickable\",\"filterByAnyMatch\",\"filterText\",\"filterButton\",\"refreshButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,false,false,false,false,false,[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"filter\"]],true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVLimitFunctionExampleObjectListView\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"br\"],[8],[9],[0,\"\\n\"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"firstLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n  \"],[1,[26,\"concat\",[[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.limit-function-example.captionFirstLimitFunction\"],null],\": \",[22,[\"firstLimitType\"]]],null],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"secondLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n  \"],[1,[26,\"concat\",[[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.limit-function-example.captionSecondLimitFunction\"],null],\": \",[22,[\"secondLimitType\"]]],null],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"clearLimitFunction\"],[[\"on\"],[\"click\"]]],[8],[0,\"\\n  \"],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.limit-function-example.captionClearLimitFunction\"],null],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/limit-function-example.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/lock-services-editor-view-edit", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "HwllC8gw", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[22,[\"blockedByUser\"]]],null,{\"statements\":[[0,\"  \"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.lock-services-editor-view.blocked-by\"],null],false],[0,\": \"],[1,[20,\"blockedByUser\"],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"sixteen wide\"],[8],[0,\"\\n      \"],[1,[26,\"flexberry-validationsummary\",null,[[\"errors\"],[[22,[\"model\",\"errors\"]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"flexberry-edit-panel\"],[8],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[4,\"unless\",[[26,\"and\",[[22,[\"hasParentRoute\"]],[26,\"not\",[[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"save\"]],[8],[1,[26,\"t\",[\"forms.edit-form.save-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[26,\"and\",[[22,[\"hasParentRoute\"]],[26,\"not\",[[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-close-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"saveAndClose\"]],[8],[1,[26,\"t\",[\"forms.edit-form.saveAndClose-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[26,\"and\",[[22,[\"model\",\"isNew\"]],[26,\"or\",[[26,\"not\",[[22,[\"hasParentRoute\"]]],null],[26,\"and\",[[22,[\"hasParentRoute\"]],[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-del-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"delete\"]],[8],[1,[26,\"t\",[\"forms.edit-form.delete-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"      \"],[6,\"button\"],[10,\"class\",\"ui button close-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"close\"]],[8],[1,[26,\"t\",[\"forms.edit-form.close-button-text\"],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"address\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[1,[26,\"flexberry-field\",null,[[\"value\",\"label\",\"readonly\"],[[22,[\"model\",\"address\"]],[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.address-caption\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"address\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"text\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[1,[26,\"flexberry-field\",null,[[\"value\",\"label\",\"readonly\"],[[22,[\"model\",\"text\"]],[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.text-caption\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"text\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"date\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.date-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-simpledatetime\",null,[[\"type\",\"value\",\"readonly\"],[\"date\",[22,[\"model\",\"date\"]],[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"date\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"votes\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[1,[26,\"flexberry-field\",null,[[\"value\",\"label\",\"readonly\"],[[22,[\"model\",\"votes\"]],[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.votes-caption\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"votes\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"moderated\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.moderated-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-checkbox\",null,[[\"value\",\"readonly\"],[[22,[\"model\",\"moderated\"]],[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"moderated\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"type\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.type-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relatedModel\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"choose\",\"remove\",\"dropdown\",\"readonly\",\"direction\",\"componentName\"],[[22,[\"model\",\"type\"]],[22,[\"model\"]],\"type\",\"SuggestionTypeL\",\"name\",[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.type-caption\"],null],[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],true,[22,[\"readonly\"]],\"upward\",\"SuggestionEditType\"]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"type\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"author\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.author-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relatedModel\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"choose\",\"remove\",\"readonly\",\"componentName\"],[[22,[\"model\",\"author\"]],[22,[\"model\"]],\"author\",\"ApplicationUserL\",\"name\",[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.author-caption\"],null],[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],\"SuggestionEditAuthor\"]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"author\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"editor1\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.editor1-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relatedModel\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"choose\",\"remove\",\"readonly\",\"componentName\"],[[22,[\"model\",\"editor1\"]],[22,[\"model\"]],\"editor1\",\"ApplicationUserL\",\"name\",[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.editor1-caption\"],null],[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],\"SuggestionEditEditor1\"]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"editor1\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"files\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.files-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-groupedit\",null,[[\"componentName\",\"content\",\"mainModelProjection\",\"modelProjection\",\"orderable\",\"readonly\"],[\"filesGroupEdit\",[22,[\"model\",\"files\"]],[22,[\"modelProjection\"]],[22,[\"modelProjection\",\"attributes\",\"files\"]],true,[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"files\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"userVotes\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.userVotes-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-groupedit\",null,[[\"componentName\",\"content\",\"mainModelProjection\",\"modelProjection\",\"orderable\",\"readonly\"],[\"suggestionUserVotesGroupEdit\",[22,[\"model\",\"userVotes\"]],[22,[\"modelProjection\"]],[22,[\"modelProjection\",\"attributes\",\"userVotes\"]],true,[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"userVotes\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"field \",[26,\"if\",[[22,[\"model\",\"errors\",\"comments\"]],\"error\",\"\"],null]]]],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-edit.comments-caption\"],null],false],[9],[0,\"\\n    \"],[1,[26,\"flexberry-groupedit\",null,[[\"componentName\",\"content\",\"mainModelProjection\",\"modelProjection\",\"rowClickable\",\"rowClick\",\"editOnSeparateRoute\",\"editFormRoute\",\"saveBeforeRouteLeave\",\"orderable\",\"readonly\"],[\"suggestionCommentsGroupEdit\",[22,[\"model\",\"comments\"]],[22,[\"modelProjection\"]],[22,[\"modelProjection\",\"attributes\",\"comments\"]],true,\"rowClick\",true,[22,[\"commentsEditRoute\"]],true,true,[22,[\"readonly\"]]]]],false],[0,\"\\n    \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\",\"pointing\"],[[22,[\"model\",\"errors\",\"comments\"]],\"pointing\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.hbs" } });
+});
+define("dummy/templates/components-examples/flexberry-objectlistview/lock-services-editor-view-list", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "p/OTCibX", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/lock-services-editor-view-list.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/object-list-view-resize", ["exports"], function (exports) {
   "use strict";
@@ -21446,7 +22552,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/on-edit-for
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Qxrv9hg3", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-application-user\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVOnEditFormObjectListView\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/on-edit-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "z+CrTUfp", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-application-user\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVOnEditFormObjectListView\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/on-edit-form.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/on-edit-form/user", ["exports"], function (exports) {
   "use strict";
@@ -21454,7 +22560,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/on-edit-for
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "MkF4mkRg", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"flexberry-edit-panel\"],[8],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[4,\"unless\",[[26,\"and\",[[22,[\"hasParentRoute\"]],[26,\"not\",[[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"save\"]],[8],[1,[26,\"t\",[\"forms.edit-form.save-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[26,\"and\",[[22,[\"hasParentRoute\"]],[26,\"not\",[[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-close-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"saveAndClose\"]],[8],[1,[26,\"t\",[\"forms.edit-form.saveAndClose-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[26,\"and\",[[22,[\"model\",\"isNew\"]],[26,\"or\",[[26,\"not\",[[22,[\"hasParentRoute\"]]],null],[26,\"and\",[[22,[\"hasParentRoute\"]],[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-del-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"delete\"]],[8],[1,[26,\"t\",[\"forms.edit-form.delete-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"      \"],[6,\"button\"],[10,\"class\",\"ui button close-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"close\"]],[8],[1,[26,\"t\",[\"forms.edit-form.close-button-text\"],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"name\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"name\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"name\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"name\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.name-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"eMail\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"eMail\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"eMail\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"eMail\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.eMail-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"phone1\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"phone1\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"phone1\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"phone1\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.phone1-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"phone2\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"phone2\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"phone2\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"phone2\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.phone2-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"phone3\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"phone3\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"phone3\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"phone3\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.phone3-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.activated-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"activated\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"activated\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"value\"],[[22,[\"readonly\"]],[22,[\"model\",\"activated\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"vK\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"vK\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"vK\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"vK\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.vK-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"facebook\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"facebook\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"facebook\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"facebook\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.facebook-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"twitter\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"twitter\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"twitter\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"twitter\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.twitter-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.birthday-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"birthday\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"birthday\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-simpledatetime\",null,[[\"type\",\"readonly\",\"value\",\"class\"],[\"date\",[22,[\"readonly\"]],[22,[\"model\",\"birthday\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"birthday\"],null],\"isInvalid\"],null],\"error\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.gender-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"gender\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"gender\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-dropdown\",null,[[\"items\",\"value\",\"readonly\"],[[26,\"flexberry-enum\",[\"ember-flexberry-dummy-gender\"],null],[22,[\"model\",\"gender\"]],[22,[\"readonly\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.vip-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"vip\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"vip\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"value\"],[[22,[\"readonly\"]],[22,[\"model\",\"vip\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"karma\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"karma\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"karma\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"karma\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.karma-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"hr\"],[8],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.on-edit-form.caption\"],null],false],[0,\":\"],[9],[0,\"\\n    \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"onEditForm\",\"editFormRoute\",\"modelProjection\",\"rowClickable\",\"refreshButton\",\"colsConfigButton\",\"filters\",\"applyFilters\",\"resetFilters\",\"componentForFilter\",\"conditionsByType\",\"filterButton\",\"filterText\",\"filterByAnyMatch\",\"filterByAllWords\",\"showShowingEntries\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"userButtonAddAction\",\"disableHierarchicalMode\",\"hierarchicalIndent\",\"componentName\"],[[22,[\"customFolvContent\"]],[22,[\"folvModelName\"]],true,[22,[\"folvEditFormRoute\"]],[22,[\"folvProjection\"]],true,true,false,[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[26,\"action\",[[21,0,[]],\"componentForFilter\"],null],[26,\"action\",[[21,0,[]],\"conditionsByType\"],null],true,[22,[\"filter\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],true,false,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"customButtons\"]],\"userButtonAddAction\",false,50,\"FOLVOnEditFormSuggestionsObjectListView\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/on-edit-form/user.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "2HXs9QWV", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"flexberry-edit-panel\"],[8],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[4,\"unless\",[[26,\"and\",[[22,[\"hasParentRoute\"]],[26,\"not\",[[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"save\"]],[8],[1,[26,\"t\",[\"forms.edit-form.save-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[26,\"and\",[[22,[\"hasParentRoute\"]],[26,\"not\",[[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-close-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"saveAndClose\"]],[8],[1,[26,\"t\",[\"forms.edit-form.saveAndClose-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[26,\"and\",[[22,[\"model\",\"isNew\"]],[26,\"or\",[[26,\"not\",[[22,[\"hasParentRoute\"]]],null],[26,\"and\",[[22,[\"hasParentRoute\"]],[22,[\"saveBeforeRouteLeave\"]]],null]],null]],null]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[10,\"class\",\"ui button save-del-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"delete\"]],[8],[1,[26,\"t\",[\"forms.edit-form.delete-button-text\"],null],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"      \"],[6,\"button\"],[10,\"class\",\"ui button close-button\"],[10,\"type\",\"submit\"],[3,\"action\",[[21,0,[]],\"close\"]],[8],[1,[26,\"t\",[\"forms.edit-form.close-button-text\"],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"name\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"name\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"name\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"name\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.name-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"eMail\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"eMail\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"eMail\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"eMail\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.eMail-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"phone1\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"phone1\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"phone1\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"phone1\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.phone1-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"phone2\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"phone2\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"phone2\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"phone2\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.phone2-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"phone3\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"phone3\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"phone3\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"phone3\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.phone3-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.activated-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"activated\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"activated\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"value\"],[[22,[\"readonly\"]],[22,[\"model\",\"activated\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"vK\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"vK\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"vK\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"vK\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.vK-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"facebook\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"facebook\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"facebook\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"facebook\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.facebook-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"twitter\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"twitter\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"twitter\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"twitter\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.twitter-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.birthday-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"birthday\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"birthday\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-simpledatetime\",null,[[\"type\",\"readonly\",\"value\",\"class\"],[\"date\",[22,[\"readonly\"]],[22,[\"model\",\"birthday\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"birthday\"],null],\"isInvalid\"],null],\"error\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.gender-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"gender\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"gender\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-dropdown\",null,[[\"items\",\"value\",\"readonly\"],[[26,\"flexberry-enum\",[\"ember-flexberry-dummy-gender\"],null],[22,[\"model\",\"gender\"]],[22,[\"readonly\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.vip-caption\"],null],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"vip\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"vip\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"value\"],[[22,[\"readonly\"]],[22,[\"model\",\"vip\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"errors\",\"karma\"]]],null,{\"statements\":[[0,\"      \"],[6,\"span\"],[10,\"style\",\"color:red\"],[8],[1,[22,[\"model\",\"errors\",\"karma\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[26,\"flexberry-field\",null,[[\"readonly\",\"required\",\"value\",\"class\",\"label\"],[[22,[\"readonly\"]],true,[22,[\"model\",\"karma\"]],[26,\"if\",[[26,\"get\",[[26,\"get\",[[22,[\"validationObject\",\"validations\",\"attrs\"]],\"karma\"],null],\"isInvalid\"],null],\"error\"],null],[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-edit.karma-caption\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"hr\"],[8],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.on-edit-form.caption\"],null],false],[0,\":\"],[9],[0,\"\\n    \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"onEditForm\",\"editFormRoute\",\"modelProjection\",\"rowClickable\",\"refreshButton\",\"colsConfigButton\",\"filters\",\"applyFilters\",\"resetFilters\",\"componentForFilter\",\"conditionsByType\",\"filterButton\",\"filterText\",\"filterByAnyMatch\",\"filterByAllWords\",\"showShowingEntries\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"userButtonAddAction\",\"disableHierarchicalMode\",\"hierarchicalIndent\",\"componentName\"],[[22,[\"customFolvContent\"]],[22,[\"folvModelName\"]],true,[22,[\"folvEditFormRoute\"]],[22,[\"folvProjection\"]],true,true,false,[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[26,\"action\",[[21,0,[]],\"componentForFilter\"],null],[26,\"action\",[[21,0,[]],\"conditionsByType\"],null],true,[22,[\"filter\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],true,false,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"customButtons\"]],\"userButtonAddAction\",false,50,\"FOLVOnEditFormSuggestionsObjectListView\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/on-edit-form/user.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/selected-rows", ["exports"], function (exports) {
   "use strict";
@@ -21462,7 +22568,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/selected-ro
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "2cx7mUAC", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.selected-rows.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"inline field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[0,\"Count selected row:\"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui teal label\"],[8],[1,[20,\"countSelectedRows\"],false],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"orderable\",\"showShowingEntries\",\"componentName\",\"colsConfigButton\",\"disableHierarchicalMode\",\"showCheckBoxInRow\",\"configurateSelectedRows\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,false,\"suggestionTypeLocalizedTypesObjectListView\",false,true,true,[26,\"action\",[[21,0,[]],\"configurateSelectedRows\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/selected-rows.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "p0bqFb6g", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.selected-rows.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"inline field\"],[8],[0,\"\\n    \"],[6,\"label\"],[8],[0,\"Count selected row:\"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui teal label\"],[8],[1,[20,\"countSelectedRows\"],false],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"orderable\",\"showShowingEntries\",\"componentName\",\"colsConfigButton\",\"disableHierarchicalMode\",\"showCheckBoxInRow\",\"configurateSelectedRows\",\"beforeDeleteAllRecords\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,false,[22,[\"componentName\"]],false,true,true,[26,\"action\",[[21,0,[]],\"configurateSelectedRows\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null]]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/selected-rows.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/settings-example", ["exports"], function (exports) {
   "use strict";
@@ -21470,7 +22576,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/settings-ex
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "SkbK6QN8", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[0,\"      \"],[1,[26,\"flexberry-objectlistview\",null,[[\"colsConfigButton\",\"exportExcelButton\",\"content\",\"modelName\",\"editFormRoute\",\"modelProjection\",\"placeholder\",\"readonly\",\"tableStriped\",\"allowColumnResize\",\"minAutoColumnWidth\",\"columnsWidthAutoresize\",\"createNewButton\",\"deleteButton\",\"refreshButton\",\"enableFilters\",\"filters\",\"applyFilters\",\"resetFilters\",\"filterButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"rowClickable\",\"orderable\",\"singleColumnHeaderTitle\",\"filterByAnyMatch\",\"filterText\",\"filterByAnyWord\",\"filterByAllWords\",\"sorting\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"_availableHierarchicalMode\",\"_availableCollExpandMode\",\"disableHierarchicalMode\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"colsConfigButton\"]],[22,[\"exportExcelButton\"]],[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",\"ember-flexberry-dummy-suggestion-edit\",[22,[\"projection\"]],[22,[\"placeholder\"]],[22,[\"readonly\"]],[22,[\"tableStriped\"]],[22,[\"allowColumnResize\"]],[22,[\"minAutoColumnWidth\"]],[22,[\"columnsWidthAutoresize\"]],[22,[\"createNewButton\"]],[22,[\"deleteButton\"]],[22,[\"refreshButton\"]],[22,[\"enableFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[22,[\"filterButton\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[22,[\"rowClickable\"]],[22,[\"orderable\"]],[22,[\"singleColumnHeaderTitle\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"filter\"]],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[22,[\"computedSorting\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"availableHierarchicalMode\"]],[22,[\"availableCollExpandMode\"]],false,[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVSettingsExampleObjectListView\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/settings-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "k0tZQ/bt", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[0,\"      \"],[1,[26,\"flexberry-objectlistview\",null,[[\"colsConfigButton\",\"exportExcelButton\",\"content\",\"modelName\",\"editFormRoute\",\"modelProjection\",\"placeholder\",\"readonly\",\"tableStriped\",\"allowColumnResize\",\"minAutoColumnWidth\",\"columnsWidthAutoresize\",\"createNewButton\",\"deleteButton\",\"refreshButton\",\"enableFilters\",\"filters\",\"applyFilters\",\"resetFilters\",\"filterButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"rowClickable\",\"orderable\",\"singleColumnHeaderTitle\",\"filterByAnyMatch\",\"filterText\",\"filterByAnyWord\",\"filterByAllWords\",\"sorting\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"_availableHierarchicalMode\",\"_availableCollExpandMode\",\"disableHierarchicalMode\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"colsConfigButton\"]],[22,[\"exportExcelButton\"]],[22,[\"model\"]],\"ember-flexberry-dummy-suggestion\",\"ember-flexberry-dummy-suggestion-edit\",[22,[\"projection\"]],[22,[\"placeholder\"]],[22,[\"readonly\"]],[22,[\"tableStriped\"]],[22,[\"allowColumnResize\"]],[22,[\"minAutoColumnWidth\"]],[22,[\"columnsWidthAutoresize\"]],[22,[\"createNewButton\"]],[22,[\"deleteButton\"]],[22,[\"refreshButton\"]],[22,[\"enableFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[22,[\"filterButton\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[22,[\"rowClickable\"]],[22,[\"orderable\"]],[22,[\"singleColumnHeaderTitle\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"filter\"]],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[22,[\"computedSorting\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"availableHierarchicalMode\"]],[22,[\"availableCollExpandMode\"]],false,[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"FOLVSettingsExampleObjectListView\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/settings-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-objectlistview/toolbar-custom-buttons-example", ["exports"], function (exports) {
   "use strict";
@@ -21478,7 +22584,7 @@ define("dummy/templates/components-examples/flexberry-objectlistview/toolbar-cus
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "K/APWg6J", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[1,[26,\"flexberry-objectlistview\",null,[[\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"rowClickable\",\"refreshButton\",\"colsConfigButton\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"userButtonActionTest\",\"componentName\"],[\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,false,false,false,false,false,false,false,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"customButtons\"]],\"userButtonActionTest\",\"FOLVToolbarCustomButtonsExample\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[1,[20,\"messageForUser\"],false],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/toolbar-custom-buttons-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ZdlrE1Cu", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[1,[26,\"flexberry-objectlistview\",null,[[\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"rowClickable\",\"refreshButton\",\"colsConfigButton\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"userButtonActionTest\",\"customButtonsInRow\",\"userButtonInRowActionTest\",\"componentName\"],[\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],false,false,false,false,false,false,false,false,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"customButtons\"]],[26,\"action\",[[21,0,[]],\"userButtonActionTest\"],null],[22,[\"customButtonsInRow\"]],[26,\"action\",[[21,0,[]],\"userButtonInRowActionTest\"],null],\"FOLVToolbarCustomButtonsExample\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[1,[20,\"messageForUser\"],false],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-objectlistview/toolbar-custom-buttons-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-simpledatetime/settings-example", ["exports"], function (exports) {
   "use strict";
@@ -21510,7 +22616,7 @@ define("dummy/templates/components-examples/flexberry-toggler/ge-into-toggler-ex
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "+Q8nT4up", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-toggler.ge-into-toggler-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-toggler-example-master\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-toggler/ge-into-toggler-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "GQ2zgjUa", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-toggler.ge-into-toggler-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-toggler-example-master\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-toggler/ge-into-toggler-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-toggler/settings-example", ["exports"], function (exports) {
   "use strict";
@@ -21518,7 +22624,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "XLUR1r6c", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-toggler.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\",\"expandedCaption\",\"collapsedCaption\",\"expanded\",\"iconClass\"],[[22,[\"caption\"]],[22,[\"expandedCaption\"]],[22,[\"collapsedCaption\"]],[22,[\"expanded\"]],[22,[\"iconClass\"]]]],{\"statements\":[[0,\"        \"],[1,[26,\"t\",[\"forms.components-examples.flexberry-toggler.settings-example.togglerContent\"],null],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Q8PgUgpq", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-toggler.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n\"],[4,\"settings-example\",null,[[\"controllerProperties\",\"componentSettingsMetadata\",\"componentTemplateText\"],[[21,0,[]],[22,[\"componentSettingsMetadata\"]],[22,[\"componentTemplateText\"]]]],{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\",\"expandedCaption\",\"collapsedCaption\",\"expanded\",\"iconClass\",\"componentName\"],[[22,[\"caption\"]],[22,[\"expandedCaption\"]],[22,[\"collapsedCaption\"]],[22,[\"expanded\"]],[22,[\"iconClass\"]],\"myToggler\"]],{\"statements\":[[0,\"        \"],[1,[26,\"t\",[\"forms.components-examples.flexberry-toggler.settings-example.togglerContent\"],null],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-tree/settings-example", ["exports"], function (exports) {
   "use strict";
@@ -21542,7 +22648,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "t/TgNVcD", "block": "{\"symbols\":[\"colDesc\",\"n\"],\"statements\":[[6,\"div\"],[11,\"class\",[27,[\"ui form \",[22,[\"objectlistviewEventsService\",\"loadingState\"]]]]],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"flexberry-colsconfig content\"],[8],[0,\"\\n      \"],[6,\"table\"],[10,\"class\",\"ui unstackable fixed selectable celled table\"],[8],[6,\"thead\"],[8],[6,\"tr\"],[8],[6,\"th\"],[10,\"class\",\"show-columns\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.dont-show-columns\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large hide icon\"],[8],[9],[9],[6,\"th\"],[10,\"class\",\"columns-order\"],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large sort icon\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.columns-order\"],null]]]],[8],[9],[9],[6,\"th\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.column-name\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[1,[26,\"t\",[\"components.colsconfig-dialog-content.column-name\"],null],false],[9],[6,\"th\"],[10,\"class\",\"sort-direction\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.sort-direction\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"nobr\"],[8],[6,\"i\"],[10,\"class\",\"large sort content ascending icon\"],[8],[9],[6,\"i\"],[10,\"class\",\"large sort content descending icon\"],[8],[9],[9],[9],[6,\"th\"],[10,\"class\",\"sort-priority\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.sort-priority\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large ordered list icon\"],[8],[9],[9],[6,\"th\"],[10,\"class\",\"column-width\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.column-width\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large text width icon\"],[8],[9],[9],[9],[9],[6,\"tbody\"],[10,\"id\",\"colsConfigtableRows\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"modelForDOM\"]]],null,{\"statements\":[[0,\"          \"],[6,\"tr\"],[11,\"id\",[27,[[21,1,[\"trId\"]]]]],[11,\"propName\",[27,[[21,1,[\"propName\"]]]]],[8],[6,\"td\"],[8],[6,\"i\"],[11,\"id\",[27,[[21,1,[\"hideId\"]]]]],[11,\"class\",[27,[\"large \",[26,\"if\",[[21,1,[\"hide\"]],\"hide\",\"unhide\"],null],\" icon\"]]],[10,\"colsConfigHidden\",\"false\"],[10,\"style\",\"cursor:pointer\"],[3,\"action\",[[21,0,[]],\"invertVisibility\",[21,2,[]]]],[8],[9],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n              \"],[6,\"button\"],[11,\"id\",[27,[[21,1,[\"rowUpId\"]]]]],[10,\"class\",\"ui icon tiny button\"],[3,\"action\",[[21,0,[]],\"rowUp\",[21,2,[]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"chevron up icon\"],[8],[9],[0,\"\\n              \"],[9],[6,\"button\"],[11,\"id\",[27,[[21,1,[\"rowDownId\"]]]]],[10,\"class\",\"ui icon tiny button no-margin\"],[3,\"action\",[[21,0,[]],\"rowDown\",[21,2,[]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"chevron down icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[1,[21,1,[\"name\"]],false],[9],[6,\"td\"],[10,\"class\",\"sort-direction-cell\"],[8],[6,\"select\"],[11,\"class\",[27,[\"ui compact dropdown selection sort-direction-dropdown \",[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null],\" \",[26,\"if\",[[21,1,[\"isHasMany\"]],\"hidden\",\"\"],null]]]],[11,\"id\",[27,[[21,1,[\"sortOrderId\"]]]]],[11,\"name\",[27,[\"sortorder[\",[21,1,[\"name\"]],\"]\"]]],[3,\"action\",[[21,0,[]],\"setSortOrder\",[21,2,[]]],[[\"on\"],[\"change\"]]],[8],[0,\"\\n                \"],[6,\"option\"],[11,\"selected\",[27,[[21,1,[\"sortOrderNot\"]]]]],[10,\"value\",\"0\"],[8],[0,\"-\"],[9],[0,\"\\n                \"],[6,\"option\"],[11,\"selected\",[27,[[21,1,[\"sortOrderAsc\"]]]]],[10,\"value\",\"1\"],[8],[0,\"▲\"],[9],[0,\"\\n                \"],[6,\"option\"],[11,\"selected\",[27,[[21,1,[\"sortOrderDesc\"]]]]],[10,\"value\",\"-1\"],[8],[0,\"▼\"],[9],[0,\"\\n              \"],[9],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n              \"],[6,\"div\"],[11,\"class\",[27,[\"ui input \",[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n                \"],[6,\"input\"],[11,\"id\",[27,[[21,1,[\"sortPriorityId\"]]]]],[10,\"size\",\"2\"],[11,\"class\",[27,[\"sortPriority \",[26,\"if\",[[21,1,[\"sortOrder\"]],\"\",\"hidden\"],null]]]],[11,\"disabled\",[27,[[26,\"if\",[[21,1,[\"sortOrder\"]],\"\",\"disabled\"],null]]]],[11,\"value\",[27,[[21,1,[\"sortPriority\"]]]]],[10,\"style\",\"\"],[11,\"prevValue\",[27,[[21,1,[\"sortPriority\"]]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"setSortPriority\",[21,2,[]]],[[\"on\"],[\"focusOut\"]]],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n              \"],[6,\"div\"],[11,\"class\",[27,[\"ui input \",[26,\"if\",[[26,\"or\",[[21,1,[\"hide\"]],[26,\"or\",[[22,[\"exportParams\",\"isExportExcel\"]],[26,\"or\",[[21,1,[\"fixed\"]],[26,\"not\",[[22,[\"saveColWidthState\"]]],null]],null]],null]],null],\"disabled\",\"\"],null]]]],[8],[0,\"\\n                \"],[6,\"input\"],[11,\"id\",[27,[[21,1,[\"columnWidthId\"]]]]],[10,\"size\",\"2\"],[10,\"class\",\"columnWidth\"],[11,\"value\",[27,[[21,1,[\"columnWidth\"]]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"widthChanged\"],[[\"on\"],[\"focusOut\"]]],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[9],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"        \"],[9],[6,\"tfoot\"],[10,\"class\",\"full-width\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]]],null,{\"statements\":[[0,\"          \"],[6,\"tr\"],[8],[6,\"th\"],[10,\"colspan\",\"6\"],[8],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"label\",\"value\",\"onChange\"],[[26,\"t\",[\"components.colsconfig-dialog-content.det-separate-cols\"],null],[22,[\"exportParams\",\"detSeparateCols\"]],[26,\"action\",[[21,0,[]],\"detSeparateColsChange\"],null]]]],false],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"label\",\"value\",\"onChange\"],[[26,\"t\",[\"components.colsconfig-dialog-content.det-separate-rows\"],null],[22,[\"exportParams\",\"detSeparateRows\"]],[26,\"action\",[[21,0,[]],\"detSeparateRowsChange\"],null]]]],false],[0,\"\\n            \"],[9],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[6,\"tr\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]],\"hidden\",\"\"],null]]]],[8],[6,\"th\"],[10,\"colspan\",\"5\"],[10,\"style\",\"text-align:right\"],[8],[1,[26,\"t\",[\"components.colsconfig-dialog-content.col-width-on\"],null],false],[9],[6,\"th\"],[8],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"class\",\"value\"],[\"toggle\",[22,[\"saveColWidthState\"]]]]],false],[0,\"\\n            \"],[9],[9],[6,\"tr\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]],\"hidden\",\"\"],null]]]],[8],[6,\"th\"],[10,\"colspan\",\"5\"],[10,\"style\",\"text-align:right\"],[8],[1,[26,\"t\",[\"components.colsconfig-dialog-content.per-page\"],null],false],[9],[6,\"th\"],[8],[0,\"\\n              \"],[6,\"div\"],[10,\"class\",\"ui input\"],[8],[0,\"\\n              \"],[6,\"input\"],[10,\"id\",\"perPageValueInput\"],[10,\"size\",\"2\"],[10,\"class\",\"perPage\"],[11,\"value\",[27,[[20,\"perPageValue\"]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"perPageChanged\"],[[\"on\"],[\"focusOut\"]]],[8],[9],[0,\"\\n                \"],[9],[0,\"\\n            \"],[9],[9],[6,\"tr\"],[8],[6,\"th\"],[10,\"colspan\",\"4\"],[8],[0,\"\\n              \"],[6,\"div\"],[10,\"class\",\"ui action input\"],[8],[0,\"\\n                \"],[6,\"input\"],[10,\"id\",\"columnConfigurtionSettingName\"],[10,\"class\",\"setting-name\"],[10,\"name\",\"configName\"],[11,\"placeholder\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.enter-setting-name\"],null]]]],[11,\"value\",[27,[[20,\"settingName\"]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"setConfigName\",[22,[\"n\"]]],[[\"on\"],[\"change\"]]],[8],[9],[0,\"\\n                \"],[6,\"div\"],[10,\"id\",\"columnConfigurtionButtonSave\"],[10,\"class\",\"ui small button disabled\"],[3,\"action\",[[21,0,[]],\"saveColsSetting\"]],[8],[0,\"\\n                  \"],[1,[26,\"t\",[\"components.colsconfig-dialog-content.save\"],null],false],[0,\"\\n                \"],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n            \"],[6,\"th\"],[10,\"colspan\",\"2\"],[8],[0,\"\\n              \"],[6,\"div\"],[10,\"id\",\"columnConfigurtionButtonUse\"],[10,\"class\",\"ui right floated button\"],[3,\"action\",[[21,0,[]],\"apply\"]],[8],[1,[26,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]],[26,\"t\",[\"components.colsconfig-dialog-content.export\"],null],[26,\"t\",[\"components.colsconfig-dialog-content.use\"],null]],null],false],[9],[0,\"\\n            \"],[9],[9],[9],[9],[0,\"\\n      \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\"],[[22,[\"type\"]],[22,[\"closeable\"]],[22,[\"visible\"]],[22,[\"caption\"]],[22,[\"message\"]]]]],false],[0,\"\\n      \"],[6,\"a\"],[10,\"class\",\"hidden download-anchor\"],[8],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "cSUFA0JM", "block": "{\"symbols\":[\"colDesc\",\"n\"],\"statements\":[[6,\"div\"],[11,\"class\",[27,[\"ui form \",[22,[\"objectlistviewEventsService\",\"loadingState\"]]]]],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"flexberry-colsconfig content\"],[8],[0,\"\\n      \"],[6,\"table\"],[10,\"class\",\"ui unstackable fixed selectable celled table\"],[8],[6,\"thead\"],[8],[6,\"tr\"],[8],[6,\"th\"],[10,\"class\",\"show-columns\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.dont-show-columns\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large hide icon\"],[8],[9],[9],[6,\"th\"],[10,\"class\",\"columns-order\"],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large sort icon\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.columns-order\"],null]]]],[8],[9],[9],[6,\"th\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.column-name\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[1,[26,\"t\",[\"components.colsconfig-dialog-content.column-name\"],null],false],[9],[6,\"th\"],[10,\"class\",\"sort-direction\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.sort-direction\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"nobr\"],[8],[6,\"i\"],[10,\"class\",\"large sort content ascending icon\"],[8],[9],[6,\"i\"],[10,\"class\",\"large sort content descending icon\"],[8],[9],[9],[9],[6,\"th\"],[10,\"class\",\"sort-priority\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.sort-priority\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large ordered list icon\"],[8],[9],[9],[6,\"th\"],[10,\"class\",\"column-width\"],[11,\"title\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.column-width\"],null]]]],[10,\"style\",\"cursor:default\"],[8],[6,\"i\"],[10,\"class\",\"large text width icon\"],[8],[9],[9],[9],[9],[6,\"tbody\"],[10,\"id\",\"colsConfigtableRows\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"modelForDOM\"]]],null,{\"statements\":[[0,\"          \"],[6,\"tr\"],[11,\"id\",[27,[[21,1,[\"trId\"]]]]],[11,\"propName\",[27,[[21,1,[\"propName\"]]]]],[8],[6,\"td\"],[8],[6,\"i\"],[11,\"id\",[27,[[21,1,[\"hideId\"]]]]],[11,\"class\",[27,[\"large \",[26,\"if\",[[21,1,[\"hide\"]],\"hide\",\"unhide\"],null],\" icon\"]]],[10,\"colsConfigHidden\",\"false\"],[10,\"style\",\"cursor:pointer\"],[3,\"action\",[[21,0,[]],\"invertVisibility\",[21,2,[]]]],[8],[9],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n              \"],[6,\"button\"],[11,\"id\",[27,[[21,1,[\"rowUpId\"]]]]],[10,\"class\",\"ui icon tiny button\"],[3,\"action\",[[21,0,[]],\"rowUp\",[21,2,[]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"chevron up icon\"],[8],[9],[0,\"\\n              \"],[9],[6,\"button\"],[11,\"id\",[27,[[21,1,[\"rowDownId\"]]]]],[10,\"class\",\"ui icon tiny button no-margin\"],[3,\"action\",[[21,0,[]],\"rowDown\",[21,2,[]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"chevron down icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\"],null]]]],[8],[4,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]]],null,{\"statements\":[[1,[26,\"input\",null,[[\"value\"],[[21,1,[\"name\"]]]]],false]],\"parameters\":[]},{\"statements\":[[1,[21,1,[\"name\"]],false]],\"parameters\":[]}],[9],[6,\"td\"],[10,\"class\",\"sort-direction-cell\"],[8],[6,\"select\"],[11,\"class\",[27,[\"ui compact dropdown selection sort-direction-dropdown \",[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null],\" \",[26,\"if\",[[21,1,[\"isHasMany\"]],\"hidden\",\"\"],null]]]],[11,\"id\",[27,[[21,1,[\"sortOrderId\"]]]]],[11,\"name\",[27,[\"sortorder[\",[21,1,[\"name\"]],\"]\"]]],[3,\"action\",[[21,0,[]],\"setSortOrder\",[21,2,[]]],[[\"on\"],[\"change\"]]],[8],[0,\"\\n                \"],[6,\"option\"],[11,\"selected\",[27,[[21,1,[\"sortOrderNot\"]]]]],[10,\"value\",\"0\"],[8],[0,\"-\"],[9],[0,\"\\n                \"],[6,\"option\"],[11,\"selected\",[27,[[21,1,[\"sortOrderAsc\"]]]]],[10,\"value\",\"1\"],[8],[0,\"▲\"],[9],[0,\"\\n                \"],[6,\"option\"],[11,\"selected\",[27,[[21,1,[\"sortOrderDesc\"]]]]],[10,\"value\",\"-1\"],[8],[0,\"▼\"],[9],[0,\"\\n              \"],[9],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n              \"],[6,\"div\"],[11,\"class\",[27,[\"ui input \",[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n                \"],[6,\"input\"],[11,\"id\",[27,[[21,1,[\"sortPriorityId\"]]]]],[10,\"size\",\"2\"],[11,\"class\",[27,[\"sortPriority \",[26,\"if\",[[21,1,[\"sortOrder\"]],\"\",\"hidden\"],null]]]],[11,\"disabled\",[27,[[26,\"if\",[[21,1,[\"sortOrder\"]],\"\",\"disabled\"],null]]]],[11,\"value\",[27,[[21,1,[\"sortPriority\"]]]]],[10,\"style\",\"\"],[11,\"prevValue\",[27,[[21,1,[\"sortPriority\"]]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"setSortPriority\",[21,2,[]]],[[\"on\"],[\"focusOut\"]]],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[6,\"td\"],[11,\"class\",[27,[[26,\"if\",[[21,1,[\"hide\"]],\"disabled\",\"\"],null]]]],[8],[0,\"\\n              \"],[6,\"div\"],[11,\"class\",[27,[\"ui input \",[26,\"if\",[[26,\"or\",[[21,1,[\"hide\"]],[26,\"or\",[[22,[\"exportParams\",\"isExportExcel\"]],[26,\"or\",[[21,1,[\"fixed\"]],[26,\"not\",[[22,[\"saveColWidthState\"]]],null]],null]],null]],null],\"disabled\",\"\"],null]]]],[8],[0,\"\\n                \"],[6,\"input\"],[11,\"id\",[27,[[21,1,[\"columnWidthId\"]]]]],[10,\"size\",\"2\"],[10,\"class\",\"columnWidth\"],[11,\"value\",[27,[[21,1,[\"columnWidth\"]]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"widthChanged\"],[[\"on\"],[\"focusOut\"]]],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[9],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"        \"],[9],[6,\"tfoot\"],[10,\"class\",\"full-width\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]]],null,{\"statements\":[[0,\"          \"],[6,\"tr\"],[8],[6,\"th\"],[10,\"colspan\",\"6\"],[8],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"label\",\"value\",\"onChange\"],[[26,\"t\",[\"components.colsconfig-dialog-content.det-separate-cols\"],null],[22,[\"exportParams\",\"detSeparateCols\"]],[26,\"action\",[[21,0,[]],\"detSeparateColsChange\"],null]]]],false],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"label\",\"value\",\"onChange\"],[[26,\"t\",[\"components.colsconfig-dialog-content.det-separate-rows\"],null],[22,[\"exportParams\",\"detSeparateRows\"]],[26,\"action\",[[21,0,[]],\"detSeparateRowsChange\"],null]]]],false],[0,\"\\n            \"],[9],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[6,\"tr\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]],\"hidden\",\"\"],null]]]],[8],[6,\"th\"],[10,\"colspan\",\"5\"],[10,\"style\",\"text-align:right\"],[8],[1,[26,\"t\",[\"components.colsconfig-dialog-content.col-width-on\"],null],false],[9],[6,\"th\"],[8],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"class\",\"value\"],[\"toggle\",[22,[\"saveColWidthState\"]]]]],false],[0,\"\\n            \"],[9],[9],[6,\"tr\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]],\"hidden\",\"\"],null]]]],[8],[6,\"th\"],[10,\"colspan\",\"5\"],[10,\"style\",\"text-align:right\"],[8],[1,[26,\"t\",[\"components.colsconfig-dialog-content.per-page\"],null],false],[9],[6,\"th\"],[8],[0,\"\\n              \"],[6,\"div\"],[10,\"class\",\"ui input\"],[8],[0,\"\\n              \"],[6,\"input\"],[10,\"id\",\"perPageValueInput\"],[10,\"size\",\"2\"],[10,\"class\",\"perPage\"],[11,\"value\",[27,[[20,\"perPageValue\"]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"perPageChanged\"],[[\"on\"],[\"focusOut\"]]],[8],[9],[0,\"\\n                \"],[9],[0,\"\\n            \"],[9],[9],[6,\"tr\"],[8],[6,\"th\"],[10,\"colspan\",\"4\"],[8],[0,\"\\n              \"],[6,\"div\"],[10,\"class\",\"ui action input\"],[8],[0,\"\\n                \"],[6,\"input\"],[10,\"id\",\"columnConfigurtionSettingName\"],[10,\"class\",\"setting-name\"],[10,\"name\",\"configName\"],[11,\"placeholder\",[27,[[26,\"t\",[\"components.colsconfig-dialog-content.enter-setting-name\"],null]]]],[11,\"value\",[27,[[20,\"settingName\"]]]],[10,\"type\",\"input\"],[3,\"action\",[[21,0,[]],\"setConfigName\",[22,[\"n\"]]],[[\"on\"],[\"change\"]]],[8],[9],[0,\"\\n                \"],[6,\"div\"],[10,\"id\",\"columnConfigurtionButtonSave\"],[10,\"class\",\"ui small button disabled\"],[3,\"action\",[[21,0,[]],\"saveColsSetting\"]],[8],[0,\"\\n                  \"],[1,[26,\"t\",[\"components.colsconfig-dialog-content.save\"],null],false],[0,\"\\n                \"],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n            \"],[6,\"th\"],[10,\"colspan\",\"2\"],[8],[0,\"\\n              \"],[6,\"div\"],[10,\"id\",\"columnConfigurtionButtonUse\"],[10,\"class\",\"ui right floated button\"],[3,\"action\",[[21,0,[]],\"apply\"]],[8],[1,[26,\"if\",[[22,[\"exportParams\",\"isExportExcel\"]],[26,\"t\",[\"components.colsconfig-dialog-content.export\"],null],[26,\"t\",[\"components.colsconfig-dialog-content.use\"],null]],null],false],[9],[0,\"\\n            \"],[9],[9],[9],[9],[0,\"\\n      \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\"],[[22,[\"type\"]],[22,[\"closeable\"]],[22,[\"visible\"]],[22,[\"caption\"]],[22,[\"message\"]]]]],false],[0,\"\\n      \"],[6,\"a\"],[10,\"class\",\"hidden download-anchor\"],[8],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs" } });
 });
 define("dummy/templates/components/css-picker", ["exports"], function (exports) {
   "use strict";
@@ -21614,7 +22720,7 @@ define("dummy/templates/components/flexberry-error", ["exports"], function (expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "41cBFeS7", "block": "{\"symbols\":[\"e\",\"e\",\"err\"],\"statements\":[[4,\"if\",[[22,[\"error\"]]],null,{\"statements\":[[4,\"if\",[[22,[\"modal\"]]],null,{\"statements\":[[4,\"modal-dialog\",null,[[\"title\",\"useOkButton\",\"settings\"],[[26,\"t\",[\"components.flexberry-error.caption\"],null],false,[26,\"hash\",null,[[\"context\",\"onHidden\"],[[22,[\"modalContext\"]],[26,\"action\",[[21,0,[]],\"close\"],null]]]]]],{\"statements\":[[0,\"      \"],[6,\"h2\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"_errorIsArray\"]],[22,[\"_messageIsNotSpecified\"]]],null]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"ui bulleted list\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"error\"]]],null,{\"statements\":[[4,\"if\",[[26,\"eq\",[[21,3,[\"state\"]],\"rejected\"],null]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[10,\"class\",\"item\"],[8],[1,[21,3,[\"reason\",\"message\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[3]},null],[0,\"          \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"error\",\"message\"]]],null,{\"statements\":[[0,\"          \"],[1,[22,[\"error\",\"message\"]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[1,[26,\"t\",[\"components.flexberry-error.unknown-error\"],null],false],[0,\"\\n        \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\"],[[26,\"t\",[\"components.flexberry-error.show-more\"],null]]],{\"statements\":[[4,\"each\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[0,\"            \"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[21,2,[\"message\"]],false],[9],[0,\"\\n            \"],[6,\"pre\"],[8],[1,[21,2,[\"stack\"]],false],[9],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[4,\"ui-message\",null,[[\"type\",\"onHide\",\"closeable\"],[\"negative\",[26,\"action\",[[21,0,[]],\"close\"],null],true]],{\"statements\":[[0,\"      \"],[6,\"h2\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"error\",\"message\"]]],null,{\"statements\":[[0,\"          \"],[1,[22,[\"error\",\"message\"]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[1,[26,\"t\",[\"components.flexberry-error.unknown-error\"],null],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\"],[[26,\"t\",[\"components.flexberry-error.show-more\"],null]]],{\"statements\":[[4,\"each\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[0,\"            \"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[21,1,[\"message\"]],false],[9],[0,\"\\n            \"],[6,\"pre\"],[8],[1,[21,1,[\"stack\"]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/flexberry-error.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "2VO/nQHa", "block": "{\"symbols\":[\"e\",\"e\",\"err\"],\"statements\":[[4,\"if\",[[22,[\"error\"]]],null,{\"statements\":[[4,\"if\",[[22,[\"modal\"]]],null,{\"statements\":[[4,\"modal-dialog\",null,[[\"title\",\"useOkButton\",\"settings\"],[[26,\"t\",[\"components.flexberry-error.caption\"],null],false,[26,\"hash\",null,[[\"context\",\"onHidden\"],[[22,[\"modalContext\"]],[26,\"action\",[[21,0,[]],\"close\"],null]]]]]],{\"statements\":[[0,\"      \"],[6,\"h2\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"_errorIsArray\"]],[22,[\"_messageIsNotSpecified\"]]],null]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"ui bulleted list\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"error\"]]],null,{\"statements\":[[4,\"if\",[[26,\"eq\",[[21,3,[\"state\"]],\"rejected\"],null]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[10,\"class\",\"item\"],[8],[1,[21,3,[\"reason\",\"message\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[3]},null],[0,\"          \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"error\",\"messageLocaleKey\"]]],null,{\"statements\":[[0,\"          \"],[1,[26,\"t\",[[22,[\"error\",\"messageLocaleKey\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"error\",\"message\"]]],null,{\"statements\":[[0,\"          \"],[1,[22,[\"error\",\"message\"]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[1,[26,\"t\",[\"components.flexberry-error.unknown-error\"],null],false],[0,\"\\n        \"]],\"parameters\":[]}]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\"],[[26,\"t\",[\"components.flexberry-error.show-more\"],null]]],{\"statements\":[[4,\"each\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[0,\"            \"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[21,2,[\"messageLocaleKey\"]]],null,{\"statements\":[[0,\"                \"],[1,[26,\"t\",[[21,2,[\"messageLocaleKey\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[21,2,[\"message\"]]],null,{\"statements\":[[0,\"                \"],[1,[21,2,[\"message\"]],false],[0,\"\\n              \"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"            \"],[9],[0,\"\\n            \"],[6,\"pre\"],[8],[1,[21,2,[\"stack\"]],false],[9],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[4,\"ui-message\",null,[[\"type\",\"onHide\",\"closeable\"],[\"negative\",[26,\"action\",[[21,0,[]],\"close\"],null],true]],{\"statements\":[[0,\"      \"],[6,\"h2\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"error\",\"messageLocaleKey\"]]],null,{\"statements\":[[0,\"          \"],[1,[26,\"t\",[[22,[\"error\",\"messageLocaleKey\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"error\",\"message\"]]],null,{\"statements\":[[0,\"          \"],[1,[22,[\"error\",\"message\"]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[1,[26,\"t\",[\"components.flexberry-error.unknown-error\"],null],false],[0,\"\\n        \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\"],[[26,\"t\",[\"components.flexberry-error.show-more\"],null]]],{\"statements\":[[4,\"each\",[[22,[\"error\",\"errors\"]]],null,{\"statements\":[[0,\"            \"],[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[21,1,[\"messageLocaleKey\"]]],null,{\"statements\":[[0,\"                \"],[1,[26,\"t\",[[21,1,[\"messageLocaleKey\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[21,1,[\"message\"]]],null,{\"statements\":[[0,\"                \"],[1,[21,1,[\"message\"]],false],[0,\"\\n              \"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"            \"],[9],[0,\"\\n            \"],[6,\"pre\"],[8],[1,[21,1,[\"stack\"]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/flexberry-error.hbs" } });
 });
 define("dummy/templates/components/flexberry-field", ["exports"], function (exports) {
   "use strict";
@@ -21686,7 +22792,7 @@ define("dummy/templates/components/flexberry-objectlistview", ["exports"], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "sAFaitcD", "block": "{\"symbols\":[\"page\",\"@gotoPage\",\"@previousPage\",\"@nextPage\",\"@resetFilters\",\"@configurateSelectedRows\",\"@configurateRow\",\"@filterByAnyMatch\",\"@addColumnToSorting\",\"@sortByColumn\"],\"statements\":[[1,[26,\"olv-toolbar\",null,[[\"class\",\"createNewButton\",\"enableCreateNewButton\",\"refreshButton\",\"deleteButton\",\"colsConfigButton\",\"enableFilters\",\"exportExcelButton\",\"showFilters\",\"filters\",\"toggleStateFilters\",\"resetFilters\",\"filterButton\",\"filterText\",\"buttonClass\",\"enableDeleteButton\",\"componentName\",\"modelController\",\"customButtonAction\",\"customButtons\",\"editFormRoute\",\"showConfigDialog\",\"confirmDeleteRows\",\"inHierarchicalMode\",\"inExpandMode\",\"availableHierarchicalMode\",\"availableCollExpandMode\",\"switchHierarchicalMode\",\"switchExpandMode\",\"readonly\"],[\"ui secondary menu no-margin\",[22,[\"createNewButton\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"refreshButton\"]],[22,[\"deleteButton\"]],[22,[\"colsConfigButton\"]],[22,[\"enableFilters\"]],[22,[\"exportExcelButton\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"toggleStateFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\",[21,5,[]]],null],[22,[\"filterButton\"]],[22,[\"filterText\"]],[22,[\"buttonClass\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"componentName\"]],[22,[\"currentController\"]],[26,\"action\",[[21,0,[]],\"customButtonAction\"],null],[22,[\"customButtons\"]],[22,[\"editFormRoute\"]],\"showConfigDialog\",[22,[\"confirmDeleteRows\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[22,[\"_availableHierarchicalMode\"]],[22,[\"_availableCollExpandMode\"]],[26,\"action\",[[21,0,[]],\"switchHierarchicalMode\"],null],[26,\"action\",[[21,0,[]],\"switchExpandMode\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n\"],[1,[26,\"object-list-view\",null,[[\"placeholder\",\"readonly\",\"columnsWidthAutoresize\",\"minAutoColumnWidth\",\"buttonClass\",\"tableStriped\",\"customTableClass\",\"cellComponent\",\"singleColumnCellComponent\",\"singleColumnHeaderTitle\",\"showValidationMessagesInRow\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"rowClickable\",\"orderable\",\"sorting\",\"immediateDelete\",\"modelName\",\"modelProjection\",\"content\",\"sortByColumn\",\"addColumnToSorting\",\"enableFilters\",\"showFilters\",\"filters\",\"applyFilters\",\"componentForFilter\",\"conditionsByType\",\"filterByAnyMatch\",\"filterByAnyWord\",\"filterByAllWords\",\"configurateRow\",\"configurateSelectedRows\",\"confirmDeleteRow\",\"beforeDeleteRecord\",\"action\",\"componentName\",\"allowColumnResize\",\"selectedRecord\",\"notUseUserSettings\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"inExpandMode\",\"disableHierarchicalMode\",\"loadRecords\",\"availableHierarchicalMode\",\"useRowByRowLoading\",\"useRowByRowLoadingProgress\",\"eventsBus\",\"onEditForm\",\"defaultLeftPadding\",\"overflowedComponents\"],[[22,[\"placeholder\"]],[22,[\"readonly\"]],[22,[\"columnsWidthAutoresize\"]],[22,[\"minAutoColumnWidth\"]],[22,[\"buttonClass\"]],[22,[\"tableStriped\"]],[22,[\"customTableClass\"]],[22,[\"cellComponent\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"singleColumnHeaderTitle\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"showValidationMessagesInRow\"]]],null],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[26,\"action\",[[21,0,[]],\"sendMenuItemAction\"],null],[22,[\"menuInRowAdditionalItems\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"rowClickable\"]]],null],[22,[\"orderable\"]],[22,[\"sorting\"]],true,[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"content\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,10,[]],[21,10,[]],\"sortByColumn\"],null]],null],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,9,[]],[21,9,[]],\"addColumnToSorting\"],null]],null],[22,[\"enableFilters\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[22,[\"applyFilters\"]],[22,[\"applyFilters\"]],\"applyFilters\"],null]],null],[22,[\"componentForFilter\"]],[22,[\"conditionsByType\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,8,[]],[21,8,[]],\"filterByAnyMatch\"],null]],null],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[21,7,[]],[21,6,[]],[22,[\"confirmDeleteRow\"]],[22,[\"beforeDeleteRecord\"]],[26,\"action\",[[21,0,[]],\"objectListViewRowClick\"],null],[22,[\"componentName\"]],[22,[\"allowColumnResize\"]],[22,[\"selectedRecord\"]],[22,[\"notUseUserSettings\"]],[22,[\"hierarchicalIndent\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[26,\"if\",[[22,[\"hierarchyByAttribute\"]],true,[22,[\"disableHierarchicalMode\"]]],null],[26,\"action\",[[21,0,[]],\"loadRecords\"],null],[26,\"action\",[[21,0,[]],\"availableHierarchicalMode\"],null],[22,[\"useRowByRowLoading\"]],[22,[\"useRowByRowLoadingProgress\"]],[22,[\"eventsBus\"]],[22,[\"onEditForm\"]],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]]]]],false],[0,\"\\n\"],[4,\"unless\",[[22,[\"_inHierarchicalMode\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"ui secondary menu no-margin nav-bar\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui basic buttons\"],[8],[0,\"\\n      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasPreviousPage\"]],\"disabled\"],null],\" button prev-page-button\"]]],[3,\"action\",[[21,0,[]],\"previousPage\",[21,3,[]]]],[8],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"pages\"]]],null,{\"statements\":[[4,\"if\",[[21,1,[\"isEllipsis\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"ui button\"],[8],[0,\"...\"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[21,1,[\"isCurrent\"]]],null,{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui active button\"],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"gotoPage\",[21,2,[]],[21,1,[\"number\"]]]],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]}]],\"parameters\":[1]},null],[0,\"      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasNextPage\"]],\"disabled\"],null],\" button next-page-button\"]]],[3,\"action\",[[21,0,[]],\"nextPage\",[21,4,[]]]],[8],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showShowingEntries\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[10,\"class\",\"showing-entries\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"currentIntervalRecords\"]],[22,[\"recordsTotalCount\"]]],null]],null,{\"statements\":[[0,\"            \"],[1,[26,\"concat\",[[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.showing\"],null],[22,[\"currentIntervalRecords\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.of\"],null],[22,[\"recordsTotalCount\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.entries\"],null]],null],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[26,\"flexberry-dropdown\",null,[[\"needChecksOnValue\",\"items\",\"value\",\"class\",\"onChange\",\"settings\"],[false,[22,[\"perPageValues\"]],[22,[\"perPageValue\"]],\"compact selection\",[26,\"action\",[[21,0,[]],\"perPageClick\"],null],[26,\"hash\",null,[[\"direction\"],[\"upward\"]]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/flexberry-objectlistview.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "sNEtfNSz", "block": "{\"symbols\":[\"page\",\"@gotoPage\",\"@previousPage\",\"@nextPage\",\"@resetFilters\",\"@configurateSelectedRows\",\"@configurateRow\",\"@filterByAnyMatch\",\"@addColumnToSorting\",\"@sortByColumn\"],\"statements\":[[1,[26,\"olv-toolbar\",null,[[\"class\",\"createNewButton\",\"enableCreateNewButton\",\"refreshButton\",\"deleteButton\",\"colsConfigButton\",\"enableFilters\",\"exportExcelButton\",\"showFilters\",\"filters\",\"toggleStateFilters\",\"resetFilters\",\"filterButton\",\"filterText\",\"buttonClass\",\"enableDeleteButton\",\"componentName\",\"modelController\",\"customButtonAction\",\"customButtons\",\"editFormRoute\",\"showConfigDialog\",\"confirmDeleteRows\",\"inHierarchicalMode\",\"inExpandMode\",\"availableHierarchicalMode\",\"availableCollExpandMode\",\"switchHierarchicalMode\",\"switchExpandMode\",\"readonly\"],[\"ui secondary menu no-margin\",[22,[\"createNewButton\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"refreshButton\"]],[22,[\"deleteButton\"]],[22,[\"colsConfigButton\"]],[22,[\"enableFilters\"]],[22,[\"exportExcelButton\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"toggleStateFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\",[21,5,[]]],null],[22,[\"filterButton\"]],[22,[\"filterText\"]],[22,[\"buttonClass\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"componentName\"]],[22,[\"currentController\"]],[26,\"action\",[[21,0,[]],\"customButtonAction\"],null],[22,[\"customButtons\"]],[22,[\"editFormRoute\"]],\"showConfigDialog\",[22,[\"confirmDeleteRows\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[22,[\"_availableHierarchicalMode\"]],[22,[\"_availableCollExpandMode\"]],[26,\"action\",[[21,0,[]],\"switchHierarchicalMode\"],null],[26,\"action\",[[21,0,[]],\"switchExpandMode\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n\"],[1,[26,\"object-list-view\",null,[[\"placeholder\",\"readonly\",\"columnsWidthAutoresize\",\"minAutoColumnWidth\",\"buttonClass\",\"tableStriped\",\"customTableClass\",\"cellComponent\",\"singleColumnCellComponent\",\"singleColumnHeaderTitle\",\"showValidationMessagesInRow\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"rowClickable\",\"orderable\",\"sorting\",\"immediateDelete\",\"modelName\",\"modelProjection\",\"content\",\"sortByColumn\",\"addColumnToSorting\",\"enableFilters\",\"showFilters\",\"filters\",\"applyFilters\",\"componentForFilter\",\"conditionsByType\",\"filterByAnyMatch\",\"filterByAnyWord\",\"filterByAllWords\",\"configurateRow\",\"configurateSelectedRows\",\"confirmDeleteRow\",\"beforeDeleteRecord\",\"action\",\"beforeDeleteAllRecords\",\"componentName\",\"allowColumnResize\",\"selectedRecord\",\"notUseUserSettings\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"inExpandMode\",\"disableHierarchicalMode\",\"loadRecords\",\"availableHierarchicalMode\",\"useRowByRowLoading\",\"useRowByRowLoadingProgress\",\"eventsBus\",\"onEditForm\",\"customButtonInRowAction\",\"customButtonsInRow\",\"defaultLeftPadding\",\"overflowedComponents\"],[[22,[\"placeholder\"]],[22,[\"readonly\"]],[22,[\"columnsWidthAutoresize\"]],[22,[\"minAutoColumnWidth\"]],[22,[\"buttonClass\"]],[22,[\"tableStriped\"]],[22,[\"customTableClass\"]],[22,[\"cellComponent\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"singleColumnHeaderTitle\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"showValidationMessagesInRow\"]]],null],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[26,\"action\",[[21,0,[]],\"sendMenuItemAction\"],null],[22,[\"menuInRowAdditionalItems\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"rowClickable\"]]],null],[22,[\"orderable\"]],[22,[\"sorting\"]],true,[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"content\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,10,[]],[21,10,[]],\"sortByColumn\"],null]],null],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,9,[]],[21,9,[]],\"addColumnToSorting\"],null]],null],[22,[\"enableFilters\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[22,[\"applyFilters\"]],[22,[\"applyFilters\"]],\"applyFilters\"],null]],null],[22,[\"componentForFilter\"]],[22,[\"conditionsByType\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,8,[]],[21,8,[]],\"filterByAnyMatch\"],null]],null],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[21,7,[]],[21,6,[]],[22,[\"confirmDeleteRow\"]],[22,[\"beforeDeleteRecord\"]],[26,\"action\",[[21,0,[]],\"objectListViewRowClick\"],null],[22,[\"beforeDeleteAllRecords\"]],[22,[\"componentName\"]],[22,[\"allowColumnResize\"]],[22,[\"selectedRecord\"]],[22,[\"notUseUserSettings\"]],[22,[\"hierarchicalIndent\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[26,\"if\",[[22,[\"hierarchyByAttribute\"]],true,[22,[\"disableHierarchicalMode\"]]],null],[26,\"action\",[[21,0,[]],\"loadRecords\"],null],[26,\"action\",[[21,0,[]],\"availableHierarchicalMode\"],null],[22,[\"useRowByRowLoading\"]],[22,[\"useRowByRowLoadingProgress\"]],[22,[\"eventsBus\"]],[22,[\"onEditForm\"]],\"customButtonInRowAction\",[22,[\"customButtonsInRow\"]],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]]]]],false],[0,\"\\n\"],[4,\"unless\",[[22,[\"_inHierarchicalMode\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"ui secondary menu no-margin nav-bar\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui basic buttons\"],[8],[0,\"\\n      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasPreviousPage\"]],\"disabled\"],null],\" button prev-page-button\"]]],[3,\"action\",[[21,0,[]],\"previousPage\",[21,3,[]]]],[8],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"pages\"]]],null,{\"statements\":[[4,\"if\",[[21,1,[\"isEllipsis\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"ui button\"],[8],[0,\"...\"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[21,1,[\"isCurrent\"]]],null,{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui active button\"],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"gotoPage\",[21,2,[]],[21,1,[\"number\"]]]],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]}]],\"parameters\":[1]},null],[0,\"      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasNextPage\"]],\"disabled\"],null],\" button next-page-button\"]]],[3,\"action\",[[21,0,[]],\"nextPage\",[21,4,[]]]],[8],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showShowingEntries\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[10,\"class\",\"showing-entries\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"currentIntervalRecords\"]],[22,[\"recordsTotalCount\"]]],null]],null,{\"statements\":[[0,\"            \"],[1,[26,\"concat\",[[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.showing\"],null],[22,[\"currentIntervalRecords\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.of\"],null],[22,[\"recordsTotalCount\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.entries\"],null]],null],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[26,\"flexberry-dropdown\",null,[[\"needChecksOnValue\",\"items\",\"value\",\"class\",\"onChange\",\"settings\"],[false,[22,[\"perPageValues\"]],[22,[\"perPageValue\"]],\"compact selection\",[26,\"action\",[[21,0,[]],\"perPageClick\"],null],[26,\"hash\",null,[[\"direction\"],[\"upward\"]]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/flexberry-objectlistview.hbs" } });
 });
 define("dummy/templates/components/flexberry-sidebar", ["exports"], function (exports) {
   "use strict";
@@ -21710,7 +22816,7 @@ define("dummy/templates/components/flexberry-sitemap", ["exports"], function (ex
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "yqnQlghw", "block": "{\"symbols\":[\"node\",\"child\"],\"statements\":[[4,\"if\",[[22,[\"sitemap\",\"link\"]]],null,{\"statements\":[[4,\"link-to\",[[22,[\"sitemap\",\"link\"]]],[[\"class\",\"title\"],[\"item\",[22,[\"sitemap\",\"title\"]]]],{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",\"title-item-menu\"],[3,\"action\",[[21,0,[]],\"menuToggle\"]],[8],[1,[22,[\"sitemap\",\"caption\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"sitemap\",\"caption\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"item item-menu\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"item-plus\"],[3,\"action\",[[21,0,[]],\"menuToggle\"]],[8],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"item-minus hidden\"],[3,\"action\",[[21,0,[]],\"menuToggle\"]],[8],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"title-item-menu\"],[3,\"action\",[[21,0,[]],\"menuToggle\"]],[8],[1,[22,[\"sitemap\",\"caption\"]],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"sitemap\",\"children\",\"length\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"menu subMenu hidden\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"sitemap\",\"children\"]]],null,{\"statements\":[[0,\"          \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[21,2,[]]]]],false],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"sitemap\",\"nodes\"]]],null,{\"statements\":[[4,\"each\",[[22,[\"sitemap\",\"nodes\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[21,1,[]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/flexberry-sitemap.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "uOP5hUfS", "block": "{\"symbols\":[\"node\",\"child\"],\"statements\":[[4,\"if\",[[22,[\"sitemap\",\"link\"]]],null,{\"statements\":[[4,\"link-to\",[[22,[\"sitemap\",\"link\"]]],[[\"class\",\"title\"],[\"item\",[22,[\"sitemap\",\"title\"]]]],{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",\"title-item-menu\"],[3,\"action\",[[21,0,[]],\"menuToggle\"]],[8],[1,[22,[\"sitemap\",\"caption\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"sitemap\",\"caption\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"item item-menu\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"title-item-menu\"],[3,\"action\",[[21,0,[]],\"menuToggle\"]],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"sitemap\",\"children\",\"length\"]]],null,{\"statements\":[[0,\"        \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"nodeIsOpen\"]],\"minus\",\"plus\"],null],\" square outline icon\"]]],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[22,[\"sitemap\",\"caption\"]],false],[0,\"\\n    \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"sitemap\",\"children\",\"length\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"menu subMenu hidden\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"sitemap\",\"children\"]]],null,{\"statements\":[[0,\"          \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[21,2,[]]]]],false],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"sitemap\",\"nodes\"]]],null,{\"statements\":[[4,\"each\",[[22,[\"sitemap\",\"nodes\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[21,1,[]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/flexberry-sitemap.hbs" } });
 });
 define("dummy/templates/components/flexberry-tab-bar", ["exports"], function (exports) {
   "use strict";
@@ -21822,7 +22928,7 @@ define("dummy/templates/components/object-list-view-row", ["exports"], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "80XOvoT6", "block": "{\"symbols\":[\"record\",\"menuItem\",\"column\",\"index\"],\"statements\":[[4,\"if\",[[22,[\"doRenderData\"]]],null,{\"statements\":[[0,\"  \"],[6,\"tr\"],[11,\"class\",[27,[[22,[\"record\",\"rowConfig\",\"customClass\"]]]]],[8],[0,\"\\n    \"],[6,\"td\"],[11,\"class\",[27,[\"object-list-view-helper-column \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"hidden\"],[8],[1,[22,[\"record\",\"key\"]],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[10,\"class\",\"object-list-view-helper-column-cell\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showAsteriskInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell asterisk-cell\"],[8],[0,\"\\n              \"],[6,\"i\"],[11,\"class\",[27,[\"asterisk small red icon \",[26,\"unless\",[[22,[\"record\",\"data\",\"hasDirtyAttributes\"]],\"transparent\"],null]]]],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showCheckBoxInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"onChange\",\"value\"],[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeSelected\"]]],null]],null],[26,\"action\",[[21,0,[]],[22,[\"selectRow\"]],[22,[\"record\"]]],null],[22,[\"record\",\"selected\"]]]]],false],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteButtonInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n              \"],[6,\"button\"],[11,\"class\",[27,[\"ui ui-delete object-list-view-row-delete-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.object-list-view.menu-in-row.delete-menu-item-title\"],null],null],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"minus icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showEditButtonInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n              \"],[6,\"button\"],[11,\"class\",[27,[\"ui ui-edit object-list-view-row-edit-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[22,[\"readonly\"]],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.object-list-view.menu-in-row.edit-menu-item-title\"],null],null],[3,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\",\"columnIndex\",\"rowEdit\"],[null,null,true]]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"edit icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"      \"],[6,\"td\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\",\"columnIndex\"],[[21,3,[]],[21,4,[]]]]]],[[\"preventDefault\"],[false]]],null],[11,\"class\",[27,[\"field \",[26,\"if\",[[26,\"and\",[[22,[\"showValidationMessages\"]],[26,\"get\",[[26,\"get\",[[22,[\"record\",\"data\",\"validations\",\"attrs\"]],[21,3,[\"propName\"]]],null],\"isInvalid\"],null]],null],\"error\"],null],\" \",[26,\"if\",[[26,\"array-contains\",[[22,[\"overflowedComponents\"]],[21,3,[\"cellComponent\",\"componentName\"]]],null],\" overflowed-cell\"],null]]]],[11,\"style\",[26,\"if\",[[26,\"and\",[[26,\"not\",[[21,4,[]]],null],[22,[\"inHierarchicalMode\"]]],null],[22,[\"hierarchicalIndentStyle\"]],[22,[\"defaultPaddingStyle\"]]],null],null],[8],[0,\"\\n\"],[4,\"if\",[[21,3,[\"cellComponent\",\"componentName\"]]],null,{\"statements\":[[4,\"if\",[[22,[\"inHierarchicalMode\"]]],null,{\"statements\":[[4,\"component\",[[21,3,[\"cellComponent\",\"componentName\"]]],[[\"dynamicProperties\",\"relatedModel\",\"value\",\"readonly\",\"required\",\"componentName\"],[[21,3,[\"cellComponent\",\"componentProperties\"]],[22,[\"record\",\"data\"]],[26,\"mut\",[[26,\"get\",[[22,[\"record\",\"data\"]],[21,3,[\"propName\"]]],null]],null],[26,\"readonly-cell\",[[22,[\"record\",\"rowConfig\",\"readonlyColumns\"]],[21,3,[\"propName\"]],[22,[\"readonly\"]],[21,3,[\"cellComponent\",\"componentProperties\",\"readonly\"]]],null],[22,[\"required\"]],[26,\"concat\",[\"(\",[22,[\"folvComponentName\"]],\"_\",[21,3,[\"cellComponent\",\"componentName\"]],\"_\",[21,3,[\"propName\"]],\")\"],null]]],{\"statements\":[[4,\"if\",[[26,\"and\",[[26,\"not\",[[21,4,[]]],null],[22,[\"inHierarchicalMode\"]]],null]],null,{\"statements\":[[4,\"if\",[[22,[\"hasRecords\"]]],null,{\"statements\":[[0,\"                  \"],[6,\"button\"],[11,\"class\",[27,[\"ui button hierarchy-expand icon mini compact \",[20,\"buttonClass\"]]]],[3,\"action\",[[21,0,[]],\"expand\"],[[\"bubbles\"],[false]]],[8],[0,\"\\n                    \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"_expanded\"]],\"minus\",\"plus\"],null],\" hierarchy-expand icon\"]]],[8],[9],[0,\"\\n                  \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[1,[26,\"component\",[[21,3,[\"cellComponent\",\"componentName\"]]],[[\"dynamicProperties\",\"relatedModel\",\"value\",\"readonly\",\"required\",\"componentName\"],[[21,3,[\"cellComponent\",\"componentProperties\"]],[22,[\"record\",\"data\"]],[26,\"mut\",[[26,\"get\",[[22,[\"record\",\"data\"]],[21,3,[\"propName\"]]],null]],null],[26,\"readonly-cell\",[[22,[\"record\",\"rowConfig\",\"readonlyColumns\"]],[21,3,[\"propName\"]],[22,[\"readonly\"]],[21,3,[\"cellComponent\",\"componentProperties\",\"readonly\"]]],null],[22,[\"required\"]],[26,\"concat\",[\"(\",[22,[\"folvComponentName\"]],\"_\",[21,3,[\"cellComponent\",\"componentName\"]],\"_\",[21,3,[\"propName\"]],\")\"],null]]]],false],[0,\"\\n\"],[4,\"if\",[[22,[\"showValidationMessages\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\"],[[26,\"get\",[[26,\"get\",[[22,[\"record\",\"data\",\"validations\",\"attrs\"]],[21,3,[\"propName\"]]],null],\"messages\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"oveflow-text\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[26,\"not\",[[21,4,[]]],null],[22,[\"inHierarchicalMode\"]]],null]],null,{\"statements\":[[4,\"if\",[[22,[\"hasRecords\"]]],null,{\"statements\":[[0,\"                \"],[6,\"button\"],[11,\"class\",[27,[\"ui button hierarchy-expand icon mini compact \",[20,\"buttonClass\"]]]],[11,\"title\",[26,\"if\",[[22,[\"_expanded\"]],[26,\"t\",[\"components.object-list-view.hierarchy-buttons.minus-button-title\"],null],[26,\"t\",[\"components.object-list-view.hierarchy-buttons.plus-button-title\"],null]],null],null],[3,\"action\",[[21,0,[]],\"expand\"],[[\"bubbles\"],[false]]],[8],[0,\"\\n                    \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"_expanded\"]],\"minus\",\"plus\"],null],\" hierarchy-expand icon\"]]],[8],[9],[0,\"\\n                \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"            \"],[1,[26,\"get-formatted\",[[22,[\"record\",\"data\"]],[21,3,[\"propName\"]]],[[\"dateFormat\",\"moment\"],[[22,[\"dateFormat\"]],[22,[\"moment\"]]]]],false],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[3,4]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"      \"],[6,\"td\"],[10,\"class\",\"object-list-view-menu\"],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right pointing ui icon dropdown button\"],[8],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"list layout icon\"],[8],[9],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"left menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showEditMenuItemInRow\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[11,\"class\",[27,[\"item \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" edit-menu\"]]],[3,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\",\"columnIndex\",\"rowEdit\"],[null,null,true]]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"edit icon\"],[8],[9],[0,\"\\n                \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.edit-menu-item-title\"],null],false],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteMenuItemInRow\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[11,\"class\",[27,[\"item \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" delete-menu\"]]],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"trash icon\"],[8],[9],[0,\"\\n                \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.delete-menu-item-title\"],null],false],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"menuInRowAdditionalItems\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[10,\"class\",\"item\"],[3,\"action\",[[21,0,[]],[22,[\"sendMenuItemAction\"]],[21,2,[\"actionName\"]],[22,[\"record\",\"data\"]]]],[8],[0,\"\\n                \"],[6,\"i\"],[11,\"class\",[27,[[21,2,[\"icon\"]]]]],[8],[9],[0,\"\\n                \"],[6,\"span\"],[8],[1,[21,2,[\"title\"]],false],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"_expanded\"]],[22,[\"inHierarchicalMode\"]]],null]],null,{\"statements\":[[4,\"each\",[[22,[\"records\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"      \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"inHierarchicalMode\",\"inExpandMode\",\"loadRecords\",\"doRenderData\",\"rowClick\",\"selectRow\",\"deleteRow\",\"_currentLevel\",\"hierarchicalIndent\",\"defaultLeftPadding\",\"overflowedComponents\",\"folvComponentName\",\"hierarchyLoadedLevel\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"sendMenuItemAction\"]],[22,[\"menuInRowAdditionalItems\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessages\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"inHierarchicalMode\"]],[26,\"unbound\",[[22,[\"inExpandMode\"]]],null],[22,[\"loadRecords\"]],[21,1,[\"doRenderData\"]],[22,[\"rowClick\"]],[22,[\"selectRow\"]],[22,[\"deleteRow\"]],[22,[\"_currentLevel\"]],[22,[\"_hierarchicalIndent\"]],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]],[22,[\"folvComponentName\"]],[22,[\"hierarchyLoadedLevel\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/object-list-view-row.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Vrwickk+", "block": "{\"symbols\":[\"record\",\"menuItem\",\"column\",\"index\",\"customButtonInRow\"],\"statements\":[[4,\"if\",[[22,[\"doRenderData\"]]],null,{\"statements\":[[0,\"  \"],[6,\"tr\"],[11,\"class\",[27,[[22,[\"record\",\"rowConfig\",\"customClass\"]]]]],[8],[0,\"\\n    \"],[6,\"td\"],[11,\"class\",[27,[\"object-list-view-helper-column \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"hidden\"],[8],[1,[22,[\"record\",\"key\"]],false],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"customButtonsInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[21,5,[\"buttonClasses\"]],\" button\"]]],[11,\"title\",[26,\"if\",[[21,5,[\"buttonTitle\"]],[21,5,[\"buttonTitle\"]]],null],null],[3,\"action\",[[21,0,[]],\"customButtonInRowAction\",[21,5,[\"buttonAction\"]],[22,[\"record\",\"data\"]]]],[8],[0,\"\\n            \"],[6,\"i\"],[11,\"class\",[21,5,[\"buttonIcon\"]],null],[8],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[5]},null],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[10,\"class\",\"object-list-view-helper-column-cell\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showAsteriskInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell asterisk-cell\"],[8],[0,\"\\n              \"],[6,\"i\"],[11,\"class\",[27,[\"asterisk small red icon \",[26,\"unless\",[[22,[\"record\",\"data\",\"hasDirtyAttributes\"]],\"transparent\"],null]]]],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showCheckBoxInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n              \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"onChange\",\"value\"],[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeSelected\"]]],null]],null],[26,\"action\",[[21,0,[]],[22,[\"selectRow\"]],[22,[\"record\"]]],null],[22,[\"record\",\"selected\"]]]]],false],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteButtonInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n              \"],[6,\"button\"],[11,\"class\",[27,[\"ui ui-delete object-list-view-row-delete-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.object-list-view.menu-in-row.delete-menu-item-title\"],null],null],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"minus icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showEditButtonInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n              \"],[6,\"button\"],[11,\"class\",[27,[\"ui ui-edit object-list-view-row-edit-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[22,[\"readonly\"]],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.object-list-view.menu-in-row.edit-menu-item-title\"],null],null],[3,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\",\"columnIndex\",\"rowEdit\"],[null,null,true]]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"edit icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"      \"],[6,\"td\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\",\"columnIndex\"],[[21,3,[]],[21,4,[]]]]]],[[\"preventDefault\"],[false]]],null],[11,\"class\",[27,[\"field \",[26,\"if\",[[26,\"and\",[[22,[\"showValidationMessages\"]],[26,\"get\",[[26,\"get\",[[22,[\"record\",\"data\",\"validations\",\"attrs\"]],[21,3,[\"propName\"]]],null],\"isInvalid\"],null]],null],\"error\"],null],\" \",[26,\"if\",[[26,\"array-contains\",[[22,[\"overflowedComponents\"]],[21,3,[\"cellComponent\",\"componentName\"]]],null],\" overflowed-cell\"],null]]]],[11,\"style\",[26,\"if\",[[26,\"and\",[[26,\"not\",[[21,4,[]]],null],[22,[\"inHierarchicalMode\"]]],null],[22,[\"hierarchicalIndentStyle\"]],[22,[\"defaultPaddingStyle\"]]],null],null],[8],[0,\"\\n\"],[4,\"if\",[[21,3,[\"cellComponent\",\"componentName\"]]],null,{\"statements\":[[4,\"if\",[[22,[\"inHierarchicalMode\"]]],null,{\"statements\":[[4,\"component\",[[21,3,[\"cellComponent\",\"componentName\"]]],[[\"dynamicProperties\",\"relatedModel\",\"value\",\"readonly\",\"required\",\"componentName\"],[[21,3,[\"cellComponent\",\"componentProperties\"]],[22,[\"record\",\"data\"]],[26,\"mut\",[[26,\"get\",[[22,[\"record\",\"data\"]],[21,3,[\"propName\"]]],null]],null],[26,\"readonly-cell\",[[22,[\"record\",\"rowConfig\",\"readonlyColumns\"]],[21,3,[\"propName\"]],[22,[\"readonly\"]],[21,3,[\"cellComponent\",\"componentProperties\",\"readonly\"]]],null],[22,[\"required\"]],[26,\"concat\",[\"(\",[22,[\"folvComponentName\"]],\"_\",[21,3,[\"cellComponent\",\"componentName\"]],\"_\",[21,3,[\"propName\"]],\")\"],null]]],{\"statements\":[[4,\"if\",[[26,\"and\",[[26,\"not\",[[21,4,[]]],null],[22,[\"inHierarchicalMode\"]],[22,[\"hasRecords\"]]],null]],null,{\"statements\":[[0,\"                \"],[6,\"button\"],[11,\"class\",[27,[\"ui button hierarchy-expand icon mini compact \",[20,\"buttonClass\"]]]],[3,\"action\",[[21,0,[]],\"expand\"],[[\"bubbles\"],[false]]],[8],[0,\"\\n                  \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"_expanded\"]],\"minus\",\"plus\"],null],\" hierarchy-expand icon\"]]],[8],[9],[0,\"\\n                \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[1,[26,\"component\",[[21,3,[\"cellComponent\",\"componentName\"]]],[[\"dynamicProperties\",\"relatedModel\",\"value\",\"readonly\",\"required\",\"componentName\"],[[21,3,[\"cellComponent\",\"componentProperties\"]],[22,[\"record\",\"data\"]],[26,\"mut\",[[26,\"get\",[[22,[\"record\",\"data\"]],[21,3,[\"propName\"]]],null]],null],[26,\"readonly-cell\",[[22,[\"record\",\"rowConfig\",\"readonlyColumns\"]],[21,3,[\"propName\"]],[22,[\"readonly\"]],[21,3,[\"cellComponent\",\"componentProperties\",\"readonly\"]]],null],[22,[\"required\"]],[26,\"concat\",[\"(\",[22,[\"folvComponentName\"]],\"_\",[21,3,[\"cellComponent\",\"componentName\"]],\"_\",[21,3,[\"propName\"]],\")\"],null]]]],false],[0,\"\\n\"],[4,\"if\",[[22,[\"showValidationMessages\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"flexberry-validationmessage\",null,[[\"error\"],[[26,\"get\",[[26,\"get\",[[22,[\"record\",\"data\",\"validations\",\"attrs\"]],[21,3,[\"propName\"]]],null],\"messages\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"oveflow-text\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[26,\"not\",[[21,4,[]]],null],[22,[\"inHierarchicalMode\"]],[22,[\"hasRecords\"]]],null]],null,{\"statements\":[[0,\"              \"],[6,\"button\"],[11,\"class\",[27,[\"ui button hierarchy-expand icon mini compact \",[20,\"buttonClass\"]]]],[11,\"title\",[26,\"if\",[[22,[\"_expanded\"]],[26,\"t\",[\"components.object-list-view.hierarchy-buttons.minus-button-title\"],null],[26,\"t\",[\"components.object-list-view.hierarchy-buttons.plus-button-title\"],null]],null],null],[3,\"action\",[[21,0,[]],\"expand\"],[[\"bubbles\"],[false]]],[8],[0,\"\\n                  \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"_expanded\"]],\"minus\",\"plus\"],null],\" hierarchy-expand icon\"]]],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[1,[26,\"get-formatted\",[[22,[\"record\",\"data\"]],[21,3,[\"propName\"]]],[[\"dateFormat\",\"moment\"],[[22,[\"dateFormat\"]],[22,[\"moment\"]]]]],false],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[3,4]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"      \"],[6,\"td\"],[10,\"class\",\"object-list-view-menu\"],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right pointing ui icon dropdown button\"],[8],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"list layout icon\"],[8],[9],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"left menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showEditMenuItemInRow\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[11,\"class\",[27,[\"item \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" edit-menu\"]]],[3,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\",\"columnIndex\",\"rowEdit\"],[null,null,true]]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"edit icon\"],[8],[9],[0,\"\\n                \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.edit-menu-item-title\"],null],false],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteMenuItemInRow\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[11,\"class\",[27,[\"item \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" delete-menu\"]]],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"trash icon\"],[8],[9],[0,\"\\n                \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.delete-menu-item-title\"],null],false],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"menuInRowAdditionalItems\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[10,\"class\",\"item\"],[3,\"action\",[[21,0,[]],[22,[\"sendMenuItemAction\"]],[21,2,[\"actionName\"]],[22,[\"record\",\"data\"]]]],[8],[0,\"\\n                \"],[6,\"i\"],[11,\"class\",[27,[[21,2,[\"icon\"]]]]],[8],[9],[0,\"\\n                \"],[6,\"span\"],[8],[1,[21,2,[\"title\"]],false],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"_expanded\"]],[22,[\"inHierarchicalMode\"]]],null]],null,{\"statements\":[[4,\"each\",[[22,[\"records\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"      \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"inHierarchicalMode\",\"inExpandMode\",\"loadRecords\",\"doRenderData\",\"rowClick\",\"selectRow\",\"deleteRow\",\"_currentLevel\",\"hierarchicalIndent\",\"defaultLeftPadding\",\"overflowedComponents\",\"folvComponentName\",\"hierarchyLoadedLevel\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"sendMenuItemAction\"]],[22,[\"menuInRowAdditionalItems\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessages\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"inHierarchicalMode\"]],[26,\"unbound\",[[22,[\"inExpandMode\"]]],null],[22,[\"loadRecords\"]],[21,1,[\"doRenderData\"]],[22,[\"rowClick\"]],[22,[\"selectRow\"]],[22,[\"deleteRow\"]],[22,[\"_currentLevel\"]],[22,[\"_hierarchicalIndent\"]],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]],[22,[\"folvComponentName\"]],[22,[\"hierarchyLoadedLevel\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/object-list-view-row.hbs" } });
 });
 define("dummy/templates/components/object-list-view-single-column-cell", ["exports"], function (exports) {
   "use strict";
@@ -21838,7 +22944,7 @@ define("dummy/templates/components/object-list-view", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "LTgp2oHk", "block": "{\"symbols\":[\"record\",\"column\",\"column\",\"column\"],\"statements\":[[6,\"table\"],[11,\"class\",[27,[\"object-list-view ui unstackable celled \",[26,\"if\",[[22,[\"readonly\"]],\"readonly\"],null],\" \",[20,\"tableClass\"],\" table\"]]],[8],[0,\"\\n  \"],[6,\"thead\"],[8],[0,\"\\n    \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"        \"],[6,\"th\"],[10,\"class\",\"object-list-view-operations collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowToolbar\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showCheckBoxInRow\"]]],null,{\"statements\":[[4,\"if\",[[26,\"not-eq\",[[22,[\"class\"]],\"groupedit-container\"],null]],null,{\"statements\":[[0,\"              \"],[6,\"button\"],[11,\"class\",[27,[\"ui check-all-at-page-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[22,[\"allSelect\"]]],null],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.olv-toolbar.check-all-at-page-button-text\"],null],null],[3,\"action\",[[21,0,[]],\"checkAllAtPage\"]],[8],[0,\"\\n                  \"],[6,\"i\"],[10,\"class\",\"check-square-o icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n              \"],[6,\"button\"],[11,\"class\",[27,[\"ui check-all-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[22,[\"allSelect\"]],\"activated\"],null],\" \",[26,\"if\",[[22,[\"readonly\"]],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.olv-toolbar.check-all-button-text\"],null],null],[3,\"action\",[[21,0,[]],\"checkAll\"]],[8],[0,\"\\n                  \"],[6,\"i\"],[10,\"class\",\"check-all-square-o icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[6,\"button\"],[11,\"class\",[27,[\"ui clear-sorting-button \",[20,\"buttonClass\"],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.olv-toolbar.clear-sorting-button-text\"],null],null],[3,\"action\",[[21,0,[]],\"clearSorting\"]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"sort icon\"],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"        \"],[6,\"th\"],[10,\"class\",\"dt-head-left me class\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"headerCellClick\",[21,4,[]]],null],null],[11,\"width\",[21,4,[\"width\"]],null],[8],[0,\"\\n          \"],[6,\"div\"],[11,\"data-olv-header-property-name\",[21,4,[\"propName\"]],null],[11,\"title\",[20,\"sortTitleCompute\"],null],[8],[0,\"\\n            \"],[6,\"span\"],[8],[0,\"\\n\"],[4,\"if\",[[21,4,[\"keyLocale\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"t\",[[21,4,[\"keyLocale\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"              \"],[1,[21,4,[\"header\"]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"            \"],[9],[0,\"\\n\"],[4,\"if\",[[21,4,[\"sorted\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[10,\"class\",\"object-list-view-order-icon\"],[10,\"style\",\"float:right;\"],[8],[0,\"\\n\"],[4,\"if\",[[21,4,[\"sortAscending\"]]],null,{\"statements\":[[0,\"                  \"],[6,\"div\"],[11,\"title\",[27,[[26,\"t\",[\"components.object-list-view.sort-ascending\"],null]]]],[8],[0,\"\\n                  ▲\"],[1,[21,4,[\"sortNumber\"]],false],[0,\"\\n                  \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                  \"],[6,\"div\"],[11,\"title\",[27,[[26,\"t\",[\"components.object-list-view.sort-descending\"],null]]]],[8],[0,\"\\n                  ▼\"],[1,[21,4,[\"sortNumber\"]],false],[0,\"\\n                  \"],[9],[0,\"\\n\"]],\"parameters\":[]}],[0,\"              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[4]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"        \"],[6,\"th\"],[10,\"class\",\"object-list-view-menu collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowMenu\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"tbody\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showFilters\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[10,\"class\",\"overflowed-cell\"],[8],[0,\"\\n\"],[4,\"if\",[[21,3,[\"filter\",\"conditions\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"component\",[\"flexberry-dropdown\"],[[\"value\",\"items\",\"class\",\"placeholder\",\"needChecksOnValue\"],[[21,3,[\"filter\",\"condition\"]],[21,3,[\"filter\",\"conditions\"]],\"compact fluid\",\"\",false]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[9],[0,\"\\n\"]],\"parameters\":[3]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[11,\"class\",[27,[[26,\"if\",[[26,\"array-contains\",[[22,[\"overflowedComponents\"]],[21,2,[\"filter\",\"component\",\"name\"]]],null],\"overflowed-cell\"],null]]]],[8],[0,\"\\n\"],[4,\"if\",[[21,2,[\"filter\",\"component\",\"name\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"component\",[[21,2,[\"filter\",\"component\",\"name\"]]],[[\"value\",\"dynamicProperties\"],[[21,2,[\"filter\",\"pattern\"]],[21,2,[\"filter\",\"component\",\"properties\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[22,[\"content\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n        \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[1,[20,\"placeholder\"],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"each\",[[22,[\"contentWithKeys\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"        \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"inExpandMode\",\"loadRecords\",\"doRenderData\",\"rowClick\",\"selectRow\",\"deleteRow\",\"defaultLeftPadding\",\"overflowedComponents\",\"folvComponentName\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"sendMenuItemAction\"]],[22,[\"menuInRowAdditionalItems\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessagesInRow\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"hierarchicalIndent\"]],[22,[\"inHierarchicalMode\"]],[26,\"unbound\",[[22,[\"inExpandMode\"]]],null],[22,[\"loadRecords\"]],[21,1,[\"doRenderData\"]],[26,\"action\",[[21,0,[]],\"rowClick\"],null],[26,\"action\",[[21,0,[]],\"selectRow\"],null],[26,\"action\",[[21,0,[]],\"deleteRow\"],null],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]],[22,[\"componentName\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[4,\"if\",[[22,[\"rowByRowLoadingProgress\"]]],null,{\"statements\":[[0,\"        \"],[6,\"tr\"],[8],[0,\"\\n          \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"ui active centered inline loader\"],[8],[9],[0,\"\\n            \"],[1,[26,\"t\",[\"components.object-list-view.loading-text\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/object-list-view.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "YofvQYUN", "block": "{\"symbols\":[\"record\",\"column\",\"column\",\"column\"],\"statements\":[[6,\"table\"],[11,\"class\",[27,[\"object-list-view ui unstackable celled \",[26,\"if\",[[22,[\"readonly\"]],\"readonly\"],null],\" \",[20,\"tableClass\"],\" table\"]]],[8],[0,\"\\n  \"],[6,\"thead\"],[8],[0,\"\\n    \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"        \"],[6,\"th\"],[10,\"class\",\"object-list-view-operations collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowToolbar\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showCheckBoxInRow\"]]],null,{\"statements\":[[4,\"if\",[[26,\"not-eq\",[[22,[\"class\"]],\"groupedit-container\"],null]],null,{\"statements\":[[0,\"              \"],[6,\"button\"],[11,\"class\",[27,[\"ui check-all-at-page-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[22,[\"allSelect\"]]],null],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.olv-toolbar.check-all-at-page-button-text\"],null],null],[3,\"action\",[[21,0,[]],\"checkAllAtPage\"]],[8],[0,\"\\n                  \"],[6,\"i\"],[10,\"class\",\"check-square-o icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n              \"],[6,\"button\"],[11,\"class\",[27,[\"ui check-all-button \",[20,\"buttonClass\"],\" \",[26,\"if\",[[22,[\"allSelect\"]],\"activated\"],null],\" \",[26,\"if\",[[22,[\"readonly\"]],\"disabled\"],null],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.olv-toolbar.check-all-button-text\"],null],null],[3,\"action\",[[21,0,[]],\"checkAll\"]],[8],[0,\"\\n                  \"],[6,\"i\"],[10,\"class\",\"check-all-square-o icon\"],[8],[9],[0,\"\\n              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[6,\"button\"],[11,\"class\",[27,[\"ui clear-sorting-button \",[20,\"buttonClass\"],\" button\"]]],[11,\"title\",[26,\"t\",[\"components.olv-toolbar.clear-sorting-button-text\"],null],null],[3,\"action\",[[21,0,[]],\"clearSorting\"]],[8],[0,\"\\n                \"],[6,\"i\"],[10,\"class\",\"sort icon\"],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"        \"],[6,\"th\"],[10,\"class\",\"dt-head-left me class\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"headerCellClick\",[21,4,[]]],null],null],[11,\"width\",[21,4,[\"width\"]],null],[8],[0,\"\\n          \"],[6,\"div\"],[11,\"data-olv-header-property-name\",[21,4,[\"propName\"]],null],[11,\"title\",[20,\"sortTitleCompute\"],null],[8],[0,\"\\n            \"],[6,\"span\"],[8],[0,\"\\n\"],[4,\"if\",[[21,4,[\"keyLocale\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"t\",[[21,4,[\"keyLocale\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"              \"],[1,[21,4,[\"header\"]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"            \"],[9],[0,\"\\n\"],[4,\"if\",[[21,4,[\"sorted\"]]],null,{\"statements\":[[0,\"              \"],[6,\"div\"],[10,\"class\",\"object-list-view-order-icon\"],[10,\"style\",\"float:right;\"],[8],[0,\"\\n\"],[4,\"if\",[[21,4,[\"sortAscending\"]]],null,{\"statements\":[[0,\"                  \"],[6,\"div\"],[11,\"title\",[27,[[26,\"t\",[\"components.object-list-view.sort-ascending\"],null]]]],[8],[0,\"\\n                  ▲\"],[1,[21,4,[\"sortNumber\"]],false],[0,\"\\n                  \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                  \"],[6,\"div\"],[11,\"title\",[27,[[26,\"t\",[\"components.object-list-view.sort-descending\"],null]]]],[8],[0,\"\\n                  ▼\"],[1,[21,4,[\"sortNumber\"]],false],[0,\"\\n                  \"],[9],[0,\"\\n\"]],\"parameters\":[]}],[0,\"              \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[4]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"        \"],[6,\"th\"],[10,\"class\",\"object-list-view-menu collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowMenu\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"tbody\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showFilters\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[10,\"class\",\"overflowed-cell\"],[8],[0,\"\\n\"],[4,\"if\",[[21,3,[\"filter\",\"conditions\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"component\",[\"flexberry-dropdown\"],[[\"value\",\"items\",\"class\",\"placeholder\",\"needChecksOnValue\"],[[21,3,[\"filter\",\"condition\"]],[21,3,[\"filter\",\"conditions\"]],\"compact fluid\",\"\",false]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[9],[0,\"\\n\"]],\"parameters\":[3]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[11,\"style\",[20,\"defaultPaddingStyle\"],null],[11,\"class\",[27,[[26,\"if\",[[26,\"array-contains\",[[22,[\"overflowedComponents\"]],[21,2,[\"filter\",\"component\",\"name\"]]],null],\"overflowed-cell\"],null]]]],[8],[0,\"\\n\"],[4,\"if\",[[21,2,[\"filter\",\"component\",\"name\"]]],null,{\"statements\":[[0,\"              \"],[1,[26,\"component\",[[21,2,[\"filter\",\"component\",\"name\"]]],[[\"value\",\"dynamicProperties\"],[[21,2,[\"filter\",\"pattern\"]],[21,2,[\"filter\",\"component\",\"properties\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"rowspan\",\"1\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[22,[\"content\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n        \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[1,[20,\"placeholder\"],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"each\",[[22,[\"contentWithKeys\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"        \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"inExpandMode\",\"loadRecords\",\"doRenderData\",\"rowClick\",\"selectRow\",\"deleteRow\",\"customButtonsInRow\",\"customButtonInRowAction\",\"defaultLeftPadding\",\"overflowedComponents\",\"folvComponentName\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"sendMenuItemAction\"]],[22,[\"menuInRowAdditionalItems\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessagesInRow\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"hierarchicalIndent\"]],[22,[\"inHierarchicalMode\"]],[26,\"unbound\",[[22,[\"inExpandMode\"]]],null],[22,[\"loadRecords\"]],[21,1,[\"doRenderData\"]],[26,\"action\",[[21,0,[]],\"rowClick\"],null],[26,\"action\",[[21,0,[]],\"selectRow\"],null],[26,\"action\",[[21,0,[]],\"deleteRow\"],null],[22,[\"customButtonsInRow\"]],\"customButtonInRowAction\",[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]],[22,[\"componentName\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[4,\"if\",[[22,[\"rowByRowLoadingProgress\"]]],null,{\"statements\":[[0,\"        \"],[6,\"tr\"],[8],[0,\"\\n          \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"ui active centered inline loader\"],[8],[9],[0,\"\\n            \"],[1,[26,\"t\",[\"components.object-list-view.loading-text\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components/object-list-view.hbs" } });
 });
 define("dummy/templates/components/olv-setconfigdialogbutton", ["exports"], function (exports) {
   "use strict";
@@ -21894,7 +23000,7 @@ define("dummy/templates/ember-flexberry-dummy-application-user-list", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "oLNramAO", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"deleteButton\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-application-user\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"applicationUserObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-application-user-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Tcy35vKu", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-application-user-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"deleteButton\",\"showCheckBoxInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-application-user\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"applicationUserObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-application-user-list.hbs" } });
 });
 define("dummy/templates/ember-flexberry-dummy-application-user-list/loading", ["exports"], function (exports) {
   "use strict";
@@ -21942,7 +23048,7 @@ define("dummy/templates/ember-flexberry-dummy-localization-list", ["exports"], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "4iT1OKKo", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-localization-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-localization\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"localizationObjectListView\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-localization-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "m6ip5Fif", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-localization-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"ember-flexberry-dummy-localization\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"localizationObjectListView\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-localization-list.hbs" } });
 });
 define("dummy/templates/ember-flexberry-dummy-localization-list/loading", ["exports"], function (exports) {
   "use strict";
@@ -21966,7 +23072,7 @@ define("dummy/templates/ember-flexberry-dummy-suggestion-list", ["exports"], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "QGiHSzwu", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-suggestion-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "lQsPAAGX", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"success\",true,[22,[\"showFormSuccessMessage\"]],[22,[\"formSuccessMessageCaption\"]],[22,[\"formSuccessMessage\"]],[26,\"action\",[[21,0,[]],\"onSuccessMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onSuccessMessageHide\"],null]]]],false],[0,\"\\n  \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"caption\",\"message\",\"onShow\",\"onHide\"],[\"error\",true,[22,[\"showFormErrorMessage\"]],[22,[\"formErrorMessageCaption\"]],[22,[\"formErrorMessage\"]],[26,\"action\",[[21,0,[]],\"onErrorMessageShow\"],null],[26,\"action\",[[21,0,[]],\"onErrorMessageHide\"],null]]]],false],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"editFormRoute\",\"showCheckBoxInRow\",\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"enableFilters\",\"filters\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"applyFilters\",\"resetFilters\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showDeleteMenuItemInRow\",\"deleteButton\"],[[22,[\"editFormRoute\"]],true,\"ember-flexberry-dummy-suggestion\",[22,[\"modelProjection\"]],[22,[\"model\"]],true,true,[22,[\"filters\"]],true,true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SuggestionObjectListView\",true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-suggestion-list.hbs" } });
 });
 define("dummy/templates/ember-flexberry-dummy-suggestion-list/loading", ["exports"], function (exports) {
   "use strict";
@@ -21990,7 +23096,7 @@ define("dummy/templates/ember-flexberry-dummy-suggestion-type-list", ["exports"]
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "c3g4x2yZ", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-type-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"deleteButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showCheckBoxInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"showDeleteButtonInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SOLVSuggestionTypeObjectListView\",true,true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-suggestion-type-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "f6YfycrC", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.ember-flexberry-dummy-suggestion-type-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"deleteButton\",\"refreshButton\",\"exportExcelButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"showCheckBoxInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"showDeleteButtonInRow\"],[[22,[\"model\"]],\"ember-flexberry-dummy-suggestion-type\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,true,true,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"SOLVSuggestionTypeObjectListView\",true,true,true,true]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/ember-flexberry-dummy-suggestion-type-list.hbs" } });
 });
 define("dummy/templates/ember-flexberry-dummy-suggestion-type-list/loading", ["exports"], function (exports) {
   "use strict";
@@ -22014,7 +23120,7 @@ define("dummy/templates/error", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "MYJSStED", "block": "{\"symbols\":[],\"statements\":[[6,\"h1\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.error-form.caption\"],null],false],[9],[0,\"\\n\"],[6,\"h2\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n  \"],[1,[26,\"if\",[[22,[\"model\",\"name\"]],[26,\"concat\",[[22,[\"model\",\"name\"]],\": \"],null]],null],false],[0,\"\\n  \"],[1,[26,\"if\",[[22,[\"model\",\"message\"]],[22,[\"model\",\"message\"]]],null],false],[0,\"\\n\"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"stack\"]]],null,{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\"],[[26,\"t\",[\"forms.error-form.show-more\"],null]]],{\"statements\":[[0,\"    \"],[6,\"pre\"],[8],[1,[22,[\"model\",\"stack\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[4,\"if\",[[22,[\"model\",\"retryRoute\"]]],null,{\"statements\":[[4,\"if\",[[22,[\"model\",\"id\"]]],null,{\"statements\":[[0,\"    \"],[4,\"link-to\",[[22,[\"model\",\"retryRoute\"]],[22,[\"model\",\"id\"]]],[[\"tagName\",\"activeClass\",\"class\"],[\"button\",\"\",\"ui button\"]],{\"statements\":[[1,[26,\"t\",[\"forms.error-form.retry\"],null],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[4,\"link-to\",[[22,[\"model\",\"retryRoute\"]]],[[\"tagName\",\"activeClass\",\"class\"],[\"button\",\"\",\"ui button\"]],{\"statements\":[[1,[26,\"t\",[\"forms.error-form.retry\"],null],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/error.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Wvu78o2X", "block": "{\"symbols\":[],\"statements\":[[6,\"h1\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.error-form.caption\"],null],false],[9],[0,\"\\n\"],[6,\"h2\"],[10,\"class\",\"ui header\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"nameLocaleKey\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,\"t\",[[22,[\"model\",\"nameLocaleKey\"]]],null],false],[0,\":\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"model\",\"name\"]]],null,{\"statements\":[[0,\"    \"],[1,[22,[\"model\",\"name\"]],false],[0,\":\\n  \"]],\"parameters\":[]},null]],\"parameters\":[]}],[4,\"if\",[[22,[\"model\",\"messageLocaleKey\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,\"t\",[[22,[\"model\",\"messageLocaleKey\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,[\"model\",\"message\"]]],null,{\"statements\":[[0,\"    \"],[1,[22,[\"model\",\"message\"]],false],[0,\"\\n  \"]],\"parameters\":[]},null]],\"parameters\":[]}],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"model\",\"stack\"]]],null,{\"statements\":[[4,\"flexberry-toggler\",null,[[\"caption\"],[[26,\"t\",[\"forms.error-form.show-more\"],null]]],{\"statements\":[[0,\"    \"],[6,\"pre\"],[8],[1,[22,[\"model\",\"stack\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[4,\"if\",[[22,[\"model\",\"retryRoute\"]]],null,{\"statements\":[[4,\"if\",[[22,[\"model\",\"id\"]]],null,{\"statements\":[[0,\"    \"],[4,\"link-to\",[[22,[\"model\",\"retryRoute\"]],[22,[\"model\",\"id\"]]],[[\"tagName\",\"activeClass\",\"class\"],[\"button\",\"\",\"ui button\"]],{\"statements\":[[1,[26,\"t\",[\"forms.error-form.retry\"],null],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[4,\"link-to\",[[22,[\"model\",\"retryRoute\"]]],[[\"tagName\",\"activeClass\",\"class\"],[\"button\",\"\",\"ui button\"]],{\"statements\":[[1,[26,\"t\",[\"forms.error-form.retry\"],null],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/error.hbs" } });
 });
 define("dummy/templates/flexberry-file-view-dialog", ["exports"], function (exports) {
   "use strict";
@@ -22038,7 +23144,7 @@ define("dummy/templates/i-i-s-caseberry-logging-objects-application-log-l", ["ex
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "40fbNhcb", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.i-i-s-caseberry-logging-objects-application-log-l.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\"],[[22,[\"model\"]],\"i-i-s-caseberry-logging-objects-application-log\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"IISLoggingObjectListView\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/i-i-s-caseberry-logging-objects-application-log-l.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ITfbDsU9", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.i-i-s-caseberry-logging-objects-application-log-l.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"createNewButton\",\"refreshButton\",\"sorting\",\"orderable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"componentName\",\"beforeDeleteAllRecords\"],[[22,[\"model\"]],\"i-i-s-caseberry-logging-objects-application-log\",[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],false,true,[22,[\"computedSorting\"]],true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],\"IISLoggingObjectListView\",[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null]]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/i-i-s-caseberry-logging-objects-application-log-l.hbs" } });
 });
 define("dummy/templates/i-i-s-caseberry-logging-objects-application-log-l/loading", ["exports"], function (exports) {
   "use strict";
@@ -22094,7 +23200,7 @@ define("dummy/templates/log-service-examples/settings-example", ["exports"], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "kppCYkwX", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.log-service-examples.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"table\"],[10,\"class\",\"ui celled table flexberry-word-break\"],[8],[0,\"\\n  \"],[6,\"thead\"],[8],[0,\"\\n    \"],[6,\"tr\"],[8],[0,\"\\n      \"],[6,\"th\"],[8],[1,[26,\"t\",[\"forms.log-service-examples.settings-example.setting-column-header-caption\"],null],false],[9],[0,\"\\n      \"],[6,\"th\"],[8],[1,[26,\"t\",[\"forms.log-service-examples.settings-example.settings-value-column-header-caption\"],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"tbody\"],[8],[0,\"\\n    \"],[6,\"tr\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.enabled=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"enabled\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.enabled=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"enabled\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color:#db2828\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storeErrorMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeErrorMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeErrorMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeErrorMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #f2711c;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeWarnMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeWarnMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeWarnMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeWarnMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #fbbd08;\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storeDeprecationMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeDeprecationMessages\"]]]]],false],[9],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storeDeprecationMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeDeprecationMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #21ba45;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeLogMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeLogMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeLogMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeLogMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #00b5ad;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeInfoMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeInfoMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeInfoMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeInfoMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #2185d0;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeDebugMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeDebugMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeDebugMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeDebugMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color:#db2828\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storePromiseErrors=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storePromiseErrors\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storePromiseErrors=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storePromiseErrors\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color:#db2828\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.showPromiseErrors=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"showPromiseErrors\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.showPromiseErrors=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"showPromiseErrors\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"class\",\"createNewButton\",\"refreshButton\",\"colsConfigButton\",\"sorting\",\"orderable\",\"rowClickable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"onThrowExceptionButtonClick\",\"onRejectRsvpPromiseButtonClick\",\"onEmberAssertButtonClick\",\"onEmberLoggerErrorButtonClick\",\"onEmberLoggerWarnButtonClick\",\"onEmberDeprecateButtonClick\",\"onEmberLoggerLogButtonClick\",\"onEmberLoggerInfoButtonClick\",\"onEmberLoggerDebugButtonClick\",\"componentName\",\"colsConfigButton\"],[[22,[\"model\"]],\"i-i-s-caseberry-logging-objects-application-log\",[22,[\"modelProjection\"]],\"flexberry-word-break crimean-theme\",false,true,true,[22,[\"computedSorting\"]],true,false,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"objectListViewCustomButtons\"]],\"onThrowExceptionButtonClick\",\"onRejectRsvpPromiseButtonClick\",\"onEmberAssertButtonClick\",\"onEmberLoggerErrorButtonClick\",\"onEmberLoggerWarnButtonClick\",\"onEmberDeprecateButtonClick\",\"onEmberLoggerLogButtonClick\",\"onEmberLoggerInfoButtonClick\",\"onEmberLoggerDebugButtonClick\",\"FOLVSettingExample\",false]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/log-service-examples/settings-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "24OGD4X7", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.log-service-examples.settings-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"table\"],[10,\"class\",\"ui celled table flexberry-word-break\"],[8],[0,\"\\n  \"],[6,\"thead\"],[8],[0,\"\\n    \"],[6,\"tr\"],[8],[0,\"\\n      \"],[6,\"th\"],[8],[1,[26,\"t\",[\"forms.log-service-examples.settings-example.setting-column-header-caption\"],null],false],[9],[0,\"\\n      \"],[6,\"th\"],[8],[1,[26,\"t\",[\"forms.log-service-examples.settings-example.settings-value-column-header-caption\"],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n  \"],[6,\"tbody\"],[8],[0,\"\\n    \"],[6,\"tr\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.enabled=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"enabled\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.enabled=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"enabled\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color:#db2828\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storeErrorMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeErrorMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeErrorMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeErrorMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #f2711c;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeWarnMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeWarnMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeWarnMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeWarnMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #fbbd08;\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storeDeprecationMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeDeprecationMessages\"]]]]],false],[9],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storeDeprecationMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeDeprecationMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #21ba45;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeLogMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeLogMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeLogMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeLogMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #00b5ad;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeInfoMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeInfoMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeInfoMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeInfoMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color: #2185d0;\"],[8],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeDebugMessages=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storeDebugMessages\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storeDebugMessages=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storeDebugMessages\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color:#db2828\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.storePromiseErrors=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"storePromiseErrors\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.storePromiseErrors=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"storePromiseErrors\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"tr\"],[10,\"style\",\"background-color:#db2828\"],[8],[0,\"\\n    \"],[6,\"td\"],[8],[0,\"logService.showPromiseErrors=\"],[1,[26,\"input\",null,[[\"type\",\"checked\"],[\"checkbox\",[22,[\"logService\",\"showPromiseErrors\"]]]]],false],[9],[0,\"\\n      \"],[6,\"td\"],[8],[0,\"logService.showPromiseErrors=\"],[1,[26,\"to-string\",[[22,[\"logService\",\"showPromiseErrors\"]]],null],false],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"class\",\"createNewButton\",\"refreshButton\",\"colsConfigButton\",\"sorting\",\"orderable\",\"rowClickable\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"sortByColumn\",\"addColumnToSorting\",\"beforeDeleteAllRecords\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"onThrowExceptionButtonClick\",\"onRejectRsvpPromiseButtonClick\",\"onEmberAssertButtonClick\",\"onEmberLoggerErrorButtonClick\",\"onEmberLoggerWarnButtonClick\",\"onEmberDeprecateButtonClick\",\"onEmberLoggerLogButtonClick\",\"onEmberLoggerInfoButtonClick\",\"onEmberLoggerDebugButtonClick\",\"componentName\",\"colsConfigButton\"],[[22,[\"model\"]],\"i-i-s-caseberry-logging-objects-application-log\",[22,[\"modelProjection\"]],\"flexberry-word-break crimean-theme\",false,true,true,[22,[\"computedSorting\"]],true,false,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"objectListViewCustomButtons\"]],\"onThrowExceptionButtonClick\",\"onRejectRsvpPromiseButtonClick\",\"onEmberAssertButtonClick\",\"onEmberLoggerErrorButtonClick\",\"onEmberLoggerWarnButtonClick\",\"onEmberDeprecateButtonClick\",\"onEmberLoggerLogButtonClick\",\"onEmberLoggerInfoButtonClick\",\"onEmberLoggerDebugButtonClick\",\"FOLVSettingExample\",false]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/log-service-examples/settings-example.hbs" } });
 });
 define("dummy/templates/lookup-dialog-content", ["exports"], function (exports) {
   "use strict";
@@ -22102,7 +23208,7 @@ define("dummy/templates/lookup-dialog-content", ["exports"], function (exports) 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "wyBP12fI", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[10,\"id\",\"lookup-list\"],[10,\"class\",\"list-group\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"class\",\"modelProjection\",\"content\",\"selectedRecord\",\"componentMode\",\"componentName\",\"showEditMenuItemInRow\",\"createNewButton\",\"showCheckBoxInRow\",\"colsConfigButton\",\"columnsWidthAutoresize\",\"filterByAnyMatch\",\"filterText\",\"filters\",\"applyFilters\",\"resetFilters\",\"customProperties\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"notUseUserSettings\"],[\"ui bottom attached\",[22,[\"modelProjection\"]],[22,[\"model\"]],[22,[\"currentLookupRow\"]],\"lookupform\",[22,[\"folvComponentName\"]],false,false,false,false,true,[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"filter\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[22,[\"customPropertiesData\"]],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"notUseUserSettings\"]]]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/lookup-dialog-content.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "S1e3J3Te", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[10,\"id\",\"lookup-list\"],[10,\"class\",\"list-group\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"class\",\"modelProjection\",\"content\",\"selectedRecord\",\"componentMode\",\"componentName\",\"showEditMenuItemInRow\",\"createNewButton\",\"showCheckBoxInRow\",\"colsConfigButton\",\"columnsWidthAutoresize\",\"filterByAnyMatch\",\"filterText\",\"filters\",\"applyFilters\",\"resetFilters\",\"customProperties\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"notUseUserSettings\",\"beforeDeleteAllRecords\"],[\"ui bottom attached\",[22,[\"modelProjection\"]],[22,[\"model\"]],[22,[\"currentLookupRow\"]],\"lookupform\",[22,[\"folvComponentName\"]],false,false,false,false,true,[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[22,[\"filter\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"applyFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\"],null],[22,[\"customPropertiesData\"]],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"notUseUserSettings\"]],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null]]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/lookup-dialog-content.hbs" } });
 });
 define("dummy/templates/lookup-dialog", ["exports"], function (exports) {
   "use strict";
@@ -22118,7 +23224,7 @@ define("dummy/templates/mobile/application", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "IdKnwNQs", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[22,[\"isInAcceptanceTestMode\"]]],null,{\"statements\":[[0,\"  \"],[1,[20,\"outlet\"],false],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"flexberry-sidebar\",null,[[\"class\",\"settings\"],[\"mobile inverted vertical main menu\",[26,\"hash\",null,[[\"onShow\",\"onHidden\"],[[26,\"action\",[[21,0,[]],\"updateWidth\"],null],[26,\"action\",[[21,0,[]],\"updateWidth\"],null]]]]]],{\"statements\":[[0,\"  \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-version.title\"],null],null],[8],[0,\"\\n    \"],[1,[26,\"t\",[\"forms.application.sitemap.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[6,\"div\"],[10,\"class\",\"bgw-fix mobile\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"background-logo mobile\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui attached menu mobile\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui container flex-container\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"launch icon item mobile\"],[11,\"title\",[26,\"t\",[\"forms.application.header.menu.sitemap-button.title\"],null],null],[3,\"action\",[[21,0,[]],\"toggleSidebarMobile\"]],[8],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"sidebar icon text-menu-show\"],[8],[9],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"sidebar icon hidden text-menu-hide hidden-text\"],[8],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right item\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.user-settings-service-checkbox.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-checkbox\",null,[[\"class\",\"value\"],[\"toggle\",[22,[\"userSettingsService\",\"isUserSettingsServiceEnabled\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right item lang\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.language-dropdown.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-dropdown\",null,[[\"class\",\"items\",\"value\",\"placeholder\"],[\"compact\",[22,[\"locales\"]],[22,[\"i18n\",\"locale\"]],[26,\"t\",[\"forms.application.header.menu.language-dropdown.placeholder\"],null]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"id\",\"example-mobile\"],[10,\"class\",\"pusher\"],[8],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"ui form \",[22,[\"objectlistviewEventsService\",\"loadingState\"]]]]],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"full height\"],[10,\"style\",\"min-height: 94.8vh!important;\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"flexberry-content ui attached segment\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"stackable grid container\"],[8],[0,\"\\n            \"],[1,[20,\"outlet\"],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"ui vertical footer segment\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"ui container flex-container mobile-footer\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui text menu\"],[8],[0,\"\\n      \"],[6,\"a\"],[10,\"class\",\"brand item\"],[10,\"href\",\"#\"],[8],[0,\"\\n        \"],[1,[26,\"t\",[\"forms.application.footer.application-name\"],null],false],[0,\"\\n      \"],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.footer.application-version.title\"],null],null],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.footer.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/application.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "6HFlg/te", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[22,[\"isInAcceptanceTestMode\"]]],null,{\"statements\":[[0,\"  \"],[1,[20,\"outlet\"],false],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"flexberry-sidebar\",null,[[\"class\",\"settings\"],[\"mobile inverted vertical main menu\",[26,\"hash\",null,[[\"onShow\",\"onHidden\"],[[26,\"action\",[[21,0,[]],\"updateWidth\"],null],[26,\"action\",[[21,0,[]],\"updateWidth\"],null]]]]]],{\"statements\":[[0,\"  \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.sitemap.application-version.title\"],null],null],[8],[0,\"\\n    \"],[1,[26,\"t\",[\"forms.application.sitemap.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n  \"],[9],[0,\"\\n  \"],[1,[26,\"flexberry-sitemap\",null,[[\"sitemap\"],[[22,[\"sitemap\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[6,\"div\"],[10,\"class\",\"bgw-fix mobile\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"background-logo mobile\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui attached menu mobile\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"ui container flex-container\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"launch icon item mobile\"],[11,\"title\",[26,\"t\",[\"forms.application.header.menu.sitemap-button.title\"],null],null],[3,\"action\",[[21,0,[]],\"toggleSidebarMobile\"]],[8],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"sidebar icon text-menu-show\"],[8],[9],[0,\"\\n          \"],[6,\"i\"],[10,\"class\",\"sidebar icon hidden text-menu-hide hidden-text\"],[8],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right item\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.user-settings-service-checkbox.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-checkbox\",null,[[\"class\",\"value\"],[\"toggle\",[22,[\"userSettingsService\",\"isUserSettingsServiceEnabled\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"right item lang\"],[8],[0,\"\\n          \"],[6,\"label\"],[10,\"style\",\"margin-right: 5px;\"],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.header.menu.language-dropdown.caption\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n          \"],[1,[26,\"flexberry-dropdown\",null,[[\"class\",\"items\",\"value\",\"placeholder\"],[\"compact\",[22,[\"locales\"]],[22,[\"i18n\",\"locale\"]],[26,\"t\",[\"forms.application.header.menu.language-dropdown.placeholder\"],null]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"id\",\"example-mobile\"],[10,\"class\",\"pusher mobile\"],[8],[0,\"\\n  \"],[6,\"div\"],[11,\"class\",[27,[\"ui form \",[22,[\"objectlistviewEventsService\",\"loadingState\"]]]]],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"full height\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"flexberry-content ui attached segment\"],[8],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",\"stackable grid container\"],[8],[0,\"\\n            \"],[1,[20,\"outlet\"],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"ui main container\"],[8],[0,\"\\n  \"],[1,[26,\"outlet\",[\"modal\"],null],false],[0,\"\\n\"],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"ui vertical footer segment\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"ui container flex-container mobile-footer\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui text menu\"],[8],[0,\"\\n      \"],[6,\"a\"],[10,\"class\",\"brand item\"],[10,\"href\",\"#\"],[8],[0,\"\\n        \"],[1,[26,\"t\",[\"forms.application.footer.application-name\"],null],false],[0,\"\\n      \"],[9],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n        \"],[6,\"a\"],[10,\"class\",\"item\"],[11,\"href\",[20,\"addonVersionHref\"],null],[10,\"target\",\"_blank\"],[11,\"title\",[26,\"t\",[\"forms.application.footer.application-version.title\"],null],null],[8],[0,\"\\n            \"],[1,[26,\"t\",[\"forms.application.footer.application-version.caption\"],[[\"version\"],[[22,[\"addonVersion\"]]]]],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/application.hbs" } });
 });
 define("dummy/templates/mobile/components-examples/flexberry-lookup/lookup-block-form-example", ["exports"], function (exports) {
   "use strict";
@@ -22150,7 +23256,7 @@ define("dummy/templates/mobile/components/flexberry-lookup", ["exports"], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "OJMrw5Ob", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[22,[\"dropdown\"]]],null,{\"statements\":[[0,\"  \"],[1,[26,\"flexberry-dropdown\",null,[[\"placeholder\",\"class\",\"value\",\"readonly\",\"needChecksOnValue\",\"isSearch\",\"isSearchReadOnly\"],[[22,[\"placeholder\"]],\"search\",[22,[\"displayValue\"]],[26,\"if\",[[22,[\"readonly\"]],\"readonly\"],null],false,true,[22,[\"dropdownIsSearch\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"ui action input\"],[8],[0,\"\\n    \"],[6,\"div\"],[11,\"class\",[27,[\"ui transparent \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[22,[\"isBlocked\"]]],null],\" disabled\"],null],\" \",[26,\"if\",[[26,\"or\",[[22,[\"modalIsBeforeToShow\"]],[22,[\"modalIsStartToShow\"]]],null],\" loading\"],null],\" icon input \"]]],[3,\"action\",[[21,0,[]],\"choose\",[22,[\"chooseData\"]]]],[8],[0,\"\\n      \"],[6,\"span\"],[10,\"class\",\"lookup-field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"value\"]]],null,{\"statements\":[[4,\"if\",[[23,1]],null,{\"statements\":[[0,\"            \"],[13,1],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[1,[20,\"displayValue\"],false],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[1,[20,\"placeholder\"],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[0,\"        \"],[6,\"i\"],[10,\"class\",\"chevron right icon\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[0,\"      \"],[6,\"button\"],[11,\"class\",[27,[\"ui icon \",[20,\"removeButtonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[22,[\"isBlocked\"]]],null],\" disabled\"],null],\" button\"]]],[3,\"action\",[[21,0,[]],\"remove\",[22,[\"removeData\"]]]],[8],[0,\"\\n        \"],[6,\"i\"],[10,\"class\",\"remove icon\"],[8],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/flexberry-lookup.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ww0TV5Lz", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[22,[\"dropdown\"]]],null,{\"statements\":[[0,\"  \"],[1,[26,\"flexberry-dropdown\",null,[[\"placeholder\",\"class\",\"value\",\"readonly\",\"needChecksOnValue\",\"isSearch\",\"isSearchReadOnly\"],[[22,[\"placeholder\"]],\"search\",[22,[\"displayValue\"]],[26,\"if\",[[22,[\"readonly\"]],\"readonly\"],null],false,true,[22,[\"dropdownIsSearch\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"ui action input\"],[8],[0,\"\\n    \"],[6,\"div\"],[11,\"class\",[27,[\"ui transparent \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[22,[\"isBlocked\"]]],null],\" disabled\"],null],\" \",[26,\"if\",[[26,\"or\",[[22,[\"modalIsBeforeToShow\"]],[22,[\"modalIsStartToShow\"]]],null],\" loading\"],null],\" icon input \"]]],[3,\"action\",[[21,0,[]],\"choose\",[22,[\"chooseData\"]]]],[8],[0,\"\\n      \"],[6,\"span\"],[10,\"class\",\"lookup-field\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"value\"]]],null,{\"statements\":[[4,\"if\",[[23,1]],null,{\"statements\":[[0,\"            \"],[13,1],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[1,[20,\"displayValue\"],false],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[1,[20,\"placeholder\"],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      \"],[9],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[0,\"        \"],[6,\"i\"],[10,\"class\",\"chevron right icon\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n\"],[4,\"unless\",[[22,[\"readonly\"]]],null,{\"statements\":[[0,\"      \"],[6,\"button\"],[11,\"class\",[27,[\"ui ui-clear \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[22,[\"isBlocked\"]]],null],\" disabled\"],null],\" \",[20,\"removeButtonClass\"],\" button\"]]],[3,\"action\",[[21,0,[]],\"remove\",[22,[\"removeData\"]]]],[8],[0,\"\\n        \"],[1,[20,\"removeText\"],true],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/flexberry-lookup.hbs" } });
 });
 define("dummy/templates/mobile/components/flexberry-objectlistview", ["exports"], function (exports) {
   "use strict";
@@ -22158,7 +23264,7 @@ define("dummy/templates/mobile/components/flexberry-objectlistview", ["exports"]
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "hij/SvQj", "block": "{\"symbols\":[\"page\",\"@gotoPage\",\"@previousPage\",\"@nextPage\",\"@resetFilters\",\"@configurateSelectedRows\",\"@configurateRow\",\"@filterByAnyMatch\",\"@addColumnToSorting\",\"@sortByColumn\"],\"statements\":[[1,[26,\"olv-toolbar\",null,[[\"class\",\"createNewButton\",\"enableCreateNewButton\",\"refreshButton\",\"deleteButton\",\"colsConfigButton\",\"enableFilters\",\"exportExcelButton\",\"showFilters\",\"filters\",\"toggleStateFilters\",\"resetFilters\",\"filterButton\",\"filterText\",\"buttonClass\",\"enableDeleteButton\",\"componentName\",\"modelController\",\"customButtonAction\",\"customButtons\",\"editFormRoute\",\"showConfigDialog\",\"confirmDeleteRows\",\"inHierarchicalMode\",\"inExpandMode\",\"availableHierarchicalMode\",\"availableCollExpandMode\",\"switchHierarchicalMode\",\"switchExpandMode\",\"readonly\"],[\"ui secondary menu no-margin\",[22,[\"createNewButton\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"refreshButton\"]],[22,[\"deleteButton\"]],[22,[\"colsConfigButton\"]],[22,[\"enableFilters\"]],[22,[\"exportExcelButton\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"toggleStateFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\",[21,5,[]]],null],[22,[\"filterButton\"]],[22,[\"filterText\"]],[22,[\"buttonClass\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"componentName\"]],[22,[\"currentController\"]],[26,\"action\",[[21,0,[]],\"customButtonAction\"],null],[22,[\"customButtons\"]],[22,[\"editFormRoute\"]],\"showConfigDialog\",[22,[\"confirmDeleteRows\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[22,[\"_availableHierarchicalMode\"]],[22,[\"_availableCollExpandMode\"]],[26,\"action\",[[21,0,[]],\"switchHierarchicalMode\"],null],[26,\"action\",[[21,0,[]],\"switchExpandMode\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n\"],[1,[26,\"object-list-view\",null,[[\"placeholder\",\"readonly\",\"columnsWidthAutoresize\",\"minAutoColumnWidth\",\"buttonClass\",\"tableStriped\",\"customTableClass\",\"cellComponent\",\"singleColumnCellComponent\",\"singleColumnHeaderTitle\",\"showValidationMessagesInRow\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"rowClickable\",\"orderable\",\"sorting\",\"immediateDelete\",\"modelName\",\"modelProjection\",\"content\",\"sortByColumn\",\"addColumnToSorting\",\"enableFilters\",\"showFilters\",\"filters\",\"applyFilters\",\"componentForFilter\",\"conditionsByType\",\"filterByAnyMatch\",\"filterByAnyWord\",\"filterByAllWords\",\"configurateRow\",\"configurateSelectedRows\",\"confirmDeleteRow\",\"beforeDeleteRecord\",\"action\",\"componentName\",\"allowColumnResize\",\"selectedRecord\",\"notUseUserSettings\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"inExpandMode\",\"disableHierarchicalMode\",\"loadRecords\",\"availableHierarchicalMode\",\"useRowByRowLoading\",\"useRowByRowLoadingProgress\",\"eventsBus\",\"onEditForm\",\"defaultLeftPadding\",\"overflowedComponents\"],[[22,[\"placeholder\"]],[22,[\"readonly\"]],true,[22,[\"minAutoColumnWidth\"]],[22,[\"buttonClass\"]],[22,[\"tableStriped\"]],[22,[\"customTableClass\"]],[22,[\"cellComponent\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"singleColumnHeaderTitle\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"showValidationMessagesInRow\"]]],null],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[26,\"action\",[[21,0,[]],\"sendMenuItemAction\"],null],[22,[\"menuInRowAdditionalItems\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"rowClickable\"]]],null],[22,[\"orderable\"]],[22,[\"sorting\"]],true,[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"content\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,10,[]],[21,10,[]],\"sortByColumn\"],null]],null],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,9,[]],[21,9,[]],\"addColumnToSorting\"],null]],null],[22,[\"enableFilters\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[22,[\"applyFilters\"]],[22,[\"applyFilters\"]],\"applyFilters\"],null]],null],[22,[\"componentForFilter\"]],[22,[\"conditionsByType\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,8,[]],[21,8,[]],\"filterByAnyMatch\"],null]],null],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[21,7,[]],[21,6,[]],[22,[\"confirmDeleteRow\"]],[22,[\"beforeDeleteRecord\"]],[26,\"action\",[[21,0,[]],\"objectListViewRowClick\"],null],[22,[\"componentName\"]],[22,[\"allowColumnResize\"]],[22,[\"selectedRecord\"]],[22,[\"notUseUserSettings\"]],[22,[\"hierarchicalIndent\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[26,\"if\",[[22,[\"hierarchyByAttribute\"]],true,[22,[\"disableHierarchicalMode\"]]],null],[26,\"action\",[[21,0,[]],\"loadRecords\"],null],[26,\"action\",[[21,0,[]],\"availableHierarchicalMode\"],null],[22,[\"useRowByRowLoading\"]],[22,[\"useRowByRowLoadingProgress\"]],[22,[\"eventsBus\"]],[22,[\"onEditForm\"]],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]]]]],false],[0,\"\\n\"],[4,\"unless\",[[22,[\"_inHierarchicalMode\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"ui secondary menu no-margin nav-bar\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui basic buttons\"],[8],[0,\"\\n      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasPreviousPage\"]],\"disabled\"],null],\" button prev-page-button\"]]],[3,\"action\",[[21,0,[]],\"previousPage\",[21,3,[]]]],[8],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"pages\"]]],null,{\"statements\":[[4,\"if\",[[21,1,[\"isEllipsis\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"ui button\"],[8],[0,\"...\"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[21,1,[\"isCurrent\"]]],null,{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui active button\"],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"gotoPage\",[21,2,[]],[21,1,[\"number\"]]]],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]}]],\"parameters\":[1]},null],[0,\"      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasNextPage\"]],\"disabled\"],null],\" button next-page-button\"]]],[3,\"action\",[[21,0,[]],\"nextPage\",[21,4,[]]]],[8],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showShowingEntries\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[10,\"class\",\"showing-entries\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"currentIntervalRecords\"]],[22,[\"recordsTotalCount\"]]],null]],null,{\"statements\":[[0,\"            \"],[1,[26,\"concat\",[[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.showing\"],null],[22,[\"currentIntervalRecords\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.of\"],null],[22,[\"recordsTotalCount\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.entries\"],null]],null],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[26,\"flexberry-dropdown\",null,[[\"needChecksOnValue\",\"items\",\"value\",\"class\",\"onChange\",\"settings\"],[false,[22,[\"perPageValues\"]],[22,[\"perPageValue\"]],\"compact selection\",[26,\"action\",[[21,0,[]],\"perPageClick\"],null],[26,\"hash\",null,[[\"direction\"],[\"upward\"]]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/flexberry-objectlistview.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "soru08ul", "block": "{\"symbols\":[\"page\",\"@gotoPage\",\"@previousPage\",\"@nextPage\",\"@resetFilters\",\"@configurateSelectedRows\",\"@configurateRow\",\"@filterByAnyMatch\",\"@addColumnToSorting\",\"@sortByColumn\"],\"statements\":[[1,[26,\"olv-toolbar\",null,[[\"class\",\"createNewButton\",\"enableCreateNewButton\",\"refreshButton\",\"deleteButton\",\"colsConfigButton\",\"enableFilters\",\"exportExcelButton\",\"showFilters\",\"filters\",\"toggleStateFilters\",\"resetFilters\",\"filterButton\",\"filterText\",\"buttonClass\",\"enableDeleteButton\",\"componentName\",\"modelController\",\"customButtonAction\",\"customButtons\",\"editFormRoute\",\"showConfigDialog\",\"confirmDeleteRows\",\"inHierarchicalMode\",\"inExpandMode\",\"availableHierarchicalMode\",\"availableCollExpandMode\",\"switchHierarchicalMode\",\"switchExpandMode\",\"readonly\"],[\"ui secondary menu no-margin\",[22,[\"createNewButton\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"refreshButton\"]],[22,[\"deleteButton\"]],[22,[\"colsConfigButton\"]],[22,[\"enableFilters\"]],[22,[\"exportExcelButton\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],\"toggleStateFilters\"],null],[26,\"action\",[[21,0,[]],\"resetFilters\",[21,5,[]]],null],[22,[\"filterButton\"]],[22,[\"filterText\"]],[22,[\"buttonClass\"]],[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"componentName\"]],[22,[\"currentController\"]],[26,\"action\",[[21,0,[]],\"customButtonAction\"],null],[22,[\"customButtons\"]],[22,[\"editFormRoute\"]],\"showConfigDialog\",[22,[\"confirmDeleteRows\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[22,[\"_availableHierarchicalMode\"]],[22,[\"_availableCollExpandMode\"]],[26,\"action\",[[21,0,[]],\"switchHierarchicalMode\"],null],[26,\"action\",[[21,0,[]],\"switchExpandMode\"],null],[22,[\"readonly\"]]]]],false],[0,\"\\n\"],[1,[26,\"object-list-view\",null,[[\"placeholder\",\"readonly\",\"columnsWidthAutoresize\",\"minAutoColumnWidth\",\"buttonClass\",\"tableStriped\",\"customTableClass\",\"cellComponent\",\"singleColumnCellComponent\",\"singleColumnHeaderTitle\",\"showValidationMessagesInRow\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"showEditButtonInRow\",\"showEditMenuItemInRow\",\"showDeleteMenuItemInRow\",\"sendMenuItemAction\",\"menuInRowAdditionalItems\",\"rowClickable\",\"orderable\",\"sorting\",\"immediateDelete\",\"modelName\",\"modelProjection\",\"content\",\"sortByColumn\",\"addColumnToSorting\",\"enableFilters\",\"showFilters\",\"filters\",\"applyFilters\",\"componentForFilter\",\"conditionsByType\",\"filterByAnyMatch\",\"filterByAnyWord\",\"filterByAllWords\",\"configurateRow\",\"configurateSelectedRows\",\"confirmDeleteRow\",\"beforeDeleteRecord\",\"action\",\"beforeDeleteAllRecords\",\"componentName\",\"allowColumnResize\",\"selectedRecord\",\"notUseUserSettings\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"inExpandMode\",\"disableHierarchicalMode\",\"loadRecords\",\"availableHierarchicalMode\",\"useRowByRowLoading\",\"useRowByRowLoadingProgress\",\"eventsBus\",\"onEditForm\",\"defaultLeftPadding\",\"overflowedComponents\"],[[22,[\"placeholder\"]],[22,[\"readonly\"]],true,[22,[\"minAutoColumnWidth\"]],[22,[\"buttonClass\"]],[22,[\"tableStriped\"]],[22,[\"customTableClass\"]],[22,[\"cellComponent\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"singleColumnHeaderTitle\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"showValidationMessagesInRow\"]]],null],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"showEditButtonInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[26,\"action\",[[21,0,[]],\"sendMenuItemAction\"],null],[22,[\"menuInRowAdditionalItems\"]],[26,\"and\",[[26,\"not\",[[22,[\"readonly\"]]],null],[22,[\"rowClickable\"]]],null],[22,[\"orderable\"]],[22,[\"sorting\"]],true,[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"content\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,10,[]],[21,10,[]],\"sortByColumn\"],null]],null],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,9,[]],[21,9,[]],\"addColumnToSorting\"],null]],null],[22,[\"enableFilters\"]],[22,[\"_showFilters\"]],[22,[\"filters\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[22,[\"applyFilters\"]],[22,[\"applyFilters\"]],\"applyFilters\"],null]],null],[22,[\"componentForFilter\"]],[22,[\"conditionsByType\"]],[26,\"action\",[[21,0,[]],[26,\"if\",[[21,8,[]],[21,8,[]],\"filterByAnyMatch\"],null]],null],[22,[\"filterByAnyWord\"]],[22,[\"filterByAllWords\"]],[21,7,[]],[21,6,[]],[22,[\"confirmDeleteRow\"]],[22,[\"beforeDeleteRecord\"]],[26,\"action\",[[21,0,[]],\"objectListViewRowClick\"],null],[22,[\"beforeDeleteAllRecords\"]],[22,[\"componentName\"]],[22,[\"allowColumnResize\"]],[22,[\"selectedRecord\"]],[22,[\"notUseUserSettings\"]],[22,[\"hierarchicalIndent\"]],[22,[\"_inHierarchicalMode\"]],[22,[\"_inExpandMode\"]],[26,\"if\",[[22,[\"hierarchyByAttribute\"]],true,[22,[\"disableHierarchicalMode\"]]],null],[26,\"action\",[[21,0,[]],\"loadRecords\"],null],[26,\"action\",[[21,0,[]],\"availableHierarchicalMode\"],null],[22,[\"useRowByRowLoading\"]],[22,[\"useRowByRowLoadingProgress\"]],[22,[\"eventsBus\"]],[22,[\"onEditForm\"]],[22,[\"defaultLeftPadding\"]],[22,[\"overflowedComponents\"]]]]],false],[0,\"\\n\"],[4,\"unless\",[[22,[\"_inHierarchicalMode\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",\"ui secondary menu no-margin nav-bar\"],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"ui basic buttons\"],[8],[0,\"\\n      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasPreviousPage\"]],\"disabled\"],null],\" button prev-page-button\"]]],[3,\"action\",[[21,0,[]],\"previousPage\",[21,3,[]]]],[8],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"pages\"]]],null,{\"statements\":[[4,\"if\",[[21,1,[\"isEllipsis\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"ui button\"],[8],[0,\"...\"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[21,1,[\"isCurrent\"]]],null,{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui active button\"],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[6,\"button\"],[10,\"class\",\"ui button\"],[3,\"action\",[[21,0,[]],\"gotoPage\",[21,2,[]],[21,1,[\"number\"]]]],[8],[1,[21,1,[\"number\"]],false],[9],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]}]],\"parameters\":[1]},null],[0,\"      \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[26,\"unless\",[[22,[\"hasNextPage\"]],\"disabled\"],null],\" button next-page-button\"]]],[3,\"action\",[[21,0,[]],\"nextPage\",[21,4,[]]]],[8],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"right menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showShowingEntries\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[10,\"class\",\"showing-entries\"],[8],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"currentIntervalRecords\"]],[22,[\"recordsTotalCount\"]]],null]],null,{\"statements\":[[0,\"            \"],[1,[26,\"concat\",[[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.showing\"],null],[22,[\"currentIntervalRecords\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.of\"],null],[22,[\"recordsTotalCount\"]],[26,\"t\",[\"components.flexberry-objectlistview.showing-entries.entries\"],null]],null],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[26,\"flexberry-dropdown\",null,[[\"needChecksOnValue\",\"items\",\"value\",\"class\",\"onChange\",\"settings\"],[false,[22,[\"perPageValues\"]],[22,[\"perPageValue\"]],\"compact selection\",[26,\"action\",[[21,0,[]],\"perPageClick\"],null],[26,\"hash\",null,[[\"direction\"],[\"upward\"]]]]]],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/flexberry-objectlistview.hbs" } });
 });
 define("dummy/templates/mobile/components/object-list-view-row", ["exports"], function (exports) {
   "use strict";
@@ -22166,7 +23272,7 @@ define("dummy/templates/mobile/components/object-list-view-row", ["exports"], fu
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "XSoECPMy", "block": "{\"symbols\":[\"record\"],\"statements\":[[6,\"tr\"],[11,\"class\",[27,[[22,[\"record\",\"rowConfig\",\"customClass\"]]]]],[8],[0,\"\\n  \"],[6,\"td\"],[11,\"class\",[27,[\"object-list-view-helper-column \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"hidden\"],[8],[1,[22,[\"record\",\"key\"]],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"object-list-view-helper-column-cell\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showAsteriskInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n            \"],[6,\"i\"],[11,\"class\",[27,[\"asterisk small red icon \",[26,\"unless\",[[22,[\"record\",\"data\",\"hasDirtyAttributes\"]],\"transparent\"],null]]]],[8],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showCheckBoxInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n            \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"onChange\"],[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeSelected\"]]],null]],null],[26,\"action\",[[21,0,[]],[22,[\"selectRow\"]],[22,[\"record\"]]],null]]]],false],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteButtonInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n            \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[20,\"buttonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" button\"]]],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"minus icon\"],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n    \"],[6,\"td\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\"],[[22,[\"columns\"]]]]]],[[\"preventDefault\"],[false]]],null],[11,\"style\",[27,[\"padding-left:\",[20,\"hierarchicalIndent\"],\"px;\"]]],[8],[0,\"\\n      \"],[1,[26,\"component\",[[22,[\"singleColumnCellComponent\",\"componentName\"]]],[[\"model\",\"columns\",\"showValidationMessages\",\"hasEditableValues\",\"dynamicProperties\",\"readonly\"],[[22,[\"record\",\"data\"]],[22,[\"columns\"]],[22,[\"showValidationMessages\"]],[22,[\"hasEditableValues\"]],[22,[\"singleColumnCellComponent\",\"componentProperties\"]],[22,[\"readonly\"]]]]],false],[0,\"\\n\"],[4,\"if\",[[22,[\"hasRecords\"]]],null,{\"statements\":[[0,\"        \"],[6,\"button\"],[11,\"class\",[27,[\"ui button icon mini \",[20,\"buttonClass\"]]]],[3,\"action\",[[21,0,[]],\"expand\"],[[\"bubbles\"],[false]]],[8],[0,\"\\n          \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"_expanded\"]],\"minus\",\"plus\"],null],\" hierarchy-expand icon\"]]],[8],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"    \"],[6,\"td\"],[10,\"class\",\"object-list-view-menu\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"right pointing ui icon dropdown button\"],[8],[0,\"\\n        \"],[6,\"i\"],[10,\"class\",\"list layout icon\"],[8],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"left menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showEditMenuItemInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"item\"],[3,\"action\",[[21,0,[]],[22,[\"rowClick\"]],[22,[\"record\"]]]],[8],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"edit icon\"],[8],[9],[0,\"\\n              \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.edit-menu-item-title\"],null],false],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteMenuItemInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"item\"],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"trash icon\"],[8],[9],[0,\"\\n              \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.delete-menu-item-title\"],null],false],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[9],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"_expanded\"]],[22,[\"inHierarchicalMode\"]]],null]],null,{\"statements\":[[4,\"each\",[[22,[\"records\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"    \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"inHierarchicalMode\",\"singleColumnCellComponent\",\"loadRecords\",\"rowClick\",\"selectRow\",\"deleteRow\",\"_currentLevel\",\"hierarchicalIndent\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessages\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"inHierarchicalMode\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"loadRecords\"]],[22,[\"rowClick\"]],[22,[\"selectRow\"]],[22,[\"deleteRow\"]],[22,[\"_currentLevel\"]],[22,[\"_hierarchicalIndent\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/object-list-view-row.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Xd0RRHfI", "block": "{\"symbols\":[\"record\"],\"statements\":[[6,\"tr\"],[11,\"class\",[27,[[22,[\"record\",\"rowConfig\",\"customClass\"]]]]],[8],[0,\"\\n  \"],[6,\"td\"],[11,\"class\",[27,[\"object-list-view-helper-column \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",\"hidden\"],[8],[1,[22,[\"record\",\"key\"]],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[10,\"class\",\"object-list-view-helper-column-cell\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showAsteriskInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n            \"],[6,\"i\"],[11,\"class\",[27,[\"asterisk small red icon \",[26,\"unless\",[[22,[\"record\",\"data\",\"hasDirtyAttributes\"]],\"transparent\"],null]]]],[8],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showCheckBoxInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n            \"],[1,[26,\"flexberry-checkbox\",null,[[\"readonly\",\"onChange\"],[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeSelected\"]]],null]],null],[26,\"action\",[[21,0,[]],[22,[\"selectRow\"]],[22,[\"record\"]]],null]]]],false],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteButtonInRow\"]]],null,{\"statements\":[[0,\"          \"],[6,\"div\"],[10,\"class\",\"cell\"],[8],[0,\"\\n            \"],[6,\"button\"],[11,\"class\",[27,[\"ui \",[20,\"buttonClass\"],\" \",[26,\"if\",[[26,\"or\",[[22,[\"readonly\"]],[26,\"not\",[[22,[\"record\",\"rowConfig\",\"canBeDeleted\"]]],null]],null],\"disabled\"],null],\" button\"]]],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"minus icon\"],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[9],[0,\"\\n    \"],[6,\"td\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"onRowClick\",[22,[\"record\"]],[26,\"hash\",null,[[\"column\"],[[22,[\"columns\"]]]]]],[[\"preventDefault\"],[false]]],null],[11,\"style\",[27,[\"padding-left:\",[20,\"hierarchicalIndent\"],\"px;\"]]],[8],[0,\"\\n      \"],[1,[26,\"component\",[[22,[\"singleColumnCellComponent\",\"componentName\"]]],[[\"model\",\"columns\",\"showValidationMessages\",\"hasEditableValues\",\"dynamicProperties\",\"readonly\"],[[22,[\"record\",\"data\"]],[22,[\"columns\"]],[22,[\"showValidationMessages\"]],[22,[\"hasEditableValues\"]],[22,[\"singleColumnCellComponent\",\"componentProperties\"]],[22,[\"readonly\"]]]]],false],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"inHierarchicalMode\"]],[22,[\"hasRecords\"]]],null]],null,{\"statements\":[[0,\"        \"],[6,\"button\"],[11,\"class\",[27,[\"ui button icon mini \",[20,\"buttonClass\"]]]],[3,\"action\",[[21,0,[]],\"expand\"],[[\"bubbles\"],[false]]],[8],[0,\"\\n          \"],[6,\"i\"],[11,\"class\",[27,[[26,\"if\",[[22,[\"_expanded\"]],\"minus\",\"plus\"],null],\" hierarchy-expand icon\"]]],[8],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"    \"],[6,\"td\"],[10,\"class\",\"object-list-view-menu\"],[8],[0,\"\\n      \"],[6,\"div\"],[10,\"class\",\"right pointing ui icon dropdown button\"],[8],[0,\"\\n        \"],[6,\"i\"],[10,\"class\",\"list layout icon\"],[8],[9],[0,\"\\n        \"],[6,\"div\"],[10,\"class\",\"left menu\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showEditMenuItemInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"item\"],[3,\"action\",[[21,0,[]],[22,[\"rowClick\"]],[22,[\"record\"]]]],[8],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"edit icon\"],[8],[9],[0,\"\\n              \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.edit-menu-item-title\"],null],false],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,[\"showDeleteMenuItemInRow\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"item\"],[3,\"action\",[[21,0,[]],[22,[\"deleteRow\"]],[22,[\"record\"]]]],[8],[0,\"\\n              \"],[6,\"i\"],[10,\"class\",\"trash icon\"],[8],[9],[0,\"\\n              \"],[6,\"span\"],[8],[1,[26,\"t\",[\"components.object-list-view.menu-in-row.delete-menu-item-title\"],null],false],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[9],[0,\"\\n\"],[4,\"if\",[[26,\"and\",[[22,[\"_expanded\"]],[22,[\"inHierarchicalMode\"]]],null]],null,{\"statements\":[[4,\"each\",[[22,[\"records\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"    \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"inHierarchicalMode\",\"singleColumnCellComponent\",\"loadRecords\",\"rowClick\",\"selectRow\",\"deleteRow\",\"_currentLevel\",\"hierarchicalIndent\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessages\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"inHierarchicalMode\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"loadRecords\"]],[22,[\"rowClick\"]],[22,[\"selectRow\"]],[22,[\"deleteRow\"]],[22,[\"_currentLevel\"]],[22,[\"_hierarchicalIndent\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/object-list-view-row.hbs" } });
 });
 define("dummy/templates/mobile/components/object-list-view", ["exports"], function (exports) {
   "use strict";
@@ -22174,7 +23280,7 @@ define("dummy/templates/mobile/components/object-list-view", ["exports"], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "pcNnzYMD", "block": "{\"symbols\":[\"record\",\"column\",\"column\",\"currentError\"],\"statements\":[[4,\"if\",[[22,[\"errorMessages\"]]],null,{\"statements\":[[4,\"each\",[[22,[\"errorMessages\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"title\",\"message\"],[\"error\",true,true,\"Error occurred\",[21,4,[]]]]],false],[0,\"\\n\"]],\"parameters\":[4]},null]],\"parameters\":[]},null],[6,\"table\"],[11,\"class\",[27,[\"object-list-view ui unstackable celled \",[26,\"if\",[[22,[\"readonly\"]],\"readonly\"],null],\" \",[20,\"tableClass\"],\" table\"]]],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"singleColumnHeaderTitle\"]]],null,{\"statements\":[[0,\"    \"],[6,\"thead\"],[8],[0,\"\\n      \"],[6,\"tr\"],[8],[0,\"\\n        \"],[6,\"th\"],[11,\"class\",[27,[\"object-list-view-operations collapsing \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[10,\"data-olv-header-property-name\",\"OlvRowToolbar\"],[8],[9],[0,\"\\n\"],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"            \"],[6,\"th\"],[10,\"class\",\"dt-head-left me class\"],[11,\"onclick\",[26,\"action\",[[21,0,[]],\"headerCellClick\",[21,3,[]]],null],null],[8],[0,\"\\n              \"],[6,\"div\"],[11,\"data-olv-header-property-name\",[21,3,[\"propName\"]],null],[11,\"title\",[20,\"sortTitleCompute\"],null],[8],[0,\"\\n                \"],[6,\"span\"],[8],[0,\"\\n\"],[4,\"if\",[[21,3,[\"keyLocale\"]]],null,{\"statements\":[[0,\"                  \"],[1,[26,\"t\",[[21,3,[\"keyLocale\"]]],null],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                  \"],[1,[21,3,[\"header\"]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                \"],[9],[0,\"\\n\"],[4,\"if\",[[21,3,[\"sorted\"]]],null,{\"statements\":[[0,\"                  \"],[6,\"div\"],[10,\"style\",\"float:right;\"],[8],[0,\"\\n\"],[4,\"if\",[[21,3,[\"sortAscending\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"div\"],[11,\"title\",[27,[[26,\"t\",[\"components.object-list-view.sort-ascending\"],null]]]],[8],[0,\"\\n                      ▲\"],[1,[21,3,[\"sortNumber\"]],false],[0,\"\\n                      \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                      \"],[6,\"div\"],[11,\"title\",[27,[[26,\"t\",[\"components.object-list-view.sort-descending\"],null]]]],[8],[0,\"\\n                      ▼\"],[1,[21,3,[\"sortNumber\"]],false],[0,\"\\n                      \"],[9],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                  \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"              \"],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[3]},null],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"th\"],[10,\"class\",\"object-list-view-menu collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowMenu\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[6,\"tbody\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showFilters\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[11,\"class\",[27,[\"object-list-view-helper-column \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"object-list-view-helper-column-cell\"],[8],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[6,\"td\"],[10,\"class\",\"overflowed-cell\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"inline fields filter\"],[8],[0,\"\\n              \"],[6,\"label\"],[8],[1,[21,2,[\"header\"]],false],[0,\":\"],[9],[0,\"\\n\"],[4,\"if\",[[21,2,[\"filter\",\"conditions\"]]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[10,\"class\",\"filter-operation\"],[8],[0,\"\\n                  \"],[1,[26,\"component\",[\"flexberry-dropdown\"],[[\"value\",\"items\",\"class\",\"placeholder\",\"needChecksOnValue\"],[[21,2,[\"filter\",\"condition\"]],[21,2,[\"filter\",\"conditions\"]],\"compact fluid\",\"\",false]]],false],[0,\"\\n                \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[21,2,[\"filter\",\"component\",\"name\"]]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[10,\"class\",\"filter-value\"],[8],[0,\"\\n                  \"],[1,[26,\"component\",[[21,2,[\"filter\",\"component\",\"name\"]]],[[\"value\",\"dynamicProperties\"],[[21,2,[\"filter\",\"pattern\"]],[21,2,[\"filter\",\"component\",\"properties\"]]]]],false],[0,\"\\n                \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"        \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"class\",\"object-list-view-menu\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[22,[\"content\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n        \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[1,[20,\"placeholder\"],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"each\",[[22,[\"contentWithKeys\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"        \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"singleColumnCellComponent\",\"loadRecords\",\"doRenderData\",\"rowClick\",\"selectRow\",\"deleteRow\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessagesInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"hierarchicalIndent\"]],[22,[\"inHierarchicalMode\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"loadRecords\"]],[21,1,[\"doRenderData\"]],[26,\"action\",[[21,0,[]],\"rowClick\"],null],[26,\"action\",[[21,0,[]],\"selectRow\"],null],[26,\"action\",[[21,0,[]],\"deleteRow\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[4,\"if\",[[22,[\"rowByRowLoadingProgress\"]]],null,{\"statements\":[[0,\"        \"],[6,\"tr\"],[8],[0,\"\\n          \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"ui active centered inline loader\"],[8],[9],[0,\"\\n            \"],[1,[26,\"t\",[\"components.object-list-view.loading-text\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/object-list-view.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "CmXwCI5s", "block": "{\"symbols\":[\"record\",\"column\",\"currentError\"],\"statements\":[[4,\"if\",[[22,[\"errorMessages\"]]],null,{\"statements\":[[4,\"each\",[[22,[\"errorMessages\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,\"ui-message\",null,[[\"type\",\"closeable\",\"visible\",\"title\",\"message\"],[\"error\",true,true,\"Error occurred\",[21,3,[]]]]],false],[0,\"\\n\"]],\"parameters\":[3]},null]],\"parameters\":[]},null],[6,\"table\"],[11,\"class\",[27,[\"object-list-view ui unstackable celled \",[26,\"if\",[[22,[\"readonly\"]],\"readonly\"],null],\" \",[20,\"tableClass\"],\" table\"]]],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"singleColumnHeaderTitle\"]]],null,{\"statements\":[[0,\"    \"],[6,\"thead\"],[8],[0,\"\\n      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"th\"],[10,\"class\",\"object-list-view-operations collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowToolbar\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[6,\"th\"],[10,\"class\",\"dt-head-left me class\"],[10,\"data-olv-header-property-name\",\"OlvHeader\"],[8],[1,[20,\"singleColumnHeaderTitle\"],false],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"th\"],[10,\"class\",\"object-list-view-menu collapsing\"],[10,\"data-olv-header-property-name\",\"OlvRowMenu\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[6,\"tbody\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showFilters\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n\"],[4,\"if\",[[22,[\"showHelperColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[11,\"class\",[27,[\"object-list-view-helper-column \",[26,\"unless\",[[22,[\"showHelperColumn\"]],\"hidden\"],null]]]],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"object-list-view-helper-column-cell\"],[8],[9],[0,\"\\n          \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[6,\"td\"],[10,\"class\",\"overflowed-cell\"],[8],[0,\"\\n\"],[4,\"each\",[[22,[\"columns\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[10,\"class\",\"inline fields filter\"],[8],[0,\"\\n              \"],[6,\"label\"],[8],[1,[21,2,[\"header\"]],false],[0,\":\"],[9],[0,\"\\n\"],[4,\"if\",[[21,2,[\"filter\",\"conditions\"]]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[10,\"class\",\"filter-operation\"],[8],[0,\"\\n                  \"],[1,[26,\"component\",[\"flexberry-dropdown\"],[[\"value\",\"items\",\"class\",\"placeholder\",\"needChecksOnValue\"],[[21,2,[\"filter\",\"condition\"]],[21,2,[\"filter\",\"conditions\"]],\"compact fluid\",\"\",false]]],false],[0,\"\\n                \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[21,2,[\"filter\",\"component\",\"name\"]]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[10,\"class\",\"filter-value\"],[8],[0,\"\\n                  \"],[1,[26,\"component\",[[21,2,[\"filter\",\"component\",\"name\"]]],[[\"value\",\"dynamicProperties\"],[[21,2,[\"filter\",\"pattern\"]],[21,2,[\"filter\",\"component\",\"properties\"]]]]],false],[0,\"\\n                \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"        \"],[9],[0,\"\\n\"],[4,\"if\",[[22,[\"showMenuColumn\"]]],null,{\"statements\":[[0,\"          \"],[6,\"td\"],[10,\"class\",\"object-list-view-menu\"],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"unless\",[[22,[\"content\"]]],null,{\"statements\":[[0,\"      \"],[6,\"tr\"],[8],[0,\"\\n        \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[1,[20,\"placeholder\"],false],[0,\"\\n        \"],[9],[0,\"\\n      \"],[9],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"each\",[[22,[\"contentWithKeys\"]]],[[\"key\"],[\"key\"]],{\"statements\":[[0,\"        \"],[1,[26,\"object-list-view-row\",null,[[\"record\",\"columns\",\"readonly\",\"required\",\"showMenuColumn\",\"showHelperColumn\",\"defaultRowConfig\",\"showValidationMessages\",\"showDeleteMenuItemInRow\",\"showEditMenuItemInRow\",\"showAsteriskInRow\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"hierarchicalIndent\",\"inHierarchicalMode\",\"singleColumnCellComponent\",\"loadRecords\",\"doRenderData\",\"rowClick\",\"selectRow\",\"deleteRow\"],[[21,1,[]],[22,[\"columns\"]],[22,[\"readonly\"]],[22,[\"required\"]],[22,[\"showMenuColumn\"]],[22,[\"showHelperColumn\"]],[22,[\"defaultRowConfig\"]],[22,[\"showValidationMessagesInRow\"]],[22,[\"showDeleteMenuItemInRow\"]],[22,[\"showEditMenuItemInRow\"]],[22,[\"showAsteriskInRow\"]],[22,[\"showCheckBoxInRow\"]],[22,[\"showDeleteButtonInRow\"]],[22,[\"hierarchicalIndent\"]],[22,[\"inHierarchicalMode\"]],[22,[\"singleColumnCellComponent\"]],[22,[\"loadRecords\"]],[21,1,[\"doRenderData\"]],[26,\"action\",[[21,0,[]],\"rowClick\"],null],[26,\"action\",[[21,0,[]],\"selectRow\"],null],[26,\"action\",[[21,0,[]],\"deleteRow\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[4,\"if\",[[22,[\"rowByRowLoadingProgress\"]]],null,{\"statements\":[[0,\"        \"],[6,\"tr\"],[8],[0,\"\\n          \"],[6,\"td\"],[11,\"colspan\",[27,[[20,\"colspan\"]]]],[10,\"style\",\"text-align:center;\"],[8],[0,\"\\n            \"],[6,\"div\"],[10,\"class\",\"ui active centered inline loader\"],[8],[9],[0,\"\\n            \"],[1,[26,\"t\",[\"components.object-list-view.loading-text\"],null],false],[0,\"\\n          \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/mobile/components/object-list-view.hbs" } });
 });
 define("dummy/templates/new-platform-flexberry-services-lock-list", ["exports"], function (exports) {
   "use strict";
@@ -22182,7 +23288,7 @@ define("dummy/templates/new-platform-flexberry-services-lock-list", ["exports"],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "X34Yjcib", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.new-platform-flexberry-services-lock-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"refreshButton\",\"createNewButton\",\"deleteButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"gotoPage\",\"nextPage\",\"previousPage\",\"orderable\",\"sorting\",\"sortByColumn\",\"addColumnToSorting\",\"componentName\",\"customButtons\",\"changeUserName\",\"openReadOnly\",\"unlockObject\"],[[22,[\"model\"]],[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,false,true,true,true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],true,[22,[\"computedSorting\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],\"LockObjectListView\",[22,[\"customButtons\"]],\"changeUserName\",\"openReadOnly\",\"unlockObject\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/new-platform-flexberry-services-lock-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "eaH7BkC1", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.new-platform-flexberry-services-lock-list.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"content\",\"modelName\",\"modelProjection\",\"editFormRoute\",\"refreshButton\",\"createNewButton\",\"deleteButton\",\"showCheckBoxInRow\",\"showDeleteButtonInRow\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"gotoPage\",\"nextPage\",\"previousPage\",\"beforeDeleteAllRecords\",\"orderable\",\"sorting\",\"sortByColumn\",\"addColumnToSorting\",\"componentName\",\"customButtons\",\"changeUserName\",\"openReadOnly\",\"unlockObject\"],[[22,[\"model\"]],[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"editFormRoute\"]],true,false,true,true,true,[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,[22,[\"computedSorting\"]],[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],\"LockObjectListView\",[22,[\"customButtons\"]],\"changeUserName\",\"openReadOnly\",\"unlockObject\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/new-platform-flexberry-services-lock-list.hbs" } });
 });
 define("dummy/templates/user-setting-forms/user-setting-delete", ["exports"], function (exports) {
   "use strict";
@@ -22190,7 +23296,7 @@ define("dummy/templates/user-setting-forms/user-setting-delete", ["exports"], fu
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "l7xZY0y/", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.user-setting-forms.user-setting-delete.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"deleteButton\",\"filterButton\",\"filterText\",\"filterByAnyMatch\",\"showCheckBoxInRow\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"allDelButtonAction\",\"componentName\",\"rowClickable\"],[[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"model\"]],false,true,true,true,[22,[\"filter\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"customButtons\"]],\"allDelButtonAction\",\"userSettingObjectListView\",false]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/user-setting-forms/user-setting-delete.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "g7E90YG+", "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-error\",null,[[\"error\"],[[22,[\"error\"]]]]],false],[0,\"\\n\"],[6,\"h3\"],[8],[1,[26,\"t\",[\"forms.user-setting-forms.user-setting-delete.caption\"],null],false],[9],[0,\"\\n\"],[6,\"div\"],[10,\"class\",\"row\"],[8],[0,\"\\n  \"],[1,[26,\"flexberry-objectlistview\",null,[[\"modelName\",\"modelProjection\",\"content\",\"createNewButton\",\"refreshButton\",\"deleteButton\",\"filterButton\",\"filterText\",\"filterByAnyMatch\",\"beforeDeleteAllRecords\",\"showCheckBoxInRow\",\"sorting\",\"orderable\",\"sortByColumn\",\"addColumnToSorting\",\"pages\",\"perPageValue\",\"perPageValues\",\"recordsTotalCount\",\"hasPreviousPage\",\"hasNextPage\",\"previousPage\",\"gotoPage\",\"nextPage\",\"customButtons\",\"allDelButtonAction\",\"componentName\",\"rowClickable\"],[[22,[\"modelName\"]],[22,[\"modelProjection\"]],[22,[\"model\"]],false,true,true,true,[22,[\"filter\"]],[26,\"action\",[[21,0,[]],\"filterByAnyMatch\"],null],[26,\"action\",[[21,0,[]],\"beforeDeleteAllRecords\"],null],true,[22,[\"computedSorting\"]],true,[26,\"action\",[[21,0,[]],\"sortByColumn\"],null],[26,\"action\",[[21,0,[]],\"addColumnToSorting\"],null],[22,[\"pages\"]],[22,[\"perPageValue\"]],[22,[\"perPageValues\"]],[22,[\"recordsTotalCount\"]],[22,[\"hasPreviousPage\"]],[22,[\"hasNextPage\"]],[26,\"action\",[[21,0,[]],\"previousPage\"],null],[26,\"action\",[[21,0,[]],\"gotoPage\"],null],[26,\"action\",[[21,0,[]],\"nextPage\"],null],[22,[\"customButtons\"]],\"allDelButtonAction\",\"userSettingObjectListView\",false]]],false],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/user-setting-forms/user-setting-delete.hbs" } });
 });
 define('dummy/transforms/components-examples/flexberry-dropdown/conditional-render-example/enumeration', ['exports', 'ember-flexberry-data/transforms/flexberry-enum', 'dummy/enums/components-examples/flexberry-dropdown/conditional-render-example/enumeration'], function (exports, _flexberryEnum, _enumeration) {
   'use strict';
@@ -22397,6 +23503,19 @@ define('dummy/utils/need-save-current-agregator', ['exports', 'ember-flexberry/u
     enumerable: true,
     get: function () {
       return _needSaveCurrentAgregator.default;
+    }
+  });
+});
+define('dummy/utils/run-after', ['exports', 'ember-flexberry/utils/run-after'], function (exports, _runAfter) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _runAfter.default;
     }
   });
 });
@@ -22630,6 +23749,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.11.1-beta.1+697c3370"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.0+e370074f"});
 }
 //# sourceMappingURL=dummy.map

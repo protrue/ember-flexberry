@@ -430,6 +430,129 @@ define('dummy/tests/acceptance/components/base-flexberry-lookup-test', ['qunit',
       assert.strictEqual($result.length === 1, true, 'Component has inner class \'result\'');
     });
   });
+
+  (0, _qunit.test)('flexberry-lookup limit function through dynamic properties test', function (assert) {
+
+    var path = 'components-examples/flexberry-lookup/limit-function-through-dynamic-properties-example';
+
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentURL(), path);
+
+      var $limitFunctionButton1 = Ember.$('.firstLimitFunction');
+      var $limitFunctionButton2 = Ember.$('.secondLimitFunction');
+      var $clearLimitFunctionButton = Ember.$('.clearLimitFunction');
+      var limitFunction1 = void 0;
+      var limitFunction2 = void 0;
+
+      var store = app.__container__.lookup('service:store');
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+      // Create limit for query.
+      var query = new _builder.default(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView').top(2);
+
+      // Load olv data.
+      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
+        var suggestionTypesArr = suggestionTypes.toArray();
+        limitFunction1 = suggestionTypesArr.objectAt(0).get('name');
+        limitFunction2 = suggestionTypesArr.objectAt(1).get('name');
+      }).then(function () {
+
+        $limitFunctionButton1.click();
+        assert.equal(controller.lookupCustomLimitPredicate._containsValue, limitFunction1, 'Current limit function afther first limit function button click');
+
+        $limitFunctionButton2.click();
+        assert.equal(controller.lookupCustomLimitPredicate._containsValue, limitFunction2, 'Current limit function afther second limit function button click');
+
+        $clearLimitFunctionButton.click();
+        assert.equal(controller.lookupCustomLimitPredicate, undefined, 'Absent limit function afther clear limit function button click');
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test', ['qunit', 'dummy/tests/helpers/start-app'], function (_qunit, _startApp) {
+  'use strict';
+
+  var app = void 0;
+  var path = 'components-examples/flexberry-dropdown/conditional-render-example';
+  var testName = 'conditional render test';
+
+  (0, _qunit.module)('Acceptance | flexberry-dropdown | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _startApp.default)();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+    afterEach: function afterEach() {
+      Ember.run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(4);
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path, 'Path is correctly');
+
+      var $dropdown = Ember.$('.flexberry-dropdown');
+      assert.equal($dropdown.length, 1, 'Dropdown is render');
+
+      // Select dropdown item.
+      $dropdown.dropdown('set selected', 'Enum value №1');
+
+      var done = assert.async();
+      var timeout = 100;
+      Ember.run.later(function () {
+        var $dropdown = Ember.$('.flexberry-dropdown');
+        assert.equal($dropdown.length, 0, 'Dropdown isn\'t render');
+
+        var $span = Ember.$('div.field span');
+        assert.equal($span.text(), 'Enum value №1', 'Span is render');
+        done();
+      }, timeout);
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test', ['qunit', 'dummy/tests/helpers/start-app'], function (_qunit, _startApp) {
+  'use strict';
+
+  var app = void 0;
+  var path = 'components-examples/flexberry-dropdown/empty-value-example';
+  var testName = 'empty value test';
+
+  (0, _qunit.module)('Acceptance | flexberry-dropdown | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _startApp.default)();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+    afterEach: function afterEach() {
+      Ember.run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(3);
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path, 'Path is correctly');
+
+      var $dropdown = Ember.$('.flexberry-dropdown');
+      assert.equal($dropdown.length, 1, 'Dropdown is render');
+      assert.equal($dropdown[0].innerText, 'Enum value №2', 'Dropdown value is "Enum value №2"');
+    });
+  });
 });
 define('dummy/tests/acceptance/components/flexberry-groupedit-test', ['qunit', 'dummy/tests/helpers/start-app', 'ember-test-helpers/wait'], function (_qunit, _startApp, _wait) {
   'use strict';
@@ -504,6 +627,55 @@ define('dummy/tests/acceptance/components/flexberry-groupedit-test', ['qunit', '
           });
         });
       });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test', ['qunit', 'dummy/tests/helpers/start-app'], function (_qunit, _startApp) {
+  'use strict';
+
+  var app = void 0;
+  var path = 'components-examples/flexberry-groupedit/configurate-row-example';
+  var testName = 'configurate row';
+
+  (0, _qunit.module)('Acceptance | flexberry-groupedit | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _startApp.default)();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+    afterEach: function afterEach() {
+      Ember.run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(58);
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path, 'Path is correctly');
+      var $folvRows = Ember.$('.object-list-view-container tbody tr');
+
+      for (var i = 0; i < $folvRows.length; i++) {
+        var $row = $folvRows[i];
+        var $deleteButton = Ember.$('.object-list-view-row-delete-button', $row);
+        var $flagField = Ember.$('.field .flexberry-checkbox', $row);
+
+        if (i % 2 === 0) {
+          assert.equal($deleteButton.hasClass('disabled'), true, 'Delete button in an even row is disabled');
+          assert.equal($flagField.hasClass('checked'), true, 'CheckBox in an even row is checked');
+        } else {
+          assert.equal($deleteButton.hasClass('disabled'), false, 'Delete button in a non-even row isn\'t disabled');
+          assert.equal($flagField.hasClass('checked'), false, 'CheckBox in an even row isn\'t checked');
+        }
+
+        var $textField = Ember.$('.field .flexberry-textbox input', $row);
+        assert.equal($textField[0].value, i + 1 + 'test', 'TextBox have currect text');
+      }
     });
   });
 });
@@ -596,7 +768,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     var filtreInsertOperation = 'empty';
     var filtreInsertParametr = '';
     Ember.run(function () {
-      var builder = new _builder.default(store).from(modelName).where('address', _filterOperator.default.Eq, '');
+      var builder = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Eq, '');
       store.query(modelName, builder.build()).then(function (result) {
         var arr = result.toArray();
 
@@ -679,10 +851,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder = new _builder.default(store).from(modelName).where('address', _filterOperator.default.Neq, '').top(1);
+      var builder = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '').top(1);
       store.query(modelName, builder.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = Ember.$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -861,7 +1036,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _builder.default(store).from(modelName).where('address', _filterOperator.default.Neq, '').top(1);
+      var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertValueArr = [arr.objectAt(0).get('address'), undefined, arr.objectAt(0).get('votes'), arr.objectAt(0).get('moderated'), arr.objectAt(0).get('type.name'), arr.objectAt(0).get('author.name')];
@@ -910,7 +1085,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path + '?perPage=500');
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _builder.default(store).from(modelName).top(1);
+      var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('votes') - 1;
@@ -966,7 +1141,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path + '?perPage=500');
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _builder.default(store).from(modelName).top(1);
+      var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('votes') + 1;
@@ -1022,11 +1197,14 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _builder.default(store).from(modelName).where('address', _filterOperator.default.Neq, '').top(1);
+      var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
         filtreInsertParametr = filtreInsertParametr.slice(1, filtreInsertParametr.length);
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = Ember.$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -1079,10 +1257,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path + '?perPage=500');
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _builder.default(store).from(modelName).where('address', _filterOperator.default.Neq, '').top(1);
+      var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = Ember.$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -1135,11 +1316,14 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     visit(path);
     andThen(function () {
       assert.equal(currentPath(), path);
-      var builder2 = new _builder.default(store).from(modelName).where('address', _filterOperator.default.Neq, '').top(1);
+      var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '').top(1);
       store.query(modelName, builder2.build()).then(function (result) {
         var arr = result.toArray();
         filtreInsertParametr = arr.objectAt(0).get('address');
         filtreInsertParametr = filtreInsertParametr.slice(1, filtreInsertParametr.length);
+        if (!filtreInsertParametr) {
+          assert.ok(false, 'Empty data');
+        }
       }).then(function () {
         var $filterButtonDiv = Ember.$('.buttons.filter-active');
         var $filterButton = $filterButtonDiv.children('button');
@@ -1192,6 +1376,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
     assert.expect(10);
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
+    click('.ui.clear-sorting-button');
     andThen(function () {
 
       // Check page path.
@@ -1268,6 +1453,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
     assert.expect(8);
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
+    click('.ui.clear-sorting-button');
     andThen(function () {
 
       // Check page path.
@@ -1358,6 +1544,40 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-checked-
   });
   /* eslint-enable no-unused-vars */
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-configurate-row-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (_executeFolvTest) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check configurate row test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/configurate-rows';
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var $folvContainer = Ember.$('.object-list-view-container');
+
+      // Get all positive row.
+      var $positivRow = Ember.$('.positive', $folvContainer);
+      assert.equal($positivRow.length, 2, 'One positive row at component');
+
+      // Check positive row at folv.
+      var $folvRow = $positivRow[0];
+      var $cell = Ember.$('.oveflow-text', $folvRow);
+      assert.equal($cell[0].innerText, controller.configurateRowByAddress, '');
+
+      // Check positive row at GroupEdit.
+      var $geRow = $positivRow[1];
+      $cell = Ember.$('.oveflow-text', $geRow);
+      assert.equal($cell[0].innerText, controller.configurateRowByAddress, '');
+
+      // Get all negative row.
+      var $negativRow = Ember.$('.negative', $folvContainer);
+      assert.equal($negativRow.length, 8, 'Four negative row at component');
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-format-moment-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (_executeFolvTest, _folvTestsFunctions, _translations) {
   'use strict';
 
@@ -1439,6 +1659,486 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
           });
           done();
         });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check delete before record data cancel test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _generateUniqueId.default)();
+
+    // Add records for deliting.
+    Ember.run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new _builder.default(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = Ember.$(olvContainerClass);
+            var $rows = function $rows() {
+              return Ember.$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            /* eslint-disable no-unused-vars */
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+            /* eslint-enable no-unused-vars */
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records have been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+            var timeout = 500;
+            Ember.run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check delete before record data immediately test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _generateUniqueId.default)();
+
+    // Add records for deliting.
+    Ember.run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new _builder.default(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = Ember.$(olvContainerClass);
+            var $rows = function $rows() {
+              return Ember.$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            /* eslint-disable no-unused-vars */
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+            /* eslint-enable no-unused-vars */
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+            var timeout = 500;
+            Ember.run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check delete before record test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _generateUniqueId.default)();
+
+    // Add records for deliting.
+    Ember.run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new _builder.default(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = Ember.$(olvContainerClass);
+            var $rows = function $rows() {
+              return Ember.$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            /* eslint-disable no-unused-vars */
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+            /* eslint-enable no-unused-vars */
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records have been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+            var timeout = 500;
+            Ember.run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check delete before record with promise data cancel test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _generateUniqueId.default)();
+
+    // Add records for deliting.
+    Ember.run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new _builder.default(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = Ember.$(olvContainerClass);
+            var $rows = function $rows() {
+              return Ember.$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            /* eslint-disable no-unused-vars */
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+            /* eslint-enable no-unused-vars */
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records haven't been removed into store.
+            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+            var timeout = 500;
+            Ember.run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check delete before record with promise data immediately test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _generateUniqueId.default)();
+
+    // Add records for deliting.
+    Ember.run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new _builder.default(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = Ember.$(olvContainerClass);
+            var $rows = function $rows() {
+              return Ember.$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            /* eslint-disable no-unused-vars */
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+            /* eslint-enable no-unused-vars */
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+            var timeout = 500;
+            Ember.run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check delete before record with promise test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var howAddRec = 1;
+    var uuid = '0' + (0, _generateUniqueId.default)();
+
+    // Add records for deliting.
+    Ember.run(function () {
+      var newRecord = store.createRecord(modelName, { name: uuid });
+      var done1 = assert.async();
+
+      newRecord.save().then(function () {
+        var builder = new _builder.default(store).from(modelName).count();
+        var done = assert.async();
+        store.query(modelName, builder.build()).then(function (result) {
+          visit(path + '?perPage=' + result.meta.count);
+          andThen(function () {
+            assert.equal(currentPath(), path);
+
+            var olvContainerClass = '.object-list-view-container';
+            var trTableClass = 'table.object-list-view tbody tr';
+
+            var $folvContainer = Ember.$(olvContainerClass);
+            var $rows = function $rows() {
+              return Ember.$(trTableClass, $folvContainer).toArray();
+            };
+
+            // Check that the records have been added.
+            var recordIsForDeleting = $rows().reduce(function (sum, element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              var flag = nameRecord.indexOf(uuid) >= 0;
+              return sum + flag;
+            }, 0);
+
+            assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
+
+            /* eslint-disable no-unused-vars */
+            $rows().forEach(function (element, i, arr) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              if (nameRecord.indexOf(uuid) >= 0) {
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                $deleteBtnInRow.click();
+              }
+            });
+            /* eslint-enable no-unused-vars */
+
+            // Check that the records wasn't remove in beforeDeleteRecord.
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
+            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+            // Check that the records haven't been removed.
+            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+              var nameRecord = Ember.$.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
+            });
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records haven't been removed into store.
+            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+            var timeout = 500;
+            Ember.run.later(function () {
+              var done2 = assert.async();
+              store.query(modelName, builder2.build()).then(function (result) {
+                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }, timeout);
+          });
+          done();
+        });
+        done1();
       });
     });
   });
@@ -1624,7 +2324,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
   });
   /* eslint-enable no-unused-vars */
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-button-in-row-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (_executeFolvTest) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-button-in-row-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (_executeFolvTest, _folvTestsFunctions) {
   'use strict';
 
   // Need to add sort by multiple columns.
@@ -1642,18 +2342,18 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-but
 
       assert.equal($editButtonInRow.length, 5, 'All row have editButton');
 
-      var $button = $editButtonInRow[0];
-      Ember.run(function () {
-        $button.click();
+      // Apply filter function.
+      var openEditFormFunction = function openEditFormFunction() {
+        var editButtonInRow = Ember.$('.object-list-view-row-edit-button')[0];
+        editButtonInRow.click();
+      };
+
+      // Open editform.
+      var done1 = assert.async();
+      (0, _folvTestsFunctions.openEditFormByFunction)(openEditFormFunction).then(function () {
+        assert.ok(true, 'edit form open');
+        done1();
       });
-
-      var done = assert.async();
-
-      window.setTimeout(function () {
-        var saveButton = Ember.$('.save-button');
-        assert.equal(saveButton.length, 1, 'Edit button in row open editform');
-        done();
-      }, 1500);
     });
   });
   /* eslint-enable no-unused-vars */
@@ -1798,6 +2498,76 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-goto-edi
     });
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-limit-function-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _folvTestsFunctions, _builder, _filterOperator) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check limit function', function (store, assert, app) {
+    assert.expect(6);
+    var path = 'components-examples/flexberry-objectlistview/limit-function-example?perPage=500';
+    var modelName = 'ember-flexberry-dummy-suggestion';
+    var result1 = void 0;
+    var result2 = void 0;
+    var count = void 0;
+
+    visit(path);
+    andThen(function () {
+      var builder1 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL');
+      store.query(modelName, builder1.build()).then(function (result) {
+        var arr = result.toArray();
+        count = arr.length;
+      }).then(function () {
+        var builder2 = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Neq, '');
+        store.query(modelName, builder2.build()).then(function (result) {
+          var arr = result.toArray();
+          result1 = arr.objectAt(0).get('address');
+          result2 = arr.objectAt(1).get('address');
+
+          if (!result1 && !result2) {
+            assert.ok(false, 'Laad empty data');
+          }
+        }).then(function () {
+          var controller = app.__container__.lookup('controller:' + currentRouteName());
+          controller.set('limitFunction', result1);
+
+          var refreshFunction = function refreshFunction() {
+            var refreshButton = Ember.$('.refresh-button')[0];
+            refreshButton.click();
+          };
+
+          assert.equal(controller.model.content.length, count, 'Folv load with current object count');
+
+          /* eslint-disable no-unused-vars */
+          var done1 = assert.async();
+          (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
+            var resultText = Ember.$('.oveflow-text')[0];
+            assert.notEqual(controller.model.content.length, count, 'Folv load with object current count');
+            assert.equal(resultText.innerText, result1, 'Correct result afther apply limitFunction');
+
+            controller.set('limitFunction', result2);
+
+            var done2 = assert.async();
+            (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
+              var resultText = Ember.$('.oveflow-text')[0];
+              assert.notEqual(controller.model.content.length, count, 'Folv load with current object count');
+              assert.equal(resultText.innerText, result2, 'Correct result afther apply limitFunction');
+
+              controller.set('limitFunction', undefined);
+
+              var done3 = assert.async();
+              (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
+                assert.equal(controller.model.content.length, count, 'Folv load with current object count');
+                done3();
+              });
+              done2();
+            });
+            done1();
+          });
+          /* eslint-enable no-unused-vars */
+        });
+      });
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-locales-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations', 'ember-flexberry/locales/en/translations'], function (_executeFolvTest, _folvTestsFunctions, _translations, _translations2) {
   'use strict';
 
@@ -1844,7 +2614,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-open-new
         var $toolBar = Ember.$('.ui.secondary.menu')[0];
         var $toolBarButtons = $toolBar.children;
 
-        assert.equal($toolBarButtons[1].innerText, Ember.get(_translations.default, 'components.olv-toolbar.add-button-text'), 'button create exist');
+        assert.equal($toolBarButtons[1].innerText.trim(), Ember.get(_translations.default, 'components.olv-toolbar.add-button-text'), 'button create exist');
 
         var asyncOperationsCompleted = assert.async();
         (0, _folvTestsFunctions.loadingList)($toolBarButtons[1], 'form', '.field').then(function ($editForm) {
@@ -1964,6 +2734,119 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-n
     });
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-select-record-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/query/builder'], function (_executeFolvTest, _builder) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check configurate selected rows', function (store, assert, app) {
+    assert.expect(8);
+    var path = 'components-examples/flexberry-objectlistview/selected-rows';
+    var modelName = 'ember-flexberry-dummy-suggestion-type';
+    var count = void 0;
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var builder = new _builder.default(store).from(modelName);
+      store.query(modelName, builder.build()).then(function (result) {
+        var arr = result.toArray();
+        count = arr.length;
+      }).then(function () {
+        var $folvContainer = Ember.$('.object-list-view-container');
+        var $checkAllButtton = Ember.$('.check-all-button', $folvContainer).first();
+        var $checkAllAtPageButton = Ember.$('.check-all-at-page-button', $folvContainer).first();
+        var $row = Ember.$('table.object-list-view tbody tr', $folvContainer);
+        var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+        var $firstCell = Ember.$('.flexberry-checkbox', $row[0]);
+        var $secondCell = Ember.$('.flexberry-checkbox', $row[1]);
+
+        // Сheck first record.
+        $firstCell.click();
+        assert.equal(controller.countSelectedRows, 1, 'First row is checked');
+
+        // Сheck second record.
+        $secondCell.click();
+        assert.equal(controller.countSelectedRows, 2, 'Second row is checked');
+
+        // Uncheck second record.
+        $firstCell.click();
+        assert.equal(controller.countSelectedRows, 1, 'First row is checked');
+
+        // Сheck all record at page.
+        $checkAllAtPageButton.click();
+        assert.equal(controller.countSelectedRows, 5, 'First row is checked');
+
+        // Uncheck all record at page.
+        $checkAllAtPageButton.click();
+        assert.equal(controller.countSelectedRows, 0, 'First row is checked');
+
+        // Сheck fist reccord and all record.
+        $firstCell.click();
+        $checkAllButtton.click();
+        assert.equal(controller.countSelectedRows, count, 'First row is checked');
+
+        // Uncheck all record.
+        $checkAllButtton.click();
+        assert.equal(controller.countSelectedRows, 0, 'First row is checked');
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data/query/builder'], function (_executeFolvTest, _folvTestsFunctions, _builder) {
+  'use strict';
+
+  // Need to add sort by multiple columns.
+  (0, _executeFolvTest.executeTest)('check sorting by computable field', function (store, assert, app) {
+    assert.expect(6);
+    var path = 'components-acceptance-tests/flexberry-objectlistview/computable-field';
+    var modelName = 'ember-flexberry-dummy-suggestion';
+    var minValue = void 0;
+    var maxValue = void 0;
+
+    visit(path);
+    click('.ui.clear-sorting-button');
+    andThen(function () {
+      assert.equal(currentPath(), path);
+      var builder = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').orderBy('commentsCount');
+      store.query(modelName, builder.build()).then(function (result) {
+        var arr = result.toArray();
+        minValue = arr.objectAt(0).get('commentsCount');
+        maxValue = arr.objectAt(arr.length - 1).get('commentsCount');
+      }).then(function () {
+
+        var $olv = Ember.$('.object-list-view ');
+        var $thead = Ember.$('th.dt-head-left', $olv)[9];
+        var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+        // Refresh function.
+        var refreshFunction = function refreshFunction() {
+          $thead.click();
+        };
+
+        var done1 = assert.async();
+        (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+          var $cellText = Ember.$('div.oveflow-text')[9];
+          assert.equal(controller.sort, '+commentsCount', 'sorting symbol added');
+          assert.equal($cellText.innerText, minValue, 'sorting symbol added');
+          var done2 = assert.async();
+          (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+            var $cellText = Ember.$('div.oveflow-text')[9];
+            assert.equal(controller.sort, '-commentsCount', 'sorting symbol added');
+            assert.equal($cellText.innerText, maxValue, 'sorting symbol added');
+            var done3 = assert.async();
+            (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+              assert.equal(controller.sort, null, 'sorting is reset');
+              done3();
+            });
+            done2();
+          });
+          done1();
+        });
+      });
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-clear-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (_executeFolvTest, _folvTestsFunctions, _translations) {
   'use strict';
 
@@ -1972,6 +2855,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
     assert.expect(8);
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
+    click('.ui.clear-sorting-button');
     andThen(function () {
 
       // Check page path.
@@ -2049,9 +2933,10 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
   // Need to add sort by multiple columns.
   (0, _executeFolvTest.executeTest)('check sorting', function (store, assert, app) {
-    assert.expect(9);
+    assert.expect(14);
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
+    click('.ui.clear-sorting-button');
     andThen(function () {
 
       // Check page path.
@@ -2079,6 +2964,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
             // Check sortihg icon in the first column. Sorting icon is not added.
             assert.equal($thead.children[0].children.length, 1, 'no sorting icon in the first column');
+            assert.equal(controller.sort, undefined, 'no sorting in URL');
 
             // Refresh function.
             var refreshFunction = function refreshFunction() {
@@ -2093,6 +2979,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
               assert.equal($divOrd.attr('title'), Ember.get(_translations.default, 'components.object-list-view.sort-ascending'), 'title is Order ascending');
               assert.equal(Ember.$.trim($divOrd.text()), String.fromCharCode('9650') + '1', 'sorting symbol added');
+              assert.equal(controller.sort, '+address', 'up sorting in URL');
 
               var done2 = assert.async();
               (0, _folvTestsFunctions.checkSortingList)(store, projectionName, $olv, 'address asc').then(function (isTrue) {
@@ -2105,10 +2992,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
 
                   assert.equal($divOrd.attr('title'), Ember.get(_translations.default, 'components.object-list-view.sort-descending'), 'title is Order descending');
                   assert.equal(Ember.$.trim($divOrd.text()), String.fromCharCode('9660') + '1', 'sorting symbol changed');
+                  assert.equal(controller.sort, '-address', 'down sorting in URL');
 
                   var done4 = assert.async();
                   (0, _folvTestsFunctions.checkSortingList)(store, projectionName, $olv, 'address desc').then(function (isTrue) {
                     assert.ok(isTrue, 'sorting applied');
+
+                    var done5 = assert.async();
+                    (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                      assert.equal(controller.sort, null, 'no sorting in URL');
+                      var done6 = assert.async();
+                      (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                        assert.equal(controller.sort, '+address', 'up sorting in URL');
+                        done6();
+                      });
+                      done5();
+                    });
                     done4();
                   });
                 }).finally(function () {
@@ -2125,6 +3024,66 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
     });
   });
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (_executeFolvTest, _folvTestsFunctions, _translations) {
+  'use strict';
+
+  // Need to add sort by multiple columns.
+  (0, _executeFolvTest.executeTest)('check sorting with default setting', function (store, assert, app) {
+    assert.expect(9);
+    var path = 'components-acceptance-tests/flexberry-objectlistview/folv-paging';
+    visit(path);
+    click('.ui.clear-sorting-button');
+    andThen(function () {
+
+      // Check page path.
+      assert.equal(currentPath(), path);
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+      var $olv = Ember.$('.object-list-view ');
+
+      Ember.run(function () {
+        (0, _folvTestsFunctions.loadingLocales)('ru', app).then(function () {
+          // Refresh function.
+          var refreshFunction = function refreshFunction() {
+            $thead.click();
+          };
+
+          var $thead = Ember.$('th.dt-head-left', $olv)[0];
+          var $ord = Ember.$('.object-list-view-order-icon', $thead);
+          var $divOrd = Ember.$('div', $ord);
+
+          assert.equal($divOrd.attr('title'), Ember.get(_translations.default, 'components.object-list-view.sort-ascending'), 'title is Order ascending');
+          assert.equal(Ember.$.trim($divOrd.text()), String.fromCharCode('9650') + '1', 'sorting symbol added');
+          assert.equal(controller.sort, '+name', 'up sorting in URL');
+
+          var done1 = assert.async();
+          (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+            var $thead = Ember.$('th.dt-head-left', $olv)[0];
+            var $ord = Ember.$('.object-list-view-order-icon', $thead);
+            var $divOrd = Ember.$('div', $ord);
+
+            assert.equal($divOrd.attr('title'), Ember.get(_translations.default, 'components.object-list-view.sort-descending'), 'title is Order descending');
+            assert.equal(Ember.$.trim($divOrd.text()), String.fromCharCode('9660') + '1', 'sorting symbol changed');
+            assert.equal(controller.sort, '-name', 'down sorting in URL');
+
+            var done2 = assert.async();
+            (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+              assert.equal(controller.sort, null, 'no sorting in URL');
+              var done3 = assert.async();
+              (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                assert.equal(controller.sort, '+name', 'up sorting in URL');
+                done3();
+              });
+              done2();
+            });
+          }).finally(function () {
+            done1();
+          });
+        });
+      });
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', ['exports', 'ember-flexberry-data/query/filter-operator', 'ember-flexberry-data/query/builder'], function (exports, _filterOperator, _builder) {
   'use strict';
 
@@ -2132,6 +3091,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
     value: true
   });
   exports.loadingList = loadingList;
+  exports.openEditFormByFunction = openEditFormByFunction;
   exports.refreshListByFunction = refreshListByFunction;
   exports.checkSortingList = checkSortingList;
   exports.addRecords = addRecords;
@@ -2169,6 +3129,56 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
           window.clearInterval(checkIntervalId);
           checkIntervalSucceed = true;
           resolve($list);
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      Ember.run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('editForm load operation is timed out');
+        }, timeout);
+      });
+    });
+  }
+
+  /**
+    Function for waiting editform loading afther open editform by function at acceptance test.
+  
+    @public
+    @method openEditFormByFunction
+    @param {Function} openEditFormFunction Method options.
+   */
+  function openEditFormByFunction(openEditFormFunction) {
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = void 0;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+      var timeout = 10000;
+
+      openEditFormFunction();
+
+      Ember.run(function () {
+        checkIntervalId = window.setInterval(function () {
+          if (Ember.$('.ui.button.close-button').length === 0) {
+
+            // Edit form isn't loaded yet.
+            return;
+          }
+
+          // Edit form is loaded, wait to render.
+          // Stop interval & resolve promise.
+          window.setTimeout(function () {
+            window.clearInterval(checkIntervalId);
+            checkIntervalSucceed = true;
+            resolve();
+          });
         }, checkInterval);
       });
 
@@ -2393,6 +3403,36 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
     }).join(', ');
   }
 });
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (_executeFolvTest) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('user button test', function (store, assert, app) {
+    assert.expect(5);
+    var path = 'components-examples/flexberry-objectlistview/toolbar-custom-buttons-example';
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var $testBudtton = Ember.$('.test-click-button')[0];
+
+      // First click.
+      $testBudtton.click();
+      assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+
+      // Second click.
+      $testBudtton.click();
+      assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+
+      assert.notOk(controller.get('modelFromClickedRow'));
+      click('.ui.button > .bug.icon:first');
+      andThen(function () {
+        assert.equal(controller.get('modelFromClickedRow.id'), controller.get('model.firstObject.id'));
+      });
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-projection-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (_executeFolvTest, _folvTestsFunctions) {
   'use strict';
 
@@ -2400,6 +3440,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-
     assert.expect(6);
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
+    click('.ui.clear-sorting-button');
     andThen(function () {
       assert.equal(currentPath(), path);
 
@@ -2449,7 +3490,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-
         var newProjectionName = 'SettingLookupExampleView';
         controller.set('modelProjection', newProjectionName);
 
-        // Ember.get(controller, 'modelProjection') returns only the name of the projection when it replaced.
+        // get(controller, 'modelProjection') returns only the name of the projection when it replaced.
         assert.equal(projectionName(), newProjectionName, 'projection name is changed');
       });
     });
@@ -3385,6 +4426,11 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-objectlistview/base-operations.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/components-acceptance-tests/flexberry-objectlistview/custom-filter.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-objectlistview/custom-filter.js should pass ESLint\n\n');
@@ -3540,6 +4586,36 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/components-examples/flexberry-menu/settings-example.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/components-examples/flexberry-objectlistview/configurate-rows.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/configurate-rows.js should pass ESLint\n\n');
@@ -3633,6 +4709,16 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('controllers/components-examples/flexberry-objectlistview/limit-function-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/limit-function-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-list.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/components-examples/flexberry-objectlistview/object-list-view-resize.js', function (assert) {
@@ -4150,6 +5236,11 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-objectlistview/base-operations.js should pass ESLint\n\n');
   });
 
+  QUnit.test('routes/components-acceptance-tests/flexberry-objectlistview/computable-field.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-objectlistview/computable-field.js should pass ESLint\n\n');
+  });
+
   QUnit.test('routes/components-acceptance-tests/flexberry-objectlistview/custom-filter.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-objectlistview/custom-filter.js should pass ESLint\n\n');
@@ -4300,6 +5391,36 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'routes/components-examples/flexberry-menu/settings-example.js should pass ESLint\n\n');
   });
 
+  QUnit.test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-cancel.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-data-immediately.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-cancel.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise-data-immediately.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record-with-promise.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/before-delete-record/folv-for-before-delete-record.js should pass ESLint\n\n');
+  });
+
   QUnit.test('routes/components-examples/flexberry-objectlistview/configurate-rows.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/configurate-rows.js should pass ESLint\n\n');
@@ -4393,6 +5514,16 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('routes/components-examples/flexberry-objectlistview/limit-function-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/limit-function-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/lock-services-editor-view-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/lock-services-editor-view-list.js should pass ESLint\n\n');
   });
 
   QUnit.test('routes/components-examples/flexberry-objectlistview/object-list-view-resize.js', function (assert) {
@@ -4968,7 +6099,7 @@ define('dummy/tests/integration/components/flexberry-checkbox-test', ['ember-qun
     assert.strictEqual(Ember.typeOf(this.get('flag')), 'undefined', 'Component\'s binded value is \'undefined\' before first click');
 
     // Imitate click on component (change it's state to checked) & check it's state again.
-    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into Ember.run.
+    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into run function.
     Ember.run(function () {
       $component.click();
       assert.strictEqual($component.hasClass('checked'), true, 'Component has css-class \'checked\' after click');
@@ -4977,7 +6108,7 @@ define('dummy/tests/integration/components/flexberry-checkbox-test', ['ember-qun
     });
 
     // Imitate click on component again (change it's state to unchecked) & check it's state again.
-    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into Ember.run.
+    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into run function.
     Ember.run(function () {
       $component.click();
       assert.strictEqual($component.hasClass('checked'), false, 'Component hasn\'t css-class \'checked\' after second click');
@@ -5033,14 +6164,14 @@ define('dummy/tests/integration/components/flexberry-checkbox-test', ['ember-qun
     var $component = this.$().children();
 
     // Imitate click on component (change it's state to checked) & check action's event object.
-    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into Ember.run.
+    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into run function.
     Ember.run(function () {
       $component.click();
       assert.strictEqual(Ember.get(onCheckboxChangeEventObject, 'checked'), true, 'Component sends \'onChange\' action with \'checked\' property equals to \'true\' after first click');
     });
 
     // Imitate click on component again (change it's state to unchecked) & check action's event object again.
-    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into Ember.run.
+    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into run function.
     Ember.run(function () {
       $component.click();
       assert.strictEqual(Ember.get(onCheckboxChangeEventObject, 'checked'), false, 'Component sends \'onChange\' action with \'checked\' property equals to \'false\' after second click');
@@ -5075,7 +6206,7 @@ define('dummy/tests/integration/components/flexberry-checkbox-test', ['ember-qun
     assert.strictEqual($component.hasClass('read-only'), true, 'Component has css-class \'read-only\' when readonly mode is enabled');
 
     // Imitate click on component (try to change it's state to checked) & check it's state & action's event object.
-    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into Ember.run.
+    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into run function.
     Ember.run(function () {
       $component.click();
       assert.strictEqual(onCheckboxChangeEventObject, null, 'Component doesn\'t send \'onChange\' action in readonly mode');
@@ -5089,7 +6220,7 @@ define('dummy/tests/integration/components/flexberry-checkbox-test', ['ember-qun
     assert.strictEqual($component.hasClass('read-only'), false, 'Component hasn\'t css-class \'read-only\' when readonly mode is disabled');
 
     // Imitate click on component (try to change it's state to checked) & check it's state & action's event object.
-    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into Ember.run.
+    // Sometimes ember recognizes programmatical imitations of UI-events as asynchrony, so we should wrap them into run function.
     Ember.run(function () {
       $component.click();
       assert.strictEqual(Ember.isNone(onCheckboxChangeEventObject), false, 'Component sends \'onChange\' action when readonly mode is disabled');
@@ -7583,7 +8714,7 @@ define('dummy/tests/integration/components/flexberry-sitemap-test', ['ember-quni
     }));
     assert.equal(this.$('.title-item-menu:visible').text().trim(), 'Superheroes', 'Menu is closed.');
     this.$('.title-item-menu:visible').click();
-    assert.equal(this.$('.title-item-menu:visible').text().trim(), 'SuperheroesSupermanIronman', 'Menu is open.');
+    assert.equal(this.$('.title-item-menu:visible').text().trim().replace(/\s+/g, ''), 'SuperheroesSupermanIronman', 'Menu is open.');
   });
 });
 define('dummy/tests/integration/components/flexberry-textarea-test', ['ember-i18n/services/i18n', 'ember-flexberry/locales/ru/translations', 'ember-flexberry/locales/en/translations', 'ember-qunit'], function (_i18n, _translations, _translations2, _emberQunit) {
@@ -7877,6 +9008,10 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['ember-i18
     this.set('wrap', 'hard');
     assert.strictEqual(Ember.$.trim($textareaInput.attr('wrap')), 'hard', 'Component\'s inner <textarea> wrap attribute \'hard\'');
 
+    // Check that <textarea>'s wrap attribute 'soft'.
+    this.set('wrap', 'soft');
+    assert.strictEqual(Ember.$.trim($textareaInput.attr('wrap')), 'soft', 'Component\'s inner <textarea> wrap attribute \'soft\'');
+
     // Check that <textarea>'s wrap attribute 'off'.
     this.set('wrap', 'off');
     assert.strictEqual(Ember.$.trim($textareaInput.attr('wrap')), 'off', 'Component\'s inner <textarea> wrap attribute \'off\'');
@@ -7987,15 +9122,21 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['ember-i18
     $textareaInput.change();
 
     //Generate a random value 'selectionStart' and convert to a string.
-    var selectionStartValue = Math.floor(Math.random() * 10);
+    var selectionStartValue = Math.floor(Math.random() * 10 + 1);
 
-    // Check that <textarea>'s selectionStart attribute.
-    this.set('selectionStart', selectionStartValue);
-    assert.strictEqual($textareaInput.prop('selectionStart'), selectionStartValue, 'Component\'s inner <textarea>\'s value \'selectionStart\' is equals to \'' + selectionStartValue + '\'');
+    var $this = this;
 
-    // Check that <textarea>'s hasn\'t value maxlength attribute.
-    this.set('selectionStart', null);
-    assert.strictEqual(Ember.$.trim($textareaInput.attr('selectionStart')), '', 'Component\'s inner <textarea> hasn\'t value selectionStart attribute');
+    // This timeout  is correcting problem with selectionStart in Mozila Firefox.
+    var done = assert.async();
+    setTimeout(function () {
+      $this.set('selectionStart', selectionStartValue);
+      assert.strictEqual($textareaInput.prop('selectionStart'), selectionStartValue, 'Component\'s inner <textarea>\'s value \'selectionStart\' is equals to \'' + selectionStartValue + '\'');
+
+      // Check that <textarea>'s hasn\'t value maxlength attribute.
+      $this.set('selectionStart', null);
+      assert.strictEqual(Ember.$.trim($textareaInput.attr('selectionStart')), '', 'Component\'s inner <textarea> hasn\'t value selectionStart attribute');
+      done();
+    }, 10);
   });
 
   (0, _emberQunit.test)('selectionEnd mode works properly', function (assert) {
@@ -8019,7 +9160,7 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['ember-i18
     $textareaInput.change();
 
     //Generate a random value 'selectionEnd' and convert to a string.
-    var selectionEndValue = Math.floor(Math.random() * 10);
+    var selectionEndValue = Math.floor(Math.random() * 10 + 1);
 
     // Check that <textarea>'s selectionEnd attribute.
     this.set('selectionEnd', selectionEndValue);
@@ -8452,7 +9593,7 @@ define('dummy/tests/integration/components/flexberry-toggler-test', ['ember-quni
     /* eslint-disable no-unused-vars */
     var expandAnimationCompleted = new Ember.RSVP.Promise(function (resolve, reject) {
       // Try to expand component.
-      // Semantic UI will start asynchronous animation after click, so we need Ember.run here.
+      // Semantic UI will start asynchronous animation after click, so we need run function here.
       Ember.run(function () {
         $componentTitle.click();
       });
@@ -8482,7 +9623,7 @@ define('dummy/tests/integration/components/flexberry-toggler-test', ['ember-quni
     // Wait for expand animation to be completed (when resolve will be called inside previous timeout).
     // Then try to collapse component.
     expandAnimationCompleted.then(function () {
-      // Semantic UI will start asynchronous animation after click, so we need Ember.run here.
+      // Semantic UI will start asynchronous animation after click, so we need run function here.
       Ember.run(function () {
         $componentTitle.click();
       });
@@ -9312,9 +10453,24 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/base-flexberry-lookup-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-groupedit-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-groupedit-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('acceptance/components/flexberry-objectlistview/checkbox-at-editform-test.js', function (assert) {
@@ -9387,9 +10543,44 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-checked-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-configurate-row-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-configurate-row-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-date-format-moment-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-date-format-moment-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-delete-button-in-row-test.js', function (assert) {
@@ -9417,6 +10608,11 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-goto-editform-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-limit-function-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-limit-function-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-locales-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-locales-test.js should pass ESLint\n\n');
@@ -9437,6 +10633,16 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-paging-navigation-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-select-record-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-select-record-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-by-computable-field-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-sorting-clear-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-clear-test.js should pass ESLint\n\n');
@@ -9447,9 +10653,19 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-sorting-with-default-setting-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-tests-functions.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-tests-functions.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-user-button-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-user-button-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-wrapper-projection-test.js', function (assert) {
@@ -9650,11 +10866,6 @@ define('dummy/tests/tests.lint-test', [], function () {
   QUnit.test('unit/adapters/application-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/adapters/application-test.js should pass ESLint\n\n');
-  });
-
-  QUnit.test('unit/adapters/new-platform-flexberry-services-lock-test.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/adapters/new-platform-flexberry-services-lock-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/controllers/application-test.js', function (assert) {
@@ -9886,16 +11097,6 @@ define('dummy/tests/unit/adapters/application-test', ['ember-qunit'], function (
   });
 
   // Replace this with your real tests.
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var adapter = this.subject();
-    assert.ok(adapter);
-  });
-});
-define('dummy/tests/unit/adapters/new-platform-flexberry-services-lock-test', ['ember-qunit'], function (_emberQunit) {
-  'use strict';
-
-  (0, _emberQunit.moduleFor)('adapter:new-platform-flexberry-services-lock', 'Unit | Adapter | new-platform-flexberry-services-lock');
-
   (0, _emberQunit.test)('it exists', function (assert) {
     var adapter = this.subject();
     assert.ok(adapter);
