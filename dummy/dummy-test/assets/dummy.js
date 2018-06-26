@@ -4641,14 +4641,6 @@ define('dummy/controllers/components-examples/flexberry-lookup/hierarchy-olv-in-
     value: true
   });
   exports.default = _editForm.default.extend({
-    init: function init() {
-      this._super.apply(this, arguments);
-
-      this.set('lookupController.inHierarchicalMode', true);
-      this.set('lookupController.hierarchicalAttribute', 'parent');
-    },
-
-
     actions: {
       /**
         This method returns custom properties for lookup window.
@@ -22296,7 +22288,7 @@ define("dummy/templates/components-examples/flexberry-lookup/hierarchy-olv-in-lo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "gQz17puA", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.hierarchy-olv-in-lookup-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"projection\",\"displayAttributeName\",\"title\",\"relationName\",\"choose\",\"remove\",\"readonly\",\"lookupWindowCustomProperties\",\"lookupLimitPredicate\",\"autocomplete\"],[[22,[\"model\",\"type\"]],\"CustomizeLookupWindowExampleView\",\"name\",[26,\"t\",[\"forms.components-examples.flexberry-lookup.hierarchy-olv-in-lookup-example.titleLookup\"],null],\"type\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],[26,\"action\",[[21,0,[]],\"getLookupFolvProperties\"],null],[22,[\"lookupCustomLimitPredicate\"]],true]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-lookup/hierarchy-olv-in-lookup-example.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "zn18oMMn", "block": "{\"symbols\":[],\"statements\":[[6,\"h3\"],[10,\"class\",\"ui header\"],[8],[1,[26,\"t\",[\"forms.components-examples.flexberry-lookup.hierarchy-olv-in-lookup-example.caption\"],null],false],[9],[0,\"\\n\"],[6,\"form\"],[10,\"class\",\"ui form flexberry-vertical-form\"],[10,\"role\",\"form\"],[8],[0,\"\\n  \"],[6,\"div\"],[10,\"class\",\"field\"],[8],[0,\"\\n    \"],[1,[26,\"flexberry-lookup\",null,[[\"value\",\"projection\",\"displayAttributeName\",\"title\",\"relationName\",\"choose\",\"remove\",\"readonly\",\"lookupWindowCustomProperties\",\"lookupLimitPredicate\",\"autocomplete\",\"inHierarchicalMode\",\"hierarchicalAttribute\"],[[22,[\"model\",\"type\"]],\"CustomizeLookupWindowExampleView\",\"name\",[26,\"t\",[\"forms.components-examples.flexberry-lookup.hierarchy-olv-in-lookup-example.titleLookup\"],null],\"type\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],[22,[\"readonly\"]],[26,\"action\",[[21,0,[]],\"getLookupFolvProperties\"],null],[22,[\"lookupCustomLimitPredicate\"]],true,true,\"parent\"]]],false],[0,\"\\n  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "dummy/templates/components-examples/flexberry-lookup/hierarchy-olv-in-lookup-example.hbs" } });
 });
 define("dummy/templates/components-examples/flexberry-lookup/limit-function-example", ["exports"], function (exports) {
   "use strict";
@@ -23749,6 +23741,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.0+70034cc6"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.0+6dff6785"});
 }
 //# sourceMappingURL=dummy.map
