@@ -327,34 +327,26 @@ define('dummy/tests/acceptance/components/base-flexberry-lookup-test', ['exports
   });
 
   (0, _qunit.test)('flexberry-lookup projection test', function (assert) {
-    assert.expect(2);
+    assert.expect(3);
 
     visit('components-acceptance-tests/flexberry-lookup/settings-example-projection');
 
     andThen(function () {
       assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-projection');
+      var done = assert.async();
 
-      var $lookupButtouChoose = _ember['default'].$('.ui-change');
+      var $lookup = _ember['default'].$('.flexberry-lookup');
+      openLookupDialog($lookup).then(function ($lookupDialog) {
+        assert.ok($lookupDialog);
 
-      // Click choose button.
-      _ember['default'].run(function () {
-        $lookupButtouChoose.click();
-      });
+        var $lookupSearch = _ember['default'].$('.content table.object-list-view');
+        var $lookupSearchThead = $lookupSearch.children('thead');
+        var $lookupSearchTr = $lookupSearchThead.children('tr');
+        var $lookupHeaders = $lookupSearchTr.children('th');
 
-      _ember['default'].run(function () {
-        var done = assert.async();
-        setTimeout(function () {
-
-          var $lookupSearch = _ember['default'].$('.content table.object-list-view');
-          var $lookupSearchThead = $lookupSearch.children('thead');
-          var $lookupSearchTr = $lookupSearchThead.children('tr');
-          var $lookupHeaders = $lookupSearchTr.children('th');
-
-          // Check count at table header.
-          assert.strictEqual($lookupHeaders.length === 3, true, 'Component has SuggestionTypeE projection');
-
-          done();
-        }, 1000);
+        // Check count at table header.
+        assert.strictEqual($lookupHeaders.length === 3, true, 'Component has SuggestionTypeE projection');
+        done();
       });
     });
   });
@@ -770,7 +762,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/execute-folv-test.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-empty-filter-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-empty-filter-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check empty filter', function (store, assert, app) {
     assert.expect(3);
@@ -778,36 +770,22 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     var modelName = 'ember-flexberry-dummy-suggestion';
     var filtreInsertOperation = 'empty';
     var filtreInsertParametr = '';
+    var user = undefined;
+    var type = undefined;
+    var suggestion = undefined;
     _ember['default'].run(function () {
-      var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionL').where('address', _emberFlexberryData.Query.FilterOperator.Eq, '');
-      store.query(modelName, builder.build()).then(function (result) {
-        var arr = result.toArray();
+      var newRecords = _ember['default'].A();
+      user = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-application-user', { name: 'Random name fot empty filther test',
+        eMail: 'Random eMail fot empty filther test' }));
+      type = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-suggestion-type', { name: 'Random name fot empty filther test' }));
 
-        // Add an object with an empty address, if it is not present.
-        if (arr.length === 0) {
-          (function () {
-            var newRecords = _ember['default'].A();
-            var user = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-application-user', { name: 'Random name fot empty filther test',
-              eMail: 'Random eMail fot empty filther test' }));
-            var type = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-suggestion-type', { name: 'Random name fot empty filther test' }));
-
-            newRecords.forEach(function (item) {
-              item.save();
-            });
-
-            var done = assert.async();
-            window.setTimeout(function () {
-              _ember['default'].run(function () {
-                newRecords = _ember['default'].A();
-                newRecords.pushObject(store.createRecord(modelName, { type: type, author: user, editor1: user }));
-                newRecords.forEach(function (item) {
-                  item.save();
-                });
-              });
-              done();
-            }, 1000);
-          })();
-        }
+      type.save().then(function () {
+        user.save().then(function () {
+          _ember['default'].run(function () {
+            suggestion = newRecords.pushObject(store.createRecord(modelName, { type: type, author: user, editor1: user }));
+            suggestion.save();
+          });
+        });
       });
 
       visit(path + '?perPage=500');
@@ -843,6 +821,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
             assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
+          })['finally'](function () {
+            newRecords[2].destroyRecord().then(function () {
+              _ember['default'].run(function () {
+                newRecords[0].destroyRecord();
+                newRecords[1].destroyRecord();
+              });
+            });
           });
         });
       });
@@ -1931,6 +1916,8 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
               store.query(modelName, builder2.build()).then(function (result) {
                 assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
                 done2();
+              })['finally'](function () {
+                newRecord.destroyRecord();
               });
             }, timeout);
           });
@@ -2026,6 +2013,8 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
               store.query(modelName, builder2.build()).then(function (result) {
                 assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
                 done2();
+              })['finally'](function () {
+                newRecord.destroyRecord();
               });
             }, timeout);
           });
@@ -2216,6 +2205,8 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
               store.query(modelName, builder2.build()).then(function (result) {
                 assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
                 done2();
+              })['finally'](function () {
+                newRecord.destroyRecord();
               });
             }, timeout);
           });
@@ -2311,6 +2302,8 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
               store.query(modelName, builder2.build()).then(function (result) {
                 assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
                 done2();
+              })['finally'](function () {
+                newRecord.destroyRecord();
               });
             }, timeout);
           });
@@ -2693,6 +2686,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-from-edi
     var path = 'components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-list?perPage=5';
     visit(path);
     andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
 
       // Open editFirn function.
       var openEditFormFunction = function openEditFormFunction() {
@@ -2700,23 +2694,21 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-from-edi
         editButtonInRow.click();
       };
 
+      // Return to listform  function.
+      var returnToListFormFunction = function returnToListFormFunction() {
+        var returnToListFormButton = _ember['default'].$('.return-to-list-form')[0];
+        returnToListFormButton.click();
+      };
+
       // Open editform.
-      var done1 = assert.async();
+      var done = assert.async();
       (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.openEditFormByFunction)(openEditFormFunction).then(function () {
         assert.ok(true, 'edit form open');
 
-        var returnToEditFormButton = _ember['default'].$('.return-to-list-form')[0];
-        returnToEditFormButton.click();
-
-        var timeout = 1000;
-        var done2 = assert.async();
-        _ember['default'].run.later(function () {
-          var controller = app.__container__.lookup('controller:' + currentRouteName());
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(returnToListFormFunction, controller).then(function () {
           assert.equal(controller.model.content.length, 1, 'QueryParams applied successfully');
-          done2();
-        }, timeout);
-
-        done1();
+          done();
+        });
       });
     });
   });
@@ -3701,7 +3693,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
           // Time is out.
           // Stop intervals & reject promise.
           window.clearInterval(checkIntervalId);
-          reject('editForm load operation is timed out');
+          reject('ListForm load operation is timed out');
         }, timeout);
       });
     });
@@ -3788,6 +3780,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       var checkInterval = 500;
       var renderInterval = 100;
       var timeout = 10000;
+      var timeiutForLongTimeLoad = checkInterval + 500;
 
       var $lastLoadCount = controller.loadCount;
       refreshFunction();
@@ -3814,14 +3807,17 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       // Set wait timeout.
       _ember['default'].run(function () {
         window.setTimeout(function () {
-          if (checkIntervalSucceed) {
-            return;
-          }
+          // Timeout for with a long load, setInterval executed first.
+          window.setTimeout(function () {
+            if (checkIntervalSucceed) {
+              return;
+            }
 
-          // Time is out.
-          // Stop intervals & reject promise.
-          window.clearInterval(checkIntervalId);
-          reject('editForm load operation is timed out');
+            // Time is out.
+            // Stop intervals & reject promise.
+            window.clearInterval(checkIntervalId);
+            reject('ListForm load operation is timed out');
+          }, timeiutForLongTimeLoad);
         }, timeout);
       });
     });

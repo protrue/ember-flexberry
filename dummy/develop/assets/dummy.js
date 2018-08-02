@@ -6044,7 +6044,14 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/return-wi
      */
     editFormRoute: 'components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-edit',
 
-    exportExcelProjection: 'SuggestionL'
+    exportExcelProjection: 'SuggestionL',
+
+    /**
+      Cout of list loading.
+       @property loadCount
+      @type Int
+    */
+    loadCount: 0
   });
 });
 define('dummy/controllers/components-examples/flexberry-objectlistview/selected-rows', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _emberFlexberryControllersListForm) {
@@ -19123,7 +19130,18 @@ define('dummy/routes/components-examples/flexberry-objectlistview/return-with-qu
       @type String
       @default 'ember-flexberry-dummy-suggestion'
      */
-    modelName: 'ember-flexberry-dummy-suggestion'
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    /**
+      This method will be invoked always when load operation completed,
+      regardless of load promise's state (was it fulfilled or rejected).
+       @method onModelLoadingAlways.
+      @param {Object} data Data about completed load operation.
+     */
+    onModelLoadingAlways: function onModelLoadingAlways(data) {
+      var loadCount = this.get('controller.loadCount') + 1;
+      this.set('controller.loadCount', loadCount);
+    }
   });
 });
 define('dummy/routes/components-examples/flexberry-objectlistview/selected-rows', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _emberFlexberryRoutesListForm) {
@@ -60851,7 +60869,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.1-beta.1+461d2fb5"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.1-beta.1+2218f732"});
 }
 
 /* jshint ignore:end */
