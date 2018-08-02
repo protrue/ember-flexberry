@@ -1106,6 +1106,11 @@ define('dummy/controllers/application', ['exports', 'ember', 'dummy/config/envir
               title: i18n.t('forms.application.sitemap.components-examples.flexberry-toggler.settings-example.title'),
               children: null
             }, {
+              link: 'components-examples/flexberry-toggler/settings-example-inner',
+              caption: i18n.t('forms.application.sitemap.components-examples.flexberry-toggler.settings-example-inner.caption'),
+              title: i18n.t('forms.application.sitemap.components-examples.flexberry-toggler.settings-example-inner.title'),
+              children: null
+            }, {
               link: 'components-examples/flexberry-toggler/ge-into-toggler-example',
               caption: i18n.t('forms.application.sitemap.components-examples.flexberry-toggler.ge-into-toggler-example.caption'),
               title: i18n.t('forms.application.sitemap.components-examples.flexberry-toggler.ge-into-toggler-example.title'),
@@ -7898,6 +7903,146 @@ define('dummy/controllers/components-examples/flexberry-toggler/ge-into-toggler-
     editFormRoute: 'ember-flexberry-dummy-toggler-example-master-e'
   });
 });
+define('dummy/controllers/components-examples/flexberry-toggler/settings-example-inner', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    /**
+      Text for 'flexberry-togggler' component 'caption' property.
+       @property caption
+      @type String
+     */
+    caption: '',
+
+    /**
+      Text for inner 'flexberry-togggler' component 'caption' property.
+       @property innerCaption
+      @type String
+     */
+    innerCaption: '',
+
+    /**
+      Text for 'flexberry-togggler' component 'expandedCaption' property.
+       @property expandedCaption
+      @type String
+     */
+    expandedCaption: null,
+
+    /**
+      Text for inner 'flexberry-togggler' component 'expandedCaption' property.
+       @property expandedInnerCaption
+      @type String
+     */
+    expandedInnerCaption: null,
+
+    /**
+      Text for 'flexberry-togggler' component 'collapsedCaption' property.
+       @property collapsedCaption
+      @type String
+     */
+    collapsedCaption: null,
+
+    /**
+      Text for inner 'flexberry-togggler' component 'collapsedCaption' property.
+       @property collapsedInnerCaption
+      @type String
+     */
+    collapsedInnerCaption: null,
+
+    /**
+      CSS clasess for i tag.
+       @property iconClass
+      @type String
+    */
+    iconClass: '',
+
+    /**
+      Is accordion expanded?
+       @property expanded
+      @type Boolean
+      @default true
+    */
+    expanded: true,
+
+    /**
+      Is inner accordion expanded?
+       @property innerExpanded
+      @type Boolean
+      @default true
+    */
+    innerExpanded: false,
+
+    /**
+      Template text for 'flexberry-textbox' component.
+       @property componentTemplateText
+      @type String
+     */
+    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{#flexberry-toggler<br>' + '  caption=caption<br>' + '  expandedCaption=expandedCaption<br>' + '  collapsedCaption=collapsedCaption<br>' + '  expanded=expanded<br>' + '  iconClass=iconClass<br>' + '  componentName="myToggler"<br>' + '}}<br>' + '  {{t "forms.components-examples.flexberry-toggler.settings-example-inner.togglerContent"}}<br>' + '  {{#flexberry-toggler<br>' + '    caption=innerCaption<br>' + '    expandedCaption=expandedInnerCaption<br>' + '    collapsedCaption=collapsedInnerCaption<br>' + '    expanded=innerExpanded<br>' + '    iconClass=iconClass<br>' + '    componentName="myInnerToggler"<br>' + '  }}<br>' + '    {{t "forms.components-examples.flexberry-toggler.settings-example-inner.innerTogglerContent"}}<br>' + '  {{/flexberry-toggler}}<br>' + '{{/flexberry-toggler}}'),
+
+    /**
+      Component settings metadata.
+       @property componentSettingsMetadata
+      @type Object[]
+     */
+    componentSettingsMetadata: _ember['default'].computed(function () {
+      var componentSettingsMetadata = _ember['default'].A();
+      componentSettingsMetadata.pushObject({
+        settingName: 'caption',
+        settingType: 'string',
+        settingDefaultValue: '',
+        bindedControllerPropertieName: 'caption'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'expandedCaption',
+        settingType: 'string',
+        settingDefaultValue: null,
+        bindedControllerPropertieName: 'expandedCaption'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'collapsedCaption',
+        settingType: 'string',
+        settingDefaultValue: null,
+        bindedControllerPropertieName: 'collapsedCaption'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'expanded',
+        settingType: 'boolean',
+        settingDefaultValue: false,
+        bindedControllerPropertieName: 'expanded'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'innerCaption',
+        settingType: 'string',
+        settingDefaultValue: '',
+        bindedControllerPropertieName: 'innerCaption'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'expandedInnerCaption',
+        settingType: 'string',
+        settingDefaultValue: null,
+        bindedControllerPropertieName: 'expandedInnerCaption'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'collapsedInnerCaption',
+        settingType: 'string',
+        settingDefaultValue: null,
+        bindedControllerPropertieName: 'collapsedInnerCaption'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'innerExpanded',
+        settingType: 'boolean',
+        settingDefaultValue: false,
+        bindedControllerPropertieName: 'innerExpanded'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'iconClass',
+        settingType: 'string',
+        settingDefaultValue: undefined,
+        bindedControllerPropertieName: 'iconClass'
+      });
+
+      return componentSettingsMetadata;
+    })
+  });
+});
 define('dummy/controllers/components-examples/flexberry-toggler/settings-example', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller.extend({
     /**
@@ -12393,6 +12538,10 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
                 'caption': 'Settings example',
                 'title': ''
               },
+              'settings-example-inner': {
+                'caption': 'Settings example (toggler in a toggler)',
+                'title': ''
+              },
               'ge-into-toggler-example': {
                 'caption': 'GroupEdit into toggler example'
               }
@@ -12820,6 +12969,11 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
           'settings-example': {
             'caption': 'Flexberry-toggler. Settings example',
             'togglerContent': 'Some expandable/collapsable content'
+          },
+          'settings-example-inner': {
+            'caption': 'Flexberry-toggler. Settings example',
+            'togglerContent': 'Some expandable/collapsable content',
+            'innerTogglerContent': 'Some expandable/collapsable content in an inner toggler'
           },
           'ge-into-toggler-example': {
             'caption': 'Flexberry-toggler. GroupEdit into toggler example'
@@ -13416,6 +13570,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
                 'caption': 'Пример работы с настройками',
                 'title': ''
               },
+              'settings-example-inner': {
+                'caption': 'Пример работы с настройками (toggler в toggler)',
+                'title': ''
+              },
               'ge-into-toggler-example': {
                 'caption': 'GroupEdit в toggler example'
               }
@@ -13843,6 +14001,11 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
           'settings-example': {
             'caption': 'Flexberry-toggler. Пример работы с настройками',
             'togglerContent': 'Некоторое  сворачивающееся/разворачивающееся содержание'
+          },
+          'settings-example-inner': {
+            'caption': 'Flexberry-toggler. Пример работы с настройками',
+            'togglerContent': 'Некоторое  сворачивающееся/разворачивающееся содержание',
+            'innerTogglerContent': 'Некоторое  сворачивающееся/разворачивающееся содержание внутреннего тогглера'
           },
           'ge-into-toggler-example': {
             'caption': 'Flexberry-toggler. GroupEdit в toggler example'
@@ -15903,6 +16066,7 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('components-examples/flexberry-textarea/settings-example');
     this.route('components-examples/flexberry-textbox/settings-example');
     this.route('components-examples/flexberry-toggler/settings-example');
+    this.route('components-examples/flexberry-toggler/settings-example-inner');
     this.route('components-examples/flexberry-toggler/ge-into-toggler-example');
     this.route('components-examples/flexberry-tree/settings-example');
     this.route('components-examples/ui-message/settings-example');
@@ -19631,6 +19795,9 @@ define('dummy/routes/components-examples/flexberry-toggler/ge-into-toggler-examp
      */
     modelName: 'ember-flexberry-dummy-toggler-example-master'
   });
+});
+define('dummy/routes/components-examples/flexberry-toggler/settings-example-inner', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
 });
 define('dummy/routes/components-examples/flexberry-toggler/settings-example', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -35683,6 +35850,200 @@ define("dummy/templates/components-examples/flexberry-toggler/ge-into-toggler-ex
     };
   })());
 });
+define("dummy/templates/components-examples/flexberry-toggler/settings-example-inner", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.4.6",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 18,
+                  "column": 8
+                },
+                "end": {
+                  "line": 27,
+                  "column": 8
+                }
+              },
+              "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example-inner.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example-inner.innerTogglerContent"], [], ["loc", [null, [26, 10], [26, 104]]]]],
+            locals: [],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 9,
+                "column": 6
+              },
+              "end": {
+                "line": 28,
+                "column": 6
+              }
+            },
+            "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example-inner.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("        ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example-inner.togglerContent"], [], ["loc", [null, [17, 8], [17, 97]]]], ["block", "flexberry-toggler", [], ["caption", ["subexpr", "@mut", [["get", "innerCaption", ["loc", [null, [19, 18], [19, 30]]]]], [], []], "expandedCaption", ["subexpr", "@mut", [["get", "expandedInnerCaption", ["loc", [null, [20, 26], [20, 46]]]]], [], []], "collapsedCaption", ["subexpr", "@mut", [["get", "collapsedInnerCaption", ["loc", [null, [21, 27], [21, 48]]]]], [], []], "expanded", ["subexpr", "@mut", [["get", "innerExpanded", ["loc", [null, [22, 19], [22, 32]]]]], [], []], "iconClass", ["subexpr", "@mut", [["get", "iconClass", ["loc", [null, [23, 20], [23, 29]]]]], [], []], "componentName", "myInnerToggler"], 0, null, ["loc", [null, [18, 8], [27, 30]]]]],
+          locals: [],
+          templates: [child0]
+        };
+      })();
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 4,
+              "column": 4
+            },
+            "end": {
+              "line": 29,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example-inner.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "flexberry-toggler", [], ["caption", ["subexpr", "@mut", [["get", "caption", ["loc", [null, [10, 16], [10, 23]]]]], [], []], "expandedCaption", ["subexpr", "@mut", [["get", "expandedCaption", ["loc", [null, [11, 24], [11, 39]]]]], [], []], "collapsedCaption", ["subexpr", "@mut", [["get", "collapsedCaption", ["loc", [null, [12, 25], [12, 41]]]]], [], []], "expanded", ["subexpr", "@mut", [["get", "expanded", ["loc", [null, [13, 17], [13, 25]]]]], [], []], "iconClass", ["subexpr", "@mut", [["get", "iconClass", ["loc", [null, [14, 18], [14, 27]]]]], [], []], "componentName", "myToggler"], 0, null, ["loc", [null, [9, 6], [28, 28]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 31,
+            "column": 7
+          }
+        },
+        "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example-inner.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h3");
+        dom.setAttribute(el1, "class", "ui header");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "ui form flexberry-vertical-form");
+        dom.setAttribute(el1, "role", "form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2, 1]), 1, 1);
+        return morphs;
+      },
+      statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example-inner.caption"], [], ["loc", [null, [1, 22], [1, 104]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [7, 28], [7, 49]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [29, 25]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
 define("dummy/templates/components-examples/flexberry-toggler/settings-example", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -35710,7 +36071,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("        ");
+            var el1 = dom.createTextNode("          ");
             dom.appendChild(el0, el1);
             var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
@@ -35723,7 +36084,7 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example.togglerContent"], [], ["loc", [null, [17, 8], [17, 91]]]]],
+          statements: [["inline", "t", ["forms.components-examples.flexberry-toggler.settings-example.togglerContent"], [], ["loc", [null, [17, 10], [17, 93]]]]],
           locals: [],
           templates: []
         };
@@ -35781,8 +36142,8 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
             "column": 0
           },
           "end": {
-            "line": 22,
-            "column": 0
+            "line": 21,
+            "column": 7
           }
         },
         "moduleName": "dummy/templates/components-examples/flexberry-toggler/settings-example.hbs"
@@ -35816,8 +36177,6 @@ define("dummy/templates/components-examples/flexberry-toggler/settings-example",
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -60492,7 +60851,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.1-beta.1+6629a111"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.1-beta.1+461d2fb5"});
 }
 
 /* jshint ignore:end */

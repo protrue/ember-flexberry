@@ -6887,6 +6887,23 @@ define('dummy/tests/controllers/components-examples/flexberry-toggler/ge-into-to
     assert.ok(true, 'controllers/components-examples/flexberry-toggler/ge-into-toggler-example.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/components-examples/flexberry-toggler/settings-example-inner.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-toggler');
+  test('controllers/components-examples/flexberry-toggler/settings-example-inner.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-toggler/settings-example-inner.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-toggler/settings-example-inner.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-toggler/settings-example-inner.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-toggler/settings-example-inner.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/components-examples/flexberry-toggler/settings-example.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -20340,6 +20357,23 @@ define('dummy/tests/routes/components-examples/flexberry-toggler/ge-into-toggler
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-toggler/ge-into-toggler-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-toggler/settings-example-inner.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-toggler');
+  test('routes/components-examples/flexberry-toggler/settings-example-inner.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-toggler/settings-example-inner.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-toggler/settings-example-inner.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-toggler/settings-example-inner.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-toggler/settings-example-inner.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-toggler/settings-example.jscs-test', ['exports'], function (exports) {
