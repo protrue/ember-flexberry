@@ -1,478 +1,3 @@
-define('dummy/tests/acceptance/components/base-flexberry-lookup-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app', 'ember-flexberry-data'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp, _emberFlexberryData) {
-  var StringPredicate = _emberFlexberryData.Query.StringPredicate;
-
-  var openLookupDialog = function openLookupDialog($lookup) {
-    return new _ember['default'].RSVP.Promise(function (resolve, reject) {
-      var checkIntervalId = undefined;
-      var checkIntervalSucceed = false;
-      var checkInterval = 500;
-
-      var timeout = 4000;
-
-      var $lookupChooseButton = _ember['default'].$('.ui-change', $lookup);
-
-      // Try to open lookup dialog.
-      _ember['default'].run(function () {
-        $lookupChooseButton.click();
-      });
-
-      // Wait for lookup dialog to be opened & data loaded.
-      _ember['default'].run(function () {
-        checkIntervalId = window.setInterval(function () {
-          var $lookupDialog = _ember['default'].$('.flexberry-modal');
-          var $records = _ember['default'].$('.content table.object-list-view tbody tr', $lookupDialog);
-          if ($records.length === 0) {
-            // Data isn't loaded yet.
-            return;
-          }
-
-          // Data is loaded.
-          // Stop interval & resolve promise.
-          window.clearInterval(checkIntervalId);
-          checkIntervalSucceed = true;
-
-          resolve($lookupDialog);
-        }, checkInterval);
-      });
-
-      // Set wait timeout.
-      _ember['default'].run(function () {
-        window.setTimeout(function () {
-          if (checkIntervalSucceed) {
-            return;
-          }
-
-          // Time is out.
-          // Stop intervals & reject promise.
-          window.clearInterval(checkIntervalId);
-          reject('flexberry-lookup load data operation is timed out');
-        }, timeout);
-      });
-    });
-  };
-
-  var chooseRecordInLookupDialog = function chooseRecordInLookupDialog($lookupDialog, recordIndex) {
-    return new _ember['default'].RSVP.Promise(function (resolve, reject) {
-      var checkIntervalId = undefined;
-      var checkIntervalSucceed = false;
-      var checkInterval = 500;
-
-      var timeout = 4000;
-
-      var $records = _ember['default'].$('.content table.object-list-view tbody tr', $lookupDialog);
-      var $choosedRecord = _ember['default'].$($records[recordIndex]);
-
-      // Try to choose record in the lookup dialog.
-      _ember['default'].run(function () {
-        // Inside object-list-views component click actions are available only if cell in row has been clicked.
-        // Click on whole row wont take an effect.
-        var $choosedRecordFirstCell = _ember['default'].$(_ember['default'].$('td', $choosedRecord)[1]);
-        $choosedRecordFirstCell.click();
-
-        // Click on modal-dialog close icon.
-        // Сrutch correcting irregular bug
-        var $modelDilogClose = _ember['default'].$('.close.icon');
-        $modelDilogClose.click();
-      });
-
-      // Wait for lookup dialog to be closed.
-      _ember['default'].run(function () {
-        checkIntervalId = window.setInterval(function () {
-          if (!$lookupDialog.hasClass('hidden')) {
-            // Dialog is still opened.
-            return;
-          }
-
-          // Dialog is closed.
-          // Stop interval & resolve promise.
-          window.clearInterval(checkIntervalId);
-          checkIntervalSucceed = true;
-
-          resolve();
-        }, checkInterval);
-      });
-
-      // Set wait timeout.
-      _ember['default'].run(function () {
-        window.setTimeout(function () {
-          if (checkIntervalSucceed) {
-            return;
-          }
-
-          // Time is out.
-          // Stop intervals & reject promise.
-          window.clearInterval(checkIntervalId);
-          reject('flexberry-lookup choose record operation is timed out');
-        }, timeout);
-      });
-    });
-  };
-
-  var app = undefined;
-  var latestReceivedRecords = undefined;
-
-  (0, _qunit.module)('Acceptance | flexberry-lookup-base', {
-    beforeEach: function beforeEach() {
-      // Start application.
-      app = (0, _dummyTestsHelpersStartApp['default'])();
-
-      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
-      var applicationController = app.__container__.lookup('controller:application');
-      applicationController.set('isInAcceptanceTestMode', true);
-
-      // Override store.query method to receive & remember records which will be requested by lookup dialog.
-      var store = app.__container__.lookup('service:store');
-      var originalQueryMethod = store.query;
-      store.query = function () {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        // Call original method & remember returned records.
-        return originalQueryMethod.apply(this, args).then(function (records) {
-          latestReceivedRecords = records.toArray();
-
-          return records;
-        });
-      };
-    },
-
-    afterEach: function afterEach() {
-      // Remove semantic ui modal dialog's dimmer.
-      _ember['default'].$('body .ui.dimmer.modals').remove();
-
-      // Destroy application.
-      _ember['default'].run(app, 'destroy');
-    }
-  });
-
-  (0, _qunit.test)('changes in component\'s value causes changes in related model\'s specified \'belongsTo\' relation', function (assert) {
-    visit('components-acceptance-tests/flexberry-lookup/base-operations');
-    andThen(function () {
-      var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var model = _ember['default'].get(controller, 'model');
-      var relationName = _ember['default'].get(controller, 'relationName');
-      var displayAttributeName = _ember['default'].get(controller, 'displayAttributeName');
-
-      var $lookup = _ember['default'].$('.flexberry-lookup');
-      var $lookupInput = _ember['default'].$('input', $lookup);
-      assert.strictEqual($lookupInput.val(), '', 'lookup display value is empty by default');
-
-      // Wait for lookup dialog to be opened, choose first record & check component's state.
-      var asyncOperationsCompleted = assert.async();
-      openLookupDialog($lookup).then(function ($lookupDialog) {
-        assert.ok($lookupDialog);
-
-        // Lookup dialog successfully opened & data is loaded.
-        // Try to choose first loaded record.
-        return chooseRecordInLookupDialog($lookupDialog, 0);
-      }).then(function () {
-        // First loaded record chosen successfully.
-        // Check that chosen record is now set to related model's 'belongsTo' relation.
-        var chosenRecord = model.get(relationName);
-        var expectedRecord = latestReceivedRecords[0];
-        assert.strictEqual(chosenRecord, expectedRecord, 'chosen record is set to model\'s \'' + relationName + '\' relation as expected');
-
-        var chosenRecordDisplayAttribute = chosenRecord.get(displayAttributeName);
-        assert.strictEqual($lookupInput.val(), chosenRecordDisplayAttribute, 'lookup display value is equals to chosen record\'s \'' + displayAttributeName + '\' attribute');
-      })['catch'](function (reason) {
-        throw new Error(reason);
-      })['finally'](function () {
-        asyncOperationsCompleted();
-      });
-    });
-  });
-
-  (0, _qunit.test)('changes in model\'s value causes changes in component\'s specified \'belongsTo\' model', function (assert) {
-    visit('components-acceptance-tests/flexberry-lookup/base-operations');
-    andThen(function () {
-
-      var $lookup = _ember['default'].$('.flexberry-lookup');
-      var $lookupInput = _ember['default'].$('input', $lookup);
-      assert.strictEqual($lookupInput.val() === '', true, 'lookup display value is empty by default');
-
-      var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var model = _ember['default'].get(controller, 'model');
-      var store = app.__container__.lookup('service:store');
-      var suggestionType = undefined;
-
-      // Create limit for query.
-      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView');
-
-      // Load olv data.
-      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
-
-        var suggestionTypesArr = suggestionTypes.toArray();
-
-        suggestionType = suggestionTypesArr.objectAt(0);
-      }).then(function () {
-
-        // Change data in the model.
-        model.set('type', suggestionType);
-
-        var done = assert.async();
-
-        setTimeout(function () {
-          $lookupInput = _ember['default'].$('input', $lookup);
-          assert.strictEqual($lookupInput.val() === suggestionType.get('name'), true, 'lookup display value isn\'t empty');
-          done();
-        }, 100);
-      });
-    });
-  });
-
-  (0, _qunit.test)('flexberry-lookup limit function test', function (assert) {
-
-    visit('components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
-
-    andThen(function () {
-      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
-
-      var $limitFunctionButton = _ember['default'].$('.limitFunction');
-      var $lookupChouseButton = _ember['default'].$('.ui-change');
-
-      _ember['default'].run(function () {
-        $limitFunctionButton.click();
-        $lookupChouseButton.click();
-      });
-
-      var store = app.__container__.lookup('service:store');
-      var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var limitType = controller.limitType;
-      var queryPredicate = new StringPredicate('name').contains(limitType);
-
-      // Create limit for query.
-      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView').where(queryPredicate);
-
-      // Load olv data.
-      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
-
-        var suggestionTypesArr = suggestionTypes.toArray();
-        var suggestionModelLength = suggestionTypesArr.length;
-
-        var done = assert.async();
-
-        _ember['default'].run(function () {
-          setTimeout(function () {
-            var $lookupSearch = _ember['default'].$('.content table.object-list-view');
-            var $lookupSearchThead = $lookupSearch.children('tbody');
-            var $lookupSearchTr = $lookupSearchThead.children('tr');
-            var $lookupRows = $lookupSearchTr.children('td');
-            var $suggestionTableLength = $lookupSearchTr.length;
-
-            assert.expect(2 + $suggestionTableLength);
-
-            assert.strictEqual(suggestionModelLength >= $suggestionTableLength, true, 'Сorrect number of values restrictions limiting function');
-
-            // Сomparison data in the model and olv table.
-            for (var i = 0; i < $suggestionTableLength; i++) {
-              var suggestionType = suggestionTypesArr.objectAt(i);
-              var suggestionTypeName = suggestionType.get('name');
-
-              var $cell = $($lookupRows[3 * i + 1]);
-              var $cellDiv = $cell.children('div');
-              var $cellText = $cellDiv.text().trim();
-
-              assert.strictEqual(suggestionTypeName === $cellText, true, 'Сorrect data at lookup\'s olv');
-            }
-
-            done();
-          }, 2000);
-        });
-      });
-    });
-  });
-
-  (0, _qunit.test)('flexberry-lookup actions test', function (assert) {
-    assert.expect(5);
-
-    var controller = app.__container__.lookup('controller:components-acceptance-tests/flexberry-lookup/settings-example-actions');
-
-    // Remap remove action.
-    var $onRemoveData = undefined;
-    _ember['default'].set(controller, 'actions.externalRemoveAction', function (actual) {
-      $onRemoveData = actual;
-      assert.notEqual($onRemoveData, undefined, 'Component sends \'remove\' action after first click');
-      assert.strictEqual($onRemoveData.relationName, 'type', 'Component sends \'remove\' with actual relationName');
-    });
-
-    // Remap chose action.
-    var $onChooseData = undefined;
-    _ember['default'].set(controller, 'actions.externalChooseAction', function (actual) {
-      $onChooseData = actual;
-      assert.notEqual($onChooseData, undefined, 'Component sends \'choose\' action after first click');
-      assert.strictEqual($onChooseData.componentName, 'flexberry-lookup', 'Component sends \'choose\' with actual componentName');
-      assert.strictEqual($onChooseData.projection, 'SettingLookupExampleView', 'Component sends \'choose\' with actual projection');
-    });
-
-    visit('components-acceptance-tests/flexberry-lookup/settings-example-actions');
-    andThen(function () {
-      var $lookupButtouChoose = _ember['default'].$('.ui-change');
-      var $lookupButtouRemove = _ember['default'].$('.ui-clear');
-
-      _ember['default'].run(function () {
-        $lookupButtouChoose.click();
-        $lookupButtouRemove.click();
-      });
-    });
-  });
-
-  (0, _qunit.test)('flexberry-lookup relation name test', function (assert) {
-    visit('components-acceptance-tests/flexberry-lookup/settings-example-relation-name');
-    andThen(function () {
-      var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var relationName = _ember['default'].get(controller, 'relationName');
-      assert.strictEqual(relationName, 'Temp relation name', 'relationName: \'' + relationName + '\' as expected');
-    });
-  });
-
-  (0, _qunit.test)('flexberry-lookup projection test', function (assert) {
-    assert.expect(3);
-
-    visit('components-acceptance-tests/flexberry-lookup/settings-example-projection');
-
-    andThen(function () {
-      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-projection');
-      var done = assert.async();
-
-      var $lookup = _ember['default'].$('.flexberry-lookup');
-      openLookupDialog($lookup).then(function ($lookupDialog) {
-        assert.ok($lookupDialog);
-
-        var $lookupSearch = _ember['default'].$('.content table.object-list-view');
-        var $lookupSearchThead = $lookupSearch.children('thead');
-        var $lookupSearchTr = $lookupSearchThead.children('tr');
-        var $lookupHeaders = $lookupSearchTr.children('th');
-
-        // Check count at table header.
-        assert.strictEqual($lookupHeaders.length === 3, true, 'Component has SuggestionTypeE projection');
-        done();
-      });
-    });
-  });
-
-  (0, _qunit.test)('visiting flexberry-lookup dropdown', function (assert) {
-    assert.expect(13);
-
-    visit('components-acceptance-tests/flexberry-lookup/settings-example-dropdown');
-
-    andThen(function () {
-
-      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-dropdown');
-
-      // Retrieve component, it's inner <input>.
-      var $lookupSearch = _ember['default'].$('.lookup-field');
-      var $lookupButtonChoose = _ember['default'].$('.ui-change');
-      var $lookupButtonClear = _ember['default'].$('.lookup-remove-button');
-
-      assert.strictEqual($lookupSearch.length === 0, true, 'Component has n\'t flexberry-lookup');
-      assert.strictEqual($lookupButtonChoose.length === 0, true, 'Component has n\'t button choose');
-      assert.strictEqual($lookupButtonClear.length === 0, true, 'Component has n\'t button remove');
-
-      // Retrieve component, it's inner <input>.
-      var $dropdown = _ember['default'].$('.flexberry-dropdown.search.selection');
-      var $dropdownSearch = $dropdown.children('.search');
-      var $dropdownIcon = $dropdown.children('.dropdown.icon');
-      var $dropdownMenu = $dropdown.children('.menu');
-      var $deopdownText = $dropdown.children('.text');
-
-      assert.strictEqual($dropdown.length === 1, true, 'Component has class flexberry-dropdown');
-      assert.strictEqual($dropdown.hasClass('search'), true, 'Component\'s wrapper has \'search\' css-class');
-      assert.strictEqual($dropdown.hasClass('selection'), true, 'Component\'s wrapper has \'selection\' css-class');
-      assert.strictEqual($dropdown.hasClass('ember-view'), true, 'Component\'s wrapper has \'ember-view\' css-class');
-      assert.strictEqual($dropdown.hasClass('dropdown'), true, 'Component\'s wrapper has \'dropdown\' css-class');
-
-      assert.strictEqual($dropdownSearch.length === 1, true, 'Component has class search');
-
-      assert.strictEqual($dropdownIcon.length === 1, true, 'Component has class dropdown and icon');
-
-      assert.strictEqual($deopdownText.length === 1, true, 'Component has class text');
-
-      assert.strictEqual($dropdownMenu.length === 1, true, 'Component has class menu');
-    });
-  });
-
-  (0, _qunit.test)('visiting flexberry-lookup autocomplete', function (assert) {
-    assert.expect(5);
-
-    visit('components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
-
-    andThen(function () {
-
-      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
-
-      var $lookup = _ember['default'].$('.flexberry-lookup');
-
-      assert.strictEqual($lookup.hasClass('ui'), true, 'Component\'s wrapper has \'ui\' css-class');
-      assert.strictEqual($lookup.hasClass('search'), true, 'Component\'s wrapper has \'search\' css-class');
-
-      var $lookupField = _ember['default'].$('.lookup-field');
-
-      assert.strictEqual($lookupField.hasClass('prompt'), true, 'Component\'s wrapper has \'prompt\' css-class');
-
-      var $result = _ember['default'].$('.result');
-
-      assert.strictEqual($result.length === 1, true, 'Component has inner class \'result\'');
-    });
-  });
-
-  (0, _qunit.test)('flexberry-lookup limit function through dynamic properties test', function (assert) {
-
-    var path = 'components-examples/flexberry-lookup/limit-function-through-dynamic-properties-example';
-
-    visit(path);
-
-    andThen(function () {
-      assert.equal(currentURL(), path);
-
-      var $limitFunctionButton1 = _ember['default'].$('.firstLimitFunction');
-      var $limitFunctionButton2 = _ember['default'].$('.secondLimitFunction');
-      var $clearLimitFunctionButton = _ember['default'].$('.clearLimitFunction');
-      var limitFunction1 = undefined;
-      var limitFunction2 = undefined;
-
-      var store = app.__container__.lookup('service:store');
-      var controller = app.__container__.lookup('controller:' + currentRouteName());
-
-      // Create limit for query.
-      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView').top(2);
-
-      // Load olv data.
-      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
-        var suggestionTypesArr = suggestionTypes.toArray();
-        limitFunction1 = suggestionTypesArr.objectAt(0).get('name');
-        limitFunction2 = suggestionTypesArr.objectAt(1).get('name');
-      }).then(function () {
-
-        $limitFunctionButton1.click();
-        assert.equal(controller.lookupCustomLimitPredicate._containsValue, limitFunction1, 'Current limit function afther first limit function button click');
-
-        $limitFunctionButton2.click();
-        assert.equal(controller.lookupCustomLimitPredicate._containsValue, limitFunction2, 'Current limit function afther second limit function button click');
-
-        $clearLimitFunctionButton.click();
-        assert.equal(controller.lookupCustomLimitPredicate, undefined, 'Absent limit function afther clear limit function button click');
-      });
-    });
-  });
-});
-define('dummy/tests/acceptance/components/base-flexberry-lookup-test.jscs-test', ['exports'], function (exports) {
-  'use strict';
-
-  module('JSCS - acceptance/components');
-  test('acceptance/components/base-flexberry-lookup-test.js should pass jscs', function () {
-    ok(true, 'acceptance/components/base-flexberry-lookup-test.js should pass jscs.');
-  });
-});
-define('dummy/tests/acceptance/components/base-flexberry-lookup-test.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - acceptance/components/base-flexberry-lookup-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'acceptance/components/base-flexberry-lookup-test.js should pass jshint.');
-  });
-});
 define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-conditional-render-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
 
   var app = undefined;
@@ -654,6 +179,795 @@ define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedi
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-component-lookup-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  var openLookupDialog = function openLookupDialog($lookup) {
+    return new _ember['default'].RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = undefined;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+
+      var timeout = 4000;
+
+      var $lookupChooseButton = _ember['default'].$('.ui-change', $lookup);
+
+      // Try to open lookup dialog.
+      _ember['default'].run(function () {
+        $lookupChooseButton.click();
+      });
+
+      // Wait for lookup dialog to be opened & data loaded.
+      _ember['default'].run(function () {
+        checkIntervalId = window.setInterval(function () {
+          var $lookupDialog = _ember['default'].$('.flexberry-modal');
+          var $records = _ember['default'].$('.content table.object-list-view tbody tr', $lookupDialog);
+          if ($records.length === 0) {
+            // Data isn't loaded yet.
+            return;
+          }
+
+          // Data is loaded.
+          // Stop interval & resolve promise.
+          window.clearInterval(checkIntervalId);
+          checkIntervalSucceed = true;
+
+          resolve($lookupDialog);
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      _ember['default'].run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('flexberry-lookup load data operation is timed out');
+        }, timeout);
+      });
+    });
+  };
+
+  var chooseRecordInLookupDialog = function chooseRecordInLookupDialog($lookupDialog, recordIndex) {
+    return new _ember['default'].RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = undefined;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+
+      var timeout = 4000;
+
+      var $records = _ember['default'].$('.content table.object-list-view tbody tr', $lookupDialog);
+      var $choosedRecord = _ember['default'].$($records[recordIndex]);
+
+      // Try to choose record in the lookup dialog.
+      _ember['default'].run(function () {
+        // Inside object-list-views component click actions are available only if cell in row has been clicked.
+        // Click on whole row wont take an effect.
+        var $choosedRecordFirstCell = _ember['default'].$(_ember['default'].$('td', $choosedRecord)[1]);
+        $choosedRecordFirstCell.click();
+
+        // Click on modal-dialog close icon.
+        // Сrutch correcting irregular bug
+        var $modelDilogClose = _ember['default'].$('.close.icon');
+        $modelDilogClose.click();
+      });
+
+      // Wait for lookup dialog to be closed.
+      _ember['default'].run(function () {
+        checkIntervalId = window.setInterval(function () {
+          if (!$lookupDialog.hasClass('hidden')) {
+            // Dialog is still opened.
+            return;
+          }
+
+          // Dialog is closed.
+          // Stop interval & resolve promise.
+          window.clearInterval(checkIntervalId);
+          checkIntervalSucceed = true;
+
+          resolve();
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      _ember['default'].run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('flexberry-lookup choose record operation is timed out');
+        }, timeout);
+      });
+    });
+  };
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('changes in component\'s value causes changes in related model\'s specified \'belongsTo\' relation', function (store, assert, app, latestReceivedRecords) {
+    assert.expect(4);
+    visit('components-acceptance-tests/flexberry-lookup/base-operations');
+
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var model = _ember['default'].get(controller, 'model');
+      var relationName = _ember['default'].get(controller, 'relationName');
+      var displayAttributeName = _ember['default'].get(controller, 'displayAttributeName');
+
+      var $lookup = _ember['default'].$('.flexberry-lookup');
+      var $lookupInput = _ember['default'].$('input', $lookup);
+      assert.strictEqual($lookupInput.val(), '', 'lookup display value is empty by default');
+
+      // Wait for lookup dialog to be opened, choose first record & check component's state.
+      var asyncOperationsCompleted = assert.async();
+      openLookupDialog($lookup).then(function ($lookupDialog) {
+        assert.ok($lookupDialog);
+
+        // Lookup dialog successfully opened & data is loaded.
+        // Try to choose first loaded record.
+        return chooseRecordInLookupDialog($lookupDialog, 0);
+      }).then(function () {
+        // First loaded record chosen successfully.
+        // Check that chosen record is now set to related model's 'belongsTo' relation.
+        var chosenRecord = model.get(relationName);
+        var expectedRecord = latestReceivedRecords[0];
+        assert.strictEqual(chosenRecord, expectedRecord, 'chosen record is set to model\'s \'' + relationName + '\' relation as expected');
+
+        var chosenRecordDisplayAttribute = chosenRecord.get(displayAttributeName);
+        assert.strictEqual($lookupInput.val(), chosenRecordDisplayAttribute, 'lookup display value is equals to chosen record\'s \'' + displayAttributeName + '\' attribute');
+      })['catch'](function (reason) {
+        throw new Error(reason);
+      })['finally'](function () {
+        asyncOperationsCompleted();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-component-lookup-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/change-component-lookup-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/change-component-lookup-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-component-lookup-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/change-component-lookup-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/change-component-lookup-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-model-lookup-test', ['exports', 'ember', 'ember-flexberry-data', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _emberFlexberryData, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('changes in model\'s value causes changes in component\'s specified \'belongsTo\' model', function (store, assert, app) {
+    assert.expect(2);
+    visit('components-acceptance-tests/flexberry-lookup/base-operations');
+    andThen(function () {
+
+      var $lookup = _ember['default'].$('.flexberry-lookup');
+      var $lookupInput = _ember['default'].$('input', $lookup);
+      assert.strictEqual($lookupInput.val() === '', true, 'lookup display value is empty by default');
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var model = _ember['default'].get(controller, 'model');
+      var store = app.__container__.lookup('service:store');
+      var suggestionType = undefined;
+
+      // Create limit for query.
+      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView');
+
+      // Load olv data.
+      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
+
+        var suggestionTypesArr = suggestionTypes.toArray();
+
+        suggestionType = suggestionTypesArr.objectAt(0);
+      }).then(function () {
+
+        // Change data in the model.
+        model.set('type', suggestionType);
+
+        var done = assert.async();
+
+        setTimeout(function () {
+          $lookupInput = _ember['default'].$('input', $lookup);
+          assert.strictEqual($lookupInput.val() === suggestionType.get('name'), true, 'lookup display value isn\'t empty');
+          done();
+        }, 100);
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-model-lookup-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/change-model-lookup-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/change-model-lookup-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-model-lookup-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/change-model-lookup-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/change-model-lookup-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
+  exports.executeTest = executeTest;
+
+  function executeTest(testName, callback) {
+    var app = undefined;
+    var store = undefined;
+    var latestReceivedRecords = _ember['default'].A();
+
+    (0, _qunit.module)('Acceptance | flexberry-lookup-base |' + testName, {
+      beforeEach: function beforeEach() {
+
+        // Start application.
+        app = (0, _dummyTestsHelpersStartApp['default'])();
+
+        // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+        var applicationController = app.__container__.lookup('controller:application');
+        applicationController.set('isInAcceptanceTestMode', true);
+
+        // Override store.query method to receive & remember records which will be requested by lookup dialog.
+        var store = app.__container__.lookup('service:store');
+        var originalQueryMethod = store.query;
+        store.query = function () {
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          // Call original method & remember returned records.
+          return originalQueryMethod.apply(this, args).then(function (records) {
+            latestReceivedRecords.clear();
+            latestReceivedRecords.addObjects(records.toArray());
+
+            return records;
+          });
+        };
+      },
+
+      afterEach: function afterEach() {
+        // Remove semantic ui modal dialog's dimmer.
+        _ember['default'].$('body .ui.dimmer.modals').remove();
+
+        // Destroy application.
+        _ember['default'].run(app, 'destroy');
+      }
+    });
+
+    (0, _qunit.test)(testName, function (assert) {
+      return callback(store, assert, app, latestReceivedRecords);
+    });
+  }
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-actions-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup actions test', function (store, assert, app) {
+    assert.expect(5);
+
+    var controller = app.__container__.lookup('controller:components-acceptance-tests/flexberry-lookup/settings-example-actions');
+
+    // Remap remove action.
+    var $onRemoveData = undefined;
+    _ember['default'].set(controller, 'actions.externalRemoveAction', function (actual) {
+      $onRemoveData = actual;
+      assert.notEqual($onRemoveData, undefined, 'Component sends \'remove\' action after first click');
+      assert.strictEqual($onRemoveData.relationName, 'type', 'Component sends \'remove\' with actual relationName');
+    });
+
+    // Remap chose action.
+    var $onChooseData = undefined;
+    _ember['default'].set(controller, 'actions.externalChooseAction', function (actual) {
+      $onChooseData = actual;
+      assert.notEqual($onChooseData, undefined, 'Component sends \'choose\' action after first click');
+      assert.strictEqual($onChooseData.componentName, 'flexberry-lookup', 'Component sends \'choose\' with actual componentName');
+      assert.strictEqual($onChooseData.projection, 'SettingLookupExampleView', 'Component sends \'choose\' with actual projection');
+    });
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-actions');
+    andThen(function () {
+      var $lookupButtouChoose = _ember['default'].$('.ui-change');
+      var $lookupButtouRemove = _ember['default'].$('.ui-clear');
+
+      _ember['default'].run(function () {
+        $lookupButtouChoose.click();
+        $lookupButtouRemove.click();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test', 'dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest, _dummyTestsAcceptanceComponentsFlexberryLookupLookupTestFunctions) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup autocomplete message en', function (store, assert, app) {
+    assert.expect(4);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      (0, _dummyTestsAcceptanceComponentsFlexberryLookupLookupTestFunctions.loadingLocales)('en', app).then(function () {
+        var textbox = _ember['default'].$('.ember-text-field');
+        fillIn(textbox, 'gfhfkjglkhlh');
+      });
+
+      var asyncOperationsCompleted = assert.async();
+      _ember['default'].run.later(function () {
+        asyncOperationsCompleted();
+
+        var $message = _ember['default'].$('.message');
+        assert.strictEqual($message.hasClass('empty'), true, 'Component\'s wrapper has message');
+
+        var $messageHeader = $message.children('.header');
+        assert.equal($messageHeader.text(), 'No results', 'Message\'s header is properly');
+
+        var $messageDescription = $message.children('.description');
+        assert.equal($messageDescription.text(), 'No results found', 'Message\'s description is properly');
+      }, 5000);
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test', 'dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest, _dummyTestsAcceptanceComponentsFlexberryLookupLookupTestFunctions) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup autocomplete message ru', function (store, assert, app) {
+    assert.expect(4);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      (0, _dummyTestsAcceptanceComponentsFlexberryLookupLookupTestFunctions.loadingLocales)('ru', app).then(function () {
+        var textbox = _ember['default'].$('.ember-text-field');
+        fillIn(textbox, 'gfhfkjglkhlh');
+      });
+
+      var asyncOperationsCompleted = assert.async();
+      _ember['default'].run.later(function () {
+        asyncOperationsCompleted();
+
+        var $message = _ember['default'].$('.message');
+        assert.strictEqual($message.hasClass('empty'), true, 'Component\'s wrapper has message');
+
+        var $messageHeader = $message.children('.header');
+        assert.equal($messageHeader.text(), 'Нет данных', 'Message\'s header is properly');
+
+        var $messageDescription = $message.children('.description');
+        assert.equal($messageDescription.text(), 'Значения не найдены', 'Message\'s description is properly');
+      }, 5000);
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test', ['exports', 'ember', 'ember-flexberry-data', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _emberFlexberryData, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+  var StringPredicate = _emberFlexberryData.Query.StringPredicate;
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup limit function test', function (store, assert, app) {
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
+
+    andThen(function () {
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
+
+      var $limitFunctionButton = _ember['default'].$('.limitFunction');
+      var $lookupChouseButton = _ember['default'].$('.ui-change');
+
+      _ember['default'].run(function () {
+        $limitFunctionButton.click();
+        $lookupChouseButton.click();
+      });
+
+      var store = app.__container__.lookup('service:store');
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var limitType = controller.limitType;
+      var queryPredicate = new StringPredicate('name').contains(limitType);
+
+      // Create limit for query.
+      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView').where(queryPredicate);
+
+      // Load olv data.
+      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
+
+        var suggestionTypesArr = suggestionTypes.toArray();
+        var suggestionModelLength = suggestionTypesArr.length;
+
+        var done = assert.async();
+
+        _ember['default'].run(function () {
+          setTimeout(function () {
+            var $lookupSearch = _ember['default'].$('.content table.object-list-view');
+            var $lookupSearchThead = $lookupSearch.children('tbody');
+            var $lookupSearchTr = $lookupSearchThead.children('tr');
+            var $lookupRows = $lookupSearchTr.children('td');
+            var $suggestionTableLength = $lookupSearchTr.length;
+
+            assert.expect(2 + $suggestionTableLength);
+
+            assert.strictEqual(suggestionModelLength >= $suggestionTableLength, true, 'Сorrect number of values restrictions limiting function');
+
+            // Сomparison data in the model and olv table.
+            for (var i = 0; i < $suggestionTableLength; i++) {
+              var suggestionType = suggestionTypesArr.objectAt(i);
+              var suggestionTypeName = suggestionType.get('name');
+
+              var $cell = $($lookupRows[3 * i + 1]);
+              var $cellDiv = $cell.children('div');
+              var $cellText = $cellDiv.text().trim();
+
+              assert.strictEqual(suggestionTypeName === $cellText, true, 'Сorrect data at lookup\'s olv');
+            }
+
+            done();
+          }, 2000);
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-projection-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup projection test', function (store, assert, app) {
+    assert.expect(2);
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-projection');
+
+    andThen(function () {
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-projection');
+
+      var $lookupButtouChoose = _ember['default'].$('.ui-change');
+
+      // Click choose button.
+      _ember['default'].run(function () {
+        $lookupButtouChoose.click();
+      });
+
+      _ember['default'].run(function () {
+        var done = assert.async();
+        setTimeout(function () {
+
+          var $lookupSearch = _ember['default'].$('.content table.object-list-view');
+          var $lookupSearchThead = $lookupSearch.children('thead');
+          var $lookupSearchTr = $lookupSearchThead.children('tr');
+          var $lookupHeaders = $lookupSearchTr.children('th');
+
+          // Check count at table header.
+          assert.strictEqual($lookupHeaders.length === 3, true, 'Component has SuggestionTypeE projection');
+
+          done();
+        }, 1000);
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup relation name test', function (store, assert, app) {
+    assert.expect(1);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-relation-name');
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var relationName = _ember['default'].get(controller, 'relationName');
+      assert.strictEqual(relationName, 'Temp relation name', 'relationName: \'' + relationName + '\' as expected');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions', ['exports', 'ember'], function (exports, _ember) {
+  exports.loadingList = loadingList;
+  exports.loadingLocales = loadingLocales;
+
+  // Function for waiting list loading.
+
+  function loadingList($ctrlForClick, list, records) {
+    return new _ember['default'].RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = undefined;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+      var timeout = 10000;
+
+      _ember['default'].run(function () {
+        $ctrlForClick.click();
+      });
+
+      _ember['default'].run(function () {
+        checkIntervalId = window.setInterval(function () {
+          var $list = _ember['default'].$(list);
+          var $records = _ember['default'].$(records, $list);
+          if ($records.length === 0) {
+
+            // Data isn't loaded yet.
+            return;
+          }
+
+          // Data is loaded.
+          // Stop interval & resolve promise.
+          window.clearInterval(checkIntervalId);
+          checkIntervalSucceed = true;
+          resolve($list);
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      _ember['default'].run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('editForm load operation is timed out');
+        }, timeout);
+      });
+    });
+  }
+
+  // Function for waiting loading list.
+
+  function loadingLocales(locale, app) {
+    return new _ember['default'].RSVP.Promise(function (resolve) {
+      var i18n = app.__container__.lookup('service:i18n');
+
+      _ember['default'].run(function () {
+        i18n.set('locale', locale);
+      });
+
+      var timeout = 500;
+      _ember['default'].run.later(function () {
+        resolve({ msg: 'ok' });
+      }, timeout);
+    });
+  }
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/lookup-test-functions.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/lookup-test-functions.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/lookup-test-functions.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/lookup-test-functions.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('visiting flexberry-lookup autocomplete', function (store, assert, app) {
+    assert.expect(5);
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
+
+    andThen(function () {
+
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
+
+      var $lookup = _ember['default'].$('.flexberry-lookup');
+
+      assert.strictEqual($lookup.hasClass('ui'), true, 'Component\'s wrapper has \'ui\' css-class');
+      assert.strictEqual($lookup.hasClass('search'), true, 'Component\'s wrapper has \'search\' css-class');
+
+      var $lookupField = _ember['default'].$('.lookup-field');
+
+      assert.strictEqual($lookupField.hasClass('prompt'), true, 'Component\'s wrapper has \'prompt\' css-class');
+
+      var $result = _ember['default'].$('.result');
+
+      assert.strictEqual($result.length === 1, true, 'Component has inner class \'result\'');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('visiting flexberry-lookup dropdown', function (store, assert, app) {
+    assert.expect(13);
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-dropdown');
+
+    andThen(function () {
+
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-dropdown');
+
+      // Retrieve component, it's inner <input>.
+      var $lookupSearch = _ember['default'].$('.lookup-field');
+      var $lookupButtonChoose = _ember['default'].$('.ui-change');
+      var $lookupButtonClear = _ember['default'].$('.lookup-remove-button');
+
+      assert.strictEqual($lookupSearch.length === 0, true, 'Component has n\'t flexberry-lookup');
+      assert.strictEqual($lookupButtonChoose.length === 0, true, 'Component has n\'t button choose');
+      assert.strictEqual($lookupButtonClear.length === 0, true, 'Component has n\'t button remove');
+
+      // Retrieve component, it's inner <input>.
+      var $dropdown = _ember['default'].$('.flexberry-dropdown.search.selection');
+      var $dropdownSearch = $dropdown.children('.search');
+      var $dropdownIcon = $dropdown.children('.dropdown.icon');
+      var $dropdownMenu = $dropdown.children('.menu');
+      var $deopdownText = $dropdown.children('.text');
+
+      assert.strictEqual($dropdown.length === 1, true, 'Component has class flexberry-dropdown');
+      assert.strictEqual($dropdown.hasClass('search'), true, 'Component\'s wrapper has \'search\' css-class');
+      assert.strictEqual($dropdown.hasClass('selection'), true, 'Component\'s wrapper has \'selection\' css-class');
+      assert.strictEqual($dropdown.hasClass('ember-view'), true, 'Component\'s wrapper has \'ember-view\' css-class');
+      assert.strictEqual($dropdown.hasClass('dropdown'), true, 'Component\'s wrapper has \'dropdown\' css-class');
+
+      assert.strictEqual($dropdownSearch.length === 1, true, 'Component has class search');
+
+      assert.strictEqual($dropdownIcon.length === 1, true, 'Component has class dropdown and icon');
+
+      assert.strictEqual($deopdownText.length === 1, true, 'Component has class text');
+
+      assert.strictEqual($dropdownMenu.length === 1, true, 'Component has class menu');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.js should pass jshint.');
   });
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/checkbox-at-editform-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions) {
