@@ -3,111 +3,195 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
-## [0.9.2-beta.10] - 2018-01-11
 ### Added
-* Support `drops` option for `flexberry-datepicker` component.
+* Blueprints:
+    * Additive merging of generated localization files with existing localozation files.
+
+### Fixed
+* Blueprints:
+    * Fix line length JSCS error on model generation.
+    * Fix duplication of some existing files on regeneration.
+* Fix unlock edit form in `edit-form` route and `lock-route`.
+* `flexberry-objectlistview-route` mixin:
+    * Fix set current controller during the transition on edit form.
+* Fix getting controller for list form.
+* Nested togglers now work correctly.
+
+## [0.12.0] - 2018-06-08
+### Added
+* `flexberry-toggler` component:
+    * Saving status in user settings (`componentName` must be specified).
+* `flexberry-objectlistview` component:
+    * `customButtonsInRow` property for adding buttons into rows (analog of `customButtons` property).
+    * Ability to pass function in `buttonAction` property inside `customButtons` and `customButtonsInRow` properties.
+    * Renaming columns when exporting to Excel.
+* `flexberry-error` component and `error` template:
+    * Translating of error messages support if `messageLocaleKey` property is specified in error.
+* List components:
+    * Deleting records when "all on all pages" is selected. Now `beforeDeleteAllRecords` action could be overriden in list form controller for processing custom actions and possible cancel of deleting when trying to delete all records on all pages. It is also required `DeleteAllSelect` action to be implemented in OData-backend to make this functionality avaliable. __`beforeDeleteAllRecords` parameter with passing corresponding action should be added to all list components in application (it could be "default" action with same name from `list-form` controller), otherwise all records from all pages in some list form could be deleted by user permanently without any confirmation or notication!__.
+
+### Changed
+* Update dependency on `ember-flexberry-data` to version `0.12.0`.
+* List components:
+    * Sorting applied by clicking on the column header, is saving in user settings now.
+* Downgrade `ember-data` version to `2.4.3` when installing or updating addon using `ember install ember-flexberry` command.
+
+### Fixed
+* `flexberry-simpleolv`:
+    * Hightliting of resert sorting and reset selecting buttons is now applying on active instead of hover in mobile template.
+* `flexberry-objectlistview` component:
+    * Buttons in rows when the component is in hierarchical mode.
+    * Fix behavior of `singleColumnHeaderTitle` in mobile mode.
+    * Displaying of button for showing/hiding nested records after disable hierarchical mode in mobile mode.
+* List components:
+    * Displaying spinner when appying user settings using user settings dialog.
+* `flexberry-lookup` component:
+    * Word breaking when displaying value is longer than component width in mobile mode.
+* `flexberry-simpledatetime` component:
+    * Inability to choose extreme values of date range when min or max values are set.
+
+## [0.11.0] - 2018-02-20
+### Added
+* `flexberry-groupedit` component:
+    * Add column widths saving in usersettings.
+    * Add restore default usersettings button.
+    * Add clear sorting button.
+* `flexberry-lookup` component:
+    * User settings support, use parameter `notUseUserSettings` to disabling.
+    * `perPage` parameter.
+    * Hierarchy mode support.
+    * User settings support. Use parameter `developerUserSettings` to apply sorting instead of `orderBy` parameter in template.
+* `flexberry-objectlistview` component:
+    * Now computed properties could be passed via `dynamicProperties` for embedded components in cells.
+* Edit form's logic:
+    * Scrolling to the top of form if saving errors are occured (to see error messages).
+
+### Changed
+* Update dependency on [`ember-flexberry-data`](https://github.com/Flexberry/ember-flexberry-data) to version 0.11.0.
+* For compatibility with `Ember Inspector`, `tagName` for application view has been restored, and sidebar moved into this block (see more [here](https://github.com/Flexberry/ember-flexberry/commit/0d4de9aa95b506c37e31e0b99f2e8bb534f85fba) and [here](https://github.com/Flexberry/ember-flexberry/commit/d555c3f0fc4e070a66c0e18403fc721398593d40)).
+* `log` service:
+    * Now `processName` field contains application name from `ENV.modulePrefix` of `environment.js`.
+* Edit form's logic:
+    * It is available to handle errors for each detail in `onSaveActionRejected` method during saving of aggregator model.
+* Change export excel modal dialog title.
+
+### Fixed
+* List components:
+    * Fix using `readonly` property from `componentProperties` for dynamic components.
+    * Fix displaying error about server unavailability. It was made more appropriate for perception.
+* `blue-sky` theme:
+    * Actual width for `flexberry-checkbox` was set.
+    * Displaying placeholders in IE.
+* `flexberry-simpleolv` component:
+    * "Show settings" menu for user settings.
+* `flexberry-lookup` component:
+    * View is update on `displayAttributeName` property was changed.
+    * Fix lookup list's component name.
+* `flexberry-groupedit` component:
+    * Fix validation error message when `editOnSeparateRoute` and `saveOnRouteLeave` is true.
+    * Fix availability to resize columns when `allowColumnResize` property was changed dynamically.
+* `flexberry-file` component:
+    * Fix buttons disabling in mobile mode.
+    * Fix displaying errors in mobile mode.
+    * Fix displaying text for non-image file preview in IE.
+* `flexberry-modal` component:
+    * Fix dimmer hiding on close button click.
+* Blueprints:
+    * Fix generation of translations and assets into addon.
+* `flexberry-objectlistview` component:
+    * Fix hierarchy loading on first load and when records has been already loaded.
+    * Fix toolbar width in mobile mode.
+* `colsconfig-dialog-content` component:
+    * Fix invisible cells content in Google Chrome (some content was disappeared during resize of browser window).
+* `flexberry-simpledatetime` component:
+    * Clear button worked in readonly mode in IE.
+* Hanging up on list forms and edit forms when connection is unavailable.
+* Fix `usersettings` for `new` forms.
+
+### Removed
+* `flexberry-objectlistview` component:
+    * `columnsWidthAutoresize` attribute in mobile version of component.
+* `flexberry-lookup` component:
+    * `orderBy` ordering condition for list of records to choose.
+
+## [0.10.0] - 2018-01-26
+### Added
+* `flexberry-error` component for errors displaying.
+* `flexberry-simpledatetime` component:
+    * Add remove value button.
+    * Add localization support.
+* `flexberry-datepicker` component:
+    * Support `drops` option.
 * List components:
     * Check all records on page operation, check all records on alls pages operation, clear sorting operation.
-    * Saving and restoring previously selected records on reloading (including changing of page number, filtering, etc.).
+    * Saving and restoring previously selected records on reloading (including filtering, refreshing, etc. except changing of page number temporarily).
     * Optional edit button in row.
 * `flexberry-objectlistview` component:
     * Add collapse/expand all button for hierarchy mode.
     * Increased performance when working in hierarchical mode by reducing number of queries to backend on rendering top-level nodes.
-    * Calling `onDeleteActionStarted`, `onDeleteActionFulfilled`, `onDeleteActionRejected` and `onDeleteActionAlways` methods from `ListFormController` in the process of deleting the record.
-
-### Fixed
-* Reset `page` in `LimitedController` mixin when change or reset filters.
-* Error when clicking on child rows when `flexberry-objectlistview` component is in hierarchical mode.
-* `blue-sky` theme:
-    * Fix header height for mobile version.
-* `flexberry-objectlistview` component:
-    * Filtering by all fields is now applying by pressing `Enter` in IE.
-    * Clicking on child rows in hierarchical mode.
-* `flexberry-checkbox` component:
-    * Fix `checked` property to support IE.
-* `flexberry-objectlistview` and `flexberry-groupedit` components:
-    * Row clicks work correctly now in mobile mode.
-
-## [0.9.2-beta.9] - 2017-12-06
-### Added
+    * Calling `onDeleteActionStarted`, `onDeleteActionFulfilled`, `onDeleteActionRejected` and `onDeleteActionAlways` methods from `ListFormController` in process of deleting the record.
 * `flexberry-validationsummary` component:
-    * Add header property.
+    * Add `header` property.
 * `flexberry-lookup` component:
     * Add localization for autocomplete empty result.
     * Add sorting settings for autocomplete result list.
+    * Supporting filters when component is displaying via `flexberry-objectlistview` component.
 * Blueprints:
     * Add model's default property values generation.
-
-### Fixed
-* `flexberry-tree` component:
-    * Fix `get-with-dynamic-actions` helper.
-
-## [0.9.2-beta.8] - 2017-11-27
-### Changed
-* Update dependency on `ember-flexberry-data` to version 0.9.1-beta.2.
-
-## [0.9.2-beta.7] - 2017-11-09
-### Added
-* Component `flexberry-lookup` displaying data via `flexberry-objectlistview` component supports filters.
-
-## [0.9.2-beta.6] - 2017-11-08
-### Fixed
-* `flexberry-simpledatetime` component:
-    * Change related model value after clearing date when value was set programmatically.
-
-## [0.9.2-beta.5] - 2017-11-02
-### Fixed
-* List forms:
-    * Fix reset of loading state when promise model was rejected.
-
-## [0.9.2-beta.4] - 2017-11-02
-### Added
-* `flexberry-error` component:
-    * Add default error message.
-
-### Fixed
-* `flexberry-error` component:
-    * Fix selector for modal context.
-
-## [0.9.2-beta.3] - 2017-10-27
-### Added
-* Component `flexberry-error` for errors displaying.
-* `flexberry-simpledatetime` component:
-    * Add remove value button.
+* `flexberry-field` and `flexberry-textbox` components:
+    * Add `maxlength` attribute.
 
 ### Changed
-* Errors on lists and edit forms are displayed through the `flexberry-error` component.
+* Update dependency on [`ember-flexberry-data`](https://github.com/Flexberry/ember-flexberry-data) to version 0.10.0.
+* Errors on list and edit forms are displaying via `flexberry-error` component now.
 * List components:
+    * Checkbox is used to display boolean values.
     * Now filters calls `predicateForFilter` method even if filter pattern is undefined.
     * Added `like` condition for filters (for `string` type fields). It will be applied by default when condition is not set.
     * Now filters can apply on Enter click.
+    * `beforeDeleteRecord` method now support asynchronous mode, i.e. it is possible to return promises as result value.
+* Getting of current user name is able now by calling `getCurrentUserName` from [`user` service](https://github.com/Flexberry/ember-flexberry-data/blob/develop/addon/services/user.js#L37) (declared in `ember-flexberry-data` addon).
+* `flexberry-datepicker` component
+    * Add class `flexberry-datepicker` in `classNames`.
+    * Changed readonly attribute.
 
 ### Fixed
+* `flexberry-objectlistview` component:
+    * Fix hierarchy collapse and expand.
+    * Now `allowColumnResize` property apllying properly.
+    * Filtering by all fields is now applying by pressing `Enter` in IE.
+    * Clicking on child rows in hierarchical mode.
+* `flexberry-simpleolv` component:
+    * Set default user settings.
+* List components:
+    * Fix `neq` filter when value isn't null.
+    * Row clicks are working correctly now in mobile mode.
+    * Fix reset of loading state when model promise was rejected.
+* `log` service:
+    * Now log does not attempt to save undefined errors.
+* `flexberry-simpledatetime` component:
+    * Fix using browser input instead of mobile input for `flatpickr` in mobile mode.
+    * Fix displaying in readonly mode.
+    * Change related model value after clearing date when value was set programmatically.
+    * Fix user's date input.
+* Reset `page` in `LimitedController` mixin when change or reset filters.
 * `blue-sky` theme:
+    * Fix header height for mobile version.
+    * Fix styles for modal dialogs.
     * Fix sidebar and page content height.
+* `flexberry-checkbox` component:
+    * Fix `checked` property to support IE.
+* `flexberry-tree` component:
+    * Fix `get-with-dynamic-actions` helper.
 * Fix locale dropdown for IE in `application.hbs`.
 * Blueprints:
     * Fix generation of `flexberry-groupedit` component template on edit forms. Now translations of field's captions should be applied.
 
-## [0.9.2-beta.2] - 2017-10-19
-### Added
-* Add `maxlength` attribute for `flexberry-field` and `flexberry-textbox`.
-
-## [0.9.2-beta.1] - 2017-10-06
-### Added
-* `flexberry-simpledatetime` component:
-    * Add localization support.
-
-### Fixed
-* `flexberry-simpledatetime` component:
-    * Fix user's date input.
-
-## [0.9.2-beta.0] - 2017-10-04
-### Changed
-* List components:
-    * `beforeDeleteRecord` method now support asynchronous mode, i.e. it is possible to return promises as result value.
-* Update dependency on `ember-flexberry-data` to version 0.9.1-beta.0.
+### Known issues
+* Filtering on lists works wrong for `date` type fields in case of `DateTime?` type is used in corresponding property of model at backend.
+* `flexberry-datepicker` component is not recommended for using in production, because it has memory and some other issues so it works slowly and it slows down the application.
+* Some issues with styles in `blue-sky` theme especially in mobile mode of application.
+* Lookup with hierarchy is not working on edit new record.
 
 ## [0.9.1] - 2017-09-29
 ### Changed
@@ -232,6 +316,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Known issues
 * Now there is no way for filtering by timeless date in backend requests, therefore timeless date fields on backend must have 11:00:00.000 time in UTC.
+* `flexberry-datepicker` component is not recommended for using in production, because it has memory and some other issues so it works slowly and it slows down the application.
 
 ## [0.8.6] - 2017-02-09
 ### Changed
@@ -281,7 +366,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     * Change hierarchy indent setting (`hierarchicalIndent` property) to `Number` type (in pixels).
 * Update `flatpickr-calendar` dependency to 2.3.4.
 
-###Fixed
+### Fixed
 * `flexberry-simpledatetime` component:
     * Fix `readonly` mode.
 * `flexberry-objectlistview` component:
@@ -364,7 +449,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
         * `sort` method is renamed into `sortNamedSetting`.
 * `Ember.Logger.xxx` changed to `Ember.xxx` calls and throwing errors. So redundant messages will not display in console in production.
 
-###Fixed
+### Fixed
 * `object-list-view` component:
     * `rowConfig` usage  in mobile mode.
     * Displaying of deletion errors if record deletion was unsuccessful.

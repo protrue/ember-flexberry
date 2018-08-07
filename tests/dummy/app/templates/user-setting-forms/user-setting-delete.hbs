@@ -1,3 +1,4 @@
+{{flexberry-error error=error}}
 <h3>{{t "forms.user-setting-forms.user-setting-delete.caption"}}</h3>
 <div class="row">
   {{flexberry-objectlistview
@@ -10,6 +11,7 @@
     filterButton = true
     filterText=filter
     filterByAnyMatch=(action 'filterByAnyMatch')
+    beforeDeleteAllRecords=(action "beforeDeleteAllRecords")
     showCheckBoxInRow = true
     sorting = computedSorting
     orderable = true

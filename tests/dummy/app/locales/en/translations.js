@@ -92,6 +92,13 @@ Ember.$.extend(true, translations, {
               }
             }
           }
+        },
+        'SuggestionMainModelProjectionTest': {
+          'userVotes': {
+            'voteType': {
+              'caption': 'Temp text for test'
+            }
+          }
         }
       }
     },
@@ -261,9 +268,9 @@ Ember.$.extend(true, translations, {
             'title': ''
           }
         },
-        lock: {
-          caption: 'Blocking',
-          title: 'Block list',
+        'lock': {
+          'caption': 'Blocking',
+          'title': 'Block list',
         },
         'components-examples': {
           'caption': 'Components examples',
@@ -350,6 +357,14 @@ Ember.$.extend(true, translations, {
             'configurate-row-example': {
               'caption': 'Configurate rows',
               'title': ''
+            },
+            'groupedit-with-lookup-with-computed-atribute': {
+              'caption': 'Computed attributes LookUp  in GroupEdit',
+              'title': ''
+            },
+            'readonly-columns-by-configurate-row-example': {
+              'caption': 'GrouptEdit readonly columns by configurateRow',
+              'title': ''
             }
           },
           'flexberry-lookup': {
@@ -361,6 +376,10 @@ Ember.$.extend(true, translations, {
             },
             'customizing-window-example': {
               'caption': 'Window customization',
+              'title': ''
+            },
+            'hierarchy-olv-in-lookup-example': {
+              'caption': 'Example hierarchical OLV in lookup',
               'title': ''
             },
             'limit-function-example': {
@@ -450,6 +469,14 @@ Ember.$.extend(true, translations, {
             'object-list-view-resize': {
               'caption': 'Columns markup',
               'title': ''
+            },
+            'return-from-ediform': {
+              'title': 'Return from edit-form to list-form with queryParameter',
+              'return-button': 'Return'
+            },
+            'lock-services-editor-view-list': {
+              'caption': 'Example displaying username which the object was locked',
+              'title': ''
             }
           },
           'flexberry-simpledatetime': {
@@ -481,6 +508,10 @@ Ember.$.extend(true, translations, {
             'title': '',
             'settings-example': {
               'caption': 'Settings example',
+              'title': ''
+            },
+            'settings-example-inner': {
+              'caption': 'Settings example (toggler in a toggler)',
               'title': ''
             },
             'ge-into-toggler-example': {
@@ -527,7 +558,11 @@ Ember.$.extend(true, translations, {
             'caption': 'Settings deletion',
             'title': ''
           }
-        }
+        },
+        'components-acceptance-tests': {
+          'caption': 'Acceptance tests',
+          'title': '',
+        },
       }
     },
 
@@ -606,7 +641,9 @@ Ember.$.extend(true, translations, {
       'comments-caption': 'Comments',
       'type-validation-message-caption': 'Type is required',
       'author-validation-message-caption': 'Author is required',
-      'editor-validation-message-caption': 'Editor is required'
+      'editor-validation-message-caption': 'Editor is required',
+      'readonly-groupedit-with-lookup-with-computed-atribute-field': 'Readonly for LookUp "Application User" in GroupEdit "User votes"',
+      'limit-function-groupedit-with-lookup-with-computed-atribute-field': 'Limitations for LookUp "Application User" in GroupEdit "User votes"'
     },
 
     'ember-flexberry-dummy-toggler-example-master-e': {
@@ -747,6 +784,10 @@ Ember.$.extend(true, translations, {
           'caption': 'Flexberry-lookup. Window customization',
           'titleLookup': 'Master'
         },
+        'hierarchy-olv-in-lookup-example': {
+          'caption': 'Flexberry-lookup. Example hierarchical OLV in lookup',
+          'titleLookup': 'Master'
+        },
         'limit-function-example': {
           'caption': 'Flexberry-lookup. Limit function example',
           'titleLookup': 'Master'
@@ -825,7 +866,8 @@ Ember.$.extend(true, translations, {
         'toolbar-custom-buttons-example': {
           'caption': 'Flexberry-objectlistview. Custom buttons on toolbar',
           'custom-message': 'Hello!',
-          'custom-button-name': 'Send hello'
+          'custom-button-name': 'Send hello',
+          'custom-row-button-name': 'Custom button in row',
         },
         'on-edit-form': {
           'caption': 'Flexberry-objectlistview. FlexberryObjectlistview on edit form',
@@ -850,7 +892,10 @@ Ember.$.extend(true, translations, {
           'caption': 'Flexberry-objectlistview. Columns markup',
           'button-сaption': 'Add',
           'title': ''
-        }
+        },
+        'lock-services-editor-view': {
+          'blocked-by': 'Blocked by user',
+        },
       },
       'flexberry-simpleolv': {
         'limit-function-example': {
@@ -899,6 +944,11 @@ Ember.$.extend(true, translations, {
         'settings-example': {
           'caption': 'Flexberry-toggler. Settings example',
           'togglerContent': 'Some expandable/collapsable content'
+        },
+        'settings-example-inner': {
+          'caption': 'Flexberry-toggler. Settings example',
+          'togglerContent': 'Some expandable/collapsable content',
+          'innerTogglerContent': 'Some expandable/collapsable content in an inner toggler'
         },
         'ge-into-toggler-example': {
           'caption': 'Flexberry-toggler. GroupEdit into toggler example'

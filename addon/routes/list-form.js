@@ -10,6 +10,9 @@ import ProjectedModelFormRoute from '../routes/projected-model-form';
 import FlexberryObjectlistviewRouteMixin from '../mixins/flexberry-objectlistview-route';
 import FlexberryObjectlistviewHierarchicalRouteMixin from '../mixins/flexberry-objectlistview-hierarchical-route';
 import ReloadListMixin from '../mixins/reload-list-mixin';
+import ErrorableRouteMixin from '../mixins/errorable-route';
+import serializeSortingParam from '../utils/serialize-sorting-param';
+import deserializeSortingParam from '../utils/deserialize-sorting-param';
 
 /**
   Base route for the List Forms.
@@ -47,7 +50,8 @@ SortableRouteMixin,
 LimitedRouteMixin,
 ReloadListMixin,
 FlexberryObjectlistviewRouteMixin,
-FlexberryObjectlistviewHierarchicalRouteMixin, {
+FlexberryObjectlistviewHierarchicalRouteMixin,
+ErrorableRouteMixin, {
   /**
     Link on {{#crossLink FormLoadTimeTrackerService}}{{/crossLink}}.
 
@@ -98,6 +102,8 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
     let webPage = transition.targetName;
     let projectionName = this.get('modelProjection');
     let filtersPredicate = this._filtersPredicate();
+    let sortString = null;
+    this.set('filtersPredicate', filtersPredicate);
     let limitPredicate =
       this.objectListViewLimitPredicate({ modelName: modelName, projectionName: projectionName, params: params });
     let userSettingsService = this.get('userSettingsService');
@@ -134,8 +140,14 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
     componentName = listComponentNames[0];
     userSettingPromise
       .then(currectPageUserSettings => {
+        if (this._invalidSorting(params.sort)) {
+          controller.set('isSortingError', true);
+          transition.abort();
+          throw new Error('Invalid sorting value');
+        }
+
         if (params) {
-          userSettingsService.setCurrentParams(componentName, params);
+          sortString = userSettingsService.setCurrentParams(componentName, params);
         }
 
         let hierarchicalAttribute;
@@ -144,8 +156,9 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
         }
 
         this.sorting = userSettingsService.getCurrentSorting(componentName);
+
         this.perPage = userSettingsService.getCurrentPerPage(componentName);
-        if (this.perPage !== params.perPage) {
+        if (this.perPage !== params.perPage || this.sorting !== params.sorting) {
           if (params.perPage !== 5) {
             this.perPage = params.perPage;
             userSettingsService.setCurrentPerPage(componentName, undefined, this.perPage);
@@ -153,7 +166,7 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
             if (this.sorting.length === 0) {
               this.transitionTo(this.currentRouteName, { queryParams: { sort: null, perPage: this.perPage || 5 } }); // Show page without sort parameters
             } else {
-              this.transitionTo(this.currentRouteName, { queryParams: { perPage: this.perPage || 5 } });  //Reload current page and records (model) list
+              this.transitionTo(this.currentRouteName, { queryParams: { sort: sortString, perPage: this.perPage || 5 } });  //Reload current page and records (model) list
             }
           }
         }
@@ -165,13 +178,13 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
           page: params.page,
           sorting: this.sorting,
           filter: params.filter,
-          filterCondition: this.get('controller.filterCondition'),
+          filterCondition: controller.get('filterCondition'),
           filters: filtersPredicate,
           predicate: limitPredicate,
           hierarchicalAttribute: hierarchicalAttribute,
         };
 
-        this.onModelLoadingStarted(queryParameters);
+        this.onModelLoadingStarted(queryParameters, transition);
         this.get('colsConfigMenu').updateNamedSettingTrigger();
 
         // Find by query is always fetching.
@@ -180,14 +193,20 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
         return this.reloadList(queryParameters);
       }).then((records) => {
         this.get('formLoadTimeTracker').set('endLoadTime', performance.now());
-        this.onModelLoadingFulfilled(records);
+        this.onModelLoadingFulfilled(records, transition);
         this.includeSorting(records, this.sorting);
-        this.get('controller').set('model', records);
+        controller.set('model', records);
+
+        if (this.sorting.length > 0 && Ember.isNone(controller.get('sort'))) {
+          let sortQueryParam = serializeSortingParam(this.sorting, controller.get('sortDefaultValue'));
+          controller.set('sort', sortQueryParam);
+        }
+
         return records;
       }).catch((errorData) => {
-        this.onModelLoadingRejected(errorData);
+        this.onModelLoadingRejected(errorData, transition);
       }).finally((data) => {
-        this.onModelLoadingAlways(data);
+        this.onModelLoadingAlways(data, transition);
         if (this.get('objectlistviewEventsService.loadingState') === 'loading') {
           this.get('objectlistviewEventsService').setLoadingState('');
         }
@@ -207,34 +226,21 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
     }
   },
 
-  actions: {
-    /**
-      Event handler for processing promise model rejecting.
-      [More info](https://emberjs.com/api/ember/2.4/classes/Ember.Route/events/error?anchor=error).
-
-      @method actions.error
-      @param {Object} error
-      @param {Object} transition
-    */
-    error: function(error, transition) {
-      this.onModelLoadingRejected(error);
-    }
-  },
-
   /**
     This method will be invoked before model loading operation will be called.
     Override this method to add some custom logic on model loading operation start.
 
     @example
       ```javascript
-      onModelLoadingStarted(queryParameters) {
+      onModelLoadingStarted(queryParameters, transition) {
         alert('Model loading operation started!');
       }
       ```
     @method onModelLoadingStarted.
     @param {Object} queryParameters Query parameters used for model loading operation.
+    @param {Transition} transition Current transition object.
   */
-  onModelLoadingStarted(queryParameters) {
+  onModelLoadingStarted(queryParameters, transition) {
   },
 
   /**
@@ -243,14 +249,15 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
 
     @example
       ```javascript
-      onModelLoadingFulfilled() {
+      onModelLoadingFulfilled(model, transition) {
         alert('Model loading operation succeed!');
       }
       ```
     @method onModelLoadingFulfilled.
     @param {Object} model Loaded model data.
+    @param {Transition} transition Current transition object.
   */
-  onModelLoadingFulfilled(model) {
+  onModelLoadingFulfilled(model, transition) {
   },
 
   /**
@@ -260,22 +267,16 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
 
     @example
       ```javascript
-      onModelLoadingRejected() {
+      onModelLoadingRejected(errorData, transition) {
         alert('Model loading operation failed!');
       }
       ```
     @method onModelLoadingRejected.
     @param {Object} errorData Data about model loading operation fail.
+    @param {Transition} transition Current transition object.
   */
-  onModelLoadingRejected(errorData) {
-    if (!this.get('controller') || !this.get('controller.model') || this.get('controller.model.isLoading')) {
-      this.get('objectlistviewEventsService').setLoadingState('error');
-      errorData = errorData || {};
-      errorData.retryRoute = this.routeName;
-      this.intermediateTransitionTo('error', errorData);
-    } else {
-      this.controller.send('error', errorData);
-    }
+  onModelLoadingRejected(errorData, transition) {
+    this.handleError(errorData, transition);
   },
 
   /**
@@ -285,15 +286,16 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
 
     @example
       ```js
-      onModelLoadingAlways(data) {
+      onModelLoadingAlways(data, transition) {
         alert('Model loading operation completed!');
       }
       ```
 
     @method onModelLoadingAlways.
     @param {Object} data Data about completed model loading operation.
+    @param {Transition} transition Current transition object.
   */
-  onModelLoadingAlways(data) {
+  onModelLoadingAlways(data, transition) {
   },
 
   /**
@@ -312,12 +314,44 @@ FlexberryObjectlistviewHierarchicalRouteMixin, {
     // TODO: remove that when list-form controller will be moved to this route.
     let modelClass = this.store.modelFor(this.get('modelName'));
     let proj = modelClass.projections.get(this.get('modelProjection'));
+    controller.set('error', undefined);
     controller.set('userSettings', this.userSettings);
     controller.set('modelProjection', proj);
     controller.set('developerUserSettings', this.get('developerUserSettings'));
     controller.set('resultPredicate', this.get('resultPredicate'));
+    controller.set('filtersPredicate', this.get('filtersPredicate'));
     if (Ember.isNone(controller.get('defaultDeveloperUserSettings'))) {
       controller.set('defaultDeveloperUserSettings', Ember.$.extend(true, {}, this.get('developerUserSettings')));
     }
-  }
+  },
+
+  /**
+    @method _invalidSorting
+    @param {String} sorting
+    @return {Boolean}
+  */
+  _invalidSorting(sorting) {
+    let invalid = false;
+    let store = this.get('store');
+
+    deserializeSortingParam(sorting).forEach((descriptor) => {
+      let path = descriptor.propName.split('.');
+      let propertyName = path.pop();
+
+      let modelClass = store.modelFor(this.get('modelName'));
+      for (let i = 0; i < path.length; i++) {
+        let relationshipsByName = Ember.get(modelClass, 'relationshipsByName');
+        let relationship = relationshipsByName.get(path[i]);
+        if (relationship) {
+          modelClass = store.modelFor(relationship.type);
+        } else {
+          invalid = true;
+        }
+      }
+
+      invalid = invalid || !Ember.get(modelClass, 'attributes').get(propertyName);
+    });
+
+    return invalid;
+  },
 });

@@ -13,6 +13,16 @@ import FlexberryBaseComponent from './flexberry-base-component';
 */
 export default FlexberryBaseComponent.extend({
   /**
+    Flag used to display embedded records.
+
+    @property _expanded
+    @type Boolean
+    @default false
+    @private
+  */
+  _expanded: false,
+
+  /**
     Stores the number of pixels to isolate one level of hierarchy.
 
     @property _hierarchicalIndent
@@ -90,7 +100,7 @@ export default FlexberryBaseComponent.extend({
     Current record.
     - `key` - Ember GUID for record.
     - `data` - Instance of DS.Model.
-    - `config` - Object with config for record.
+    - `rowConfig` - Object with config for record.
 
     @property record
     @type Object
@@ -98,7 +108,7 @@ export default FlexberryBaseComponent.extend({
   record: Ember.computed(() => ({
     key: undefined,
     data: undefined,
-    config: undefined,
+    rowConfig: undefined,
   })),
 
   /**
@@ -125,7 +135,7 @@ export default FlexberryBaseComponent.extend({
           let newRecord = Ember.Object.create({
             key: Ember.guidFor(record),
             data: record,
-            config: config,
+            rowConfig: config,
             doRenderData: true
           });
 
@@ -184,6 +194,13 @@ export default FlexberryBaseComponent.extend({
   }),
 
   /**
+    Observe inExpandMode changes.
+  */
+  inExpandModeObserver: Ember.on('init', Ember.observer('inExpandMode', function() {
+    this.set('_expanded', this.get('inExpandMode'));
+  })),
+
+  /**
     Tag name for the view's outer element. [More info](http://emberjs.com/api/classes/Ember.Component.html#property_tagName).
 
     @property tagName
@@ -201,14 +218,54 @@ export default FlexberryBaseComponent.extend({
   */
   recordsLoaded: false,
 
+  /**
+    Level of hierarchy, that already was loaded.
+
+    @property hierarchyLoadedLevel
+    @type Integer
+    @default -1
+  */
+  hierarchyLoadedLevel: -1,
+
+  /**
+    Name of action to send out, action triggered by click on user button in row.
+
+    @property customButtonInRowAction
+    @type String
+    @default 'customButtonInRowAction'
+  */
+  customButtonInRowAction: 'customButtonInRowAction',
+
   actions: {
+    /**
+      Handler for click by custom button in row.
+      Sends action up to {{#crossLink "ObjectListViewComponent"}}`object-list-view`{{/crossLink}} component.
+
+      @method actions.customButtonInRowAction
+      @param {Function|String} action The action or name of action.
+      @param {DS.Model} model Model in row.
+    */
+    customButtonInRowAction(action, model) {
+      let actionType = typeof action;
+      if (actionType === 'function') {
+        action(model);
+      } else if (actionType === 'string') {
+        this.sendAction('customButtonInRowAction', action, model);
+      } else {
+        throw new Error('Unsupported action type for custom buttons in row.');
+      }
+    },
+
     /**
       Show/hide embedded records.
 
       @method actions.expand
     */
     expand() {
-      this.toggleProperty('inExpandMode');
+      this.toggleProperty('_expanded');
+      if (!this.get('_expanded')) {
+        this.set('inExpandMode', false);
+      }
     },
 
     /**
@@ -246,7 +303,12 @@ export default FlexberryBaseComponent.extend({
         Ember.set(params, 'originalEvent', Ember.$.event.fix(e));
       }
 
-      this.sendAction('rowClick', record, params);
+      // If user clicked on hierarchy expand button on lookup form we should not process row clicking.
+      let classOfHierarchyExpandButton = 'hierarchy-expand';
+      if (Ember.isBlank(e) || !Ember.$(Ember.get(params, 'originalEvent.target')).hasClass(classOfHierarchyExpandButton))
+      {
+        this.sendAction('rowClick', record, params);
+      }
     }
   },
 
@@ -260,13 +322,13 @@ export default FlexberryBaseComponent.extend({
     if (!this.get('recordsLoaded')) {
       let id = this.get('record.data.id');
       if (id && this.get('inHierarchicalMode')) {
+        let currentLevel = this.get('_currentLevel');
+        let hierarchyLoadedLevel = this.get('hierarchyLoadedLevel');
+        this.sendAction('loadRecords', id, this, 'records', currentLevel > hierarchyLoadedLevel);
         this.set('recordsLoaded', true);
-        if (this.get('_level') > 0) {
-          this.sendAction('loadRecords', id, this, 'records', false);
-        } else {
-          this.sendAction('loadRecords', id, this, 'records', true);
+        if (currentLevel > hierarchyLoadedLevel) {
+          this.set('hierarchyLoadedLevel', currentLevel);
         }
-
       }
     }
   },

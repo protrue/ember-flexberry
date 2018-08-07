@@ -9,7 +9,7 @@ import { translationMacro as t } from 'ember-i18n';
 /**
   Component to view list of object.
 
-  @class FlexberryObjectlistview
+  @class FlexberryObjectlistviewComponent
   @extends FlexberryBaseComponent
 */
 export default FlexberryBaseComponent.extend({
@@ -695,6 +695,95 @@ export default FlexberryBaseComponent.extend({
   */
   objectlistviewEventsService: Ember.inject.service('objectlistview-events'),
 
+  /**
+    Array of custom user buttons.
+
+    @example
+      ```
+      {
+        buttonName: '...', // Button displayed name.
+        buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).
+        buttonClasses: '...', // Css classes for button.
+        buttonTitle: '...' // Button title.
+      }
+      ```
+
+    @example
+      Example of how to add user buttons:
+      1) it has to be defined computed property at corresponding controller (name of property is not fixed).
+      ```
+      import Ember from 'ember';
+      import ListFormController from 'ember-flexberry/controllers/list-form';
+
+      export default ListFormController.extend({
+        ...
+        customButtonsMethod: Ember.computed('i18n.locale', function() {
+          let i18n = this.get('i18n');
+          return [{
+            buttonName: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-button-name'),
+            buttonAction: 'userButtonActionTest',
+            buttonClasses: 'test-click-button'
+          }];
+        })
+      });
+      ```
+
+      2) it has to be defined set as 'buttonAction' methods.
+      ```
+      import Ember from 'ember';
+      import ListFormController from 'ember-flexberry/controllers/list-form';
+
+      export default ListFormController.extend({
+        ...
+        clickCounter: 1,
+        messageForUser: undefined,
+
+        actions: {
+          userButtonActionTest: function() {
+            let i18n = this.get('i18n');
+            let clickCounter = this.get('clickCounter');
+            this.set('clickCounter', clickCounter + 1);
+            this.set('messageForUser',
+              i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-message').string +
+              ' ' + clickCounter);
+          }
+        }
+      });
+      ```
+
+      3) defined methods and computed property have to be registered at component.
+      ```
+      {{flexberry-objectlistview
+        ...
+        customButtons=customButtonsMethod
+        userButtonActionTest='userButtonActionTest'
+      }}
+      ```
+
+    @property customButtons
+    @type Array
+  */
+  customButtons: undefined,
+
+  /**
+    Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].
+
+    @example
+      ```
+      {
+        buttonName: '...', // Button displayed name.
+        buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).
+        buttonClasses: '...', // Css classes for button.
+        buttonIcon: '...', // Button icon
+        buttonTitle: '...' // Button title.
+      }
+      ```
+
+    @property customButtonsInRow
+    @type Array
+  */
+  customButtonsInRow: undefined,
+
   actions: {
     /**
       Handles action from object-list-view when no handler for this component is defined.
@@ -766,6 +855,10 @@ export default FlexberryBaseComponent.extend({
       }
 
       this.get('objectlistviewEventsService').setLoadingState('loading');
+
+      // TODO: when we will ask user about actions with selected records clearing selected records won't be use, because it resets selecting on other pages.
+      this._clearSelectedRecords();
+
       action();
     },
 
@@ -783,6 +876,10 @@ export default FlexberryBaseComponent.extend({
       }
 
       this.get('objectlistviewEventsService').setLoadingState('loading');
+
+      // TODO: when we will ask user about actions with selected records clearing selected records won't be use, because it resets selecting on other pages.
+      this._clearSelectedRecords();
+
       action();
     },
 
@@ -801,78 +898,11 @@ export default FlexberryBaseComponent.extend({
       }
 
       this.get('objectlistviewEventsService').setLoadingState('loading');
+
+      // TODO: when we will ask user about actions with selected records clearing selected records won't be use, because it resets selecting on other pages.
+      this._clearSelectedRecords();
+
       action(pageNumber);
-    },
-
-    /**
-      Array of custom user buttons.
-
-      @example
-        ```
-        {
-          buttonName: '...', // Button displayed name.
-          buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).
-          buttonClasses: '...', // Css classes for button.
-          buttonTitle: '...' // Button title.
-        }
-        ```
-
-      @example
-        Example of how to add user buttons:
-        1) it has to be defined computed property at corresponding controller (name of property is not fixed).
-        ```
-        import Ember from 'ember';
-        import ListFormController from 'ember-flexberry/controllers/list-form';
-
-        export default ListFormController.extend({
-          ...
-          customButtonsMethod: Ember.computed('i18n.locale', function() {
-            let i18n = this.get('i18n');
-            return [{
-              buttonName: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-button-name'),
-              buttonAction: 'userButtonActionTest',
-              buttonClasses: 'test-click-button'
-            }];
-          })
-        });
-        ```
-
-        2) it has to be defined set as 'buttonAction' methods.
-        ```
-        import Ember from 'ember';
-        import ListFormController from 'ember-flexberry/controllers/list-form';
-
-        export default ListFormController.extend({
-          ...
-          clickCounter: 1,
-          messageForUser: undefined,
-
-          actions: {
-            userButtonActionTest: function() {
-              let i18n = this.get('i18n');
-              let clickCounter = this.get('clickCounter');
-              this.set('clickCounter', clickCounter + 1);
-              this.set('messageForUser',
-                i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-message').string +
-                ' ' + clickCounter);
-            }
-          }
-        });
-        ```
-
-        3) defined methods and computed property have to be registered at component.
-        ```
-        {{flexberry-objectlistview
-          ...
-          customButtons=customButtonsMethod
-          userButtonActionTest='userButtonActionTest'
-        }}
-        ```
-      @property customButtons
-      @type Array
-     */
-    customButtons() {
-      return undefined;
     },
 
     /**
@@ -888,6 +918,21 @@ export default FlexberryBaseComponent.extend({
       }
 
       this.sendAction(actionName);
+    },
+
+    /**
+      Handler to get user button's in rows actions and send action to corresponding controllers's handler.
+
+      @method actions.customButtonInRowAction
+      @param {String} actionName The name of action.
+      @param {DS.Model} model Model in row.
+    */
+    customButtonInRowAction(actionName, model) {
+      if (!actionName) {
+        throw new Error('No handler for custom button of flexberry-objectlistview row was found.');
+      }
+
+      this.sendAction(actionName, model);
     },
 
     /**
@@ -1068,7 +1113,6 @@ export default FlexberryBaseComponent.extend({
 
   /**
     Hook that executes before deleting the record.
-    Not use async functions.
 
     @example
       ```handlebars
@@ -1102,6 +1146,42 @@ export default FlexberryBaseComponent.extend({
     @param {Boolean} [data.immediately] See {{#crossLink "ObjectListView/immediateDelete:property"}}{{/crossLink}} property for details.
   */
   beforeDeleteRecord: undefined,
+
+  /**
+    Hook that executes before deleting all records on all pages.
+
+    @example
+      ```handlebars
+      <!-- app/templates/employees.hbs -->
+      {{flexberry-objectlistview
+        ...
+        beforeDeleteAllRecords=(action 'beforeDeleteAllRecords')
+        ...
+      }}
+      ```
+
+      ```javascript
+      // app/controllers/employees.js
+      import ListFormController from './list-form';
+
+      export default ListFormController.extend({
+        actions: {
+          beforeDeleteAllRecords(modelName, data) {
+            if (modelName === 'application-user') {
+              data.cancel = true;
+            }
+          }
+        }
+      });
+      ```
+
+    @method beforeDeleteAllRecords
+    @param {String} modelName Model name for deleting records.
+    @param {Object} data Metadata.
+    @param {Boolean} [data.cancel=false] Flag for canceling deletion.
+    @param {Object} [data.filterQuery] Filter applying before delete all records on all pages.
+  */
+  beforeDeleteAllRecords: undefined,
 
   /**
     An overridable method called when objects are instantiated.
@@ -1197,5 +1277,17 @@ export default FlexberryBaseComponent.extend({
 
     this.$('.ui.secondary.menu').css({ 'width': (this.get('columnsWidthAutoresize') ?
       containerWidth : containerWidth < tableWidth ? containerWidth : tableWidth) + 'px' });
-  }
+  },
+
+  /**
+    Clear selected records on all pages.
+    This method should be removed when we will ask user about actions with selected records.
+
+    @method _clearSelectedRecords
+    @private
+  */
+  _clearSelectedRecords() {
+    let componentName = this.get('componentName');
+    this.get('objectlistviewEventsService').clearSelectedRecords(componentName);
+  },
 });

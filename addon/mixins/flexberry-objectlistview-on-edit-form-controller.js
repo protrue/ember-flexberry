@@ -135,6 +135,9 @@ export default Ember.Mixin.create(PredicateFromFiltersMixin, {
       .then(records => {
         _this.set('customFolvContent', records);
       })
+      .catch(reason => {
+        _this.send('handleError', reason);
+      })
       .finally(() => {
         if (_this.get('objectlistviewEventsService.loadingState') === 'loading') {
           _this.get('objectlistviewEventsService').setLoadingState('');
@@ -224,6 +227,11 @@ export default Ember.Mixin.create(PredicateFromFiltersMixin, {
         .where(hierarchicalAttribute, 'eq', id);
 
       Ember.set(target, property, this.store.query(modelName, builder.build()));
+    },
+
+    beforeDeleteAllRecords(modelName, data) {
+      data.cancel = true;
+      Ember.assert(`Please specify 'beforeDeleteAllRecords' action for '${this.componentName}' list compoenent in corresponding controller`);
     },
 
     /**

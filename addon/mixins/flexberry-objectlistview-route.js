@@ -47,18 +47,20 @@ export default Ember.Mixin.create({
       }
 
       let recordId = record.get('id') || record.get('data.id');
-      let thisUrl = this.get('router.url');
+      let thisRouteName = this.get('router.currentRouteName');
       if (!onEditForm) {
         this.transitionTo(editFormRoute, recordId)
         .then((newRoute) => {
-          newRoute.controller.set('parentRoute', thisUrl);
+          if (newRoute) {
+            newRoute.controller.set('parentRoute', thisRouteName);
+          }
         });
       } else {
         if (saveBeforeRouteLeave) {
           this.controller.save(false, true).then(() => {
             this.transitionTo(editFormRoute, recordId)
             .then((newRoute) => {
-              newRoute.controller.set('parentRoute', thisUrl);
+              newRoute.controller.set('parentRoute', thisRouteName);
             });
           }).catch((errorData) => {
             this.controller.rejectError(errorData, this.get('i18n').t('forms.edit-form.save-failed-message'));
@@ -66,7 +68,7 @@ export default Ember.Mixin.create({
         } else {
           this.transitionTo(editFormRoute, recordId)
           .then((newRoute) => {
-            newRoute.controller.set('parentRoute', thisUrl);
+            newRoute.controller.set('parentRoute', thisRouteName);
           });
         }
       }

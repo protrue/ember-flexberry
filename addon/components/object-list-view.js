@@ -339,14 +339,20 @@ export default FlexberryBaseComponent.extend(
     'showCheckBoxInRow',
     'showDeleteButtonInRow',
     'showEditButtonInRow',
+    'customButtonsInRow',
     'modelProjection',
     function() {
       if (this.get('modelProjection')) {
-        return this.get('showAsteriskInRow') || this.get('showCheckBoxInRow') || this.get('showDeleteButtonInRow') || this.get('showEditButtonInRow');
+        return this.get('showAsteriskInRow') ||
+          this.get('showCheckBoxInRow') ||
+          this.get('showDeleteButtonInRow') ||
+          this.get('showEditButtonInRow') ||
+          !!this.get('customButtonsInRow');
       } else {
         return false;
       }
-    }),
+    }
+  ).readOnly(),
 
   /**
     Flag indicates whether to show dropdown menu with edit menu item, in last column of every row.
@@ -428,7 +434,7 @@ export default FlexberryBaseComponent.extend(
       userSettings = userSettings ? userSettings[this.get('componentName')] : undefined;
       userSettings = userSettings ? userSettings.DEFAULT : undefined;
     } else {
-      userSettings = this.get('userSettingsService').getCurrentUserSetting(this.componentName);
+      userSettings = this.get('userSettingsService').getCurrentUserSetting(this.get('componentName')); // TODO: Need use promise for loading user settings. There are async promise execution now, called by hook model in list-view route (loading started by call setDeveloperUserSettings(developerUserSettings) but may be not finished yet).
     }
 
     let onEditForm = this.get('onEditForm');
@@ -441,8 +447,19 @@ export default FlexberryBaseComponent.extend(
         delete col.sorted;
         delete col.sortNumber;
         delete col.sortAscending;
+        delete col.width;
         let propName = col.propName;
         namedCols[propName] = col;
+      }
+
+      // Set columns width.
+      if (Ember.isArray(userSettings.columnWidths)) {
+        for (let i = 0; i < userSettings.columnWidths.length; i++) {
+          let columnWidth = userSettings.columnWidths[i];
+          if (namedCols[columnWidth.propName]) {
+            namedCols[columnWidth.propName].width = columnWidth.width || 150;
+          }
+        }
       }
 
       if (userSettings.sorting === undefined) {
@@ -810,6 +827,16 @@ export default FlexberryBaseComponent.extend(
   componentName: '',
 
   actions: {
+    /**
+      Just redirects action up to {{#crossLink "FlexberryObjectlistviewComponent"}}`flexberry-objectlistview`{{/crossLink}} component.
+
+      @method actions.customButtonInRowAction
+      @param {String} actionName The name of action.
+      @param {DS.Model} model Model in row.
+    */
+    customButtonInRowAction(actionName, model) {
+      this.sendAction('customButtonInRowAction', actionName, model);
+    },
 
     /**
       This action is called when user click on row.
@@ -997,31 +1024,11 @@ export default FlexberryBaseComponent.extend(
       @param {jQuery.Event} e jQuery.Event by click on ckeck all button
     */
     checkAll(e) {
-      let contentWithKeys = this.get('contentWithKeys');
-
       let checked = !this.get('allSelect');
-      Ember.set(this, 'allSelect', checked);
-
-      for (let i = 0; i < contentWithKeys.length; i++) {
-        let recordWithKey = contentWithKeys[i];
-        let selectedRow = this._getRowByKey(recordWithKey.key);
-
-        if (checked) {
-          if (!selectedRow.hasClass('active')) {
-            selectedRow.addClass('active');
-          }
-        } else {
-          if (selectedRow.hasClass('active')) {
-            selectedRow.removeClass('active');
-          }
-        }
-
-        recordWithKey.set('selected', checked);
-        recordWithKey.set('rowConfig.canBeSelected', !checked);
-      }
 
       let componentName = this.get('componentName');
-      this.get('objectlistviewEventsService').updateSelectAllTrigger(componentName, checked);
+      this.get('objectlistviewEventsService').updateSelectAllTrigger(componentName, checked, true);
+      this.selectedRowsChanged();
     },
 
     /**
@@ -1047,8 +1054,15 @@ export default FlexberryBaseComponent.extend(
       currentUserSetting.sorting = defaultDeveloperUserSetting.sorting;
       userSettingsService.saveUserSetting(componentName, undefined, currentUserSetting)
       .then(record => {
-        let sort = serializeSortingParam(currentUserSetting.sorting);
-        this._router.router.transitionTo(this._router.currentRouteName, { queryParams: { sort: sort } });
+        if (this.get('class') !== 'groupedit-container')
+        {
+          let sort = serializeSortingParam(currentUserSetting.sorting);
+          this._router.router.transitionTo(this._router.currentRouteName, { queryParams: { sort: sort } });
+        } else {
+          this.set('sorting', currentUserSetting.sorting);
+          let objectlistviewEventsService = this.get('objectlistviewEventsService');
+          objectlistviewEventsService.updateWidthTrigger(componentName);
+        }
       });
     }
   },
@@ -1083,10 +1097,12 @@ export default FlexberryBaseComponent.extend(
 
     this.get('objectlistviewEventsService').on('olvAddRow', this, this._addRow);
     this.get('objectlistviewEventsService').on('olvDeleteRows', this, this._deleteRows);
+    this.get('objectlistviewEventsService').on('olvDeleteAllRows', this, this._deleteAllRows);
     this.get('objectlistviewEventsService').on('filterByAnyMatch', this, this._filterByAnyMatch);
     this.get('objectlistviewEventsService').on('refreshList', this, this._refreshList);
     this.get('objectlistviewEventsService').on('geSortApply', this, this._setContent);
     this.get('objectlistviewEventsService').on('updateWidth', this, this.setColumnWidths);
+    this.get('objectlistviewEventsService').on('updateSelectAll', this, this._selectAll);
   },
 
   /**
@@ -1174,34 +1190,7 @@ export default FlexberryBaseComponent.extend(
           let renderedRowIndex = this.get('_renderedRowIndex') + 1;
 
           if (renderedRowIndex >= contentLength) {
-            // Restore selected records.
-            if (this.get('selectedRecords')) {
-              this.get('selectedRecords').clear();
-            }
-
-            let componentName = this.get('componentName');
-            let selectedRecordsToRestore = this.get('objectlistviewEventsService').getSelectedRecords(componentName);
-            if (selectedRecordsToRestore && selectedRecordsToRestore.size && selectedRecordsToRestore.size > 0) {
-              let e = {
-                checked: true
-              };
-
-              let someRecordWasSelected = false;
-              selectedRecordsToRestore.forEach((recordWithData, key) => {
-                if (this._getModelKey(recordWithData.data)) {
-                  someRecordWasSelected = true;
-                  this.send('selectRow', recordWithData, e);
-                }
-              });
-
-              if (!someRecordWasSelected && !this.get('allSelect')) {
-                // Reset toolbar buttons enabled state.
-                this.get('objectlistviewEventsService').rowSelectedTrigger(componentName, null, 0, false, null);
-              }
-            } else if (!this.get('allSelect')) {
-              // Reset toolbar buttons enabled state.
-              this.get('objectlistviewEventsService').rowSelectedTrigger(componentName, null, 0, false, null);
-            }
+            this._restoreSelectedRecords();
 
             // Remove long loading spinners.
             this.set('rowByRowLoadingProgress', false);
@@ -1217,14 +1206,6 @@ export default FlexberryBaseComponent.extend(
             }
 
             this._setColumnWidths();
-
-            let $currentTable = this.$('table.object-list-view');
-            if (this.get('allowColumnResize')) {
-              $currentTable.addClass('fixed');
-              this._reinitResizablePlugin();
-            } else {
-              $currentTable.colResizable({ disable: true });
-            }
           } else {
             // Start render row.
             let modelWithKey = contentForRender[renderedRowIndex];
@@ -1240,22 +1221,23 @@ export default FlexberryBaseComponent.extend(
               }
             }
 
-            this._reinitResizablePlugin();
+            if (this.get('allowColumnResize')) {
+              this._reinitResizablePlugin();
+            } else {
+              let $table = this.$('table.object-list-view');
+              $table.colResizable({ disable: true });
+            }
           }
         }
       }
     } else {
+      this._restoreSelectedRecords();
 
-      if (!this._colResizableInit) {
-        let $currentTable = this.$('table.object-list-view');
-        if (this.get('allowColumnResize')) {
-          $currentTable.addClass('fixed');
-          this._reinitResizablePlugin();
-        } else {
-          $currentTable.colResizable({ disable: true });
-        }
-
-        this.set('_colResizableInit', true);
+      if (this.get('allowColumnResize')) {
+        this._reinitResizablePlugin();
+      } else {
+        let $table = this.$('table.object-list-view');
+        $table.colResizable({ disable: true });
       }
 
       this.$('.object-list-view-menu > .ui.dropdown').dropdown();
@@ -1278,10 +1260,12 @@ export default FlexberryBaseComponent.extend(
 
     this.get('objectlistviewEventsService').off('olvAddRow', this, this._addRow);
     this.get('objectlistviewEventsService').off('olvDeleteRows', this, this._deleteRows);
+    this.get('objectlistviewEventsService').off('olvDeleteAllRows', this, this._deleteAllRows);
     this.get('objectlistviewEventsService').off('filterByAnyMatch', this, this._filterByAnyMatch);
     this.get('objectlistviewEventsService').off('refreshList', this, this._refreshList);
     this.get('objectlistviewEventsService').off('geSortApply', this, this._setContent);
     this.get('objectlistviewEventsService').off('updateWidth', this, this.setColumnWidths);
+    this.get('objectlistviewEventsService').off('updateSelectAll', this, this._selectAll);
 
     this.get('objectlistviewEventsService').clearSelectedRecords(this.get('componentName'));
 
@@ -1373,13 +1357,21 @@ export default FlexberryBaseComponent.extend(
         userSetting = userSetting ? userSetting.DEFAULT : undefined;
         userSetting = userSetting ? userSetting.columnWidths : undefined;
       } else {
-        userSetting = this.get('userSettingsService').getCurrentColumnWidths(this.componentName);
+        userSetting = this.get('userSettingsService').getCurrentColumnWidths(this.get('componentName'));
       }
 
       userSetting = Ember.isArray(userSetting) ? Ember.A(userSetting) : Ember.A();
 
       let $table = this.$('table.object-list-view');
       let $columns = $table.find('th');
+
+      if (this.get('allowColumnResize')) {
+        $table.addClass('fixed');
+        this._reinitResizablePlugin();
+      } else {
+        $table.colResizable({ disable: true });
+      }
+
       let hashedUserSetting = {};
       let tableWidth = 0;
       let olvRowMenuWidth = 0;
@@ -1427,6 +1419,10 @@ export default FlexberryBaseComponent.extend(
       let helperColumnsWidth = (olvRowMenuWidth || 0) + (olvRowToolbarWidth || 0);
       let containerWidth = $table[0].parentElement.clientWidth - 5;
       let columnsWidthAutoresize = this.get('columnsWidthAutoresize');
+      if ($columns.length === 0) {
+        tableWidth = containerWidth;
+      }
+
       let widthCondition = columnsWidthAutoresize && containerWidth > tableWidth;
       $table.css({ 'width': (columnsWidthAutoresize ? containerWidth : tableWidth) + 'px' });
       if (this.get('eventsBus')) {
@@ -1449,7 +1445,9 @@ export default FlexberryBaseComponent.extend(
         }
       });
 
-      this._reinitResizablePlugin();
+      if (this.get('allowColumnResize')) {
+        this._reinitResizablePlugin();
+      }
     }
   },
 
@@ -1482,7 +1480,7 @@ export default FlexberryBaseComponent.extend(
       });
     });
     this._setCurrentColumnsWidth();
-    this.get('userSettingsService').setCurrentColumnWidths(this.componentName, undefined, userWidthSettings);
+    this.get('userSettingsService').setCurrentColumnWidths(this.get('componentName'), undefined, userWidthSettings);
   },
 
   /**
@@ -2062,6 +2060,92 @@ export default FlexberryBaseComponent.extend(
   },
 
   /**
+    Handler for "delete all rows on all pages" event in objectlistview.
+
+    @method _deleteRows
+
+    @param {String} componentName The name of objectlistview component
+    @param {Object} filterQuery Filter applying before delete all records on all pages
+  */
+  _deleteAllRows(componentName, filterQuery) {
+    if (componentName === this.get('componentName')) {
+      let currentController = this.get('currentController');
+      currentController.onDeleteActionStarted();
+      let beforeDeleteAllRecords = this.get('beforeDeleteAllRecords');
+      let possiblePromise = null;
+      let modelName = this.get('modelName');
+      let data = {
+        cancel: false,
+        filterQuery: filterQuery
+      };
+
+      if (beforeDeleteAllRecords) {
+        Ember.assert('beforeDeleteAllRecords must be a function', typeof beforeDeleteAllRecords === 'function');
+
+        possiblePromise = beforeDeleteAllRecords(modelName, data);
+
+        if ((!possiblePromise || !(possiblePromise instanceof Ember.RSVP.Promise)) && data.cancel) {
+          return;
+        }
+      }
+
+      if (possiblePromise || (possiblePromise instanceof Ember.RSVP.Promise)) {
+        possiblePromise.then(() => {
+          if (!data.cancel) {
+            this._actualDeleteAllRecords(componentName, modelName, data.filterQuery);
+          }
+        });
+      } else {
+        this._actualDeleteAllRecords(componentName, modelName, data.filterQuery);
+      }
+    }
+  },
+
+  /**
+    Actually delete the all records on all pages.
+
+    @method _actualDeleteAllRecords
+    @private
+
+    @param {String} componentName The name of objectlistview component
+    @param {String} modelName Model name that defines type of records to delete
+    @param {Object} filterQuery Filter applying before delete all records
+  */
+  _actualDeleteAllRecords(componentName, modelName, filterQuery) {
+    let currentController = this.get('currentController');
+    this.get('objectlistviewEventsService').setLoadingState('loading');
+    let promise = this.get('store').deleteAllRecords(modelName, filterQuery);
+
+    promise.then((data)=> {
+      if (data.deletedCount > -1) {
+        this.get('objectlistviewEventsService').setLoadingState('success');
+        this.get('objectlistviewEventsService').rowsDeletedTrigger(componentName, data.deletedCount, true);
+        currentController.onDeleteActionFulfilled();
+        this.get('objectlistviewEventsService').refreshListTrigger(componentName);
+      } else {
+        this.get('objectlistviewEventsService').setLoadingState('error');
+        let errorData = {
+          message: data.message
+        };
+
+        currentController.onDeleteActionRejected(errorData);
+        currentController.send('handleError', errorData);
+      }
+    }).catch((errorData) => {
+      this.get('objectlistviewEventsService').setLoadingState('error');
+      if (!Ember.isNone(errorData.status) && errorData.status === 0 && !Ember.isNone(errorData.statusText) &&  errorData.statusText === 'error') {
+        // This message will be converted to corresponding localized message.
+        errorData.message = 'Ember Data Request returned a 0 Payload (Empty Content-Type)';
+      }
+
+      currentController.onDeleteActionRejected(errorData);
+      this.get('currentController').send('handleError', errorData);
+    }).finally((data) => {
+      currentController.onDeleteActionAlways(data);
+    });
+  },
+
+  /**
     Handler for "delete selected rows" event in objectlistview.
 
     @method _deleteRows
@@ -2080,7 +2164,7 @@ export default FlexberryBaseComponent.extend(
       }, this);
 
       selectedRecords.clear();
-      this.get('objectlistviewEventsService').rowsDeletedTrigger(componentName, count);
+      this.get('objectlistviewEventsService').rowsDeletedTrigger(componentName, count, immediately);
     }
   },
 
@@ -2312,5 +2396,82 @@ export default FlexberryBaseComponent.extend(
     }
 
     return attrsArray;
+  },
+
+  /**
+    Restore selected records after refreshing or transition to other page.
+
+    @method _restoreSelectedRecords
+    @private
+  */
+  _restoreSelectedRecords() {
+    // Restore selected records.
+    // TODO: when we will ask user about actions with selected records clearing selected records won't be use, because it resets selecting on other pages.
+    if (this.get('selectedRecords')) {
+      this.get('selectedRecords').clear();
+    }
+
+    let componentName = this.get('componentName');
+
+    let selectedRecordsToRestore = this.get('objectlistviewEventsService').getSelectedRecords(componentName);
+    if (selectedRecordsToRestore && selectedRecordsToRestore.size && selectedRecordsToRestore.size > 0) {
+      let e = {
+        checked: true
+      };
+
+      let someRecordWasSelected = false;
+      selectedRecordsToRestore.forEach((recordWithData, key) => {
+        if (this._getModelKey(recordWithData.data)) {
+          someRecordWasSelected = true;
+          this.send('selectRow', recordWithData, e);
+        }
+      });
+
+      if (!someRecordWasSelected && !this.get('allSelect')) {
+        // Reset toolbar buttons enabled state.
+        this.get('objectlistviewEventsService').rowSelectedTrigger(componentName, null, 0, false, null);
+      }
+    } else if (!this.get('allSelect')) {
+      // Reset toolbar buttons enabled state.
+      this.get('objectlistviewEventsService').rowSelectedTrigger(componentName, null, 0, false, null);
+    }
+  },
+
+  /**
+    Select/Unselect all records on all pages.
+
+    @method _selectAll
+    @private
+  */
+  _selectAll(componentName, selectAllParameter, skipConfugureRows) {
+    if (componentName === this.componentName)
+    {
+      this.set('allSelect', selectAllParameter);
+
+      let contentWithKeys = this.get('contentWithKeys');
+      let selectedRecords = this.get('selectedRecords');
+      for (let i = 0; i < contentWithKeys.length; i++) {
+        let recordWithKey = contentWithKeys[i];
+        let selectedRow = this._getRowByKey(recordWithKey.key);
+
+        if (selectAllParameter) {
+          if (!selectedRow.hasClass('active')) {
+            selectedRow.addClass('active');
+          }
+        } else {
+          if (selectedRow.hasClass('active')) {
+            selectedRow.removeClass('active');
+          }
+        }
+
+        selectedRecords.removeObject(recordWithKey.data);
+        recordWithKey.set('selected', selectAllParameter);
+        recordWithKey.set('rowConfig.canBeSelected', !selectAllParameter);
+      }
+
+      if (!skipConfugureRows) {
+        this.selectedRowsChanged();
+      }
+    }
   },
 });
