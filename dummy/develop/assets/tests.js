@@ -710,9 +710,12 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/checkbox-at-e
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
   exports.executeTest = executeTest;
+  exports.addDataForDestroy = addDataForDestroy;
+
+  var dataForDestroy = _ember['default'].A();
+  var app = undefined;
 
   function executeTest(testName, callback) {
-    var app = undefined;
     var store = undefined;
     var userSettingsService = undefined;
 
@@ -735,14 +738,51 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-
         userSettingsService.set('getCurrentPerPage', getCurrentPerPage);
       },
 
-      afterEach: function afterEach() {
-        _ember['default'].run(app, 'destroy');
+      afterEach: function afterEach(assert) {
+        _ember['default'].run(function () {
+          if (dataForDestroy.length !== 0) {
+            recursionDelete(0);
+          } else {
+            _ember['default'].run(app, 'destroy');
+          }
+        });
       }
     });
 
     (0, _qunit.test)(testName, function (assert) {
       return callback(store, assert, app);
     });
+  }
+
+  /**
+    Function to delete data after testing.
+  
+    @public
+    @method addDataForDestroy
+    @param {Object} data  or array of Object.
+   */
+
+  function addDataForDestroy(data) {
+    if (_ember['default'].isArray(data)) {
+      dataForDestroy.addObjects(data);
+    } else {
+      dataForDestroy.addObject(data);
+    }
+  }
+
+  function recursionDelete(index) {
+    if (index < dataForDestroy.length) {
+      if (!dataForDestroy[index].currentState.isDeleted) {
+        dataForDestroy[index].destroyRecord().then(function () {
+          recursionDelete(index + 1);
+        });
+      } else {
+        recursionDelete(index + 1);
+      }
+    } else {
+      dataForDestroy.clear();
+      _ember['default'].run(app, 'destroy');
+    }
   }
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test.jscs-test', ['exports'], function (exports) {
@@ -784,6 +824,9 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
           _ember['default'].run(function () {
             suggestion = newRecords.pushObject(store.createRecord(modelName, { type: type, author: user, editor1: user }));
             suggestion.save();
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(suggestion);
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(type);
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(user);
           });
         });
       });
@@ -820,12 +863,12 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
 
             assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
             assert.equal(successful, true, 'Filter successfully worked');
-            done1();
           })['finally'](function () {
             newRecords[2].destroyRecord().then(function () {
               _ember['default'].run(function () {
                 newRecords[0].destroyRecord();
                 newRecords[1].destroyRecord();
+                done1();
               });
             });
           });
@@ -1754,7 +1797,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-configur
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-format-moment-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/ru/translations'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryLocalesRuTranslations) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('date format moment L', function (store, assert, app) {
-    assert.expect(7);
+    assert.expect(5);
     var done = assert.async();
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
@@ -1763,16 +1806,19 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
       (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('ru', app).then(function () {
 
         var olvContainerClass = '.object-list-view-container';
-        var trTableClass = 'table.object-list-view tbody tr';
 
         var $toolBar = _ember['default'].$('.ui.secondary.menu')[0];
         var $toolBarButtons = $toolBar.children;
         var $refreshButton = $toolBarButtons[0];
         assert.equal($refreshButton.innerText.trim(), _ember['default'].get(_emberFlexberryLocalesRuTranslations['default'], 'components.olv-toolbar.refresh-button-text'), 'button refresh exist');
 
-        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($refreshButton, olvContainerClass, trTableClass).then(function ($list) {
-          assert.ok($list, 'list loaded');
+        var controller = app.__container__.lookup('controller:' + currentRouteName());
+        var refreshFunction = function refreshFunction() {
+          var refreshButton = _ember['default'].$('.refresh-button')[0];
+          refreshButton.click();
+        };
 
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
           var moment = app.__container__.lookup('service:moment');
           var momentValue = _ember['default'].get(moment, 'defaultFormat');
 
@@ -1808,9 +1854,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
           (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('en', app).then(function () {
 
             var done1 = assert.async();
-            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($refreshButton, olvContainerClass, trTableClass).then(function ($list) {
-              assert.ok($list, 'list loaded');
-
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
               // Date format most be MM/DD/YYYY:
               var dateFormatEnRe = /(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d/;
               var dataCellStr = $dateCell();
@@ -1864,6 +1908,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -1961,6 +2006,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2058,6 +2104,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2153,6 +2200,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2250,6 +2298,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2347,6 +2396,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2442,6 +2492,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecord);
         var builder = new Builder(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2541,6 +2592,8 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       newRecords.forEach(function (item) {
         promises.push(item.save());
       });
+
+      (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.addDataForDestroy)(newRecords);
 
       _ember['default'].RSVP.Promise.all(promises).then(function (resolvedPromises) {
         assert.ok(resolvedPromises, 'All records saved.');
@@ -3392,12 +3445,12 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
             assert.equal($thead.children[0].children.length, 1, 'no sorting icon in the first column');
 
             // Refresh function.
-            var refreshFunction = function refreshFunction() {
+            var refreshFunction1 = function refreshFunction1() {
               $thead.click();
             };
 
             var done1 = assert.async();
-            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction1, controller).then(function () {
               var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
               var $ord = _ember['default'].$('.object-list-view-order-icon', $thead);
               var $divOrd = _ember['default'].$('div', $ord);
@@ -3409,12 +3462,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
               (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName, $olv, 'address asc').then(function (isTrue) {
                 assert.ok(isTrue, 'sorting applied');
 
-                var $clearButton = _ember['default'].$('.clear-sorting-button');
-                $clearButton.click();
-
                 var done3 = assert.async();
+                var refreshFunction2 = function refreshFunction2() {
+                  var $clearButton = _ember['default'].$('.clear-sorting-button');
+                  $clearButton.click();
+                };
 
-                window.setTimeout(function () {
+                (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction2, controller).then(function () {
                   var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
                   var $ord = _ember['default'].$('.object-list-view-order-icon', $thead);
                   var $divOrd = _ember['default'].$('div', $ord);
@@ -3423,7 +3477,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
                   assert.equal(_ember['default'].$.trim($divOrd.text()), '', 'sorting symbol delete');
 
                   done3();
-                }, 3000);
+                });
                 done2();
               });
               done1();
@@ -4069,26 +4123,26 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-
       (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.checkSortingList)(store, projectionName(), $olv, orderByClause).then(function (isTrue) {
         assert.ok(isTrue, 'records are displayed correctly');
         done();
-      });
+      }).then(function () {
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('en', app).then(function () {
 
-      (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingLocales)('en', app).then(function () {
+          // Check projectionName.
+          var attrs = projectionName().attributes;
+          var flag = true;
 
-        // Check projectionName.
-        var attrs = projectionName().attributes;
-        var flag = true;
+          Object.keys(attrs).forEach(function (element, index, array) {
+            if (attrs[element].kind !== 'hasMany') {
+              flag = flag && _ember['default'].$.trim(dtHeadTable[index].innerText) === attrs[element].caption;
+            }
+          });
+          assert.ok(flag, 'projection = columns names');
 
-        Object.keys(attrs).forEach(function (element, index, array) {
-          if (attrs[element].kind !== 'hasMany') {
-            flag = flag && _ember['default'].$.trim(dtHeadTable[index].innerText) === attrs[element].caption;
-          }
+          var newProjectionName = 'SettingLookupExampleView';
+          controller.set('modelProjection', newProjectionName);
+
+          // Ember.get(controller, 'modelProjection') returns only the name of the projection when it replaced.
+          assert.equal(projectionName(), newProjectionName, 'projection name is changed');
         });
-        assert.ok(flag, 'projection = columns names');
-
-        var newProjectionName = 'SettingLookupExampleView';
-        controller.set('modelProjection', newProjectionName);
-
-        // Ember.get(controller, 'modelProjection') returns only the name of the projection when it replaced.
-        assert.equal(projectionName(), newProjectionName, 'projection name is changed');
       });
     });
   });
