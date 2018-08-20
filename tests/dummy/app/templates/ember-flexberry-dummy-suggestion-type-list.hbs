@@ -1,7 +1,7 @@
 {{flexberry-error error=error}}
 <h3>{{t "forms.ember-flexberry-dummy-suggestion-type-list.caption"}}</h3>
 <div class="row">
-  {{flexberry-simpleolv
+  {{flexberry-objectlistview
     content=model
     modelName="ember-flexberry-dummy-suggestion-type"
     modelProjection=modelProjection
@@ -20,6 +20,7 @@
     hasNextPage=hasNextPage
     sortByColumn=(action "sortByColumn")
     addColumnToSorting=(action "addColumnToSorting")
+    beforeDeleteAllRecords=(action "beforeDeleteAllRecords")
     previousPage=(action "previousPage")
     gotoPage=(action "gotoPage")
     nextPage=(action "nextPage")

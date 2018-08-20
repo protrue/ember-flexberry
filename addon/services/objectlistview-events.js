@@ -2,18 +2,21 @@
   @module ember-flexberry
  */
 
-import Ember from 'ember';
+import Service from '@ember/service';
+import Evented from '@ember/object/evented';
+import EmberMap from '@ember/map';
+import { isNone } from '@ember/utils';
 import { BasePredicate } from 'ember-flexberry-data/query/predicate';
 
 /**
   Service for triggering objectlistview events.
 
   @class ObjectlistviewEvents
-  @extends Ember.Service
-  @uses Ember.Evented
+  @extends Service
+  @uses Evented
   @public
  */
-export default Ember.Service.extend(Ember.Evented, {
+export default Service.extend(Evented, {
 
   /**
     Current set of selected records for all list components.
@@ -30,6 +33,7 @@ export default Ember.Service.extend(Ember.Evented, {
     @method init
   */
   init() {
+    this._super(...arguments);
     this.set('_selectedRecords', []);
   },
 
@@ -69,6 +73,19 @@ export default Ember.Service.extend(Ember.Evented, {
   */
   deleteRowsTrigger(componentName, immediately) {
     this.trigger('olvDeleteRows', componentName, immediately);
+  },
+
+  /**
+    Trigger for "delete all rows on all pages" event in objectlistview.
+    Event name: olvDeleteAllRows.
+
+    @method deleteAllRowsTrigger
+
+    @param {String} componentName The name of objectlistview component
+    @param {Object} filterQuery Filter applying before delete all records on all pages
+  */
+  deleteAllRowsTrigger(componentName, filterQuery) {
+    this.trigger('olvDeleteAllRows', componentName, filterQuery);
   },
 
   /**
@@ -147,9 +164,9 @@ export default Ember.Service.extend(Ember.Evented, {
     @param {Object} recordWithKey The model wrapper with additional key corresponding to selected row
   */
   rowSelectedTrigger(componentName, record, count, checked, recordWithKey) {
-    if (count > 0 || !Ember.isNone(recordWithKey)) {
+    if (count > 0 || !isNone(recordWithKey)) {
       if (!this.get('_selectedRecords')[componentName]) {
-        this.get('_selectedRecords')[componentName] = Ember.Map.create();
+        this.get('_selectedRecords')[componentName] = EmberMap.create();
       }
 
       if (checked) {
@@ -220,14 +237,15 @@ export default Ember.Service.extend(Ember.Evented, {
     @method updateSelectAll
 
     @param {String} componentName The name of object-list-view component
-    @param {Boolean} selectAllParameter Flag to selet all records parameter.
+    @param {Boolean} selectAllParameter Flag to specify if all records should be selected or unselected.
+    @param {Boolean} skipConfugureRows Flag to specify if configuring rows needs to be skipped.
   */
-  updateSelectAllTrigger(componentName, selectAllParameter) {
+  updateSelectAllTrigger(componentName, selectAllParameter, skipConfugureRows) {
     if (!selectAllParameter) {
       this.clearSelectedRecords(componentName);
     }
 
-    this.trigger('updateSelectAll', componentName, selectAllParameter);
+    this.trigger('updateSelectAll', componentName, selectAllParameter, skipConfugureRows);
   },
 
   /**

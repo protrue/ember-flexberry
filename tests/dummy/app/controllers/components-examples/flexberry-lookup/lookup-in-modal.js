@@ -1,31 +1,48 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { isNone } from '@ember/utils';
 import EditFormController from 'ember-flexberry/controllers/edit-form';
 
 export default EditFormController.extend({
+  /**
+    Defaul style of modal context.
+
+    @property readonly
+    @type String
+    @default #example
+  */
+  _style:'#example',
 
   actions: {
-    modalWindow() {
-      let repeatWindow = Ember.$('#repeat-window').modal({
+    modalWindow(style) {
+      if (!isNone(style)) {
+        this.set('_style', style);
+      }
+
+      let repeatWindow = $('.repeat-window').modal({
         closable: false,
         autofocus: false,
         detachable: false,
         allowMultiple: true,
-        context: '#example',
+        context: this.get('_style'),
       });
       this.set('repeatWindow', repeatWindow);
-      this.get('repeatWindow').modal('refresh').modal('show');
+      this.get('repeatWindow').modal('show').modal('refresh');
     },
 
-    modalWindowDouble() {
-      let repeatWindow = Ember.$('#repeat-window-double').modal({
+    modalWindowDouble(style) {
+      if (!isNone(style)) {
+        this.set('_style', style);
+      }
+
+      let repeatWindow = $('.repeat-window-double').modal({
         closable: false,
         autofocus: false,
         detachable: false,
         allowMultiple: true,
-        context: '#example',
+        context: this.get('_style'),
       });
       this.set('repeatWindowdouble', repeatWindow);
-      this.get('repeatWindowdouble').modal('refresh').modal('show');
+      this.get('repeatWindowdouble').modal('show').modal('refresh');
     },
 
     logOut() {
@@ -35,5 +52,6 @@ export default EditFormController.extend({
     logOutDouble() {
       this.get('repeatWindowdouble').modal('hide');
     }
+
   }
 });

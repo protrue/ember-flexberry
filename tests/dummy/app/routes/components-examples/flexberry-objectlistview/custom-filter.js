@@ -1,9 +1,9 @@
 import ListFormRoute from 'ember-flexberry/routes/list-form';
 
-import { Query } from 'ember-flexberry-data';
-
-const { SimplePredicate, StringPredicate } = Query;
-
+import { SimplePredicate } from 'ember-flexberry-data/query/predicate';
+import { DatePredicate } from 'ember-flexberry-data/query/predicate';
+import { StringPredicate } from 'ember-flexberry-data/query/predicate';
+import { computed } from '@ember/object';
 export default ListFormRoute.extend({
   /**
     Name of model projection to be used as record's properties limitation.
@@ -41,9 +41,12 @@ export default ListFormRoute.extend({
 
   @property developerUserSettings
   @type Object
-  @default {}
   */
-  developerUserSettings: { FOLVCustomFilterObjectListView: { } },
+  developerUserSettings: computed(function() {
+    return {
+      FOLVCustomFilterObjectListView: { }
+    }
+  }),
 
   predicateForFilter(filter) {
     if (filter.type === 'string' && filter.condition === 'like') {
@@ -58,12 +61,16 @@ export default ListFormRoute.extend({
       return new SimplePredicate(filter.name, filter.condition, filter.pattern ? Number(filter.pattern) : filter.pattern);
     }
 
+    if (filter.type === 'date') {
+      return new DatePredicate(filter.name, filter.condition, filter.pattern, true);
+    }
+
     return this._super(...arguments);
   },
 
   predicateForAttribute(attribute, filter) {
     switch (attribute.type) {
-      case 'boolean':
+      case 'boolean': {
         let yes = ['TRUE', 'True', 'true', 'YES', 'Yes', 'yes', 'ДА', 'Да', 'да', '1', '+'];
         let no = ['False', 'False', 'false', 'NO', 'No', 'no', 'НЕТ', 'Нет', 'нет', '0', '-'];
 
@@ -76,9 +83,11 @@ export default ListFormRoute.extend({
         }
 
         return null;
+      }
 
-      default:
+      default: {
         return this._super(...arguments);
+      }
     }
   },
 });

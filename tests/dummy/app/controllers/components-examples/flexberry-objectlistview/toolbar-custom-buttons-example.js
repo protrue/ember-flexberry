@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import ListFormController from 'ember-flexberry/controllers/list-form';
 
 export default ListFormController.extend({
@@ -8,7 +8,7 @@ export default ListFormController.extend({
     @property clickCounter
     @type Number
     @default 1
-   */
+  */
   clickCounter: 1,
 
   /**
@@ -16,7 +16,7 @@ export default ListFormController.extend({
 
     @property messageForUser
     @type String
-   */
+  */
   messageForUser: undefined,
 
   /**
@@ -25,7 +25,7 @@ export default ListFormController.extend({
     @property customButtons
     @type Array
    */
-  customButtons: Ember.computed('i18n.locale', function() {
+  customButtons: computed('i18n.locale', function() {
     let i18n = this.get('i18n');
     return [{
       buttonName: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-button-name'),
@@ -35,19 +35,39 @@ export default ListFormController.extend({
     }];
   }),
 
+  customButtonsInRow: computed('i18n.locale', function() {
+    let i18n = this.get('i18n');
+    return [{
+      buttonName: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-row-button-name'),
+      buttonAction: 'userButtonInRowActionTest',
+      buttonClasses: 'icon',
+      buttonIcon: 'bug icon',
+      buttonTitle: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-row-button-name'),
+    }];
+  }),
+
   actions: {
     /**
       Handler for click on custom user button.
 
       @method userButtonActionTest
-     */
-    userButtonActionTest: function() {
+    */
+    userButtonActionTest() {
       let i18n = this.get('i18n');
       let clickCounter = this.get('clickCounter');
       this.set('clickCounter', clickCounter + 1);
       this.set('messageForUser',
         i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-message').string +
         ' ' + clickCounter);
-    }
-  }
+    },
+
+    /**
+      Handler for click on custom user button in row.
+
+      @method userButtonActionTest
+    */
+    userButtonInRowActionTest(model) {
+      this.set('modelFromClickedRow', model);
+    },
+  },
 });

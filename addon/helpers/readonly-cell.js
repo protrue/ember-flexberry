@@ -1,16 +1,22 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
+import { typeOf } from '@ember/utils';
 
 /**
   Helper for get readonly property for list component's cell.
 
   @class ReadonlyCellHelper
-  @extends <a href="http://emberjs.com/api/classes/Ember.Helper.html">Ember.Helper</a>
+  @extends <a href="https://emberjs.com/api/ember/release/classes/Helper">Helper</a>
   @public
 */
 export function readonlyCell(params) {
   let readonlyColumns = params[0] || [];
   let columnName = params[1];
   let defaultReadonly = params[2];
+  let cellComponentPropertieReadonly = params[3];
+
+  if (typeOf(cellComponentPropertieReadonly) === 'boolean') {
+    return cellComponentPropertieReadonly;
+  }
 
   if (readonlyColumns.indexOf(columnName) > -1) {
     return true;
@@ -19,4 +25,4 @@ export function readonlyCell(params) {
   return defaultReadonly;
 }
 
-export default Ember.Helper.helper(readonlyCell);
+export default helper(readonlyCell);

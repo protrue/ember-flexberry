@@ -1,18 +1,6 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import EditFormController from 'ember-flexberry/controllers/edit-form';
-import { Query } from 'ember-flexberry-data';
-
-const { StringPredicate } = Query;
+import { StringPredicate } from 'ember-flexberry-data/query/predicate';
 
 export default EditFormController.extend({
-  /**
-    Current predicate to limit accessible values for lookup in dropdown mode.
-
-    @property lookupCustomLimitPredicate
-    @type BasePredicate
-    @default undefined
-   */
-  lookupCustomLimitPredicate: Ember.computed(function() {
-    return new StringPredicate('name').contains('Type');
-  })
 });

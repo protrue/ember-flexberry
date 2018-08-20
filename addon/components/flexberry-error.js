@@ -2,8 +2,10 @@
   @module ember-flexberry
 */
 
-import Ember from 'ember';
-
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { isArray } from '@ember/array';
+import { isNone } from '@ember/utils';
 /**
   This component displaying errors.
 
@@ -14,17 +16,39 @@ import Ember from 'ember';
     ```
 
   @class FlexberryErrorComponent
-  @extends Ember.Component
+  @extends Component
 */
-export default Ember.Component.extend({
+export default Component.extend({
   /**
     Internal property to store the error.
 
     @property _error
-    @type Error
+    @type Error or Array
     @private
   */
   _error: undefined,
+
+  /**
+    Detects if error is an array.
+
+    @property _errorIsArray
+    @type Boolean
+    @private
+  */
+  _errorIsArray: computed('_error', function () {
+    return isArray(this.get('_error'));
+  }),
+
+  /**
+    Detects if error has not own property with message.
+
+    @property _messageIsNotSpecified
+    @type Boolean
+    @private
+  */
+  _messageIsNotSpecified: computed('_error', function () {
+    return isNone(this.get('_error.message'));
+  }),
 
   /**
     Define error display mode, in `{{modal-dailog}}` or `{{ui-message}}` component.
@@ -50,10 +74,11 @@ export default Ember.Component.extend({
     @property error
     @type Error
   */
-  error: Ember.computed('_error', {
+  error: computed('_error', {
     get() {
       return this.get('_error');
     },
+
     set(key, value) {
       return this.set('_error', value);
     },

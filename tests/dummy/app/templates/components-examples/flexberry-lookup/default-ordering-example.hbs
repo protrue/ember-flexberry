@@ -7,12 +7,12 @@
       displayAttributeName="name"
       title=(t "forms.components-examples.flexberry-lookup.default-ordering-example.titleLookup")
       relationName="type"
-      choose="showLookupDialog"
-      remove="removeLookupValue"
+      choose=(action "showLookupDialog")
+      remove=(action "removeLookupValue")
       readonly=readonly
       limitFunction=null
       lookupWindowCustomProperties=(action 'getLookupFolvProperties')
-      orderBy="+name-moderated"
+      componentName=lookupComponentName
     }}
   </div>
 </form>

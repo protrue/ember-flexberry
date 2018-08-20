@@ -1,3 +1,4 @@
+{{flexberry-error error=error}}
 <h3>{{t "forms.components-examples.flexberry-objectlistview.custom-filter.caption"}}</h3>
 <div class="row">
   {{flexberry-objectlistview
@@ -18,6 +19,7 @@
     filterByAnyWord=filterByAnyWord
     filterByAllWords=filterByAllWords
     filterByAnyMatch=(action 'filterByAnyMatch')
+    beforeDeleteAllRecords=(action "beforeDeleteAllRecords")
     sorting=computedSorting
     orderable=true
     pages=pages
@@ -34,7 +36,9 @@
     colsConfigButton=false
     componentName="FOLVCustomFilterObjectListView"
     customButtons=customButtons
-    toggleFilterByAnyWord='toggleFilterByAnyWord'
-    toggleFilterByAllWords='toggleFilterByAllWords'
+    toggleFilterByAnyWord=(action 'toggleFilterByAnyWord')
+    toggleFilterByAllWords=(action 'toggleFilterByAllWords')
+    showCheckBoxInRow=true
+    deleteButton=true
   }}
 </div>

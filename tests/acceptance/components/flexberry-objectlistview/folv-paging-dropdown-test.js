@@ -1,17 +1,19 @@
-import Ember from 'ember';
+import { later, run } from '@ember/runloop';
 import { executeTest} from './execute-folv-test';
-import { loadingList, addRecords, deleteRecords } from './folv-tests-functions';
+import { addRecords, deleteRecords, refreshListByFunction } from './folv-tests-functions';
 
 import generateUniqueId from 'ember-flexberry-data/utils/generate-unique-id';
 
+import $ from 'jquery';
+
 executeTest('check paging dropdown', (store, assert, app) => {
-  assert.expect(7);
+  assert.expect(5);
   let path = 'components-acceptance-tests/flexberry-objectlistview/folv-paging';
   let modelName = 'ember-flexberry-dummy-suggestion-type';
   let uuid = generateUniqueId();
 
   // Add records for paging.
-  Ember.run(() => {
+  run(() => {
 
     addRecords(store, modelName, uuid).then(function(resolvedPromises) {
       assert.ok(resolvedPromises, 'All records saved.');
@@ -20,34 +22,42 @@ executeTest('check paging dropdown', (store, assert, app) => {
       andThen(function() {
         assert.equal(currentPath(), path);
 
-        let $folvPerPageButton = Ember.$('.flexberry-dropdown.compact');
-        let $menu = Ember.$('.menu', $folvPerPageButton);
-        let trTableBody = () => { return $(Ember.$('table.object-list-view tbody tr')).length.toString(); };
+        let $choosedIthem;
+        let trTableBody;
+        let activeItem;
 
-        let activeItem =  () => { return $(Ember.$('.item.active.selected', $menu)).attr('data-value'); };
+        // Refresh function.
+        let refreshFunction =  function() {
+          let $folvPerPageButton = $('.flexberry-dropdown.compact');
+          let $menu = $('.menu', $folvPerPageButton);
+          trTableBody = () => { return $($('table.object-list-view tbody tr')).length.toString(); };
 
-        // The list should be more than 5 items.
-        assert.equal(activeItem(), trTableBody(), 'equal perPage and visible element count');
-        $folvPerPageButton.click();
-        let timeout = 500;
-        Ember.run.later((() => {
-          let menuIsVisible = $menu.hasClass('visible');
-          assert.strictEqual(menuIsVisible, true, 'menu is visible');
-          let $choosedIthem = Ember.$('.item', $menu);
-          let done = assert.async();
-          loadingList($choosedIthem[1], '.object-list-view-container', 'table.object-list-view tbody tr').then(($list) => {
-            assert.ok($list);
-            assert.equal(activeItem(), $($choosedIthem[1]).attr('data-value'), 'equal');
+          activeItem =  () => { return $($('.item.active.selected', $menu)).text(); };
 
-            // The list should be more than 10 items
-            assert.equal(activeItem(), trTableBody(), 'equal perPage and visible element count');
-          }).catch((reason) => {
-            throw new Error(reason);
-          }).finally(() => {
-            deleteRecords(store, modelName, uuid, assert);
-            done();
-          });
-        }), timeout);
+          // The list should be more than 5 items.
+          assert.equal(activeItem(), trTableBody(), 'equal perPage and visible element count');
+          $folvPerPageButton.click();
+          let timeout = 500;
+          later((() => {
+            let menuIsVisible = $menu.hasClass('visible');
+            assert.strictEqual(menuIsVisible, true, 'menu is visible');
+            $choosedIthem = $('.item', $menu);
+            $choosedIthem[1].click();
+          }), timeout);
+        };
+
+        let controller = app.__container__.lookup('controller:' + currentRouteName());
+        let done = assert.async();
+        refreshListByFunction(refreshFunction, controller).then(() => {
+          // The list should be more than 10 items
+          assert.equal(activeItem(), trTableBody(), 'equal perPage and visible element count');
+        }).catch((reason) => {
+          // Error output.
+          assert.ok(false, reason);
+        }).finally(() => {
+          deleteRecords(store, modelName, uuid, assert);
+          done();
+        });
       });
     });
   });

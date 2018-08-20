@@ -15,6 +15,9 @@ export default {
       caption: 'Произошла ошибка',
       'show-more': 'Подробно',
       retry: 'Повторить попытку',
+      error: 'Ошибка',
+      'ember-data-request': 'Сервер недоступен, необходимо проверить соединение с сервером',
+      'invalid-sorting-value': 'Указаны неправильные параметры сортировки',
     },
 
     'i-i-s-caseberry-logging-objects-application-log-l': {
@@ -49,7 +52,7 @@ export default {
       'placeholder': '(нет значения)'
     },
 
-    'flexberry-datepicker': {
+    'flexberry-simpledatetime': {
       placeholder: '(нет значения)',
 
       // Months and days of week names are taken from moment.js.
@@ -66,11 +69,12 @@ export default {
       'upload-button-title': 'Загрузить файл',
       'download-button-title': 'Скачать файл',
 
-      'preview-image-alternative-text': 'Загруженное изображение',
+      'preview-image-alternative-text': 'Просмотр изображения не доступен',
 
       'error-dialog-caption': 'Ошибка компонента выбора файла',
       'error-dialog-content': 'Произошла ошибка в компоненте выбора файла',
       'error-dialog-ok-button-caption': 'OK',
+      'error-preview-caption': 'Предпросмотр не может быть загружен',
 
       'add-file-error-caption': 'Ошибка добавления файла',
       'file-too-big-error-message': 'Размер файла должен быть не больше {{maxFileSize}} байт. ' +
@@ -169,11 +173,13 @@ export default {
 
     'groupedit-toolbar': {
       'add-button-text': 'Добавить',
-      'delete-button-text': 'Удалить'
+      'delete-button-text': 'Удалить',
+      'clear-settings-button-text': 'Восстановить настройки по умолчанию'
     },
 
     'colsconfig-dialog-content': {
       'title': 'Настроить отображение столбцов',
+      'export-modal-dialog-title': 'Настроить экспорт в Excel',
       'export-title': 'Экспорт в Excel',
       'dont-show-columns': 'Не отображать столбцы',
       'columns-order': 'Определить порядок столбцов',
@@ -283,5 +289,44 @@ export default {
         },
       },
     },
-  }
+  },
+
+  errors: {
+    description: 'Это поле',
+    accepted: '{{description}} должно быть принято',
+    after: '{{description}} должно быть после {{after}}',
+    before: '{{description}} должно быть до {{before}}',
+    blank: '{{description}} не может быть пустым',
+    collection: '{{description}} должно быть коллекцией',
+    confirmation: '{{description}} не соответствует {{on}}',
+    date: '{{description}} должно быть действительной датой',
+    email: '{{description}} должно быть действительным адресом электронной почты',
+    empty: '{{description}} не может быть пустым',
+    equalTo: '{{description}} должно быть равно {{is}}',
+    even: '{{description}} должно быть четным',
+    exclusion: '{{description}} зарезервировано',
+    greaterThan: '{{description}} должно быть больше {{gt}}',
+    greaterThanOrEqualTo: '{{description}} должно быть больше или равно {{gte}}',
+    inclusion: '{{description}} не входит в список',
+    invalid: '{{description}} недействительно',
+    lessThan: '{{description}} должно быть меньше {{lt}}',
+    lessThanOrEqualTo: '{{description}} должно быть меньше или равно {{lte}}',
+    notAnInteger: '{{description}} должно быть целым числом',
+    notANumber: '{{description}} должно быть числом',
+    odd: '{{description}} должно быть не четным',
+    onOrAfter: '{{description}} должно быть равно или после {{onOrAfter}}',
+    onOrBefore: '{{description}} должно быть равно или до {{onOrBefore}}',
+    otherThan: '{{description}} должно отличаться от {{value}}',
+    phone: '{{description}} должно быть действительным номером телефона',
+    positive: '{{description}} должно быть положительным',
+    multipleOf: '{{description}} должно быть кратным {{multipleOf}}',
+    present: '{{description}} должно быть пустым',
+    singular: '{{description}} не может быть коллекцией',
+    tooLong: '{{description}} слишком длинное (максимум {{max}} символов)',
+    tooShort: '{{description}} слишком короткое (минимум {{min}} символов)',
+    between: '{{description}} должно быть от {{min}} до {{max}} символов',
+    url: '{{description}} должно быть действительным URL адресом',
+    wrongDateFormat: '{{description}} должно быть в формате {{format}}',
+    wrongLength: '{{description}} неправильной длины (должно быть {{is}} сомвол(ов))'
+  },
 };

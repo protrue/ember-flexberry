@@ -3,6 +3,152 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+* `flexberry-sidebar` component, simple component for use sidebar from `Semantic UI`.
+* `flexberry-sitemap` component, component for render sitemap by object with links.
+* Dependency on `ember-cp-validations@~3.5.2` addon.
+* Dependency on `ember-i18n-cp-validations@~3.1.0` addon.
+* The `ModelLocales` class in `flexberry-core` blueprint generate locales with model attributes for validations.
+* Blueprints:
+    * Additive merging of generated localization files with existing localozation files.
+
+### Changed
+* `flexberry-dropdown` component:
+    * Does not use `ui-dropdown` component from `semantic-ui-ember` addon.
+    * Instead of many properties one `settings` property for manage `Semantic UI` settings.
+* `modal-dialog` component:
+    * Does not use `ui-modal` component from `semantic-ui-ember` addon.
+* `run.after` function renamed to `runAfter` and replaced from initializer to utils.
+* `dynamic-actions` mixins: : mixins don't override `sendAction` method to add some custom logic, they add custom logic in method `sendDynamicAction`.
+* `required-actions` mixins: mixins don't override `sendAction` method to add some custom logic, they add custom logic in method `sendDynamicAction`.
+* `flexberry-validationsummary` component:
+    * The `headerText` property renamed to `header`.
+    * Added wrapper `DIV` with `header` CSS-class for passed `header`.
+* The `pointing` property in `flexberry-validationmessage` component now have default value `pointing`.
+* The `edit-form` controller runs validations before attempting save the model.
+* Template for model in `flexberry-model-init` blueprint:
+    * Added import of default validation rules (you can override or extend them) from regenerated model file and build validations mixin.
+    * Fixed code style.
+* The `flexberry-model` blueprint:
+    * Generation of default validation rules with using syntax from `ember-cp-validations` addon in separate object.
+    * Fixed code style in regenerated model file.
+
+### Fixed
+* Blueprints:
+    * Fix line length JSCS error on model generation.
+* `flexberry-lookup` component:
+    * Fix hierarchical mode settings for `lookup dialog`.
+* `flexberry-objectlistview` component:
+    * Fix localization switching for mobile mode.
+
+### Removed
+* The following templates: `sitemap`, `sitemap-node` (and mobile), `sitemap-node-content`.
+* `sitemap-node` controller from app.
+* `flexberry-simpleolv` component.
+* `flexberry-datepicker` component. Please use `flexberry-simpledatetime` component instead or create an own component.
+* Dependency on `ember-validations@~2.0.0-alpha.4` addon.
+
+### Breaking changes
+* Delete `semantic-ui-ember` dependency.
+* Update dependency on `semantic-ui` to version `2.3.1`.
+* Validations was fully changed, after upgrade to this version you need regenerate your application.
+
+## [0.12.0] - 2018-06-08
+### Added
+* `flexberry-toggler` component:
+    * Saving status in user settings (`componentName` must be specified).
+* `flexberry-objectlistview` component:
+    * `customButtonsInRow` property for adding buttons into rows (analog of `customButtons` property).
+    * Ability to pass function in `buttonAction` property inside `customButtons` and `customButtonsInRow` properties.
+    * Renaming columns when exporting to Excel.
+* `flexberry-error` component and `error` template:
+    * Translating of error messages support if `messageLocaleKey` property is specified in error.
+* List components:
+    * Deleting records when "all on all pages" is selected. Now `beforeDeleteAllRecords` action could be overriden in list form controller for processing custom actions and possible cancel of deleting when trying to delete all records on all pages. It is also required `DeleteAllSelect` action to be implemented in OData-backend to make this functionality avaliable. __`beforeDeleteAllRecords` parameter with passing corresponding action should be added to all list components in application (it could be "default" action with same name from `list-form` controller), otherwise all records from all pages in some list form could be deleted by user permanently without any confirmation or notication!__.
+
+### Changed
+* Update dependency on `ember-flexberry-data` to version `0.12.0`.
+* List components:
+    * Sorting applied by clicking on the column header, is saving in user settings now.
+* Downgrade `ember-data` version to `2.4.3` when installing or updating addon using `ember install ember-flexberry` command.
+
+### Fixed
+* `flexberry-simpleolv`:
+    * Hightliting of resert sorting and reset selecting buttons is now applying on active instead of hover in mobile template.
+* `flexberry-objectlistview` component:
+    * Buttons in rows when the component is in hierarchical mode.
+    * Fix behavior of `singleColumnHeaderTitle` in mobile mode.
+    * Displaying of button for showing/hiding nested records after disable hierarchical mode in mobile mode.
+* List components:
+    * Displaying spinner when appying user settings using user settings dialog.
+* `flexberry-lookup` component:
+    * Word breaking when displaying value is longer than component width in mobile mode.
+* `flexberry-simpledatetime` component:
+    * Inability to choose extreme values of date range when min or max values are set.
+
+## [0.11.0] - 2018-02-20
+### Added
+* `flexberry-groupedit` component:
+    * Add column widths saving in usersettings.
+    * Add restore default usersettings button.
+    * Add clear sorting button.
+* `flexberry-lookup` component:
+    * User settings support, use parameter `notUseUserSettings` to disabling.
+    * `perPage` parameter.
+    * Hierarchy mode support.
+    * User settings support. Use parameter `developerUserSettings` to apply sorting instead of `orderBy` parameter in template.
+* `flexberry-objectlistview` component:
+    * Now computed properties could be passed via `dynamicProperties` for embedded components in cells.
+* Edit form's logic:
+    * Scrolling to the top of form if saving errors are occured (to see error messages).
+
+### Changed
+* Update dependency on [`ember-flexberry-data`](https://github.com/Flexberry/ember-flexberry-data) to version 0.11.0.
+* For compatibility with `Ember Inspector`, `tagName` for application view has been restored, and sidebar moved into this block (see more [here](https://github.com/Flexberry/ember-flexberry/commit/0d4de9aa95b506c37e31e0b99f2e8bb534f85fba) and [here](https://github.com/Flexberry/ember-flexberry/commit/d555c3f0fc4e070a66c0e18403fc721398593d40)).
+* `log` service:
+    * Now `processName` field contains application name from `ENV.modulePrefix` of `environment.js`.
+* Edit form's logic:
+    * It is available to handle errors for each detail in `onSaveActionRejected` method during saving of aggregator model.
+* Change export excel modal dialog title.
+
+### Fixed
+* List components:
+    * Fix using `readonly` property from `componentProperties` for dynamic components.
+    * Fix displaying error about server unavailability. It was made more appropriate for perception.
+* `blue-sky` theme:
+    * Actual width for `flexberry-checkbox` was set.
+    * Displaying placeholders in IE.
+* `flexberry-simpleolv` component:
+    * "Show settings" menu for user settings.
+* `flexberry-lookup` component:
+    * View is update on `displayAttributeName` property was changed.
+    * Fix lookup list's component name.
+* `flexberry-groupedit` component:
+    * Fix validation error message when `editOnSeparateRoute` and `saveOnRouteLeave` is true.
+    * Fix availability to resize columns when `allowColumnResize` property was changed dynamically.
+* `flexberry-file` component:
+    * Fix buttons disabling in mobile mode.
+    * Fix displaying errors in mobile mode.
+    * Fix displaying text for non-image file preview in IE.
+* `flexberry-modal` component:
+    * Fix dimmer hiding on close button click.
+* Blueprints:
+    * Fix generation of translations and assets into addon.
+* `flexberry-objectlistview` component:
+    * Fix hierarchy loading on first load and when records has been already loaded.
+    * Fix toolbar width in mobile mode.
+* `colsconfig-dialog-content` component:
+    * Fix invisible cells content in Google Chrome (some content was disappeared during resize of browser window).
+* `flexberry-simpledatetime` component:
+    * Clear button worked in readonly mode in IE.
+* Hanging up on list forms and edit forms when connection is unavailable.
+* Fix `usersettings` for `new` forms.
+
+### Removed
+* `flexberry-objectlistview` component:
+    * `columnsWidthAutoresize` attribute in mobile version of component.
+* `flexberry-lookup` component:
+    * `orderBy` ordering condition for list of records to choose.
 
 ## [0.10.0] - 2018-01-26
 ### Added
@@ -76,6 +222,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Fix locale dropdown for IE in `application.hbs`.
 * Blueprints:
     * Fix generation of `flexberry-groupedit` component template on edit forms. Now translations of field's captions should be applied.
+
+### Known issues
+* Filtering on lists works wrong for `date` type fields in case of `DateTime?` type is used in corresponding property of model at backend.
+* `flexberry-datepicker` component is not recommended for using in production, because it has memory and some other issues so it works slowly and it slows down the application.
+* Some issues with styles in `blue-sky` theme especially in mobile mode of application.
+* Lookup with hierarchy is not working on edit new record.
 
 ## [0.9.1] - 2017-09-29
 ### Changed
@@ -200,6 +352,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Known issues
 * Now there is no way for filtering by timeless date in backend requests, therefore timeless date fields on backend must have 11:00:00.000 time in UTC.
+* `flexberry-datepicker` component is not recommended for using in production, because it has memory and some other issues so it works slowly and it slows down the application.
 
 ## [0.8.6] - 2017-02-09
 ### Changed
@@ -710,12 +863,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Validator for `date` type of model properties.
 * Transform to support using `file` type in models.
 * Blueprints for generation of application prototype or its parts. Generation is based on using application metadata that could be creadted manually or using [Flexberry Designer](http://flexberry.ru/Flexberry/ForDevelopers/FlexberryDesigner) from corresponding UML class diagramms. Available blueprints:
-    * `flexberry-application` - bluepring for generation of whole application prototype.
-    * `flexberry-core` - bluepring for generation of base structure of application prototype
-    * `flexberry-edit-form` - bluepring for generation of controller, route and template for specified edit form.
-    * `flexberry-enum` - bluepring for generation of transform and file with definition for specified enumeration.
-    * `flexberry-list-form` - bluepring for generation of controller, route and template for specified list form.
-    * `flexberry-model` - bluepring for generation of specified model and serializer with corresponding tests.
+    * `flexberry-application` - blueprint for generation of whole application prototype.
+    * `flexberry-core` - blueprint for generation of base structure of application prototype
+    * `flexberry-edit-form` - blueprint for generation of controller, route and template for specified edit form.
+    * `flexberry-enum` - blueprint for generation of transform and file with definition for specified enumeration.
+    * `flexberry-list-form` - blueprint for generation of controller, route and template for specified list form.
+    * `flexberry-model` - blueprint for generation of specified model and serializer with corresponding tests.
 
 ### Changed
 * Upgraded `ember-cli` from @1.13.8 to @2.4.3. Ember 1.13 is no longer supported.

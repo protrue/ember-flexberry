@@ -17,7 +17,7 @@
   enableDeleteButton=(not readonly)
   componentName=componentName
   modelController=currentController
-  customButtonAction='customButtonAction'
+  customButtonAction=(action 'customButtonAction')
   customButtons=customButtons
   editFormRoute=editFormRoute
   showConfigDialog="showConfigDialog"
@@ -72,7 +72,8 @@
   configurateSelectedRows=this.attrs.configurateSelectedRows
   confirmDeleteRow=confirmDeleteRow
   beforeDeleteRecord=beforeDeleteRecord
-  action='objectListViewRowClick'
+  action=(action 'objectListViewRowClick')
+  beforeDeleteAllRecords=beforeDeleteAllRecords
   componentName=componentName
   allowColumnResize=allowColumnResize
   selectedRecord=selectedRecord
@@ -87,6 +88,8 @@
   useRowByRowLoadingProgress=useRowByRowLoadingProgress
   eventsBus=eventsBus
   onEditForm=onEditForm
+  customButtonInRowAction='customButtonInRowAction'
+  customButtonsInRow=customButtonsInRow
   defaultLeftPadding=defaultLeftPadding
   overflowedComponents=overflowedComponents
 }}
@@ -117,7 +120,7 @@
           {{/if}}
         </div>
       {{/if}}
-      {{flexberry-dropdown items=perPageValues value=perPageValue class="compact selection" onChange=(action "perPageClick") needChecksOnValue=false direction="upward"}}
+      {{flexberry-dropdown needChecksOnValue=false items=perPageValues value=perPageValue class="compact selection" onChange=(action "perPageClick") settings=(hash direction="upward")}}
     </div>
   </div>
 {{/unless}}

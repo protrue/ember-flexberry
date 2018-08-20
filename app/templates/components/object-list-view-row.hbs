@@ -2,6 +2,14 @@
   <tr class="{{record.rowConfig.customClass}}">
     <td class="object-list-view-helper-column {{unless showHelperColumn "hidden"}}" style={{defaultPaddingStyle}}>
       <div class="hidden">{{record.key}}</div>
+      {{#each customButtonsInRow as |customButtonInRow|}}
+          <button
+            class="ui {{customButtonInRow.buttonClasses}} button"
+            title={{if customButtonInRow.buttonTitle customButtonInRow.buttonTitle}}
+            {{action "customButtonInRowAction" customButtonInRow.buttonAction record.data}}>
+            <i class={{customButtonInRow.buttonIcon}}></i>
+          </button>
+      {{/each}}
       {{#if showHelperColumn}}
         <div class="object-list-view-helper-column-cell">
           {{#if showAsteriskInRow}}
@@ -44,7 +52,7 @@
     {{#each columns as |column index|}}
       <td
         onclick={{action "onRowClick" record (hash column=column columnIndex=index) preventDefault=false}}
-        class="field {{if (and showValidationMessages (get record.data (concat "errors." column.propName ".length"))) "error"}} {{if (array-contains overflowedComponents column.cellComponent.componentName) " overflowed-cell"}}"
+        class="field {{if (and showValidationMessages (v-get record.data column.propName "isInvalid")) "error"}} {{if (array-contains overflowedComponents column.cellComponent.componentName) " overflowed-cell"}}"
         style={{if (and (not index) inHierarchicalMode) hierarchicalIndentStyle defaultPaddingStyle}}>
         {{#if column.cellComponent.componentName}}
           {{#if inHierarchicalMode}}
@@ -52,15 +60,14 @@
               dynamicProperties=column.cellComponent.componentProperties
               relatedModel=record.data
               value=(mut (get record.data column.propName))
-              readonly=(readonly-cell record.rowConfig.readonlyColumns column.propName readonly)
+              readonly=(readonly-cell record.rowConfig.readonlyColumns column.propName readonly column.cellComponent.componentProperties.readonly)
               required=required
+              componentName=(concat "(" folvComponentName "_" column.cellComponent.componentName "_" column.propName ")")
             }}
-              {{#if (and (not index) inHierarchicalMode)}}
-                {{#if hasRecords}}
-                  <button class="ui button hierarchy-expand icon mini compact {{buttonClass}}" {{action "expand" bubbles=false}}>
-                    <i class="{{if _expanded "minus" "plus"}} hierarchy-expand icon"></i>
-                  </button>
-                {{/if}}
+              {{#if (and (not index) inHierarchicalMode hasRecords)}}
+                <button class="ui button hierarchy-expand icon mini compact {{buttonClass}}" {{action "expand" bubbles=false}}>
+                  <i class="{{if _expanded "minus" "plus"}} hierarchy-expand icon"></i>
+                </button>
               {{/if}}
             {{/component}}
           {{else}}
@@ -68,28 +75,24 @@
               dynamicProperties=column.cellComponent.componentProperties
               relatedModel=record.data
               value=(mut (get record.data column.propName))
-              readonly=(readonly-cell record.rowConfig.readonlyColumns column.propName readonly)
+              readonly=(readonly-cell record.rowConfig.readonlyColumns column.propName readonly column.cellComponent.componentProperties.readonly)
               required=required
+              componentName=(concat "(" folvComponentName "_" column.cellComponent.componentName "_" column.propName ")")
             }}
             {{#if showValidationMessages}}
-              {{flexberry-validationmessage
-                error=(get record.data (concat "errors." column.propName))
-                pointing="pointing"
-              }}
+              {{flexberry-validationmessage error=(v-get record.data column.propName "messages")}}
             {{/if}}
           {{/if}}
         {{else}}
           <div class="oveflow-text">
-            {{#if (and (not index) inHierarchicalMode)}}
-              {{#if hasRecords}}
-                <button
-                  class="ui button hierarchy-expand icon mini compact {{buttonClass}}"
-                  title={{if _expanded (t "components.object-list-view.hierarchy-buttons.minus-button-title")
-                   (t "components.object-list-view.hierarchy-buttons.plus-button-title")}}
-                  {{action "expand" bubbles=false}}>
-                    <i class="{{if _expanded "minus" "plus"}} hierarchy-expand icon"></i>
-                </button>
-              {{/if}}
+            {{#if (and (not index) inHierarchicalMode hasRecords)}}
+              <button
+                class="ui button hierarchy-expand icon mini compact {{buttonClass}}"
+                title={{if _expanded (t "components.object-list-view.hierarchy-buttons.minus-button-title")
+                 (t "components.object-list-view.hierarchy-buttons.plus-button-title")}}
+                {{action "expand" bubbles=false}}>
+                  <i class="{{if _expanded "minus" "plus"}} hierarchy-expand icon"></i>
+              </button>
             {{/if}}
             {{get-formatted record.data column.propName
               dateFormat=dateFormat
@@ -155,6 +158,8 @@
         hierarchicalIndent=_hierarchicalIndent
         defaultLeftPadding=defaultLeftPadding
         overflowedComponents=overflowedComponents
+        folvComponentName=folvComponentName
+        hierarchyLoadedLevel=hierarchyLoadedLevel
       }}
     {{/each}}
   {{/if}}

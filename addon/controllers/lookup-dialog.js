@@ -2,7 +2,8 @@
   @module ember-flexberry
 */
 
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { observer } from '@ember/object';
 import ListFormController from '../controllers/list-form';
 import SortableRouteMixin from '../mixins/sortable-route';
 import PredicateFromFiltersMixin from '../mixins/predicate-from-filters';
@@ -121,7 +122,7 @@ export default ListFormController.extend(SortableRouteMixin, PredicateFromFilter
     @property lookupEventsService
     @type Service
   */
-  lookupEventsService: Ember.inject.service('lookup-events'),
+  lookupEventsService: service('lookup-events'),
 
   actions: {
     /**
@@ -200,16 +201,45 @@ export default ListFormController.extend(SortableRouteMixin, PredicateFromFilter
         filter: this.get('filter'),
         filterCondition: this.get('filterCondition'),
         predicate: this.get('predicate'),
+        hierarchicalAttribute: this.get('hierarchicalAttribute'),
 
         title: this.get('title'),
         sizeClass: this.get('sizeClass'),
         saveTo: this.get('saveTo'),
         currentLookupRow: this.get('currentLookupRow'),
         customPropertiesData: this.get('customPropertiesData'),
-        componentName: this.get('componentName')
+        componentName: this.get('componentName'),
+        folvComponentName: this.get('folvComponentName')
       };
 
+      let folvComponentName = this.get('folvComponentName');
+      if (folvComponentName) {
+        let userSettingsParams = {
+          sort: this.get('sort'),
+        };
+
+        let userSettingsService = this.get('userSettingsService');
+        userSettingsService.setCurrentParams(folvComponentName, userSettingsParams);
+      }
+
       reloadDataHandler(this.get('reloadContext'), reloadData);
+    },
+
+    /**
+      Redirect actions into route.
+
+      @method actions.loadRecords
+      @param {String} id Record ID.
+      @param {ObjectListViewRowComponent} target Instance of {{#crossLink "ObjectListViewRowComponent"}}{{/crossLink}}.
+      @param {String} property Property name into {{#crossLink "ObjectListViewRowComponent"}}{{/crossLink}}.
+      @param {Boolean} firstRunMode Flag indicates that this is the first download of data.
+    */
+    loadRecords(id, target, property, firstRunMode) {
+      let params = {};
+      params.hierarchicalAttribute = this.get('hierarchicalAttribute');
+      params.modelName = this.get('customPropertiesData.modelName');
+      params.modelProjection = this.get('customPropertiesData.modelProjection');
+      this.send('loadRecordsById', id, target, property, firstRunMode, params);
     },
   },
 
@@ -219,7 +249,7 @@ export default ListFormController.extend(SortableRouteMixin, PredicateFromFilter
 
     @method queryParametersChanged
   */
-  queryParametersChanged: Ember.observer('filter', 'page', 'perPage', 'sort', function() {
+  queryParametersChanged: observer('filter', 'page', 'perPage', 'sort', function() {
     if (this.get('reloadObserverIsActive')) {
       this.send('refreshList');
     }

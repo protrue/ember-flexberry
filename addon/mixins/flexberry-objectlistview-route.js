@@ -2,17 +2,18 @@
   @module ember-flexberry
 */
 
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { merge } from '@ember/polyfills';
 
 /**
   Mixin for {{#crossLink "DS.Route"}}Route{{/crossLink}}
   to support work with {{#crossLink "FlexberryObjectlistviewComponent"}}{{/crossLink}}.
 
   @class FlexberryObjectlistviewRouteMixin
-  @extends Ember.Mixin
+  @extends Mixin
   @public
 */
-export default Ember.Mixin.create({
+export default Mixin.create({
   actions: {
     /**
       Table row click handler.
@@ -20,7 +21,7 @@ export default Ember.Mixin.create({
       @method actions.objectListViewRowClick
       @public
 
-      @param {Ember.Object} record Record related to clicked table row
+      @param {EmberObject} record Record related to clicked table row
     */
     objectListViewRowClick(record, options) {
       let methodOptions = {
@@ -33,7 +34,7 @@ export default Ember.Mixin.create({
         readonly: false,
         goToEditForm: undefined
       };
-      methodOptions = Ember.merge(methodOptions, options);
+      methodOptions = merge(methodOptions, options);
       let goToEditForm = methodOptions.goToEditForm;
       if (goToEditForm === false) {
         return;
@@ -51,7 +52,9 @@ export default Ember.Mixin.create({
       if (!onEditForm) {
         this.transitionTo(editFormRoute, recordId)
         .then((newRoute) => {
-          newRoute.controller.set('parentRoute', thisUrl);
+          if (newRoute) {
+            newRoute.controller.set('parentRoute', thisUrl);
+          }
         });
       } else {
         if (saveBeforeRouteLeave) {
@@ -82,9 +85,11 @@ export default Ember.Mixin.create({
       this.refresh();
     },
 
+    /* eslint-disable no-unused-vars */
     saveAgregator(agregatorModel) {
       return false;
     }
+    /* eslint-enable no-unused-vars */
   },
 
   /**
@@ -96,11 +101,8 @@ export default Ember.Mixin.create({
     @example
       ``` js
       // app/routes/limit-function-example.js
-      import Ember from 'ember';
       import ListFormRoute from 'ember-flexberry/routes/list-form';
-      import { Query } from 'ember-flexberry-data';
-
-      const { StringPredicate } = Query;
+      import { StringPredicate } from 'ember-flexberry-data/query/predicate';
 
       export default ListFormRoute.extend({
         modelProjection: 'FolvWithLimitFunctionExampleView',
@@ -108,7 +110,7 @@ export default Ember.Mixin.create({
         modelName: 'ember-flexberry-dummy-suggestion',
 
         objectListViewLimitPredicate: function(options) {
-          let methodOptions = Ember.merge({
+          let methodOptions = merge({
             modelName: undefined,
             projectionName: undefined,
             params: undefined
@@ -137,7 +139,9 @@ export default Ember.Mixin.create({
   @param {String} [options.params] Current route query parameters
   @return {BasePredicate} The predicate to limit loaded data
   */
+  /* eslint-disable no-unused-vars */
   objectListViewLimitPredicate(options) {
     return undefined;
   }
+  /* eslint-enable no-unused-vars */
 });

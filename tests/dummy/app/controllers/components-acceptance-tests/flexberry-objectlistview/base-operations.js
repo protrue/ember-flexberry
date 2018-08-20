@@ -139,6 +139,14 @@ export default ListFormController.extend({
   singleColumnHeaderTitle: undefined,
 
   /**
+    Cout of list loading.
+
+    @property loadCount
+    @type Int
+  */
+  loadCount: 0,
+
+  /**
     Current records.
 
     @property _records
@@ -146,5 +154,10 @@ export default ListFormController.extend({
     @protected
     @readOnly
   */
-  records: []
+  records: undefined,
+
+  init() {
+    this._super(...arguments);
+    this.set('records', []);
+  }
 });

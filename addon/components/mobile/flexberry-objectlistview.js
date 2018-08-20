@@ -117,10 +117,7 @@ export default FlexberryObjectlistview.extend({
     @property {String} [singleColumnCellComponent.componentName='object-list-view-single-column-cell']
     @property {String} [singleColumnCellComponent.componentProperties=null]
   */
-  singleColumnCellComponent: {
-    componentName: 'object-list-view-single-column-cell',
-    componentProperties: null
-  },
+  singleColumnCellComponent: undefined,
 
   /**
     Header title of single column.
@@ -130,12 +127,11 @@ export default FlexberryObjectlistview.extend({
   */
   singleColumnHeaderTitle: undefined,
 
-  /**
-    Indicates whether or not autoresize columns for fit the page width.
-
-    @property columnsWidthAutoresize
-    @type Boolean
-    @default true
-  */
-  columnsWidthAutoresize: true,
+  init() {
+    this._super(...arguments);
+    this.set('singleColumnCellComponent', {
+      componentName: 'object-list-view-single-column-cell',
+      componentProperties: null
+    });
+  }
 });

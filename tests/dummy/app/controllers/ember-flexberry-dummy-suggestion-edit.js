@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import BaseEditFormController from 'ember-flexberry/controllers/edit-form';
 import EditFormControllerOperationsIndicationMixin from 'ember-flexberry/mixins/edit-form-controller-operations-indication';
 
@@ -45,7 +44,6 @@ export default BaseEditFormController.extend(EditFormControllerOperationsIndicat
             relationName: 'author',
             projection: 'ApplicationUserL',
             autocomplete: true,
-            lookupWindowCustomProperties: () => { return { filterButton: true, refreshButton: true }; },
           };
           break;
 
@@ -62,30 +60,15 @@ export default BaseEditFormController.extend(EditFormControllerOperationsIndicat
           break;
 
       }
+    } else if (attr.kind === 'attr') {
+      switch (`${model.modelName}+${bindingPath}`) {
+        case 'ember-flexberry-dummy-vote+author.eMail':
+          cellComponent.componentProperties = {
+            readonly: true,
+          };
+      }
     }
 
     return cellComponent;
-  },
-
-  actions: {
-    configurateFilesRow(rowConfig, record) {
-      Ember.set(rowConfig, 'customClass', 'positive ');
-      let readonlyColumns = [];
-      if (record.get('order') === 1) {
-        readonlyColumns.push('order');
-        readonlyColumns.push('file');
-      }
-
-      Ember.set(rowConfig, 'readonlyColumns', readonlyColumns);
-    },
-
-    configurateVotesRow(rowConfig, record) {
-      let readonlyColumns = [];
-      if (record.get('author.name') === 'Иван') {
-        readonlyColumns.push('author');
-      }
-
-      Ember.set(rowConfig, 'readonlyColumns', readonlyColumns);
-    }
   }
 });
