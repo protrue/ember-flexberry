@@ -14140,7 +14140,7 @@ define('dummy/mixins/list-form-controller-operations-indication', ['exports', 'e
          @method actions.onSuccessMessageHide
        */
       onSuccessMessageHide: function onSuccessMessageHide() {
-        this.set('showFormSuccessMessage', undefined);
+        this.set('showFormSuccessMessage', false);
       },
 
       /**
@@ -14154,7 +14154,7 @@ define('dummy/mixins/list-form-controller-operations-indication', ['exports', 'e
          @method actions.onErrorMessageHide
        */
       onErrorMessageHide: function onErrorMessageHide() {
-        this.set('showFormErrorMessage', undefined);
+        this.set('showFormErrorMessage', false);
       }
     },
 
@@ -14170,7 +14170,7 @@ define('dummy/mixins/list-form-controller-operations-indication', ['exports', 'e
        @property showFormSuccessMessage.
       @type Boolean
      */
-    showFormSuccessMessage: undefined,
+    showFormSuccessMessage: false,
 
     /**
       Success message caption related to current locale and operation type.
@@ -14208,7 +14208,7 @@ define('dummy/mixins/list-form-controller-operations-indication', ['exports', 'e
        @property showFormErrorMessage.
       @type Boolean
      */
-    showFormErrorMessage: undefined,
+    showFormErrorMessage: false,
 
     /**
       Error message caption related to current locale and operation type.
@@ -14320,7 +14320,9 @@ define('dummy/mixins/list-form-route-operations-indication', ['exports', 'ember'
       this._super.apply(this, arguments);
 
       var controller = this.get('copyController');
-      controller.set('latestOperationType', 'load');
+      if (controller) {
+        controller.set('latestOperationType', 'load');
+      }
     },
 
     /**
@@ -14333,8 +14335,10 @@ define('dummy/mixins/list-form-route-operations-indication', ['exports', 'ember'
       this._super.apply(this, arguments);
 
       var controller = this.get('copyController');
-      controller.set('showFormSuccessMessage', true);
-      controller.set('showFormErrorMessage', false);
+      if (controller) {
+        controller.set('showFormSuccessMessage', true);
+        controller.set('showFormErrorMessage', false);
+      }
     },
 
     /**
@@ -14347,8 +14351,10 @@ define('dummy/mixins/list-form-route-operations-indication', ['exports', 'ember'
       this._super.apply(this, arguments);
 
       var controller = this.get('copyController');
-      controller.set('showFormSuccessMessage', false);
-      controller.set('showFormErrorMessage', true);
+      if (controller) {
+        controller.set('showFormSuccessMessage', false);
+        controller.set('showFormErrorMessage', true);
+      }
     },
 
     /**
@@ -60897,7 +60903,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.1-beta.1+adb541c4"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"0.12.1-beta.1+77de578f"});
 }
 
 /* jshint ignore:end */
