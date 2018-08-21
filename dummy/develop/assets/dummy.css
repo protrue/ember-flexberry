@@ -23263,6 +23263,11 @@ div.ui.secondary.menu.no-margin.nav-bar .right.menu {
 /*******************************
          Theme Overrides
 *******************************/
+.ui.form .flexberry-colsconfig .success.message,
+.ui.form .flexberry-colsconfig .warning.message,
+.ui.form .flexberry-colsconfig .error.message {
+  display: block;
+}
 /*!
  * # Semantic UI - Table
  * http://github.com/semantic-org/semantic-ui/
