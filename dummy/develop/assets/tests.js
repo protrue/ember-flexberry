@@ -23592,6 +23592,51 @@ define('dummy/tests/unit/serializers/new-platform-flexberry-services-lock-test.j
     assert.ok(true, 'unit/serializers/new-platform-flexberry-services-lock-test.js should pass jshint.');
   });
 });
+define('dummy/tests/unit/services/app-state-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('service:app-state', 'Unit | Service | app-state', {});
+
+  (0, _emberQunit.test)('it exists and works', function (assert) {
+    var service = this.subject();
+
+    assert.throws(function () {
+      service.set('state', 'invalid');
+    });
+    assert.equal(service.get('state'), '', 'By default is empty string.');
+
+    service.loading();
+    assert.equal(service.get('state'), 'loading', 'Change to \'loading\'.');
+
+    service.success();
+    assert.equal(service.get('state'), 'success', 'Change to \'success\'.');
+
+    service.error();
+    assert.equal(service.get('state'), 'error', 'Change to \'error\'.');
+
+    service.warning();
+    assert.equal(service.get('state'), 'warning', 'Change to \'warning\'.');
+
+    service.reset();
+    assert.equal(service.get('state'), '', 'Reset to the default value.');
+  });
+});
+define('dummy/tests/unit/services/app-state-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - unit/services');
+  test('unit/services/app-state-test.js should pass jscs', function () {
+    ok(true, 'unit/services/app-state-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/unit/services/app-state-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/services/app-state-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/services/app-state-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/unit/services/detail-interaction-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('service:detail-interaction', 'Unit | Service | detail interaction', {
