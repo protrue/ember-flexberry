@@ -27567,7 +27567,7 @@ a.ui.card:hover,
 
 .ui.accordion .active.content,
 .ui.accordion .accordion .active.content {
-  display: block;
+  /* display: block; */
 }
 
 /*******************************
@@ -35877,6 +35877,7 @@ html.ios body {
 /*******************************
          Site Overrides
 *******************************/
+
 /*! =======================================================
                       VERSION  6.0.6              
 ========================================================= */

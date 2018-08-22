@@ -10929,6 +10929,12 @@ input {
 span.lookup-field {
   word-break: break-all;
 }
+.ui.form .ui.input.error input {
+  background-color: #FFF6F6;
+  border-color: #E0B4B4;
+  color: #9F3A38;
+  box-shadow: none;
+}
 /*!
  * # Semantic UI - Label
  * http://github.com/semantic-org/semantic-ui/
@@ -23257,6 +23263,11 @@ div.ui.secondary.menu.no-margin.nav-bar .right.menu {
 /*******************************
          Theme Overrides
 *******************************/
+.ui.form .flexberry-colsconfig .success.message,
+.ui.form .flexberry-colsconfig .warning.message,
+.ui.form .flexberry-colsconfig .error.message {
+  display: block;
+}
 /*!
  * # Semantic UI - Table
  * http://github.com/semantic-org/semantic-ui/
