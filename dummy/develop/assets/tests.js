@@ -3521,39 +3521,92 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-d
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-paging-dropdown-test.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-navigation-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data/utils/generate-unique-id'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryDataUtilsGenerateUniqueId) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-navigation-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data', 'ember-flexberry-data/utils/generate-unique-id'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData, _emberFlexberryDataUtilsGenerateUniqueId) {
 
-  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check paging nav', function (store, assert) {
-    assert.expect(7);
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check paging nav', function (store, assert, app) {
+    assert.expect(29);
     var path = 'components-acceptance-tests/flexberry-objectlistview/folv-paging';
     var modelName = 'ember-flexberry-dummy-suggestion-type';
     var uuid = (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+    var arr = undefined;
+    var last = undefined;
 
     // Add records for paging.
     _ember['default'].run(function () {
       (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.addRecords)(store, modelName, uuid).then(function (resolvedPromises) {
         assert.ok(resolvedPromises, 'All records saved.');
+        var done = assert.async();
+        var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionTypeE');
+        store.query(modelName, builder.build()).then(function (result) {
+          arr = result.toArray();
+        }).then(function () {
+          visit(path + '?perPage=1');
+          andThen(function () {
+            assert.equal(currentPath(), path);
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
 
-        visit(path);
-        andThen(function () {
-          assert.equal(currentPath(), path);
-
-          // check paging.
-          var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
-          assert.equal($($basicButtons[0]).hasClass('disabled'), true, 'button prev is disabled');
-          assert.equal($($basicButtons[1]).hasClass('active'), true, 'page 1 is active');
-
-          var done = assert.async();
-          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($basicButtons[2], '.object-list-view-container', 'table.object-list-view tbody tr').then(function ($list) {
-            assert.ok($list);
+            // check paging.
             var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
-            assert.equal($($basicButtons[1]).hasClass('active'), false, 'page 1 is not active');
-            assert.equal($($basicButtons[2]).hasClass('active'), true, 'page 2 is active');
-          })['catch'](function (reason) {
-            throw new Error(reason);
-          })['finally'](function () {
-            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.deleteRecords)(store, modelName, uuid, assert);
-            done();
+            last = arr.length;
+
+            assert.equal($($basicButtons[0]).hasClass('disabled'), true, 'button prev is disabled');
+            assert.equal($($basicButtons[1]).hasClass('active'), true, 'page 1 is active');
+            assert.equal($($basicButtons[1])[0].innerText, 1, '1st page is depicted');
+            assert.equal($($basicButtons[2])[0].innerText, 2, '2nd page is depicted');
+            assert.equal($($basicButtons[3])[0].innerText, 3, '3rd page is depicted');
+            assert.equal($($basicButtons[4])[0].innerText, 4, '4th page is depicted');
+            assert.equal($($basicButtons[5])[0].innerText, '...', '... page is depicted');
+            assert.equal($($basicButtons[6])[0].innerText, last, 'last page is depicted');
+
+            var done1 = assert.async();
+            var refreshFunction = function refreshFunction() {
+              var refreshButton = $basicButtons[4];
+              refreshButton.click();
+            };
+
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+              var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
+              assert.equal($($basicButtons[1]).hasClass('active'), false, 'page 1 is not active');
+              assert.equal($($basicButtons[4]).hasClass('active'), true, 'page 4 is active');
+              assert.equal($($basicButtons[1])[0].innerText, 1, '1st page is depicted');
+              assert.equal($($basicButtons[2])[0].innerText, '...', '... page is depicted');
+              assert.equal($($basicButtons[3])[0].innerText, 3, '3rd page is depicted');
+              assert.equal($($basicButtons[4])[0].innerText, 4, '4th page is depicted');
+              assert.equal($($basicButtons[5])[0].innerText, 5, '5th page is depicted');
+              assert.equal($($basicButtons[6])[0].innerText, '...', '... page is depicted');
+              assert.equal($($basicButtons[7])[0].innerText, last, 'last page is depicted');
+
+              var done2 = assert.async();
+              var refreshFunction = function refreshFunction() {
+                var refreshButton = $basicButtons[7];
+                refreshButton.click();
+              };
+
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
+                assert.equal($($basicButtons[4]).hasClass('active'), false, 'page 4 is not active');
+                assert.equal($($basicButtons[6]).hasClass('active'), true, 'last page is active');
+                assert.equal($($basicButtons[7]).hasClass('disabled'), true, 'button next is disabled');
+                assert.equal($($basicButtons[6])[0].innerText, last, 'last page is depicted');
+                assert.equal($($basicButtons[1])[0].innerText, 1, '1st page is depicted');
+                assert.equal($($basicButtons[2])[0].innerText, '...', '... page is depicted');
+                assert.equal($($basicButtons[3])[0].innerText, last - 3, 'n-3 page is depicted');
+                assert.equal($($basicButtons[4])[0].innerText, last - 2, 'n-2 page is depicted');
+                assert.equal($($basicButtons[5])[0].innerText, last - 1, 'n-1 page is depicted');
+                assert.equal($($basicButtons[6])[0].innerText, last, 'last page is depicted');
+              })['catch'](function (reason) {
+                throw new Error(reason);
+              })['finally'](function () {
+                (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.deleteRecords)(store, modelName, uuid, assert);
+                done2();
+                done();
+              });
+            })['catch'](function (reason) {
+              throw new Error(reason);
+            })['finally'](function () {
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.deleteRecords)(store, modelName, uuid, assert);
+              done1();
+            });
           });
         });
       });
