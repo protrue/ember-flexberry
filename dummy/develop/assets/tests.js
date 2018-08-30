@@ -6877,6 +6877,23 @@ define('dummy/tests/controllers/components-examples/flexberry-objectlistview/lim
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/limit-function-example.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/list-on-editform.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview');
+  test('controllers/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/list-on-editform.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/list-on-editform.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/list-on-editform.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -6943,6 +6960,23 @@ define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/on-edit-form');
+  test('controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-edit-form/user.jscs-test', ['exports'], function (exports) {
@@ -20349,6 +20383,23 @@ define('dummy/tests/routes/components-examples/flexberry-objectlistview/limit-fu
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/limit-function-example.js should pass jshint.');
   });
 });
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/list-on-editform.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview');
+  test('routes/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/list-on-editform.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/list-on-editform.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/list-on-editform.js should pass jshint.');
+  });
+});
 define('dummy/tests/routes/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -20415,6 +20466,23 @@ define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/on-edit-form');
+  test('routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-form/user.jscs-test', ['exports'], function (exports) {
