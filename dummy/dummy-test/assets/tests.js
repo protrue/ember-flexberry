@@ -679,6 +679,614 @@ define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedi
     });
   });
 });
+define('dummy/tests/acceptance/components/flexberry-lookup/change-component-lookup-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  var openLookupDialog = function openLookupDialog($lookup) {
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = void 0;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+
+      var timeout = 4000;
+
+      var $lookupChooseButton = Ember.$('.ui-change', $lookup);
+
+      // Try to open lookup dialog.
+      Ember.run(function () {
+        $lookupChooseButton.click();
+      });
+
+      // Wait for lookup dialog to be opened & data loaded.
+      Ember.run(function () {
+        checkIntervalId = window.setInterval(function () {
+          var $lookupDialog = Ember.$('.flexberry-modal');
+          var $records = Ember.$('.content table.object-list-view tbody tr', $lookupDialog);
+          if ($records.length === 0) {
+            // Data isn't loaded yet.
+            return;
+          }
+
+          // Data is loaded.
+          // Stop interval & resolve promise.
+          window.clearInterval(checkIntervalId);
+          checkIntervalSucceed = true;
+
+          resolve($lookupDialog);
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      Ember.run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('flexberry-lookup load data operation is timed out');
+        }, timeout);
+      });
+    });
+  };
+
+  var chooseRecordInLookupDialog = function chooseRecordInLookupDialog($lookupDialog, recordIndex) {
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = void 0;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+
+      var timeout = 4000;
+
+      var $records = Ember.$('.content table.object-list-view tbody tr', $lookupDialog);
+      var $choosedRecord = Ember.$($records[recordIndex]);
+
+      // Try to choose record in the lookup dialog.
+      Ember.run(function () {
+        // Inside object-list-views component click actions are available only if cell in row has been clicked.
+        // Click on whole row wont take an effect.
+        var $choosedRecordFirstCell = Ember.$(Ember.$('td', $choosedRecord)[1]);
+        $choosedRecordFirstCell.click();
+
+        // Click on modal-dialog close icon.
+        // Сrutch correcting irregular bug
+        var $modelDilogClose = Ember.$('.close.icon');
+        $modelDilogClose.click();
+      });
+
+      // Wait for lookup dialog to be closed.
+      Ember.run(function () {
+        checkIntervalId = window.setInterval(function () {
+          if (!$lookupDialog.hasClass('hidden')) {
+            // Dialog is still opened.
+            return;
+          }
+
+          // Dialog is closed.
+          // Stop interval & resolve promise.
+          window.clearInterval(checkIntervalId);
+          checkIntervalSucceed = true;
+
+          resolve();
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      Ember.run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('flexberry-lookup choose record operation is timed out');
+        }, timeout);
+      });
+    });
+  };
+
+  (0, _executeFlexberryLookupTest.executeTest)('changes in component\'s value causes changes in related model\'s specified \'belongsTo\' relation', function (store, assert, app, latestReceivedRecords) {
+    assert.expect(4);
+    visit('components-acceptance-tests/flexberry-lookup/base-operations');
+
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var model = Ember.get(controller, 'model');
+      var relationName = Ember.get(controller, 'relationName');
+      var displayAttributeName = Ember.get(controller, 'displayAttributeName');
+
+      var $lookup = Ember.$('.flexberry-lookup');
+      var $lookupInput = Ember.$('input', $lookup);
+      assert.strictEqual($lookupInput.val(), '', 'lookup display value is empty by default');
+
+      // Wait for lookup dialog to be opened, choose first record & check component's state.
+      var asyncOperationsCompleted = assert.async();
+      openLookupDialog($lookup).then(function ($lookupDialog) {
+        assert.ok($lookupDialog);
+
+        // Lookup dialog successfully opened & data is loaded.
+        // Try to choose first loaded record.
+        return chooseRecordInLookupDialog($lookupDialog, 0);
+      }).then(function () {
+        // First loaded record chosen successfully.
+        // Check that chosen record is now set to related model's 'belongsTo' relation.
+        var chosenRecord = model.get(relationName);
+        var expectedRecord = latestReceivedRecords[0];
+        assert.strictEqual(chosenRecord, expectedRecord, 'chosen record is set to model\'s \'' + relationName + '\' relation as expected');
+
+        var chosenRecordDisplayAttribute = chosenRecord.get(displayAttributeName);
+        assert.strictEqual($lookupInput.val(), chosenRecordDisplayAttribute, 'lookup display value is equals to chosen record\'s \'' + displayAttributeName + '\' attribute');
+      }).catch(function (reason) {
+        throw new Error(reason);
+      }).finally(function () {
+        asyncOperationsCompleted();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/change-model-lookup-test', ['ember-flexberry-data/query/builder', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_builder, _executeFlexberryLookupTest) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('changes in model\'s value causes changes in component\'s specified \'belongsTo\' model', function (store, assert, app) {
+    assert.expect(2);
+    visit('components-acceptance-tests/flexberry-lookup/base-operations');
+    andThen(function () {
+
+      var $lookup = Ember.$('.flexberry-lookup');
+      var $lookupInput = Ember.$('input', $lookup);
+      assert.strictEqual($lookupInput.val() === '', true, 'lookup display value is empty by default');
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var model = Ember.get(controller, 'model');
+      var store = app.__container__.lookup('service:store');
+      var suggestionType = void 0;
+
+      // Create limit for query.
+      var query = new _builder.default(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView');
+
+      // Load olv data.
+      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
+
+        var suggestionTypesArr = suggestionTypes.toArray();
+
+        suggestionType = suggestionTypesArr.objectAt(0);
+      }).then(function () {
+
+        // Change data in the model.
+        model.set('type', suggestionType);
+
+        var done = assert.async();
+
+        setTimeout(function () {
+          $lookupInput = Ember.$('input', $lookup);
+          assert.strictEqual($lookupInput.val() === suggestionType.get('name'), true, 'lookup display value isn\'t empty');
+          done();
+        }, 100);
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test', ['exports', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _qunit, _startApp) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.executeTest = executeTest;
+  function executeTest(testName, callback) {
+    var app = void 0;
+    var store = void 0;
+    var latestReceivedRecords = Ember.A();
+
+    (0, _qunit.module)('Acceptance | flexberry-lookup-base |' + testName, {
+      beforeEach: function beforeEach() {
+
+        // Start application.
+        app = (0, _startApp.default)();
+
+        // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+        var applicationController = app.__container__.lookup('controller:application');
+        applicationController.set('isInAcceptanceTestMode', true);
+
+        // Override store.query method to receive & remember records which will be requested by lookup dialog.
+        var store = app.__container__.lookup('service:store');
+        var originalQueryMethod = store.query;
+        store.query = function () {
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          // Call original method & remember returned records.
+          return originalQueryMethod.apply(this, args).then(function (records) {
+            latestReceivedRecords.clear();
+            latestReceivedRecords.addObjects(records.toArray());
+
+            return records;
+          });
+        };
+      },
+      afterEach: function afterEach() {
+        // Remove semantic ui modal dialog's dimmer.
+        Ember.$('body .ui.dimmer.modals').remove();
+
+        // Destroy application.
+        Ember.run(app, 'destroy');
+      }
+    });
+
+    (0, _qunit.test)(testName, function (assert) {
+      return callback(store, assert, app, latestReceivedRecords);
+    });
+  }
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-actions-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup actions test', function (store, assert, app) {
+    assert.expect(5);
+
+    var controller = app.__container__.lookup('controller:components-acceptance-tests/flexberry-lookup/settings-example-actions');
+
+    // Remap remove action.
+    var $onRemoveData = void 0;
+    Ember.set(controller, 'actions.externalRemoveAction', function (actual) {
+      $onRemoveData = actual;
+      assert.notEqual($onRemoveData, undefined, 'Component sends \'remove\' action after first click');
+      assert.strictEqual($onRemoveData.relationName, 'type', 'Component sends \'remove\' with actual relationName');
+    });
+
+    // Remap chose action.
+    var $onChooseData = void 0;
+    Ember.set(controller, 'actions.externalChooseAction', function (actual) {
+      $onChooseData = actual;
+      assert.notEqual($onChooseData, undefined, 'Component sends \'choose\' action after first click');
+      assert.strictEqual($onChooseData.componentName, 'flexberry-lookup', 'Component sends \'choose\' with actual componentName');
+      assert.strictEqual($onChooseData.projection, 'SettingLookupExampleView', 'Component sends \'choose\' with actual projection');
+    });
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-actions');
+    andThen(function () {
+      var $lookupButtouChoose = Ember.$('.ui-change');
+      var $lookupButtouRemove = Ember.$('.ui-clear');
+
+      Ember.run(function () {
+        $lookupButtouChoose.click();
+        $lookupButtouRemove.click();
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test', 'dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions', '@ember/test-helpers'], function (_executeFlexberryLookupTest, _lookupTestFunctions, _testHelpers) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup autocomplete message en', function (store, assert, app) {
+    assert.expect(4);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      (0, _lookupTestFunctions.loadingLocales)('en', app).then(function () {
+        var textbox = Ember.$('.ember-text-field')[0];
+        (0, _testHelpers.fillIn)(textbox, 'gfhfkjglkhlh');
+      });
+
+      var asyncOperationsCompleted = assert.async();
+      Ember.run.later(function () {
+        asyncOperationsCompleted();
+
+        var $message = Ember.$('.message');
+        assert.strictEqual($message.hasClass('empty'), true, 'Component\'s wrapper has message');
+
+        var $messageHeader = $message.children('.header');
+        assert.equal($messageHeader.text(), 'No results', 'Message\'s header is properly');
+
+        var $messageDescription = $message.children('.description');
+        assert.equal($messageDescription.text(), 'No results found', 'Message\'s description is properly');
+      }, 5000);
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test', 'dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions', '@ember/test-helpers'], function (_executeFlexberryLookupTest, _lookupTestFunctions, _testHelpers) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup autocomplete message ru', function (store, assert, app) {
+    assert.expect(4);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      (0, _lookupTestFunctions.loadingLocales)('ru', app).then(function () {
+        var textbox = Ember.$('.ember-text-field')[0];
+        (0, _testHelpers.fillIn)(textbox, 'gfhfkjglkhlh');
+      });
+
+      var asyncOperationsCompleted = assert.async();
+      Ember.run.later(function () {
+        asyncOperationsCompleted();
+
+        var $message = Ember.$('.message');
+        assert.strictEqual($message.hasClass('empty'), true, 'Component\'s wrapper has message');
+
+        var $messageHeader = $message.children('.header');
+        assert.equal($messageHeader.text(), 'Нет данных', 'Message\'s header is properly');
+
+        var $messageDescription = $message.children('.description');
+        assert.equal($messageDescription.text(), 'Значения не найдены', 'Message\'s description is properly');
+      }, 5000);
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test', ['ember-flexberry-data/query/builder', 'ember-flexberry-data/query/predicate', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_builder, _predicate, _executeFlexberryLookupTest) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup limit function test', function (store, assert, app) {
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
+
+    andThen(function () {
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-limit-function');
+
+      var $limitFunctionButton = Ember.$('.limitFunction');
+      var $lookupChouseButton = Ember.$('.ui-change');
+
+      Ember.run(function () {
+        $limitFunctionButton.click();
+        $lookupChouseButton.click();
+      });
+
+      var store = app.__container__.lookup('service:store');
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var limitType = controller.limitType;
+      var queryPredicate = new _predicate.StringPredicate('name').contains(limitType);
+
+      // Create limit for query.
+      var query = new _builder.default(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SettingLookupExampleView').where(queryPredicate);
+
+      // Load olv data.
+      store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
+
+        var suggestionTypesArr = suggestionTypes.toArray();
+        var suggestionModelLength = suggestionTypesArr.length;
+
+        var done = assert.async();
+
+        Ember.run(function () {
+          setTimeout(function () {
+            var $lookupSearch = Ember.$('.content table.object-list-view');
+            var $lookupSearchThead = $lookupSearch.children('tbody');
+            var $lookupSearchTr = $lookupSearchThead.children('tr');
+            var $lookupRows = $lookupSearchTr.children('td');
+            var $suggestionTableLength = $lookupSearchTr.length;
+
+            assert.expect(2 + $suggestionTableLength);
+
+            assert.strictEqual(suggestionModelLength >= $suggestionTableLength, true, 'Сorrect number of values restrictions limiting function');
+
+            // Сomparison data in the model and olv table.
+            for (var i = 0; i < $suggestionTableLength; i++) {
+              var suggestionType = suggestionTypesArr.objectAt(i);
+              var suggestionTypeName = suggestionType.get('name');
+
+              var $cell = Ember.$($lookupRows[3 * i + 1]);
+              var $cellDiv = $cell.children('div');
+              var $cellText = $cellDiv.text().trim();
+
+              assert.strictEqual(suggestionTypeName === $cellText, true, 'Сorrect data at lookup\'s olv');
+            }
+
+            done();
+          }, 2000);
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-projection-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  /* eslint-disable no-unused-vars */
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup projection test', function (store, assert, app) {
+    /* eslint-enable no-unused-vars */
+
+    assert.expect(2);
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-projection');
+
+    andThen(function () {
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-projection');
+
+      var $lookupButtouChoose = Ember.$('.ui-change');
+
+      // Click choose button.
+      Ember.run(function () {
+        $lookupButtouChoose.click();
+      });
+
+      Ember.run(function () {
+        var done = assert.async();
+        setTimeout(function () {
+
+          var $lookupSearch = Ember.$('.content table.object-list-view');
+          var $lookupSearchThead = $lookupSearch.children('thead');
+          var $lookupSearchTr = $lookupSearchThead.children('tr');
+          var $lookupHeaders = $lookupSearchTr.children('th');
+
+          // Check count at table header.
+          assert.strictEqual($lookupHeaders.length === 3, true, 'Component has SuggestionTypeE projection');
+
+          done();
+        }, 1000);
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup relation name test', function (store, assert, app) {
+    assert.expect(1);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-relation-name');
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var relationName = Ember.get(controller, 'relationName');
+      assert.strictEqual(relationName, 'Temp relation name', 'relationName: \'' + relationName + '\' as expected');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/lookup-test-functions', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.loadingList = loadingList;
+  exports.loadingLocales = loadingLocales;
+
+
+  // Function for waiting list loading.
+  function loadingList($ctrlForClick, list, records) {
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var checkIntervalId = void 0;
+      var checkIntervalSucceed = false;
+      var checkInterval = 500;
+      var timeout = 10000;
+
+      Ember.run(function () {
+        $ctrlForClick.click();
+      });
+
+      Ember.run(function () {
+        checkIntervalId = window.setInterval(function () {
+          var $list = Ember.$(list);
+          var $records = Ember.$(records, $list);
+          if ($records.length === 0) {
+
+            // Data isn't loaded yet.
+            return;
+          }
+
+          // Data is loaded.
+          // Stop interval & resolve promise.
+          window.clearInterval(checkIntervalId);
+          checkIntervalSucceed = true;
+          resolve($list);
+        }, checkInterval);
+      });
+
+      // Set wait timeout.
+      Ember.run(function () {
+        window.setTimeout(function () {
+          if (checkIntervalSucceed) {
+            return;
+          }
+
+          // Time is out.
+          // Stop intervals & reject promise.
+          window.clearInterval(checkIntervalId);
+          reject('editForm load operation is timed out');
+        }, timeout);
+      });
+    });
+  }
+
+  // Function for waiting loading list.
+  function loadingLocales(locale, app) {
+    return new Ember.RSVP.Promise(function (resolve) {
+      var i18n = app.__container__.lookup('service:i18n');
+
+      Ember.run(function () {
+        i18n.set('locale', locale);
+      });
+
+      var timeout = 500;
+      Ember.run.later(function () {
+        resolve({ msg: 'ok' });
+      }, timeout);
+    });
+  }
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  /* eslint-disable no-unused-vars */
+  (0, _executeFlexberryLookupTest.executeTest)('visiting flexberry-lookup autocomplete', function (store, assert, app) {
+    /* eslint-enable no-unused-vars */
+    assert.expect(5);
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
+
+    andThen(function () {
+
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
+
+      var $lookup = Ember.$('.flexberry-lookup');
+
+      assert.strictEqual($lookup.hasClass('ui'), true, 'Component\'s wrapper has \'ui\' css-class');
+      assert.strictEqual($lookup.hasClass('search'), true, 'Component\'s wrapper has \'search\' css-class');
+
+      var $lookupField = Ember.$('.lookup-field');
+
+      assert.strictEqual($lookupField.hasClass('prompt'), true, 'Component\'s wrapper has \'prompt\' css-class');
+
+      var $result = Ember.$('.result');
+
+      assert.strictEqual($result.length === 1, true, 'Component has inner class \'result\'');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  /* eslint-disable no-unused-vars */
+  (0, _executeFlexberryLookupTest.executeTest)('visiting flexberry-lookup dropdown', function (store, assert, app) {
+    /* eslint-enable no-unused-vars */
+    assert.expect(13);
+
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-dropdown');
+
+    andThen(function () {
+
+      assert.equal(currentURL(), 'components-acceptance-tests/flexberry-lookup/settings-example-dropdown');
+
+      // Retrieve component, it's inner <input>.
+      var $lookupSearch = Ember.$('.lookup-field');
+      var $lookupButtonChoose = Ember.$('.ui-change');
+      var $lookupButtonClear = Ember.$('.lookup-remove-button');
+
+      assert.strictEqual($lookupSearch.length === 0, true, 'Component has n\'t flexberry-lookup');
+      assert.strictEqual($lookupButtonChoose.length === 0, true, 'Component has n\'t button choose');
+      assert.strictEqual($lookupButtonClear.length === 0, true, 'Component has n\'t button remove');
+
+      // Retrieve component, it's inner <input>.
+      var $dropdown = Ember.$('.flexberry-dropdown.search.selection');
+      var $dropdownSearch = $dropdown.children('.search');
+      var $dropdownIcon = $dropdown.children('.dropdown.icon');
+      var $dropdownMenu = $dropdown.children('.menu');
+      var $deopdownText = $dropdown.children('.text');
+
+      assert.strictEqual($dropdown.length === 1, true, 'Component has class flexberry-dropdown');
+      assert.strictEqual($dropdown.hasClass('search'), true, 'Component\'s wrapper has \'search\' css-class');
+      assert.strictEqual($dropdown.hasClass('selection'), true, 'Component\'s wrapper has \'selection\' css-class');
+      assert.strictEqual($dropdown.hasClass('ember-view'), true, 'Component\'s wrapper has \'ember-view\' css-class');
+      assert.strictEqual($dropdown.hasClass('dropdown'), true, 'Component\'s wrapper has \'dropdown\' css-class');
+
+      assert.strictEqual($dropdownSearch.length === 1, true, 'Component has class search');
+
+      assert.strictEqual($dropdownIcon.length === 1, true, 'Component has class dropdown and icon');
+
+      assert.strictEqual($deopdownText.length === 1, true, 'Component has class text');
+
+      assert.strictEqual($dropdownMenu.length === 1, true, 'Component has class menu');
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-objectlistview/checkbox-at-editform-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (_executeFolvTest, _folvTestsFunctions) {
   'use strict';
 
@@ -721,8 +1329,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-
     value: true
   });
   exports.executeTest = executeTest;
+  exports.addDataForDestroy = addDataForDestroy;
+
+
+  var dataForDestroy = Ember.A();
+  var app = void 0;
+
   function executeTest(testName, callback) {
-    var app = void 0;
     var store = void 0;
     var userSettingsService = void 0;
 
@@ -749,7 +1362,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-
         });
       },
       afterEach: function afterEach() {
-        Ember.run(app, 'destroy');
+        Ember.run(function () {
+          if (dataForDestroy.length !== 0) {
+            recursionDelete(0);
+          } else {
+            Ember.run(app, 'destroy');
+          }
+        });
       }
     });
 
@@ -757,8 +1376,39 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-
       return callback(store, assert, app);
     });
   }
+
+  /**
+    Function to delete data after testing.
+  
+    @public
+    @method addDataForDestroy
+    @param {Object} data  or array of Object.
+   */
+
+  function addDataForDestroy(data) {
+    if (Ember.isArray(data)) {
+      dataForDestroy.addObjects(data);
+    } else {
+      dataForDestroy.addObject(data);
+    }
+  }
+
+  function recursionDelete(index) {
+    if (index < dataForDestroy.length) {
+      if (!dataForDestroy[index].currentState.isDeleted) {
+        dataForDestroy[index].destroyRecord().then(function () {
+          recursionDelete(index + 1);
+        });
+      } else {
+        recursionDelete(index + 1);
+      }
+    } else {
+      dataForDestroy.clear();
+      Ember.run(app, 'destroy');
+    }
+  }
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-empty-filter-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _folvTestsFunctions, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-empty-filter-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (_executeFolvTest, _folvTestsFunctions) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check empty filter', function (store, assert, app) {
@@ -767,34 +1417,25 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
     var modelName = 'ember-flexberry-dummy-suggestion';
     var filtreInsertOperation = 'empty';
     var filtreInsertParametr = '';
+    var user = void 0;
+    var type = void 0;
+    var suggestion = void 0;
     Ember.run(function () {
-      var builder = new _builder.default(store).from(modelName).selectByProjection('SuggestionL').where('address', _filterOperator.default.Eq, '');
-      store.query(modelName, builder.build()).then(function (result) {
-        var arr = result.toArray();
+      var newRecords = Ember.A();
+      user = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-application-user', { name: 'Random name fot empty filther test',
+        eMail: 'Random eMail fot empty filther test' }));
+      type = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-suggestion-type', { name: 'Random name fot empty filther test' }));
 
-        // Add an object with an empty address, if it is not present.
-        if (arr.length === 0) {
-          var newRecords = Ember.A();
-          var user = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-application-user', { name: 'Random name fot empty filther test',
-            eMail: 'Random eMail fot empty filther test' }));
-          var type = newRecords.pushObject(store.createRecord('ember-flexberry-dummy-suggestion-type', { name: 'Random name fot empty filther test' }));
-
-          newRecords.forEach(function (item) {
-            item.save();
+      type.save().then(function () {
+        user.save().then(function () {
+          Ember.run(function () {
+            suggestion = newRecords.pushObject(store.createRecord(modelName, { type: type, author: user, editor1: user }));
+            suggestion.save();
+            (0, _executeFolvTest.addDataForDestroy)(suggestion);
+            (0, _executeFolvTest.addDataForDestroy)(type);
+            (0, _executeFolvTest.addDataForDestroy)(user);
           });
-
-          var done = assert.async();
-          window.setTimeout(function () {
-            Ember.run(function () {
-              newRecords = Ember.A();
-              newRecords.pushObject(store.createRecord(modelName, { type: type, author: user, editor1: user }));
-              newRecords.forEach(function (item) {
-                item.save();
-              });
-            });
-            done();
-          }, 1000);
-        }
+        });
       });
 
       visit(path + '?perPage=500');
@@ -831,7 +1472,14 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
 
             assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
             assert.equal(successful, true, 'Filter successfully worked');
-            done1();
+          }).finally(function () {
+            newRecords[2].destroyRecord().then(function () {
+              Ember.run(function () {
+                newRecords[0].destroyRecord();
+                newRecords[1].destroyRecord();
+                done1();
+              });
+            });
           });
         });
       });
@@ -1582,7 +2230,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
   'use strict';
 
   (0, _executeFolvTest.executeTest)('date format moment L', function (store, assert, app) {
-    assert.expect(7);
+    assert.expect(5);
     var done = assert.async();
     var path = 'components-acceptance-tests/flexberry-objectlistview/base-operations';
     visit(path);
@@ -1591,16 +2239,19 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
       (0, _folvTestsFunctions.loadingLocales)('ru', app).then(function () {
 
         var olvContainerClass = '.object-list-view-container';
-        var trTableClass = 'table.object-list-view tbody tr';
 
         var $toolBar = Ember.$('.ui.secondary.menu')[0];
         var $toolBarButtons = $toolBar.children;
         var $refreshButton = $toolBarButtons[0];
         assert.equal($refreshButton.innerText.trim(), Ember.get(_translations.default, 'components.olv-toolbar.refresh-button-text'), 'button refresh exist');
 
-        (0, _folvTestsFunctions.loadingList)($refreshButton, olvContainerClass, trTableClass).then(function ($list) {
-          assert.ok($list, 'list loaded');
+        var controller = app.__container__.lookup('controller:' + currentRouteName());
+        var refreshFunction = function refreshFunction() {
+          var refreshButton = Ember.$('.refresh-button')[0];
+          refreshButton.click();
+        };
 
+        (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
           var moment = app.__container__.lookup('service:moment');
           var momentValue = Ember.get(moment, 'defaultFormat');
 
@@ -1639,9 +2290,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
           (0, _folvTestsFunctions.loadingLocales)('en', app).then(function () {
 
             var done1 = assert.async();
-            (0, _folvTestsFunctions.loadingList)($refreshButton, olvContainerClass, trTableClass).then(function ($list) {
-              assert.ok($list, 'list loaded');
-
+            (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
               // Date format most be MM/DD/YYYY:
               var dateFormatEnRe = /(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d/;
               var dataCellStr = $dateCell();
@@ -1663,7 +2312,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-date-for
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-cancel-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', '@ember/test-helpers'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator, _testHelpers) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check delete before record data cancel test', function (store, assert, app) {
@@ -1673,12 +2322,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     var howAddRec = 1;
     var uuid = '0' + (0, _generateUniqueId.default)();
 
-    // Add records for deliting.
+    // Add records for deleting.
     Ember.run(function () {
       var newRecord = store.createRecord(modelName, { name: uuid });
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -1704,37 +2354,43 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
-                $deleteBtnInRow.click();
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
+                clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records wasn't remove in beforeDeleteRecord.
-            var controller = app.__container__.lookup('controller:' + currentRouteName());
-            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
-
-            // Check that the records have been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records have been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records wasn't remove in beforeDeleteRecord.
+              var controller = app.__container__.lookup('controller:' + currentRouteName());
+              assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+              // Check that the records have been removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' wasn\'t deleted with button in row');
+
+              // Check that the records hadn't removed from store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                }).finally(function () {
+                  newRecord.destroyRecord();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -1743,7 +2399,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-data-immediately-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', '@ember/test-helpers'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator, _testHelpers) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check delete before record data immediately test', function (store, assert, app) {
@@ -1753,12 +2409,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     var howAddRec = 1;
     var uuid = '0' + (0, _generateUniqueId.default)();
 
-    // Add records for deliting.
+    // Add record for deleting.
     Ember.run(function () {
       var newRecord = store.createRecord(modelName, { name: uuid });
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -1774,7 +2431,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
               return Ember.$(trTableClass, $folvContainer).toArray();
             };
 
-            // Check that the records have been added.
+            // Check that the record have been added.
             var recordIsForDeleting = $rows().reduce(function (sum, element) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               var flag = nameRecord.indexOf(uuid) >= 0;
@@ -1784,37 +2441,43 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
-                $deleteBtnInRow.click();
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
+                clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records wasn't remove in beforeDeleteRecord.
-            var controller = app.__container__.lookup('controller:' + currentRouteName());
-            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
-
-            // Check that the records haven't been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records have been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records wasn't removed in beforeDeleteRecord.
+              var controller = app.__container__.lookup('controller:' + currentRouteName());
+              assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+              // Check if the records haven't been removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' was deleted with button in row');
+
+              // Check that the records have been removed from store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                }).finally(function () {
+                  newRecord.destroyRecord();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -1823,7 +2486,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', '@ember/test-helpers'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator, _testHelpers) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check delete before record test', function (store, assert, app) {
@@ -1839,6 +2502,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -1864,37 +2528,41 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
-                $deleteBtnInRow.click();
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
+                clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records wasn't remove in beforeDeleteRecord.
-            var controller = app.__container__.lookup('controller:' + currentRouteName());
-            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
-
-            // Check that the records have been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records have been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records wasn't remove in beforeDeleteRecord.
+              var controller = app.__container__.lookup('controller:' + currentRouteName());
+              assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+              // Check that the records have been removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+              // Check that the records had been removed from store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -1903,7 +2571,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-cancel-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', '@ember/test-helpers'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator, _testHelpers) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check delete before record with promise data cancel test', function (store, assert, app) {
@@ -1919,6 +2587,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -1944,37 +2613,43 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
-                $deleteBtnInRow.click();
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
+                clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records wasn't remove in beforeDeleteRecord.
-            var controller = app.__container__.lookup('controller:' + currentRouteName());
-            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
-
-            // Check that the records haven't been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records haven't been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records wasn't remove in beforeDeleteRecord.
+              var controller = app.__container__.lookup('controller:' + currentRouteName());
+              assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+              // Check if the records wasn't removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.notOk(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+              // Check that the records haven't been removed from store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                }).finally(function () {
+                  newRecord.destroyRecord();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -1983,7 +2658,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-data-immediately-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', '@ember/test-helpers'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator, _testHelpers) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check delete before record with promise data immediately test', function (store, assert, app) {
@@ -1999,6 +2674,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2024,37 +2700,43 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
-                $deleteBtnInRow.click();
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
+                clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records wasn't remove in beforeDeleteRecord.
-            var controller = app.__container__.lookup('controller:' + currentRouteName());
-            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
-
-            // Check that the records haven't been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records have been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records wasn't remove in beforeDeleteRecord.
+              var controller = app.__container__.lookup('controller:' + currentRouteName());
+              assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+              // Check if the records wasn't removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+              // Check that the records have been removed from store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.ok(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                }).finally(function () {
+                  newRecord.destroyRecord();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -2063,7 +2745,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-before-recoed-with-promise-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', '@ember/test-helpers'], function (_executeFolvTest, _generateUniqueId, _builder, _filterOperator, _testHelpers) {
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check delete before record with promise test', function (store, assert, app) {
@@ -2079,6 +2761,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2104,37 +2787,41 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting > 0, true, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
-                $deleteBtnInRow.click();
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
+                clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records wasn't remove in beforeDeleteRecord.
-            var controller = app.__container__.lookup('controller:' + currentRouteName());
-            assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
-
-            // Check that the records haven't been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records haven't been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records wasn't remove in beforeDeleteRecord.
+              var controller = app.__container__.lookup('controller:' + currentRouteName());
+              assert.ok(controller.recordWasNotDelete, 'Records wasn\'t remove in beforeDeleteRecord');
+
+              // Check that the records haven't been removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+              // Check that the records haven't been removed into store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -2143,7 +2830,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-button-in-row-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', 'ember-flexberry-data/query/filter-operator', 'ember-flexberry-data/query/builder'], function (_executeFolvTest, _generateUniqueId, _filterOperator, _builder) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-button-in-row-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'ember-flexberry-data/utils/generate-unique-id', '@ember/test-helpers', 'ember-flexberry-data/query/filter-operator', 'ember-flexberry-data/query/builder'], function (_executeFolvTest, _generateUniqueId, _testHelpers, _filterOperator, _builder) {
   'use strict';
 
   /* eslint-disable no-unused-vars */
@@ -2160,6 +2847,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       var done1 = assert.async();
 
       newRecord.save().then(function () {
+        (0, _executeFolvTest.addDataForDestroy)(newRecord);
         var builder = new _builder.default(store).from(modelName).count();
         var done = assert.async();
         store.query(modelName, builder.build()).then(function (result) {
@@ -2185,35 +2873,39 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
             assert.equal(recordIsForDeleting, howAddRec, howAddRec + ' record added');
 
             /* eslint-disable no-unused-vars */
+            var clickPromises = [];
             $rows().forEach(function (element, i, arr) {
               var nameRecord = Ember.$.trim(element.children[1].innerText);
               if (nameRecord.indexOf(uuid) >= 0) {
-                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element);
+                var $deleteBtnInRow = Ember.$('.object-list-view-row-delete-button', element)[0];
                 Ember.run(function () {
-                  $deleteBtnInRow.click();
+                  clickPromises.push((0, _testHelpers.click)($deleteBtnInRow));
                 });
               }
             });
             /* eslint-enable no-unused-vars */
 
-            // Check that the records have been removed.
-            var recordsIsDeleteBtnInRow = $rows().every(function (element) {
-              var nameRecord = Ember.$.trim(element.children[1].innerText);
-              return nameRecord.indexOf(uuid) < 0;
-            });
-
-            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-            // Check that the records have been removed into store.
-            var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
-            var timeout = 500;
-            Ember.run.later(function () {
+            Promise.all(clickPromises).then(function () {
               var done2 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
-                done2();
+
+              // Check that the records have been removed.
+              var recordsIsDeleteBtnInRow = $rows().every(function (element) {
+                var nameRecord = Ember.$.trim(element.children[1].innerText);
+                return nameRecord.indexOf(uuid) < 0;
               });
-            }, timeout);
+
+              assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+              // Check that the records have been removed into store.
+              var builder2 = new _builder.default(store, modelName).where('name', _filterOperator.default.Eq, uuid).count();
+              var timeout = 500;
+              Ember.run.later(function () {
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                  done2();
+                });
+              }, timeout);
+            });
           });
           done();
         });
@@ -2248,6 +2940,8 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
       newRecords.forEach(function (item) {
         promises.push(item.save());
       });
+
+      (0, _executeFolvTest.addDataForDestroy)(newRecords);
 
       Ember.RSVP.Promise.all(promises).then(function (resolvedPromises) {
         assert.ok(resolvedPromises, 'All records saved.');
@@ -2357,6 +3051,41 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-edit-but
     });
   });
   /* eslint-enable no-unused-vars */
+});
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-from-edit-form-with-queryparams-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions'], function (_executeFolvTest, _folvTestsFunctions) {
+  'use strict';
+
+  (0, _executeFolvTest.executeTest)('check return from editForm with queryParam', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-list?perPage=5';
+    visit(path);
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+      // Open editFirn function.
+      var openEditFormFunction = function openEditFormFunction() {
+        var editButtonInRow = Ember.$('.object-list-view-row-edit-button')[0];
+        editButtonInRow.click();
+      };
+
+      // Return to listform  function.
+      var returnToListFormFunction = function returnToListFormFunction() {
+        var returnToListFormButton = Ember.$('.return-to-list-form')[0];
+        returnToListFormButton.click();
+      };
+
+      // Open editform.
+      var done = assert.async();
+      (0, _folvTestsFunctions.openEditFormByFunction)(openEditFormFunction).then(function () {
+        assert.ok(true, 'edit form open');
+
+        (0, _folvTestsFunctions.refreshListByFunction)(returnToListFormFunction, controller).then(function () {
+          assert.equal(controller.model.content.length, 1, 'QueryParams applied successfully');
+          done();
+        });
+      });
+    });
+  });
 });
 define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-getCellComponent-test', ['dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry/locales/en/translations'], function (_executeFolvTest, _folvTestsFunctions, _translations) {
   'use strict';
@@ -2902,12 +3631,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
               (0, _folvTestsFunctions.checkSortingList)(store, projectionName, $olv, 'address asc').then(function (isTrue) {
                 assert.ok(isTrue, 'sorting applied');
 
-                var $clearButton = Ember.$('.clear-sorting-button');
-                $clearButton.click();
-
                 var done3 = assert.async();
+                var refreshFunction2 = function refreshFunction2() {
+                  var $clearButton = Ember.$('.clear-sorting-button');
+                  $clearButton.click();
+                };
 
-                window.setTimeout(function () {
+                (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction2, controller).then(function () {
                   var $thead = Ember.$('th.dt-head-left', $olv)[0];
                   var $ord = Ember.$('.object-list-view-order-icon', $thead);
                   var $divOrd = Ember.$('div', $ord);
@@ -2916,7 +3646,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-sorting-
                   assert.equal(Ember.$.trim($divOrd.text()), '', 'sorting symbol delete');
 
                   done3();
-                }, 3000);
+                });
                 done2();
               });
               done1();
@@ -3142,7 +3872,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
           // Time is out.
           // Stop intervals & reject promise.
           window.clearInterval(checkIntervalId);
-          reject('editForm load operation is timed out');
+          reject('ListForm load operation is timed out');
         }, timeout);
       });
     });
@@ -3227,6 +3957,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       var checkInterval = 500;
       var renderInterval = 100;
       var timeout = 10000;
+      var timeiutForLongTimeLoad = checkInterval + 500;
 
       var $lastLoadCount = controller.loadCount;
       refreshFunction();
@@ -3253,14 +3984,17 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       // Set wait timeout.
       Ember.run(function () {
         window.setTimeout(function () {
-          if (checkIntervalSucceed) {
-            return;
-          }
+          // Timeout for with a long load, setInterval executed first.
+          window.setTimeout(function () {
+            if (checkIntervalSucceed) {
+              return;
+            }
 
-          // Time is out.
-          // Stop intervals & reject promise.
-          window.clearInterval(checkIntervalId);
-          reject('editForm load operation is timed out');
+            // Time is out.
+            // Stop intervals & reject promise.
+            window.clearInterval(checkIntervalId);
+            reject('ListForm load operation is timed out');
+          }, timeiutForLongTimeLoad);
         }, timeout);
       });
     });
@@ -3470,28 +4204,27 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-wrapper-
       (0, _folvTestsFunctions.checkSortingList)(store, projectionName(), $olv, orderByClause).then(function (isTrue) {
         assert.ok(isTrue, 'records are displayed correctly');
         done();
-      });
+      }).then(function () {
+        (0, _folvTestsFunctions.loadingLocales)('en', app).then(function () {
 
-      (0, _folvTestsFunctions.loadingLocales)('en', app).then(function () {
+          // Check projectionName.
+          var attrs = projectionName().attributes;
+          var flag = true;
+          /* eslint-disable no-unused-vars */
+          Object.keys(attrs).forEach(function (element, index, array) {
+            if (attrs[element].kind !== 'hasMany') {
+              flag = flag && Ember.$.trim(dtHeadTable[index].innerText) === attrs[element].caption;
+            }
+          });
+          /* eslint-enable no-unused-vars */
+          assert.ok(flag, 'projection = columns names');
 
-        // Check projectionName.
-        var attrs = projectionName().attributes;
-        var flag = true;
+          var newProjectionName = 'SettingLookupExampleView';
+          controller.set('modelProjection', newProjectionName);
 
-        /* eslint-disable no-unused-vars */
-        Object.keys(attrs).forEach(function (element, index, array) {
-          if (attrs[element].kind !== 'hasMany') {
-            flag = flag && Ember.$.trim(dtHeadTable[index].innerText) === attrs[element].caption;
-          }
+          // get(controller, 'modelProjection') returns only the name of the projection when it replaced.
+          assert.equal(projectionName(), newProjectionName, 'projection name is changed');
         });
-        /* eslint-enable no-unused-vars */
-        assert.ok(flag, 'projection = columns names');
-
-        var newProjectionName = 'SettingLookupExampleView';
-        controller.set('modelProjection', newProjectionName);
-
-        // get(controller, 'modelProjection') returns only the name of the projection when it replaced.
-        assert.equal(projectionName(), newProjectionName, 'projection name is changed');
       });
     });
   });
@@ -4082,7 +4815,7 @@ define('dummy/tests/acceptance/edit-form-validation-test/validation-lookup-test'
   });
   /* eslint-enable no-unused-vars */
 });
-define('dummy/tests/acceptance/edit-form-validation-test/validation-test', ['dummy/tests/acceptance/edit-form-validation-test/execute-validation-test'], function (_executeValidationTest) {
+define('dummy/tests/acceptance/edit-form-validation-test/validation-test', ['dummy/tests/acceptance/edit-form-validation-test/execute-validation-test', '@ember/test-helpers'], function (_executeValidationTest, _testHelpers) {
   'use strict';
 
   /* eslint-disable no-unused-vars */
@@ -4103,11 +4836,10 @@ define('dummy/tests/acceptance/edit-form-validation-test/validation-test', ['dum
       Ember.run(function () {
         // Open datepicker calendar.
         Ember.$($validationDataInput[0]).click();
-        var $validationDateButton = Ember.$('.flatpickr-day');
-        $validationDateButton = Ember.$($validationDateButton[16]);
+        var $validationDateButton = Ember.$('.flatpickr-day')[16];
 
         // Select date.
-        $validationDateButton.click();
+        (0, _testHelpers.click)($validationDateButton);
       });
 
       var $validationFlexberryLookup = Ember.$('.flexberry-lookup');
@@ -4548,7 +5280,7 @@ define('dummy/tests/app.lint-test', [], function () {
 
   QUnit.test('controllers/components-examples/flexberry-lookup/dropdown-mode-example.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/components-examples/flexberry-lookup/dropdown-mode-example.js should pass ESLint\n\n1:10 - \'computed\' is defined but never used. (no-unused-vars)\n3:10 - \'StringPredicate\' is defined but never used. (no-unused-vars)');
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/dropdown-mode-example.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/components-examples/flexberry-lookup/hierarchy-olv-in-lookup-example.js', function (assert) {
@@ -4736,6 +5468,16 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form/user.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-edit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-edit.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-list.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/components-examples/flexberry-objectlistview/selected-rows.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/selected-rows.js should pass ESLint\n\n');
@@ -4769,6 +5511,11 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('controllers/components-examples/flexberry-toggler/ge-into-toggler-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-toggler/ge-into-toggler-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-toggler/settings-example-inner.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-toggler/settings-example-inner.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/components-examples/flexberry-toggler/settings-example.js', function (assert) {
@@ -5541,6 +6288,16 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form/user.js should pass ESLint\n\n');
   });
 
+  QUnit.test('routes/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-edit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-edit.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/return-with-query-params/ember-flexberry-dummy-suggestion-return-with-query-params-list.js should pass ESLint\n\n');
+  });
+
   QUnit.test('routes/components-examples/flexberry-objectlistview/selected-rows.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/selected-rows.js should pass ESLint\n\n');
@@ -5574,6 +6331,11 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('routes/components-examples/flexberry-toggler/ge-into-toggler-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-toggler/ge-into-toggler-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-toggler/settings-example-inner.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-toggler/settings-example-inner.js should pass ESLint\n\n');
   });
 
   QUnit.test('routes/components-examples/flexberry-toggler/settings-example.js', function (assert) {
@@ -8987,7 +9749,7 @@ define('dummy/tests/integration/components/flexberry-textarea-test', ['ember-i18
   });
 
   (0, _emberQunit.test)('wrap mode works properly', function (assert) {
-    assert.expect(3);
+    assert.expect(4);
 
     // Render component.
     this.render(Ember.HTMLBars.template({
@@ -10473,6 +11235,66 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-lookup/change-component-lookup-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/change-component-lookup-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/change-model-lookup-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/change-model-lookup-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/execute-flexberry-lookup-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-actions-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-en-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-relation-name-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/lookup-test-functions.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/lookup-test-functions.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/visiting-flexberry-lookup-autocomplete-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/visiting-flexberry-lookup-dropdown-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-objectlistview/checkbox-at-editform-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/checkbox-at-editform-test.js should pass ESLint\n\n');
@@ -10596,6 +11418,11 @@ define('dummy/tests/tests.lint-test', [], function () {
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-edit-button-in-row-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-edit-button-in-row-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-objectlistview/folv-from-edit-form-with-queryparams-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-from-edit-form-with-queryparams-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('acceptance/components/flexberry-objectlistview/folv-getCellComponent-test.js', function (assert) {
