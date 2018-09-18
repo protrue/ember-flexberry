@@ -1,7 +1,8 @@
 import { later, run } from '@ember/runloop';
 import $ from 'jquery';
-import { executeTest } from './execute-folv-test';
+import { executeTest, addDataForDestroy } from './execute-folv-test';
 import generateUniqueId from 'ember-flexberry-data/utils/generate-unique-id';
+import { click } from '@ember/test-helpers';
 
 import FilterOperator from 'ember-flexberry-data/query/filter-operator';
 import Builder from 'ember-flexberry-data/query/builder';
@@ -20,6 +21,7 @@ executeTest('check delete button in row', (store, assert, app) => {
     let done1 = assert.async();
 
     newRecord.save().then(() => {
+      addDataForDestroy(newRecord);
       let builder = new Builder(store).from(modelName).count();
       let done = assert.async();
       store.query(modelName, builder.build()).then((result) => {
@@ -43,35 +45,39 @@ executeTest('check delete button in row', (store, assert, app) => {
           assert.equal(recordIsForDeleting, howAddRec, howAddRec + ' record added');
 
           /* eslint-disable no-unused-vars */
+          let clickPromises = [];
           $rows().forEach(function(element, i, arr)  {
             let nameRecord = $.trim(element.children[1].innerText);
             if (nameRecord.indexOf(uuid) >= 0) {
-              let $deleteBtnInRow = $('.object-list-view-row-delete-button', element);
+              let $deleteBtnInRow = $('.object-list-view-row-delete-button', element)[0];
               run(() => {
-                $deleteBtnInRow.click();
+                clickPromises.push(click($deleteBtnInRow));
               });
             }
           });
           /* eslint-enable no-unused-vars */
 
-          // Check that the records have been removed.
-          let recordsIsDeleteBtnInRow = $rows().every((element) => {
-            let nameRecord = $.trim(element.children[1].innerText);
-            return nameRecord.indexOf(uuid) < 0;
-          });
-
-          assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
-
-          // Check that the records have been removed into store.
-          let builder2 = new Builder(store, modelName).where('name', FilterOperator.Eq, uuid).count();
-          let timeout = 500;
-          later((function() {
+          Promise.all(clickPromises).then(() => {
             let done2 = assert.async();
-            store.query(modelName, builder2.build()).then((result) => {
-              assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
-              done2();
+
+            // Check that the records have been removed.
+            let recordsIsDeleteBtnInRow = $rows().every((element) => {
+              let nameRecord = $.trim(element.children[1].innerText);
+              return nameRecord.indexOf(uuid) < 0;
             });
-          }), timeout);
+
+            assert.ok(recordsIsDeleteBtnInRow, 'Each entry begins with \'' + uuid + '\' is delete with button in row');
+
+            // Check that the records have been removed into store.
+            let builder2 = new Builder(store, modelName).where('name', FilterOperator.Eq, uuid).count();
+            let timeout = 500;
+            later((function() {
+              store.query(modelName, builder2.build()).then((result) => {
+                assert.notOk(result.meta.count, 'record \'' + uuid + '\'not found in store');
+                done2();
+              });
+            }), timeout);
+          });
         });
         done();
       });
