@@ -2,14 +2,17 @@
   @module ember-flexberry-dummy
 */
 
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { htmlSafe } from '@ember/string';
+import { computed } from '@ember/object';
+import { isArray } from '@ember/array';
 
 /**
   List forms controllers mixin which handles delete operations indication.
 
   @class ListFormControllerOperationsIndicationMixin
 */
-export default Ember.Mixin.create({
+export default Mixin.create({
   actions: {
     /**
       Handler for success ui-message component 'onShow' action.
@@ -25,7 +28,7 @@ export default Ember.Mixin.create({
       @method actions.onSuccessMessageHide
      */
     onSuccessMessageHide() {
-      this.set('showFormSuccessMessage', undefined);
+      this.set('showFormSuccessMessage', false);
     },
 
     /**
@@ -42,7 +45,7 @@ export default Ember.Mixin.create({
       @method actions.onErrorMessageHide
      */
     onErrorMessageHide() {
-      this.set('showFormErrorMessage', undefined);
+      this.set('showFormErrorMessage', false);
     }
   },
 
@@ -60,7 +63,7 @@ export default Ember.Mixin.create({
     @property showFormSuccessMessage.
     @type Boolean
    */
-  showFormSuccessMessage: undefined,
+  showFormSuccessMessage: false,
 
   /**
     Success message caption related to current locale and operation type.
@@ -68,7 +71,7 @@ export default Ember.Mixin.create({
     @property formSuccessMessageCaption.
     @type String
    */
-  formSuccessMessageCaption: Ember.computed('i18n.locale', 'latestOperationType', function() {
+  formSuccessMessageCaption: computed('i18n.locale', 'latestOperationType', function() {
     let i18n = this.get('i18n');
     if (this.get('latestOperationType') === 'delete') {
       return i18n.t('forms.list-form.delete-success-message-caption');
@@ -83,7 +86,7 @@ export default Ember.Mixin.create({
     @property formSuccessMessage.
     @type String
    */
-  formSuccessMessage: Ember.computed('i18n.locale', 'latestOperationType', function() {
+  formSuccessMessage: computed('i18n.locale', 'latestOperationType', function() {
     let i18n = this.get('i18n');
     let message = null;
     if (this.get('latestOperationType') === 'delete') {
@@ -92,7 +95,7 @@ export default Ember.Mixin.create({
       message = i18n.t('forms.list-form.load-success-message');
     }
 
-    return new Ember.Handlebars.SafeString('<ul><li>' + message + '</li></ul>');
+    return new htmlSafe('<ul><li>' + message + '</li></ul>');
   }),
 
   /**
@@ -101,7 +104,7 @@ export default Ember.Mixin.create({
     @property showFormErrorMessage.
     @type Boolean
    */
-  showFormErrorMessage: undefined,
+  showFormErrorMessage: false,
 
   /**
     Error message caption related to current locale and operation type.
@@ -109,7 +112,7 @@ export default Ember.Mixin.create({
     @property formErrorMessageCaption.
     @type String
    */
-  formErrorMessageCaption: Ember.computed('i18n.locale', 'latestOperationType', function() {
+  formErrorMessageCaption: computed('i18n.locale', 'latestOperationType', function() {
     let i18n = this.get('i18n');
     if (this.get('latestOperationType') === 'delete') {
       return i18n.t('forms.list-form.delete-error-message-caption');
@@ -124,16 +127,16 @@ export default Ember.Mixin.create({
     @property formErrorMessage
     @type String
    */
-  formErrorMessage: Ember.computed('errorMessages.[]', function() {
+  formErrorMessage: computed('errorMessages.[]', function() {
     let message = '';
     let errorMessages = this.get('errorMessages');
-    if (Ember.isArray(errorMessages)) {
+    if (isArray(errorMessages)) {
       errorMessages.forEach((currentErrorMessage) => {
         message += '<li>' + currentErrorMessage + '</li>';
       });
     }
 
-    return new Ember.Handlebars.SafeString('<ul>' + message + '</ul>');
+    return new htmlSafe('<ul>' + message + '</ul>');
   }),
 
   /**
@@ -165,12 +168,14 @@ export default Ember.Mixin.create({
     @method onDeleteActionRejected.
     @param {Object} errorData Data about delete operation fail.
    */
+  /* eslint-disable no-unused-vars */
   onDeleteActionRejected(errorData, record) {
     this._super(...arguments);
 
     this.set('showFormSuccessMessage', false);
     this.set('showFormErrorMessage', true);
   },
+  /* eslint-enable no-unused-vars */
 
   /**
     This method will be invoked always when delete operation completed,
@@ -179,7 +184,9 @@ export default Ember.Mixin.create({
     @method onDeleteActionAlways.
     @param {Object} data Data about completed delete operation.
    */
+  /* eslint-disable no-unused-vars */
   onDeleteActionAlways(data) {
     this._super(...arguments);
   }
+  /* eslint-enable no-unused-vars */
 });

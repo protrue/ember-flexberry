@@ -1,15 +1,7 @@
-import Ember from 'ember';
+import { merge } from '@ember/polyfills';
 import EditFormController from 'ember-flexberry/controllers/edit-form';
 
 export default EditFormController.extend({
-
-  init() {
-    this._super(...arguments);
-
-    this.set('lookupController.inHierarchicalMode', true);
-    this.set('lookupController.hierarchicalAttribute', 'parent');
-  },
-
   actions: {
     /**
       This method returns custom properties for lookup window.
@@ -21,7 +13,7 @@ export default EditFormController.extend({
       @return {Object} Set of options for lookup window.
      */
     getLookupFolvProperties: function(options) {
-      let methodArgs = Ember.merge({
+      let methodArgs = merge({
         projection: undefined,
         relationName: undefined
       }, options);
