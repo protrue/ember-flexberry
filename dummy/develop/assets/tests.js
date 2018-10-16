@@ -1898,7 +1898,9 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
               assert.equal($deleteButton.hasClass('disabled'), false, 'delete are available');
 
               $checkAllButton.click();
+              $checkAllAtPageButton = _ember['default'].$('.check-all-at-page-button');
               $checkCheckBox = _ember['default'].$('.flexberry-checkbox.checked.read-only');
+              $deleteButton = _ember['default'].$('.delete-button');
 
               // Check afther unselect all.
               assert.equal($checkAllAtPageButton.hasClass('disabled'), false, 'select all at page are available');
@@ -1985,6 +1987,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
 
               $checkAllAtPageButton.click();
               $checkCheckBox = _ember['default'].$('.flexberry-checkbox.checked');
+              $deleteButton = _ember['default'].$('.delete-button');
 
               // Check afther unselect all at page.
               assert.equal($checkCheckBox.length, 0, 'all checkBox in row are unselect');
@@ -2951,28 +2954,40 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
 
             assert.ok(recordIsChecked, 'Each entry begins with \'' + uuid + '\' is checked');
 
-            var $toolBar = _ember['default'].$('.ui.secondary.menu')[0];
-            var $deleteButton = $toolBar.children[2];
+            // Apply filter function.
+            var refreshFunction = function refreshFunction() {
+              var deleteButton = _ember['default'].$('.delete-button')[0];
+              click(deleteButton);
+              var refreshButton = _ember['default'].$('.refresh-button')[0];
+              click(refreshButton);
+            };
+
             var done = assert.async();
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
 
-            // Delete the marked records.
-            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($deleteButton, olvContainerClass, trTableClass).then(function ($list) {
-              var recordsIsDelete = $rows().every(function (element) {
-                var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
-                return nameRecord.indexOf(uuid) < 0;
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+
+              // Delete the marked records.
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+
+                var recordsIsDelete = $rows().every(function (element) {
+                  var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+                  return nameRecord.indexOf(uuid) < 0;
+                });
+
+                assert.ok(recordsIsDelete, 'Each entry begins with \'' + uuid + '\' is delete with button in toolbar button');
+
+                // Check that the records have been removed into store.
+                var builder2 = new Builder(store).from(modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+                var done3 = assert.async();
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.notOk(result.meta.count, 'records \'' + uuid + '\'not found in store');
+                  done3();
+                });
+                done();
               });
-
-              assert.ok(recordsIsDelete, 'Each entry begins with \'' + uuid + '\' is delete with button in toolbar button');
-
-              // Check that the records have been removed into store.
-              var builder2 = new Builder(store).from(modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
-              var done3 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.notOk(result.meta.count, 'records \'' + uuid + '\'not found in store');
-                done3();
-              });
-              done();
-            });
+            }, timeout);
           });
           done1();
         });
@@ -4758,6 +4773,8 @@ define('dummy/tests/acceptance/components/readonly-test/edit-form-readonly-test'
 
       controller.set('readonly', false);
       _ember['default'].run.scheduleOnce('afterRender', function () {
+        $removeButton = _ember['default'].$('.not-in-groupedit button.ui-clear');
+        $removeButtonFge = _ember['default'].$('.in-groupedit button.ui-clear');
         assert.strictEqual($(_this).is('readonly'), false, 'Lookup don\'t readonly');
         assert.strictEqual($chooseButton.hasClass('disabled'), false, 'Flexberry-lookup\'s button \'Choose\' don\'t readonly');
         assert.strictEqual($removeButton.hasClass('disabled'), false, 'Flexberry-lookup\'s button \'Remove\' don\'t readonly');
@@ -4827,6 +4844,7 @@ define('dummy/tests/acceptance/components/readonly-test/edit-form-readonly-test'
 
       controller.set('readonly', false);
       _ember['default'].run.scheduleOnce('afterRender', function () {
+        $removeButtonRow = _ember['default'].$('.in-groupedit .object-list-view-row-delete-button');
         assert.strictEqual($(_this).is('disabled'), false, 'Flexberry-groupedit\'s button \'Add\' don\'t readonly');
         assert.strictEqual($(_this).is('disabled'), false, 'Flexberry-groupedit\'s button \'Remove\' don\'t readonly');
         assert.strictEqual($checkbox.hasClass('read-only'), false, 'Flexberry-groupedit\'s checkbox helper don\'t readonly');
@@ -16376,7 +16394,7 @@ define('dummy/tests/integration/components/flexberry-toggler-test', ['exports', 
     assert.ok(this.$('.flexberry-toggler .content').hasClass('animating'));
     _ember['default'].run.later(function () {
       assert.ok(_this.$('.flexberry-toggler .content').hasClass('animating'));
-    }, 500);
+    }, 400);
     _ember['default'].run.later(function () {
       assert.notOk(_this.$('.flexberry-toggler .content').hasClass('animating'));
       done();
