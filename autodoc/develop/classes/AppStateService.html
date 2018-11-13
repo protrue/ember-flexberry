@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>FlexberryObjectlistviewRouteMixin - Flexberry Documentation</title>
+    <title>AppStateService - Flexberry Documentation</title>
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -202,17 +202,17 @@
                 <div id="docs-main">
                     <div class="content">
 <div class="page-header">
-    <h1>FlexberryObjectlistviewRouteMixin <small>Class</small></h1>
+    <h1>AppStateService <small>Class</small></h1>
 </div>
 
 <div class="well well-small">
 
         <div class="extends">
-            Extends <a href="http://emberjs.com/api/classes/Ember.Mixin.html" class="crosslink external" target="_blank">Ember.Mixin</a>
+            Extends <a href="http://emberjs.com/api/classes/Ember.Service.html">Ember.Service</a>
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_mixins_flexberry-objectlistview-route.js.html#l7"><code>addon&#x2F;mixins&#x2F;flexberry-objectlistview-route.js:7</code></a>
+            Defined in: <a href="../files/addon_services_app-state.js.html#l7"><code>addon&#x2F;services&#x2F;app-state.js:7</code></a>
         </div>
 
             Module: <a href="../modules/ember-flexberry.html">ember-flexberry</a>
@@ -221,8 +221,47 @@
 
 
 <div class="well well-small">
-    <p>Mixin for DS.Route
-to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" class="crosslink">FlexberryObjectlistviewComponent</a>.</p>
+    <p>Service for managing the state of the application.
+By default, to display application states, the states in <a href="https://semantic-ui.com/collections/form.html">Form Semantic UI</a> are used.</p>
+<h3>Usage example</h3>
+<ol>
+<li>Add a service to the application controller.</li>
+</ol>
+<pre class="code prettyprint"><code class="language-javascript">// app/controllers/application.js
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+
+export default Controller.extend({
+  appState: service(),
+});
+</code></pre>
+<ol start="2">
+<li>Use the application state in the template.</li>
+</ol>
+<pre class="code prettyprint"><code class="language-handlebars">&lt;div class="ui  form"&gt;
+  
+&lt;/div&gt;
+</code></pre>
+<ol start="3">
+<li>Use the service in another controller (or component).</li>
+</ol>
+<pre class="code prettyprint"><code class="language-javascript">// app/controllers/my-controller.js
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+
+export default Controller.extend({
+  appState: service(),
+
+  actions: {
+    load() {
+      this.get('appState').loading();
+      this.load().finally(() =&gt; {
+        this.get('appState').reset();
+      });
+    },
+  },
+});
+</code></pre>
 
 </div>
 
@@ -232,6 +271,7 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
         <li class="active"><a data-toggle="tab" href="#index">Index</a></li>
 
             <li><a data-toggle="tab" href="#methods">Methods</a></li>
+            <li><a data-toggle="tab" href="#properties">Properties</a></li>
     </ul>
 
     <div class="tab-content">
@@ -242,33 +282,43 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method public">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_actions.objectListViewRowClick" data-tablink="actions.objectListViewRowClick">actions.objectListViewRowClick</a>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_error" data-tablink="error">error</a>
 
                             </li>
-                            <li class="index-item method public">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_actions.refreshList" data-tablink="actions.refreshList">actions.refreshList</a>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_loading" data-tablink="loading">loading</a>
 
                             </li>
-                            <li class="index-item method private inherited">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_apply" data-tablink="apply">apply</a>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_reset" data-tablink="reset">reset</a>
 
                             </li>
-                            <li class="index-item method private inherited">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_detect" data-tablink="detect">detect</a>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_success" data-tablink="success">success</a>
 
                             </li>
-                            <li class="index-item method public">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_objectListViewLimitPredicate" data-tablink="objectListViewLimitPredicate">objectListViewLimitPredicate</a>
-
-                            </li>
-                            <li class="index-item method private inherited">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_reopen" data-tablink="reopen">reopen</a>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_warning" data-tablink="warning">warning</a>
 
                             </li>
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_state" data-tablink="state">state</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#" data-tabid="#properties" data-anchor="#property_state" data-tablink="state">state</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -276,68 +326,13 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
             <div id="methods" class="tab-pane">
                 <h2 class="off-left">Methods</h2>
 
-                    <div id="method_actions.objectListViewRowClick" class="method item public">
-                        <h3 class="name"><code>actions.objectListViewRowClick</code></h3>
-                    
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>record</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
-                    
-                    
-                    
-                            <span class="flag public">public</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/addon_mixins_flexberry-objectlistview-route.js.html#l17"><code>addon&#x2F;mixins&#x2F;flexberry-objectlistview-route.js:17</code></a>
-                            </p>
-                    
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Table row click handler.</p>
-                    
-                        </div>
-                    
-                            <div class="params">
-                                <h4>Parameters:</h4>
-                    
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">record</code>
-                                            <span class="type"><a href="http://emberjs.com/api/classes/Ember.Object.html" class="crosslink external" target="_blank">Ember.Object</a></span>
-                    
-                    
-                                        <div class="param-description">
-                                            <p>Record related to clicked table row</p>
-                    
-                                        </div>
-                    
-                                    </li>
-                                </ul>
-                            </div>
-                    
-                    
-                    </div>
-                    <div id="method_actions.refreshList" class="method item public">
-                        <h3 class="name"><code>actions.refreshList</code></h3>
+                    <div id="method_error" class="method item">
+                        <h3 class="name"><code>error</code></h3>
                     
                             <span class="paren">()</span>
                     
                     
                     
-                            <span class="flag public">public</span>
                     
                     
                     
@@ -346,7 +341,7 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_mixins_flexberry-objectlistview-route.js.html#l84"><code>addon&#x2F;mixins&#x2F;flexberry-objectlistview-route.js:84</code></a>
+                            <a href="../files/addon_services_app-state.js.html#l93"><code>addon&#x2F;services&#x2F;app-state.js:93</code></a>
                             </p>
                     
                     
@@ -354,154 +349,20 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
                         </div>
                     
                         <div class="description">
-                            <p>This action is called when user click on refresh button.</p>
+                            <p>Sets the application state as <code>error</code>.</p>
                     
                         </div>
                     
                     
                     
                     </div>
-                    <div id="method_apply" class="method item private inherited">
-                        <h3 class="name"><code>apply</code></h3>
+                    <div id="method_loading" class="method item">
+                        <h3 class="name"><code>loading</code></h3>
                     
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>obj</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
-                    
-                            <span class="returns-inline">
-                                <span class="type"></span>
-                            </span>
-                    
-                    
-                            <span class="flag private">private</span>
+                            <span class="paren">()</span>
                     
                     
                     
-                    
-                    
-                        <div class="meta">
-                                    <p>Inherited from
-                                    <a href="http://emberjs.com/api/classes/Ember.Mixin.html#method_apply">Ember.Mixin</a>:
-                            <a href="http://emberjs.com/api/files/packages_ember-metal_lib_mixin.js.html#l578"><code>packages&#x2F;ember-metal&#x2F;lib&#x2F;mixin.js:578</code></a>
-                            </p>
-                    
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                            <div class="params">
-                                <h4>Parameters:</h4>
-                    
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">obj</code>
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                    
-                    
-                                        <div class="param-description">
-                                             
-                                        </div>
-                    
-                                    </li>
-                                </ul>
-                            </div>
-                    
-                            <div class="returns">
-                                <h4>Returns:</h4>
-                    
-                                <div class="returns-description">
-                                        applied object
-                                </div>
-                            </div>
-                    
-                    </div>
-                    <div id="method_detect" class="method item private inherited">
-                        <h3 class="name"><code>detect</code></h3>
-                    
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>obj</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
-                    
-                            <span class="returns-inline">
-                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                            </span>
-                    
-                    
-                            <span class="flag private">private</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>Inherited from
-                                    <a href="http://emberjs.com/api/classes/Ember.Mixin.html#method_detect">Ember.Mixin</a>:
-                            <a href="http://emberjs.com/api/files/packages_ember-metal_lib_mixin.js.html#l611"><code>packages&#x2F;ember-metal&#x2F;lib&#x2F;mixin.js:611</code></a>
-                            </p>
-                    
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                            <div class="params">
-                                <h4>Parameters:</h4>
-                    
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">obj</code>
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                    
-                    
-                                        <div class="param-description">
-                                             
-                                        </div>
-                    
-                                    </li>
-                                </ul>
-                            </div>
-                    
-                            <div class="returns">
-                                <h4>Returns:</h4>
-                    
-                                <div class="returns-description">
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>:
-                                </div>
-                            </div>
-                    
-                    </div>
-                    <div id="method_objectListViewLimitPredicate" class="method item public">
-                        <h3 class="name"><code>objectListViewLimitPredicate</code></h3>
-                    
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>options</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
-                    
-                            <span class="returns-inline">
-                                <span class="type">BasePredicate</span>
-                            </span>
-                    
-                    
-                            <span class="flag public">public</span>
                     
                     
                     
@@ -510,7 +371,7 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_mixins_flexberry-objectlistview-route.js.html#l99"><code>addon&#x2F;mixins&#x2F;flexberry-objectlistview-route.js:99</code></a>
+                            <a href="../files/addon_services_app-state.js.html#l75"><code>addon&#x2F;services&#x2F;app-state.js:75</code></a>
                             </p>
                     
                     
@@ -518,139 +379,29 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
                         </div>
                     
                         <div class="description">
-                            <p>It forms the limit predicate for loaded data.</p>
-                    <p>By default it returns <code>undefined</code>.
-                    In order to set specific limit predicate, this method have to be overriden on applied-specific route.</p>
+                            <p>Sets the application state as <code>loading</code>.</p>
                     
                         </div>
                     
-                            <div class="params">
-                                <h4>Parameters:</h4>
-                    
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">options</code>
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                     
                     
-                                        <div class="param-description">
-                                            <p>Method options</p>
-                    
-                                        </div>
-                    
-                                            <ul class="params-list">
-                                                <li class="param">
-                                                        <code class="param-name optional">[modelName]</code>
-                                                        <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-                                                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-                                                    <div class="param-description">
-                                                        <p>Type of records to load</p>
-                    
-                                                    </div>
-                    
-                                                </li>
-                                                <li class="param">
-                                                        <code class="param-name optional">[projectionName]</code>
-                                                        <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-                                                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-                                                    <div class="param-description">
-                                                        <p>Projection name to load data by</p>
-                    
-                                                    </div>
-                    
-                                                </li>
-                                                <li class="param">
-                                                        <code class="param-name optional">[params]</code>
-                                                        <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-                                                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-                                                    <div class="param-description">
-                                                        <p>Current route query parameters</p>
-                    
-                                                    </div>
-                    
-                                                </li>
-                                            </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                    
-                            <div class="returns">
-                                <h4>Returns:</h4>
-                    
-                                <div class="returns-description">
-                                            <span class="type">BasePredicate</span>:
-                                        <p>The predicate to limit loaded data</p>
-                    
-                                </div>
-                            </div>
-                    
-                            <div class="example">
-                                <h4>Example:</h4>
-                    
-                                <div class="example-content">
-                                    <pre class="code prettyprint"><code class="language-js">// app/routes/limit-function-example.js
-                    import Ember from 'ember';
-                    import ListFormRoute from 'ember-flexberry/routes/list-form';
-                    import { Query } from 'ember-flexberry-data';
-                    
-                    const { StringPredicate } = Query;
-                    
-                    export default ListFormRoute.extend({
-                      modelProjection: 'FolvWithLimitFunctionExampleView',
-                    
-                      modelName: 'ember-flexberry-dummy-suggestion',
-                    
-                      objectListViewLimitPredicate: function(options) {
-                        let methodOptions = Ember.merge({
-                          modelName: undefined,
-                          projectionName: undefined,
-                          params: undefined
-                        }, options);
-                    
-                        if (methodOptions.modelName === this.get('modelName') &amp;&amp;
-                            methodOptions.projectionName === this.get('modelProjection')) {
-                          let currentPerPageValue = methodOptions.params ? methodOptions.params.perPage : undefined;
-                          let limitFunction = (currentPerPageValue &amp;&amp; currentPerPageValue % 2 === 0) ?
-                                              new StringPredicate('address').contains('S') :
-                                              new StringPredicate('address').contains('п');
-                          return limitFunction;
-                        }
-                    
-                        return undefined;
-                      }
-                    });
-                    
-                    </code></pre>
-                    
-                                </div>
-                            </div>
                     </div>
-                    <div id="method_reopen" class="method item private inherited">
-                        <h3 class="name"><code>reopen</code></h3>
+                    <div id="method_reset" class="method item">
+                        <h3 class="name"><code>reset</code></h3>
                     
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>arguments</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
+                            <span class="paren">()</span>
                     
                     
                     
-                            <span class="flag private">private</span>
                     
                     
                     
                     
                     
                         <div class="meta">
-                                    <p>Inherited from
-                                    <a href="http://emberjs.com/api/classes/Ember.Mixin.html#method_reopen">Ember.Mixin</a>:
-                            <a href="http://emberjs.com/api/files/packages_ember-metal_lib_mixin.js.html#l540"><code>packages&#x2F;ember-metal&#x2F;lib&#x2F;mixin.js:540</code></a>
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_services_app-state.js.html#l111"><code>addon&#x2F;services&#x2F;app-state.js:111</code></a>
                             </p>
                     
                     
@@ -658,31 +409,130 @@ to support work with <a href="../classes/FlexberryObjectlistviewComponent.html" 
                         </div>
                     
                         <div class="description">
-                            
+                            <p>Sets the application state to the default value.</p>
+                    
                         </div>
                     
-                            <div class="params">
-                                <h4>Parameters:</h4>
                     
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">arguments</code>
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                     
-                                            <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
+                    </div>
+                    <div id="method_success" class="method item">
+                        <h3 class="name"><code>success</code></h3>
                     
-                                        <div class="param-description">
-                                             
-                                        </div>
+                            <span class="paren">()</span>
                     
-                                    </li>
-                                </ul>
-                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_services_app-state.js.html#l84"><code>addon&#x2F;services&#x2F;app-state.js:84</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the application state as <code>success</code>.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_warning" class="method item">
+                        <h3 class="name"><code>warning</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_services_app-state.js.html#l102"><code>addon&#x2F;services&#x2F;app-state.js:102</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the application state as <code>warning</code>.</p>
+                    
+                        </div>
+                    
                     
                     
                     </div>
             </div>
 
+            <div id="properties" class="tab-pane">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_state" class="property item private">
+                        <h3 class="name"><code>state</code></h3>
+                        <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                            <span class="flag private">private</span>
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_services_app-state.js.html#l58"><code>addon&#x2F;services&#x2F;app-state.js:58</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> &#x27;&#x27;</p>
+                    
+                    
+                    </div>
+                    <div id="property_state" class="property item">
+                        <h3 class="name"><code>state</code></h3>
+                        <span class="type"><a href="http://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_services_app-state.js.html#l66"><code>addon&#x2F;services&#x2F;app-state.js:66</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The application state.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

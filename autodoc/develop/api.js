@@ -1,6 +1,7 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "AppStateService",
         "ApplicationInitializer",
         "ApplicationInstanceInitializer",
         "ArrayHelper",
@@ -20,6 +21,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "EditFormRouteOperationsIndicationMixin",
         "EnumCaptionHelper",
         "ErrorableControllerMixin",
+        "ErrorableRouteMixin",
         "FlexberryBaseComponent",
         "FlexberryButtonComponent",
         "FlexberryCheckboxComponent",
@@ -46,7 +48,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "FlexberryLookupMixin",
         "FlexberryMenu",
         "FlexberryMenuitem",
-        "FlexberryObjectlistview",
+        "FlexberryObjectlistviewComponent",
         "FlexberryObjectlistviewHierarchicalControllerMixin",
         "FlexberryObjectlistviewHierarchicalRouteMixin",
         "FlexberryObjectlistviewOnEditFormControllerMixin",
@@ -88,7 +90,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "ModalDialog",
         "NewPlatformFlexberryFlexberryUserSettingModel",
         "NewPlatformFlexberryFlexberryUserSettingSerializer",
-        "NewPlatformFlexberryServicesLockAdapter",
         "NewPlatformFlexberryServicesLockListController",
         "NewPlatformFlexberryServicesLockListRoute",
         "NewPlatformFlexberryServicesLockModel",
