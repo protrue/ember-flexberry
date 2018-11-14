@@ -19624,7 +19624,7 @@
         },
         {
             "file": "addon/mixins/lock-route.js",
-            "line": 66,
+            "line": 68,
             "description": "This hook is the first of the route entry validation hooks called when an attempt is made to transition into a route or one of its children.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_beforeModel).",
             "itemtype": "method",
             "name": "beforeModel",
@@ -19644,7 +19644,7 @@
         },
         {
             "file": "addon/mixins/lock-route.js",
-            "line": 124,
+            "line": 126,
             "description": "A hook you can use to setup the controller for the current route.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_setupController).",
             "itemtype": "method",
             "name": "setupController",
@@ -19665,7 +19665,7 @@
         },
         {
             "file": "addon/mixins/lock-route.js",
-            "line": 139,
+            "line": 141,
             "description": "This function will be called to solve open form read only or transition to parent route.\nYou can override function for custom behavior.",
             "example": [
                 "\n  ```javascript\n  // app/routes/user-edit.js\n\n  import EditFormRoute from 'ember-flexberry/routes/edit-form';\n\n  export default EditFormRoute.extend({\n    ...\n    openReadOnly(lockUserName) {\n      return new Ember.RSVP.Promise((resolve) => {\n        let answer = confirm(`This object lock user with name: '${lockUserName}'. Open read only?`);\n        resolve(answer);\n      });\n    },\n    ...\n  });\n  ```"
@@ -19688,7 +19688,7 @@
         },
         {
             "file": "addon/mixins/lock-route.js",
-            "line": 172,
+            "line": 174,
             "description": "This function will be called to solve unlock the object before form close.\nYou can override function for custom behavior.",
             "example": [
                 "\n  ```javascript\n  // app/routes/user-edit.js\n\n  import EditFormRoute from 'ember-flexberry/routes/edit-form';\n\n  export default EditFormRoute.extend({\n    ...\n    unlockObject() {\n      return new Ember.RSVP.Promise((resolve) => {\n        let answer = confirm(`Unlock this object?`);\n        resolve(answer);\n      });\n    },\n    ...\n  });\n  ```"
@@ -19704,7 +19704,7 @@
         },
         {
             "file": "addon/mixins/lock-route.js",
-            "line": 204,
+            "line": 206,
             "description": "Depending on answer, open form read only or transition to parent route.",
             "itemtype": "method",
             "name": "_openReadOnly",
