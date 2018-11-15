@@ -43032,7 +43032,7 @@ define("dummy/templates/components/flexberry-simpledatetime", ["exports"], funct
               morphs[1] = dom.createElementMorph(element1);
               return morphs;
             },
-            statements: [["attribute", "title", ["subexpr", "t", ["components.flexberry-lookup.remove-button-text"], [], ["loc", [null, [10, 16], [10, 70]]]]], ["element", "action", ["remove"], [], ["loc", [null, [12, 10], [12, 29]]]]],
+            statements: [["attribute", "title", ["subexpr", "t", ["components.flexberry-lookup.remove-button-text"], [], ["loc", [null, [10, 16], [10, 70]]]]], ["element", "action", ["remove"], ["bubbles", false], ["loc", [null, [12, 10], [12, 43]]]]],
             locals: [],
             templates: []
           };
@@ -43084,7 +43084,7 @@ define("dummy/templates/components/flexberry-simpledatetime", ["exports"], funct
               morphs[1] = dom.createElementMorph(element0);
               return morphs;
             },
-            statements: [["attribute", "title", ["subexpr", "t", ["components.flexberry-lookup.remove-button-text"], [], ["loc", [null, [18, 16], [18, 70]]]]], ["element", "action", ["remove"], [], ["loc", [null, [19, 10], [19, 29]]]]],
+            statements: [["attribute", "title", ["subexpr", "t", ["components.flexberry-lookup.remove-button-text"], [], ["loc", [null, [18, 16], [18, 70]]]]], ["element", "action", ["remove"], ["bubbles", false], ["loc", [null, [19, 10], [19, 43]]]]],
             locals: [],
             templates: []
           };
@@ -62653,7 +62653,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+ff1080a9"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+bb4ec052"});
 }
 
 /* jshint ignore:end */
