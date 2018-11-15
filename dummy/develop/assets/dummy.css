@@ -4836,6 +4836,9 @@ lang {
   border-radius: 5px;
   margin: 0px 5px;
 }
+.ui.button.huge {
+  height: 55px;
+}
 .ui.small.button {
   border: none;
   font-size: 12px;
@@ -5050,6 +5053,11 @@ div.ui.secondary.menu.no-margin {
   margin: 0px 2.5px!important;
 }
 .flexberry-file-upload-button.ui.icon.button:hover {
+  border-color: #3c87dc;
+  color: #3c87dc;
+  background: #FFFFFF;
+}
+.flexberry-file-mobile-menu.ui.icon.button:hover {
   border-color: #3c87dc;
   color: #3c87dc;
   background: #FFFFFF;
@@ -9465,6 +9473,10 @@ i.icon.change:before:hover {
 .menu.transition > .flexberry-menuitem > i.icon.remove.circle:before {
   content: "\f057";
   font-family: 'Icons';
+}
+.flexberry-menu > i.icon.setting.bordered {
+  height: 2em;
+  margin-top: -0.5em;
 }
 /**************************************
       FileControl buttons section
