@@ -10183,6 +10183,19 @@ define('dummy/ember-flexberry/tests/modules/ember-flexberry/helpers/get-with-dyn
     assert.ok(true, 'modules/ember-flexberry/helpers/get-with-dynamic-actions.js should pass jshint.');
   });
 });
+define('dummy/ember-flexberry/tests/modules/ember-flexberry/helpers/parse-cols-config-sorting.jscs-test', ['exports'], function (exports) {
+  module('JSCS - modules/ember-flexberry/helpers');
+  test('modules/ember-flexberry/helpers/parse-cols-config-sorting.js should pass jscs', function () {
+    ok(true, 'modules/ember-flexberry/helpers/parse-cols-config-sorting.js should pass jscs.');
+  });
+});
+define('dummy/ember-flexberry/tests/modules/ember-flexberry/helpers/parse-cols-config-sorting.jshint', ['exports'], function (exports) {
+  QUnit.module('JSHint - modules/ember-flexberry/helpers/parse-cols-config-sorting.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'modules/ember-flexberry/helpers/parse-cols-config-sorting.js should pass jshint.');
+  });
+});
 define('dummy/ember-flexberry/tests/modules/ember-flexberry/helpers/readonly-cell.jscs-test', ['exports'], function (exports) {
   module('JSCS - modules/ember-flexberry/helpers');
   test('modules/ember-flexberry/helpers/readonly-cell.js should pass jscs', function () {
@@ -11595,6 +11608,20 @@ define('dummy/helpers/or', ['exports', 'ember', 'ember-truth-helpers/helpers/or'
   }
 
   exports['default'] = forExport;
+});
+define('dummy/helpers/parse-cols-config-sorting', ['exports', 'ember-flexberry/helpers/parse-cols-config-sorting'], function (exports, _emberFlexberryHelpersParseColsConfigSorting) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFlexberryHelpersParseColsConfigSorting['default'];
+    }
+  });
+  Object.defineProperty(exports, 'parseColsConfigSorting', {
+    enumerable: true,
+    get: function get() {
+      return _emberFlexberryHelpersParseColsConfigSorting.parseColsConfigSorting;
+    }
+  });
 });
 define('dummy/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
@@ -37668,12 +37695,12 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 26,
-                "column": 56
+                "line": 27,
+                "column": 14
               },
               "end": {
-                "line": 26,
-                "column": 154
+                "line": 27,
+                "column": 117
               }
             },
             "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs"
@@ -37695,7 +37722,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "colDesc.name", ["loc", [null, [26, 104], [26, 116]]]]], [], []], "change", ["subexpr", "action", ["columnNameChanged"], [], ["loc", [null, [26, 124], [26, 152]]]]], ["loc", [null, [26, 90], [26, 154]]]]],
+          statements: [["inline", "input", [], ["class", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [27, 72], [27, 84]]]], "disabled"], [], ["loc", [null, [27, 68], [27, 96]]]], "value", ["subexpr", "@mut", [["get", "colDesc.name", ["loc", [null, [27, 103], [27, 115]]]]], [], []]], ["loc", [null, [27, 54], [27, 117]]]]],
           locals: [],
           templates: []
         };
@@ -37708,12 +37735,12 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 26,
-                "column": 154
+                "line": 27,
+                "column": 117
               },
               "end": {
-                "line": 26,
-                "column": 178
+                "line": 27,
+                "column": 141
               }
             },
             "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs"
@@ -37735,7 +37762,88 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["content", "colDesc.name", ["loc", [null, [26, 162], [26, 178]]]]],
+          statements: [["content", "colDesc.name", ["loc", [null, [27, 125], [27, 141]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child2 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 29,
+                "column": 14
+              },
+              "end": {
+                "line": 37,
+                "column": 14
+              }
+            },
+            "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("                ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1, "class", "dropdown icon");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n                ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "text");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n                ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "menu");
+            var el2 = dom.createTextNode("\n                  ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("div");
+            dom.setAttribute(el2, "class", "item");
+            dom.setAttribute(el2, "data-value", "0");
+            var el3 = dom.createTextNode("-");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n                  ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("div");
+            dom.setAttribute(el2, "class", "item");
+            dom.setAttribute(el2, "data-value", "1");
+            var el3 = dom.createTextNode("▲");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n                  ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("div");
+            dom.setAttribute(el2, "class", "item");
+            dom.setAttribute(el2, "data-value", "-1");
+            var el3 = dom.createTextNode("▼");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n                ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+            return morphs;
+          },
+          statements: [["inline", "parse-cols-config-sorting", [["get", "colDescs.sortOrder", ["loc", [null, [31, 62], [31, 80]]]]], [], ["loc", [null, [31, 34], [31, 82]]]]],
           locals: [],
           templates: []
         };
@@ -37748,11 +37856,11 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
             "source": null,
             "start": {
               "line": 15,
-              "column": 0
+              "column": 8
             },
             "end": {
-              "line": 47,
-              "column": 0
+              "line": 57,
+              "column": 8
             }
           },
           "moduleName": "dummy/templates/components/colsconfig-dialog-content.hbs"
@@ -37776,7 +37884,6 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           var el3 = dom.createTextNode("\n              ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("button");
-          dom.setAttribute(el3, "class", "ui icon tiny button");
           var el4 = dom.createTextNode("\n                ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("i");
@@ -37786,7 +37893,6 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("button");
-          dom.setAttribute(el3, "class", "ui icon tiny button no-margin");
           var el4 = dom.createTextNode("\n                ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("i");
@@ -37799,35 +37905,18 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
+          var el3 = dom.createTextNode("\n              ");
+          dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
           dom.setAttribute(el2, "class", "sort-direction-cell");
-          var el3 = dom.createElement("select");
-          var el4 = dom.createTextNode("\n                ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("option");
-          dom.setAttribute(el4, "value", "0");
-          var el5 = dom.createTextNode("-");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("option");
-          dom.setAttribute(el4, "value", "1");
-          var el5 = dom.createTextNode("▲");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("option");
-          dom.setAttribute(el4, "value", "-1");
-          var el5 = dom.createTextNode("▼");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n              ");
-          dom.appendChild(el3, el4);
+          var el3 = dom.createTextNode("\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("            ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
@@ -37836,10 +37925,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           var el3 = dom.createElement("div");
           var el4 = dom.createTextNode("\n                ");
           dom.appendChild(el3, el4);
-          var el4 = dom.createElement("input");
-          dom.setAttribute(el4, "size", "2");
-          dom.setAttribute(el4, "type", "input");
-          dom.setAttribute(el4, "style", "");
+          var el4 = dom.createComment("");
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n              ");
           dom.appendChild(el3, el4);
@@ -37853,10 +37939,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           var el3 = dom.createElement("div");
           var el4 = dom.createTextNode("\n                ");
           dom.appendChild(el3, el4);
-          var el4 = dom.createElement("input");
-          dom.setAttribute(el4, "size", "2");
-          dom.setAttribute(el4, "class", "columnWidth");
-          dom.setAttribute(el4, "type", "input");
+          var el4 = dom.createComment("");
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n              ");
           dom.appendChild(el3, el4);
@@ -37876,54 +37959,32 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           var element4 = dom.childAt(element3, [1]);
           var element5 = dom.childAt(element3, [2]);
           var element6 = dom.childAt(element1, [2]);
-          var element7 = dom.childAt(element1, [3, 0]);
+          var element7 = dom.childAt(element1, [4]);
           var element8 = dom.childAt(element7, [1]);
-          var element9 = dom.childAt(element7, [3]);
-          var element10 = dom.childAt(element7, [5]);
-          var element11 = dom.childAt(element1, [4]);
-          var element12 = dom.childAt(element11, [1]);
-          var element13 = dom.childAt(element12, [1]);
-          var element14 = dom.childAt(element1, [5]);
-          var element15 = dom.childAt(element14, [1]);
-          var element16 = dom.childAt(element15, [1]);
-          var morphs = new Array(32);
-          morphs[0] = dom.createAttrMorph(element1, 'id');
-          morphs[1] = dom.createAttrMorph(element1, 'propName');
-          morphs[2] = dom.createAttrMorph(element2, 'id');
-          morphs[3] = dom.createAttrMorph(element2, 'class');
-          morphs[4] = dom.createElementMorph(element2);
-          morphs[5] = dom.createAttrMorph(element3, 'class');
-          morphs[6] = dom.createAttrMorph(element4, 'id');
-          morphs[7] = dom.createElementMorph(element4);
-          morphs[8] = dom.createAttrMorph(element5, 'id');
-          morphs[9] = dom.createElementMorph(element5);
-          morphs[10] = dom.createAttrMorph(element6, 'class');
-          morphs[11] = dom.createMorphAt(element6, 0, 0);
-          morphs[12] = dom.createAttrMorph(element7, 'class');
-          morphs[13] = dom.createAttrMorph(element7, 'id');
-          morphs[14] = dom.createAttrMorph(element7, 'name');
-          morphs[15] = dom.createElementMorph(element7);
-          morphs[16] = dom.createAttrMorph(element8, 'selected');
-          morphs[17] = dom.createAttrMorph(element9, 'selected');
-          morphs[18] = dom.createAttrMorph(element10, 'selected');
-          morphs[19] = dom.createAttrMorph(element11, 'class');
-          morphs[20] = dom.createAttrMorph(element12, 'class');
-          morphs[21] = dom.createAttrMorph(element13, 'id');
-          morphs[22] = dom.createAttrMorph(element13, 'class');
-          morphs[23] = dom.createAttrMorph(element13, 'disabled');
-          morphs[24] = dom.createAttrMorph(element13, 'value');
-          morphs[25] = dom.createAttrMorph(element13, 'prevValue');
-          morphs[26] = dom.createElementMorph(element13);
-          morphs[27] = dom.createAttrMorph(element14, 'class');
-          morphs[28] = dom.createAttrMorph(element15, 'class');
-          morphs[29] = dom.createAttrMorph(element16, 'id');
-          morphs[30] = dom.createAttrMorph(element16, 'value');
-          morphs[31] = dom.createElementMorph(element16);
+          var element9 = dom.childAt(element1, [5]);
+          var element10 = dom.childAt(element9, [1]);
+          var morphs = new Array(16);
+          morphs[0] = dom.createAttrMorph(element1, 'propName');
+          morphs[1] = dom.createAttrMorph(element2, 'class');
+          morphs[2] = dom.createElementMorph(element2);
+          morphs[3] = dom.createAttrMorph(element4, 'class');
+          morphs[4] = dom.createElementMorph(element4);
+          morphs[5] = dom.createAttrMorph(element5, 'class');
+          morphs[6] = dom.createElementMorph(element5);
+          morphs[7] = dom.createAttrMorph(element6, 'class');
+          morphs[8] = dom.createMorphAt(element6, 1, 1);
+          morphs[9] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
+          morphs[10] = dom.createAttrMorph(element7, 'class');
+          morphs[11] = dom.createAttrMorph(element8, 'class');
+          morphs[12] = dom.createMorphAt(element8, 1, 1);
+          morphs[13] = dom.createAttrMorph(element9, 'class');
+          morphs[14] = dom.createAttrMorph(element10, 'class');
+          morphs[15] = dom.createMorphAt(element10, 1, 1);
           return morphs;
         },
-        statements: [["attribute", "id", ["concat", [["get", "colDesc.trId", ["loc", [null, [16, 20], [16, 32]]]]]]], ["attribute", "propName", ["concat", [["get", "colDesc.propName", ["loc", [null, [16, 48], [16, 64]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.hideId", ["loc", [null, [17, 26], [17, 40]]]]]]], ["attribute", "class", ["concat", ["large ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [17, 62], [17, 74]]]], "hide", "unhide"], [], ["loc", [null, [17, 57], [17, 92]]]], " icon"]]], ["element", "action", ["invertVisibility", ["get", "n", ["loc", [null, [17, 150], [17, 151]]]]], [], ["loc", [null, [17, 122], [17, 153]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [18, 29], [18, 41]]]], "disabled", ""], [], ["loc", [null, [18, 24], [18, 57]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.rowUpId", ["loc", [null, [19, 49], [19, 64]]]]]]], ["element", "action", ["rowUp", ["get", "n", ["loc", [null, [19, 39], [19, 40]]]]], [], ["loc", [null, [19, 22], [19, 42]]]], ["attribute", "id", ["concat", [["get", "colDesc.rowDownId", ["loc", [null, [22, 53], [22, 70]]]]]]], ["element", "action", ["rowDown", ["get", "n", ["loc", [null, [22, 42], [22, 43]]]]], [], ["loc", [null, [22, 23], [22, 45]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [26, 29], [26, 41]]]], "disabled"], [], ["loc", [null, [26, 24], [26, 54]]]]]]], ["block", "if", [["get", "exportParams.isExportExcel", ["loc", [null, [26, 62], [26, 88]]]]], [], 0, 1, ["loc", [null, [26, 56], [26, 185]]]], ["attribute", "class", ["concat", ["ui compact dropdown selection sort-direction-dropdown ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [28, 89], [28, 101]]]], "disabled", ""], [], ["loc", [null, [28, 84], [28, 117]]]], " ", ["subexpr", "if", [["get", "colDesc.isHasMany", ["loc", [null, [28, 123], [28, 140]]]], "hidden", ""], [], ["loc", [null, [28, 118], [28, 154]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.sortOrderId", ["loc", [null, [28, 163], [28, 182]]]]]]], ["attribute", "name", ["concat", ["sortorder[", ["get", "colDesc.name", ["loc", [null, [28, 204], [28, 216]]]], "]"]]], ["element", "action", ["setSortOrder", ["get", "n", ["loc", [null, [28, 245], [28, 246]]]]], ["on", "change"], ["loc", [null, [28, 221], [28, 260]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderNot", ["loc", [null, [29, 36], [29, 56]]]]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderAsc", ["loc", [null, [30, 36], [30, 56]]]]]]], ["attribute", "selected", ["concat", [["get", "colDesc.sortOrderDesc", ["loc", [null, [31, 36], [31, 57]]]]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [34, 29], [34, 41]]]], "disabled", ""], [], ["loc", [null, [34, 24], [34, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [35, 40], [35, 52]]]], "disabled", ""], [], ["loc", [null, [35, 35], [35, 68]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.sortPriorityId", ["loc", [null, [36, 29], [36, 51]]]]]]], ["attribute", "class", ["concat", ["sortPriority ", ["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [36, 89], [36, 106]]]], "", "hidden"], [], ["loc", [null, [36, 84], [36, 120]]]]]]], ["attribute", "disabled", ["concat", [["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [36, 137], [36, 154]]]], "", "disabled"], [], ["loc", [null, [36, 132], [36, 170]]]]]]], ["attribute", "value", ["concat", [["get", "colDesc.sortPriority", ["loc", [null, [36, 181], [36, 201]]]]]]], ["attribute", "prevValue", ["concat", [["get", "colDesc.sortPriority", ["loc", [null, [37, 74], [37, 94]]]]]]], ["element", "action", ["setSortPriority", ["get", "n", ["loc", [null, [37, 45], [37, 46]]]]], ["on", "change"], ["loc", [null, [37, 18], [37, 60]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [40, 29], [40, 41]]]], "disabled", ""], [], ["loc", [null, [40, 24], [40, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["subexpr", "or", [["get", "colDesc.hide", ["loc", [null, [41, 44], [41, 56]]]], ["subexpr", "or", [["get", "exportParams.isExportExcel", ["loc", [null, [41, 61], [41, 87]]]], ["subexpr", "or", [["get", "colDesc.fixed", ["loc", [null, [41, 92], [41, 105]]]], ["subexpr", "not", [["get", "saveColWidthState", ["loc", [null, [41, 111], [41, 128]]]]], [], ["loc", [null, [41, 106], [41, 129]]]]], [], ["loc", [null, [41, 88], [41, 130]]]]], [], ["loc", [null, [41, 57], [41, 131]]]]], [], ["loc", [null, [41, 40], [41, 132]]]], "disabled", ""], [], ["loc", [null, [41, 35], [41, 148]]]]]]], ["attribute", "id", ["concat", [["get", "colDesc.columnWidthId", ["loc", [null, [42, 29], [42, 50]]]]]]], ["attribute", "value", ["concat", [["get", "colDesc.columnWidth", ["loc", [null, [42, 92], [42, 111]]]]]]], ["element", "action", ["widthChanged"], ["on", "change"], ["loc", [null, [42, 128], [42, 166]]]]],
+        statements: [["attribute", "propName", ["concat", [["get", "colDesc.propName", ["loc", [null, [16, 26], [16, 42]]]]]]], ["attribute", "class", ["concat", ["large ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [17, 38], [17, 50]]]], "hide", "unhide"], [], ["loc", [null, [17, 33], [17, 68]]]], " icon"]]], ["element", "action", ["invertVisibility", ["get", "n", ["loc", [null, [17, 126], [17, 127]]]]], [], ["loc", [null, [17, 98], [17, 129]]]], ["attribute", "class", ["concat", ["ui icon tiny button", ["subexpr", "if", [["subexpr", "eq", [["get", "n", ["loc", [null, [19, 78], [19, 79]]]], 0], [], ["loc", [null, [19, 74], [19, 82]]]], " disabled"], [], ["loc", [null, [19, 69], [19, 96]]]]]]], ["element", "action", ["rowUp", ["get", "n", ["loc", [null, [19, 39], [19, 40]]]]], [], ["loc", [null, [19, 22], [19, 42]]]], ["attribute", "class", ["concat", ["ui icon tiny button row-down-button no-margin", ["subexpr", "if", [["subexpr", "eq", [["get", "colDesc", ["loc", [null, [22, 107], [22, 114]]]], ["get", "model.colDescs.lastObject", ["loc", [null, [22, 115], [22, 140]]]]], [], ["loc", [null, [22, 103], [22, 141]]]], " disabled"], [], ["loc", [null, [22, 98], [22, 155]]]]]]], ["element", "action", ["rowDown", ["get", "n", ["loc", [null, [22, 42], [22, 43]]]]], [], ["loc", [null, [22, 23], [22, 45]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [26, 29], [26, 41]]]], "disabled"], [], ["loc", [null, [26, 24], [26, 54]]]]]]], ["block", "if", [["get", "model.exportParams.isExportExcel", ["loc", [null, [27, 20], [27, 52]]]]], [], 0, 1, ["loc", [null, [27, 14], [27, 148]]]], ["block", "ui-dropdown", [], ["class", ["subexpr", "concat", ["ui compact selection dropdown sort-direction-dropdown", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [29, 103], [29, 115]]]], " disabled", ""], [], ["loc", [null, [29, 99], [29, 131]]]], ["subexpr", "if", [["get", "colDesc.isHasMany", ["loc", [null, [29, 136], [29, 153]]]], " hidden", ""], [], ["loc", [null, [29, 132], [29, 167]]]]], [], ["loc", [null, [29, 35], [29, 168]]]], "onChange", ["subexpr", "action", ["setSortOrder", ["get", "n", ["loc", [null, [29, 201], [29, 202]]]]], [], ["loc", [null, [29, 178], [29, 203]]]]], 2, null, ["loc", [null, [29, 14], [37, 30]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [38, 33], [38, 45]]]], "disabled", ""], [], ["loc", [null, [38, 28], [38, 61]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [39, 40], [39, 52]]]], "disabled", ""], [], ["loc", [null, [39, 35], [39, 68]]]]]]], ["inline", "input", [], ["size", "2", "class", ["subexpr", "concat", ["sort-priority-input", ["subexpr", "if", [["get", "colDesc.sortOrder", ["loc", [null, [42, 58], [42, 75]]]], "", " hidden"], [], ["loc", [null, [42, 54], [42, 89]]]]], [], ["loc", [null, [42, 24], [42, 90]]]], "value", ["subexpr", "@mut", [["get", "colDesc.sortPriority", ["loc", [null, [43, 24], [43, 44]]]]], [], []]], ["loc", [null, [40, 16], [44, 18]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "colDesc.hide", ["loc", [null, [47, 29], [47, 41]]]], "disabled", ""], [], ["loc", [null, [47, 24], [47, 57]]]]]]], ["attribute", "class", ["concat", ["ui input ", ["subexpr", "if", [["subexpr", "or", [["get", "colDesc.hide", ["loc", [null, [48, 44], [48, 56]]]], ["subexpr", "or", [["get", "model.exportParams.isExportExcel", ["loc", [null, [48, 61], [48, 93]]]], ["subexpr", "or", [["get", "colDesc.fixed", ["loc", [null, [48, 98], [48, 111]]]], ["subexpr", "not", [["get", "model.saveColWidthState", ["loc", [null, [48, 117], [48, 140]]]]], [], ["loc", [null, [48, 112], [48, 141]]]]], [], ["loc", [null, [48, 94], [48, 142]]]]], [], ["loc", [null, [48, 57], [48, 143]]]]], [], ["loc", [null, [48, 40], [48, 144]]]], "disabled", ""], [], ["loc", [null, [48, 35], [48, 160]]]]]]], ["inline", "input", [], ["size", "2", "class", "column-width-input", "value", ["subexpr", "@mut", [["get", "colDesc.columnWidth", ["loc", [null, [52, 24], [52, 43]]]]], [], []]], ["loc", [null, [49, 16], [53, 18]]]]],
         locals: ["colDesc", "n"],
-        templates: [child0, child1]
+        templates: [child0, child1, child2]
       };
     })();
     var child1 = (function () {
@@ -37934,11 +37995,11 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 50,
+              "line": 60,
               "column": 10
             },
             "end": {
-              "line": 65,
+              "line": 73,
               "column": 10
             }
           },
@@ -37978,7 +38039,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
           morphs[1] = dom.createMorphAt(element0, 3, 3);
           return morphs;
         },
-        statements: [["inline", "flexberry-checkbox", [], ["label", ["subexpr", "t", ["components.colsconfig-dialog-content.det-separate-cols"], [], ["loc", [null, [54, 22], [54, 82]]]], "value", ["subexpr", "@mut", [["get", "exportParams.detSeparateCols", ["loc", [null, [55, 22], [55, 50]]]]], [], []], "onChange", ["subexpr", "action", ["detSeparateColsChange"], [], ["loc", [null, [56, 25], [56, 57]]]]], ["loc", [null, [53, 14], [57, 16]]]], ["inline", "flexberry-checkbox", [], ["label", ["subexpr", "t", ["components.colsconfig-dialog-content.det-separate-rows"], [], ["loc", [null, [59, 22], [59, 82]]]], "value", ["subexpr", "@mut", [["get", "exportParams.detSeparateRows", ["loc", [null, [60, 22], [60, 50]]]]], [], []], "onChange", ["subexpr", "action", ["detSeparateRowsChange"], [], ["loc", [null, [61, 25], [61, 57]]]]], ["loc", [null, [58, 14], [62, 16]]]]],
+        statements: [["inline", "flexberry-checkbox", [], ["label", ["subexpr", "t", ["components.colsconfig-dialog-content.det-separate-cols"], [], ["loc", [null, [64, 22], [64, 82]]]], "value", ["subexpr", "@mut", [["get", "model.exportParams.detSeparateCols", ["loc", [null, [65, 22], [65, 56]]]]], [], []]], ["loc", [null, [63, 14], [66, 16]]]], ["inline", "flexberry-checkbox", [], ["label", ["subexpr", "t", ["components.colsconfig-dialog-content.det-separate-rows"], [], ["loc", [null, [68, 22], [68, 82]]]], "value", ["subexpr", "@mut", [["get", "model.exportParams.detSeparateRows", ["loc", [null, [69, 22], [69, 56]]]]], [], []]], ["loc", [null, [67, 14], [70, 16]]]]],
         locals: [],
         templates: []
       };
@@ -37996,7 +38057,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 111,
+            "line": 125,
             "column": 0
           }
         },
@@ -38067,7 +38128,6 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("tbody");
-        dom.setAttribute(el4, "id", "colsConfigtableRows");
         var el5 = dom.createTextNode("\n");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
@@ -38111,15 +38171,11 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
         dom.appendChild(el6, el7);
         var el7 = dom.createElement("div");
         dom.setAttribute(el7, "class", "ui input");
-        var el8 = dom.createTextNode("\n              ");
-        dom.appendChild(el7, el8);
-        var el8 = dom.createElement("input");
-        dom.setAttribute(el8, "id", "perPageValueInput");
-        dom.setAttribute(el8, "size", "2");
-        dom.setAttribute(el8, "class", "perPage");
-        dom.setAttribute(el8, "type", "input");
-        dom.appendChild(el7, el8);
         var el8 = dom.createTextNode("\n                ");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createComment("");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("\n              ");
         dom.appendChild(el7, el8);
         dom.appendChild(el6, el7);
         var el7 = dom.createTextNode("\n            ");
@@ -38135,17 +38191,11 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
         dom.setAttribute(el7, "class", "ui action input");
         var el8 = dom.createTextNode("\n                ");
         dom.appendChild(el7, el8);
-        var el8 = dom.createElement("input");
-        dom.setAttribute(el8, "id", "columnConfigurtionSettingName");
-        dom.setAttribute(el8, "class", "setting-name");
-        dom.setAttribute(el8, "type", "input");
-        dom.setAttribute(el8, "name", "configName");
+        var el8 = dom.createComment("");
         dom.appendChild(el7, el8);
         var el8 = dom.createTextNode("\n                ");
         dom.appendChild(el7, el8);
         var el8 = dom.createElement("div");
-        dom.setAttribute(el8, "id", "columnConfigurtionButtonSave");
-        dom.setAttribute(el8, "class", "ui small button disabled");
         var el9 = dom.createTextNode("\n                  ");
         dom.appendChild(el8, el9);
         var el9 = dom.createComment("");
@@ -38166,8 +38216,7 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
         var el7 = dom.createTextNode("\n              ");
         dom.appendChild(el6, el7);
         var el7 = dom.createElement("div");
-        dom.setAttribute(el7, "id", "columnConfigurtionButtonUse");
-        dom.setAttribute(el7, "class", "ui right floated button");
+        dom.setAttribute(el7, "class", "ui right floated button cols-config-apply");
         var el8 = dom.createComment("");
         dom.appendChild(el7, el8);
         dom.appendChild(el6, el7);
@@ -38197,54 +38246,50 @@ define("dummy/templates/components/colsconfig-dialog-content", ["exports"], func
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element17 = dom.childAt(fragment, [0]);
-        var element18 = dom.childAt(element17, [1]);
-        var element19 = dom.childAt(element18, [1]);
-        var element20 = dom.childAt(element19, [0, 0]);
-        var element21 = dom.childAt(element20, [0]);
-        var element22 = dom.childAt(element20, [1, 0]);
-        var element23 = dom.childAt(element20, [2]);
-        var element24 = dom.childAt(element20, [3]);
-        var element25 = dom.childAt(element20, [4]);
-        var element26 = dom.childAt(element20, [5]);
-        var element27 = dom.childAt(element19, [2]);
-        var element28 = dom.childAt(element27, [3]);
-        var element29 = dom.childAt(element27, [4]);
-        var element30 = dom.childAt(element29, [1, 1, 1]);
-        var element31 = dom.childAt(element27, [5]);
-        var element32 = dom.childAt(element31, [0, 1]);
-        var element33 = dom.childAt(element32, [1]);
-        var element34 = dom.childAt(element32, [3]);
-        var element35 = dom.childAt(element31, [2, 1]);
-        var morphs = new Array(25);
-        morphs[0] = dom.createAttrMorph(element17, 'class');
-        morphs[1] = dom.createAttrMorph(element21, 'title');
-        morphs[2] = dom.createAttrMorph(element22, 'title');
-        morphs[3] = dom.createAttrMorph(element23, 'title');
-        morphs[4] = dom.createMorphAt(element23, 0, 0);
-        morphs[5] = dom.createAttrMorph(element24, 'title');
-        morphs[6] = dom.createAttrMorph(element25, 'title');
-        morphs[7] = dom.createAttrMorph(element26, 'title');
-        morphs[8] = dom.createMorphAt(dom.childAt(element19, [1]), 1, 1);
-        morphs[9] = dom.createMorphAt(element27, 1, 1);
-        morphs[10] = dom.createAttrMorph(element28, 'class');
-        morphs[11] = dom.createMorphAt(dom.childAt(element28, [0]), 0, 0);
-        morphs[12] = dom.createMorphAt(dom.childAt(element28, [1]), 1, 1);
-        morphs[13] = dom.createAttrMorph(element29, 'class');
-        morphs[14] = dom.createMorphAt(dom.childAt(element29, [0]), 0, 0);
-        morphs[15] = dom.createAttrMorph(element30, 'value');
-        morphs[16] = dom.createElementMorph(element30);
-        morphs[17] = dom.createAttrMorph(element33, 'placeholder');
-        morphs[18] = dom.createAttrMorph(element33, 'value');
-        morphs[19] = dom.createElementMorph(element33);
-        morphs[20] = dom.createElementMorph(element34);
-        morphs[21] = dom.createMorphAt(element34, 1, 1);
-        morphs[22] = dom.createElementMorph(element35);
-        morphs[23] = dom.createMorphAt(element35, 0, 0);
-        morphs[24] = dom.createMorphAt(element18, 3, 3);
+        var element11 = dom.childAt(fragment, [0]);
+        var element12 = dom.childAt(element11, [1]);
+        var element13 = dom.childAt(element12, [1]);
+        var element14 = dom.childAt(element13, [0, 0]);
+        var element15 = dom.childAt(element14, [0]);
+        var element16 = dom.childAt(element14, [1, 0]);
+        var element17 = dom.childAt(element14, [2]);
+        var element18 = dom.childAt(element14, [3]);
+        var element19 = dom.childAt(element14, [4]);
+        var element20 = dom.childAt(element14, [5]);
+        var element21 = dom.childAt(element13, [2]);
+        var element22 = dom.childAt(element21, [3]);
+        var element23 = dom.childAt(element21, [4]);
+        var element24 = dom.childAt(element21, [5]);
+        var element25 = dom.childAt(element24, [0, 1]);
+        var element26 = dom.childAt(element25, [3]);
+        var element27 = dom.childAt(element24, [2, 1]);
+        var morphs = new Array(23);
+        morphs[0] = dom.createAttrMorph(element11, 'class');
+        morphs[1] = dom.createAttrMorph(element15, 'title');
+        morphs[2] = dom.createAttrMorph(element16, 'title');
+        morphs[3] = dom.createAttrMorph(element17, 'title');
+        morphs[4] = dom.createMorphAt(element17, 0, 0);
+        morphs[5] = dom.createAttrMorph(element18, 'title');
+        morphs[6] = dom.createAttrMorph(element19, 'title');
+        morphs[7] = dom.createAttrMorph(element20, 'title');
+        morphs[8] = dom.createMorphAt(dom.childAt(element13, [1]), 1, 1);
+        morphs[9] = dom.createMorphAt(element21, 1, 1);
+        morphs[10] = dom.createAttrMorph(element22, 'class');
+        morphs[11] = dom.createMorphAt(dom.childAt(element22, [0]), 0, 0);
+        morphs[12] = dom.createMorphAt(dom.childAt(element22, [1]), 1, 1);
+        morphs[13] = dom.createAttrMorph(element23, 'class');
+        morphs[14] = dom.createMorphAt(dom.childAt(element23, [0]), 0, 0);
+        morphs[15] = dom.createMorphAt(dom.childAt(element23, [1, 1]), 1, 1);
+        morphs[16] = dom.createMorphAt(element25, 1, 1);
+        morphs[17] = dom.createAttrMorph(element26, 'class');
+        morphs[18] = dom.createElementMorph(element26);
+        morphs[19] = dom.createMorphAt(element26, 1, 1);
+        morphs[20] = dom.createElementMorph(element27);
+        morphs[21] = dom.createMorphAt(element27, 0, 0);
+        morphs[22] = dom.createMorphAt(element12, 3, 3);
         return morphs;
       },
-      statements: [["attribute", "class", ["concat", ["ui form ", ["get", "appState.state", ["loc", [null, [1, 22], [1, 36]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.dont-show-columns"], [], ["loc", [null, [6, 43], [6, 105]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.columns-order"], [], ["loc", [null, [7, 94], [7, 152]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.column-name"], [], ["loc", [null, [8, 22], [8, 78]]]]]]], ["inline", "t", ["components.colsconfig-dialog-content.column-name"], [], ["loc", [null, [8, 103], [8, 159]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.sort-direction"], [], ["loc", [null, [9, 45], [9, 104]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.sort-priority"], [], ["loc", [null, [10, 44], [10, 102]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.column-width"], [], ["loc", [null, [11, 43], [11, 100]]]]]]], ["block", "each", [["get", "modelForDOM", ["loc", [null, [15, 8], [15, 19]]]]], [], 0, null, ["loc", [null, [15, 0], [47, 9]]]], ["block", "if", [["get", "exportParams.isExportExcel", ["loc", [null, [50, 16], [50, 42]]]]], [], 1, null, ["loc", [null, [50, 10], [65, 17]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "exportParams.isExportExcel", ["loc", [null, [66, 26], [66, 52]]]], "hidden", ""], [], ["loc", [null, [66, 21], [66, 66]]]]]]], ["inline", "t", ["components.colsconfig-dialog-content.col-width-on"], [], ["loc", [null, [67, 52], [67, 109]]]], ["inline", "flexberry-checkbox", [], ["class", "toggle", "value", ["subexpr", "@mut", [["get", "saveColWidthState", ["loc", [null, [71, 22], [71, 39]]]]], [], []]], ["loc", [null, [69, 14], [72, 16]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "exportParams.isExportExcel", ["loc", [null, [75, 27], [75, 53]]]], "hidden", ""], [], ["loc", [null, [75, 22], [75, 67]]]]]]], ["inline", "t", ["components.colsconfig-dialog-content.per-page"], [], ["loc", [null, [76, 52], [76, 105]]]], ["attribute", "value", ["concat", [["get", "perPageValue", ["loc", [null, [79, 78], [79, 90]]]]]]], ["element", "action", ["perPageChanged"], ["on", "change"], ["loc", [null, [79, 107], [79, 147]]]], ["attribute", "placeholder", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.enter-setting-name"], [], ["loc", [null, [88, 31], [88, 94]]]]]]], ["attribute", "value", ["concat", [["get", "settingName", ["loc", [null, [88, 105], [88, 116]]]]]]], ["element", "action", ["setConfigName", ["get", "n", ["loc", [null, [89, 43], [89, 44]]]]], ["on", "change"], ["loc", [null, [89, 18], [89, 58]]]], ["element", "action", ["saveColsSetting"], [], ["loc", [null, [90, 88], [90, 116]]]], ["inline", "t", ["components.colsconfig-dialog-content.save"], [], ["loc", [null, [91, 18], [91, 67]]]], ["element", "action", ["apply"], [], ["loc", [null, [96, 84], [96, 102]]]], ["inline", "if", [["get", "exportParams.isExportExcel", ["loc", [null, [96, 108], [96, 134]]]], ["subexpr", "t", ["components.colsconfig-dialog-content.export"], [], ["loc", [null, [96, 135], [96, 184]]]], ["subexpr", "t", ["components.colsconfig-dialog-content.use"], [], ["loc", [null, [96, 185], [96, 231]]]]], [], ["loc", [null, [96, 103], [96, 233]]]], ["inline", "ui-message", [], ["type", ["subexpr", "@mut", [["get", "type", ["loc", [null, [102, 13], [102, 17]]]]], [], []], "closeable", ["subexpr", "@mut", [["get", "closeable", ["loc", [null, [103, 18], [103, 27]]]]], [], []], "visible", ["subexpr", "@mut", [["get", "visible", ["loc", [null, [104, 16], [104, 23]]]]], [], []], "caption", ["subexpr", "@mut", [["get", "caption", ["loc", [null, [105, 16], [105, 23]]]]], [], []], "message", ["subexpr", "@mut", [["get", "message", ["loc", [null, [106, 16], [106, 23]]]]], [], []]], ["loc", [null, [101, 6], [107, 8]]]]],
+      statements: [["attribute", "class", ["concat", ["ui form ", ["get", "appState.state", ["loc", [null, [1, 22], [1, 36]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.dont-show-columns"], [], ["loc", [null, [6, 43], [6, 105]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.columns-order"], [], ["loc", [null, [7, 94], [7, 152]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.column-name"], [], ["loc", [null, [8, 22], [8, 78]]]]]]], ["inline", "t", ["components.colsconfig-dialog-content.column-name"], [], ["loc", [null, [8, 103], [8, 159]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.sort-direction"], [], ["loc", [null, [9, 45], [9, 104]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.sort-priority"], [], ["loc", [null, [10, 44], [10, 102]]]]]]], ["attribute", "title", ["concat", [["subexpr", "t", ["components.colsconfig-dialog-content.column-width"], [], ["loc", [null, [11, 43], [11, 100]]]]]]], ["block", "each", [["get", "model.colDescs", ["loc", [null, [15, 16], [15, 30]]]]], [], 0, null, ["loc", [null, [15, 8], [57, 17]]]], ["block", "if", [["get", "model.exportParams.isExportExcel", ["loc", [null, [60, 16], [60, 48]]]]], [], 1, null, ["loc", [null, [60, 10], [73, 17]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "model.exportParams.isExportExcel", ["loc", [null, [74, 26], [74, 58]]]], "hidden", ""], [], ["loc", [null, [74, 21], [74, 72]]]]]]], ["inline", "t", ["components.colsconfig-dialog-content.col-width-on"], [], ["loc", [null, [75, 52], [75, 109]]]], ["inline", "flexberry-checkbox", [], ["class", "toggle", "value", ["subexpr", "@mut", [["get", "model.saveColWidthState", ["loc", [null, [79, 22], [79, 45]]]]], [], []]], ["loc", [null, [77, 14], [80, 16]]]], ["attribute", "class", ["concat", [["subexpr", "if", [["get", "model.exportParams.isExportExcel", ["loc", [null, [83, 27], [83, 59]]]], "hidden", ""], [], ["loc", [null, [83, 22], [83, 73]]]]]]], ["inline", "t", ["components.colsconfig-dialog-content.per-page"], [], ["loc", [null, [84, 52], [84, 105]]]], ["inline", "input", [], ["size", "2", "class", "per-page-input", "value", ["subexpr", "@mut", [["get", "model.perPageValue", ["loc", [null, [90, 24], [90, 42]]]]], [], []]], ["loc", [null, [87, 16], [91, 18]]]], ["inline", "input", [], ["type", "input", "class", "setting-name-input", "value", ["subexpr", "@mut", [["get", "model.settingName", ["loc", [null, [101, 24], [101, 41]]]]], [], []], "placeholder", ["subexpr", "t", ["components.colsconfig-dialog-content.enter-setting-name"], [], ["loc", [null, [102, 30], [102, 91]]]]], ["loc", [null, [98, 16], [103, 18]]]], ["attribute", "class", ["concat", ["ui small button cols-config-save", ["subexpr", "unless", [["get", "model.settingName", ["loc", [null, [104, 69], [104, 86]]]], " disabled"], [], ["loc", [null, [104, 60], [104, 100]]]]]]], ["element", "action", ["saveColsSetting"], [], ["loc", [null, [104, 102], [104, 130]]]], ["inline", "t", ["components.colsconfig-dialog-content.save"], [], ["loc", [null, [105, 18], [105, 67]]]], ["element", "action", ["apply"], [], ["loc", [null, [110, 69], [110, 87]]]], ["inline", "if", [["get", "model.exportParams.isExportExcel", ["loc", [null, [110, 93], [110, 125]]]], ["subexpr", "t", ["components.colsconfig-dialog-content.export"], [], ["loc", [null, [110, 126], [110, 175]]]], ["subexpr", "t", ["components.colsconfig-dialog-content.use"], [], ["loc", [null, [110, 176], [110, 222]]]]], [], ["loc", [null, [110, 88], [110, 224]]]], ["inline", "ui-message", [], ["type", ["subexpr", "@mut", [["get", "type", ["loc", [null, [116, 13], [116, 17]]]]], [], []], "closeable", ["subexpr", "@mut", [["get", "closeable", ["loc", [null, [117, 18], [117, 27]]]]], [], []], "visible", ["subexpr", "@mut", [["get", "visible", ["loc", [null, [118, 16], [118, 23]]]]], [], []], "caption", ["subexpr", "@mut", [["get", "caption", ["loc", [null, [119, 16], [119, 23]]]]], [], []], "message", ["subexpr", "@mut", [["get", "message", ["loc", [null, [120, 16], [120, 23]]]]], [], []]], ["loc", [null, [115, 6], [121, 8]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -62653,7 +62698,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+2303a2c3"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+a0a57006"});
 }
 
 /* jshint ignore:end */

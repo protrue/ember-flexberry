@@ -545,6 +545,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/helpers/parse-cols-config-sorting.js": {
+            "name": "addon/helpers/parse-cols-config-sorting.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/helpers/readonly-cell.js": {
             "name": "addon/helpers/readonly-cell.js",
             "modules": {},
@@ -1476,7 +1483,7 @@
             "module": "ember-flexberry",
             "namespace": "",
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 9,
+            "line": 8,
             "description": "Columns configuration dialog Content component.",
             "extends": "FlexberryBaseComponent"
         },
@@ -3780,7 +3787,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 16,
+            "line": 15,
             "description": "Columns configiration menu.",
             "itemtype": "property",
             "name": "colsConfigMenu",
@@ -3791,7 +3798,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 25,
+            "line": 24,
             "description": "Service that triggers objectlistview events.",
             "itemtype": "property",
             "name": "objectlistviewEventsService",
@@ -3802,7 +3809,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 34,
+            "line": 33,
             "description": "Service for managing the state of the application.",
             "itemtype": "property",
             "name": "appState",
@@ -3812,84 +3819,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 42,
-            "description": "Model with added DOM elements.",
-            "itemtype": "property",
-            "name": "modelForDOM",
-            "type": "{Object}",
-            "default": "'[]'",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 51,
-            "description": "ObjectListView component name.",
-            "itemtype": "property",
-            "name": "componentName",
-            "type": "{String}",
-            "default": "''",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 60,
-            "description": "ObjectListView setting name.",
-            "itemtype": "property",
-            "name": "settingName",
-            "type": "{String}",
-            "default": "''",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 69,
-            "description": "Changed flag.",
-            "itemtype": "property",
-            "name": "isChanged",
-            "type": "{Boolean}",
-            "default": "false",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 78,
-            "description": "Flag. If true, store columns width.",
-            "itemtype": "property",
-            "name": "saveColWidthState",
-            "type": "{Boolean}",
-            "default": "true",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 87,
-            "description": "Per page value.",
-            "itemtype": "property",
-            "name": "perPageValue",
-            "type": "{Int}",
-            "default": "undefined",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 96,
-            "description": "Params for export excel.",
-            "itemtype": "property",
-            "name": "exportParams",
-            "type": "{Object}",
-            "default": "{}",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 105,
+            "line": 41,
             "description": "Current store.",
             "itemtype": "property",
             "name": "store",
@@ -3900,26 +3830,15 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 114,
-            "description": "Current model name.",
-            "itemtype": "property",
-            "name": "modelName",
-            "type": "{String}",
-            "default": "undefined",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 180,
+            "line": 77,
             "description": "Invert column visibility (On/Off)",
             "itemtype": "method",
             "name": "actions.invertVisibility",
             "params": [
                 {
                     "name": "n",
-                    "description": "column number (id suffix)",
-                    "type": "Int"
+                    "description": "Row number.",
+                    "type": "Integer"
                 }
             ],
             "class": "ColsconfigDialogContentComponent",
@@ -3927,31 +3846,25 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 201,
-            "description": "Set sort order for column: descending ascending, none) and eneble/disable sort priority",
+            "line": 88,
+            "description": "Set sort order and priority for column.",
             "itemtype": "method",
             "name": "actions.setSortOrder",
             "params": [
                 {
-                    "name": "n",
-                    "description": "column number (id suffix)",
-                    "type": "Int"
-                }
-            ],
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 243,
-            "description": "Set sort priority for column",
-            "itemtype": "method",
-            "name": "actions.setSortPriority",
-            "params": [
+                    "name": "index",
+                    "description": "Row number.",
+                    "type": "Integer"
+                },
                 {
-                    "name": "n",
-                    "description": "column number (id suffix)",
-                    "type": "Int"
+                    "name": "element",
+                    "description": "Dropdown.",
+                    "type": "Object"
+                },
+                {
+                    "name": "value",
+                    "description": "Selected value.",
+                    "type": "String"
                 }
             ],
             "class": "ColsconfigDialogContentComponent",
@@ -3959,15 +3872,15 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 299,
-            "description": "Increase column in list (exchange previous column)",
+            "line": 114,
+            "description": "Move row upward in list.",
             "itemtype": "method",
             "name": "actions.rowUp",
             "params": [
                 {
                     "name": "n",
-                    "description": "column number (id suffix)",
-                    "type": "Int"
+                    "description": "Row number.",
+                    "type": "Integer"
                 }
             ],
             "class": "ColsconfigDialogContentComponent",
@@ -3975,15 +3888,15 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 332,
-            "description": "Decrease column in list (exchange  next column)",
+            "line": 128,
+            "description": "Move row downward.",
             "itemtype": "method",
             "name": "actions.rowDown",
             "params": [
                 {
                     "name": "n",
-                    "description": "column number (id suffix)",
-                    "type": "Int"
+                    "description": "Row number.",
+                    "type": "Integer"
                 }
             ],
             "class": "ColsconfigDialogContentComponent",
@@ -3991,8 +3904,8 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 368,
-            "description": "Apply settings specified in the interface as DEFAULT values",
+            "line": 142,
+            "description": "Apply specified usersettings.",
             "itemtype": "method",
             "name": "actions.apply",
             "class": "ColsconfigDialogContentComponent",
@@ -4000,8 +3913,8 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 429,
-            "description": "Save named settings specified in the interface as named values",
+            "line": 200,
+            "description": "Save specified usersettings.",
             "itemtype": "method",
             "name": "actions.saveColsSetting",
             "class": "ColsconfigDialogContentComponent",
@@ -4009,61 +3922,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 472,
-            "description": "Column width is changed",
-            "itemtype": "method",
-            "name": "actions.widthChanged",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 481,
-            "description": "Column name is changed",
-            "itemtype": "method",
-            "name": "actions.columnNameChanged",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 490,
-            "description": "Config name is defined",
-            "itemtype": "method",
-            "name": "actions.setConfigName",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 499,
-            "description": "Per page value is changed",
-            "itemtype": "method",
-            "name": "actions.perPageChanged",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 508,
-            "description": "DetSeparateCols value is changed",
-            "itemtype": "method",
-            "name": "actions.detSeparateColsChange",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 517,
-            "description": "DetSeparateRows value is changed",
-            "itemtype": "method",
-            "name": "actions.detSeparateRowsChange",
-            "class": "ColsconfigDialogContentComponent",
-            "module": "ember-flexberry"
-        },
-        {
-            "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 532,
+            "line": 247,
             "description": "Scrolling content to bottom.",
             "itemtype": "method",
             "name": "_scrollToBottom",
@@ -4072,8 +3931,8 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 544,
-            "description": "Gets current query for export excel",
+            "line": 259,
+            "description": "Gets current query for export excel.",
             "itemtype": "method",
             "name": "_getCurrentQuery",
             "class": "ColsconfigDialogContentComponent",
