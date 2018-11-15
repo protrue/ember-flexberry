@@ -18338,14 +18338,14 @@ ol.ui.horizontal.list li:before,
   border-radius: 0px;
   outline: none;
 }
-.ember-view.example-simpledatetime input.flatpickr-input {
-  border-bottom: none;
-}
 .flexberry-simpledatetime .ui.fluid.action.input {
   border: none;
   border-bottom: 1px solid #b1cae8;
   border-radius: 0px;
   outline: none;
+}
+.flexberry-simpledatetime .ui.fluid.action.input input.flatpickr-input {
+  border-bottom: none;
 }
 input[type="checkbox"]:after {
   content: "";

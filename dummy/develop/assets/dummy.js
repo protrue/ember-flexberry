@@ -5425,8 +5425,6 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/custom-fi
 
       componentForFilter: function componentForFilter(type, relation) {
         switch (type) {
-          case 'date':
-            return { name: 'flexberry-datepicker' };
           case 'decimal':
             return { name: 'flexberry-textbox', properties: { 'class': 'compact fluid' } };
           default:
@@ -18310,8 +18308,6 @@ define('dummy/routes/components-examples/flexberry-objectlistview/configurate-ro
 });
 define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter', ['exports', 'ember-flexberry/routes/list-form', 'ember-flexberry-data'], function (exports, _emberFlexberryRoutesListForm, _emberFlexberryData) {
   var SimplePredicate = _emberFlexberryData.Query.SimplePredicate;
-  var StringPredicate = _emberFlexberryData.Query.StringPredicate;
-  var DatePredicate = _emberFlexberryData.Query.DatePredicate;
   exports['default'] = _emberFlexberryRoutesListForm['default'].extend({
     /**
       Name of model projection to be used as record's properties limitation.
@@ -18351,20 +18347,12 @@ define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter'
     developerUserSettings: { FOLVCustomFilterObjectListView: {} },
 
     predicateForFilter: function predicateForFilter(filter) {
-      if (filter.type === 'string' && filter.condition === 'like') {
-        return new StringPredicate(filter.name).contains(filter.pattern);
-      }
-
       if (filter.type === 'string' && filter.condition === 'empty') {
         return new SimplePredicate(filter.name, 'eq', null);
       }
 
       if (filter.type === 'decimal') {
         return new SimplePredicate(filter.name, filter.condition, filter.pattern ? Number(filter.pattern) : filter.pattern);
-      }
-
-      if (filter.type === 'date') {
-        return new DatePredicate(filter.name, filter.condition, filter.pattern, true);
       }
 
       return this._super.apply(this, arguments);
@@ -62696,7 +62684,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+0a4e4cf6"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+36ce2f75"});
 }
 
 /* jshint ignore:end */

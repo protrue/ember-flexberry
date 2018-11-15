@@ -14475,7 +14475,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1852,
+            "line": 1855,
             "description": "Sets content for component.",
             "itemtype": "method",
             "name": "_setContent",
@@ -14496,7 +14496,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1904,
+            "line": 1907,
             "description": "Refresh list with the entered filter.",
             "itemtype": "method",
             "name": "_refreshList",
@@ -14514,7 +14514,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1942,
+            "line": 1945,
             "description": "Get the row by key.",
             "itemtype": "method",
             "name": "_getRowByKey",
@@ -14525,7 +14525,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1965,
+            "line": 1968,
             "description": "Get the key of model.",
             "itemtype": "method",
             "name": "_getModelKey",
@@ -14536,7 +14536,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1980,
+            "line": 1983,
             "description": "Remove the model with key.",
             "itemtype": "method",
             "name": "_removeModelWithKey",
@@ -14547,7 +14547,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1993,
+            "line": 1996,
             "description": "Adds detail model to current model, generates unique key for detail model.\nIf record is deleted then `undefined` is returned and record isn't added to list.",
             "itemtype": "method",
             "name": "_addModel",
@@ -14569,7 +14569,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2048,
+            "line": 2051,
             "description": "Adds row to component and calls click on row action if detail is edited on separate route.\nThis method is triggered on toolbar's add batton click.",
             "itemtype": "method",
             "name": "_addRow",
@@ -14587,7 +14587,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2074,
+            "line": 2077,
             "description": "Handler for \"delete all rows on all pages\" event in objectlistview.",
             "itemtype": "method",
             "name": "_deleteRows",
@@ -14608,7 +14608,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2116,
+            "line": 2119,
             "description": "Actually delete the all records on all pages.",
             "itemtype": "method",
             "name": "_actualDeleteAllRecords",
@@ -14636,7 +14636,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2160,
+            "line": 2163,
             "description": "Handler for \"delete selected rows\" event in objectlistview.",
             "itemtype": "method",
             "name": "_deleteRows",
@@ -14657,7 +14657,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2183,
+            "line": 2186,
             "description": "Delete the record.",
             "itemtype": "method",
             "name": "_deleteRecord",
@@ -14680,7 +14680,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2223,
+            "line": 2226,
             "description": "Actually delete the record.",
             "itemtype": "method",
             "name": "_actualDeleteRecord",
@@ -14703,7 +14703,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2255,
+            "line": 2258,
             "description": "Delete all hasMany relationships in the `record`.",
             "itemtype": "method",
             "name": "_deleteHasManyRelationships",
@@ -14730,7 +14730,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2278,
+            "line": 2281,
             "description": "The handler for \"filter by any match\" event triggered in objectlistview events service.",
             "itemtype": "method",
             "name": "_filterByAnyMatch",
@@ -14748,7 +14748,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2296,
+            "line": 2299,
             "description": "Set the active record.",
             "itemtype": "method",
             "name": "_setActiveRecord",
@@ -14766,7 +14766,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2324,
+            "line": 2327,
             "description": "It observes changes of flag {{#crossLink \"ObjectListViewComponent/searchForContentChange:property\"}}searchForContentChange{{/crossLink}}.\n\nIf flag {{#crossLink \"ObjectListViewComponent/searchForContentChange:property\"}}{{/crossLink}} changes its value\nobserver on component content is set otherwise it is removed.",
             "itemtype": "method",
             "name": "_searchForContentChange",
@@ -14777,7 +14777,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2342,
+            "line": 2345,
             "description": "It observes changes of model's data that are displayed on component\nif flag {{#crossLink \"ObjectListViewComponent/searchForContentChange:property\"}}{{/crossLink}} is enabled.\n\nProperty changing displayes automatically.\nComponent compares current detail array with used on component,\nremoves deleted and marked as deleted on model level records, adds created on model level records.",
             "itemtype": "method",
             "name": "_contentDidChange",
@@ -14788,7 +14788,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2396,
+            "line": 2399,
             "description": "Get attributes name from model.",
             "itemtype": "method",
             "name": "_getAttributesName",
@@ -14799,7 +14799,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2413,
+            "line": 2416,
             "description": "Restore selected records after refreshing or transition to other page.",
             "itemtype": "method",
             "name": "_restoreSelectedRecords",
@@ -14810,7 +14810,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2452,
+            "line": 2455,
             "description": "Select/Unselect all records on all pages.",
             "itemtype": "method",
             "name": "_selectAll",
@@ -15791,6 +15791,16 @@
         {
             "file": "addon/controllers/edit-form.js",
             "line": 78,
+            "description": "Parent route record ID.",
+            "itemtype": "property",
+            "name": "parentRouteRecordId",
+            "type": "String",
+            "class": "EditFormController",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/controllers/edit-form.js",
+            "line": 86,
             "description": "Route name corresponding this edit form.",
             "itemtype": "property",
             "name": "routeName",
@@ -15800,7 +15810,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 86,
+            "line": 94,
             "description": "Indicates whether the current form is opened only for reading.",
             "itemtype": "property",
             "name": "readonly",
@@ -15811,7 +15821,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 95,
+            "line": 103,
             "description": "Service for managing the state of the application.",
             "itemtype": "property",
             "name": "appState",
@@ -15821,7 +15831,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 103,
+            "line": 111,
             "description": "Readonly HTML attribute following to the `readonly` query param. According to the W3C standard, returns 'readonly' if `readonly` is `true` and `undefined` otherwise.\n\nTODO: Add unit test.",
             "itemtype": "property",
             "name": "readonlyAttr",
@@ -15833,7 +15843,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 117,
+            "line": 125,
             "description": "Object with settings for modal window.\n\nStructure object:\n- **controllerName** - Controller name, default: 'lookup-dialog'.\n- **template** - Template name modal window, default: 'lookup-dialog'.\n- **contentTemplate** - Template name that rendering after loading data, default: 'lookup-dialog-content'.\n- **loaderTemplate** - Template name that will be visible while loading data, default: 'loading'.",
             "itemtype": "property",
             "name": "lookupSettings",
@@ -15843,7 +15853,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 136,
+            "line": 144,
             "description": "If `true`, all details will be deleted along with the main model.",
             "itemtype": "property",
             "name": "destroyHasManyRelationshipsOnModelDestroy",
@@ -15854,7 +15864,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 145,
+            "line": 153,
             "description": "Controller to show lookup modal window.",
             "itemtype": "property",
             "name": "lookupController",
@@ -15865,7 +15875,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 154,
+            "line": 162,
             "description": "Flag to cancel rollback of model on controller resetting.\nFlag is set for interaction of agregator's and detail's routes.",
             "itemtype": "property",
             "name": "modelNoRollBack",
@@ -15876,7 +15886,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 164,
+            "line": 172,
             "description": "Defines which query parameters the controller accepts. [More info.](http://emberjs.com/api/classes/Ember.Controller.html#property_queryParams).",
             "itemtype": "property",
             "name": "queryParams",
@@ -15887,7 +15897,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 173,
+            "line": 181,
             "description": "Object with developer user settings.",
             "itemtype": "property",
             "name": "developerUserSettings",
@@ -15898,7 +15908,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 182,
+            "line": 190,
             "description": "Object with default developer user settings.",
             "itemtype": "property",
             "name": "defaultDeveloperUserSettings",
@@ -15909,7 +15919,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 192,
+            "line": 200,
             "description": "Default action for button 'Save'.\nYou can override this action to add custom logic.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/your-controller.js\n  ...\n  actions: {\n    ...\n    save() {\n      if (confirm('You sure?')) {\n        this.save();\n      }\n    }\n    ...\n  }\n  ...\n  onSaveActionFulfilled() {\n    alert('Save successful!');\n  }\n  ...\n  onSaveActionRejected() {\n    alert('Save failed!');\n  }\n  ...\n  ```"
@@ -15921,7 +15931,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 226,
+            "line": 234,
             "description": "Default action for button 'Save and close'.\nYou can override this action to add custom logic.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/your-controller.js\n  ...\n  actions: {\n    ...\n    saveAndClose() {\n      if (confirm('You sure?')) {\n        this.save(true);\n      }\n    }\n    ...\n  }\n  ...\n  onSaveActionFulfilled() {\n    alert('Save successful!');\n  }\n  ...\n  onSaveActionRejected() {\n    alert('Save failed!');\n  }\n  ...\n  ```"
@@ -15940,7 +15950,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 261,
+            "line": 269,
             "description": "Default action for button 'Delete'.\nYou can override this action to add custom logic.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/your-controller.js\n  ...\n  actions: {\n    ...\n    delete() {\n      if (confirm('You sure?')) {\n        this.delete(false);\n      }\n    }\n    ...\n  }\n  ...\n  onDeleteActionFulfilled() {\n    alert('Successful delete!');\n    this.close();\n  }\n  ...\n  onDeleteActionRejected() {\n    alert('Failed delete!');\n  }\n  ...\n  ```"
@@ -15959,7 +15969,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 297,
+            "line": 305,
             "description": "Default action for button 'Close'.\nYou can override this action to add custom logic.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/your-controller.js\n  ...\n  actions: {\n    ...\n    close() {\n      if (confirm('You sure?')) {\n        this.close();\n      }\n    }\n    ...\n  }\n  ...\n  ```"
@@ -15983,7 +15993,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 325,
+            "line": 333,
             "description": "Sorting list by column.",
             "itemtype": "method",
             "name": "actions.sortByColumn",
@@ -15999,7 +16009,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 335,
+            "line": 343,
             "description": "Add column into end list sorting.",
             "itemtype": "method",
             "name": "actions.addColumnToSorting",
@@ -16015,7 +16025,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 346,
+            "line": 354,
             "description": "Save object.",
             "itemtype": "method",
             "name": "save",
@@ -16040,7 +16050,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 424,
+            "line": 432,
             "description": "Delete object, if successful transition to parent route.",
             "itemtype": "method",
             "name": "delete",
@@ -16060,7 +16070,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 469,
+            "line": 477,
             "description": "Сlose edit form and transition to parent route.",
             "itemtype": "method",
             "name": "close",
@@ -16081,7 +16091,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 484,
+            "line": 492,
             "description": "This method will be invoked before save operation will be called.\nOverride this method to add some custom logic on save operation start.",
             "example": [
                 "\n  ```javascript\n  onSaveActionStarted() {\n    alert('Save operation started!');\n  }\n  ```"
@@ -16093,7 +16103,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 499,
+            "line": 507,
             "description": "This method will be invoked when save operation successfully completed.\nOverride this method to add some custom logic on save operation success.",
             "example": [
                 "\n  ```javascript\n  onSaveActionFulfilled() {\n    alert('Save operation succeed!');\n  }\n  ```"
@@ -16105,7 +16115,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 514,
+            "line": 522,
             "description": "This method will be invoked when save operation completed, but failed.\nOverride this method to add some custom logic on save operation fail.",
             "example": [
                 "\n  ```javascript\n  onSaveActionRejected() {\n    alert('Save operation failed!');\n  }\n  ```"
@@ -16124,7 +16134,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 534,
+            "line": 542,
             "description": "This method will be invoked always when save operation completed,\nregardless of save promise's state (was it fulfilled or rejected).\nOverride this method to add some custom logic on save operation completion.",
             "example": [
                 "\n  ```js\n  onSaveActionAlways(data) {\n    alert('Save operation completed!');\n  }\n  ```"
@@ -16143,7 +16153,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 552,
+            "line": 560,
             "description": "This method will be invoked before delete operation will be called.\nOverride this method to add custom logic on delete operation start.",
             "example": [
                 "\n  ```javascript\n  onDeleteActionStarted() {\n    alert('Delete operation started!');\n  }\n  ```"
@@ -16155,7 +16165,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 567,
+            "line": 575,
             "description": "This method will be invoked when delete operation successfully completed.\nOverride this method to add some custom logic on delete operation success.",
             "example": [
                 "\n  ```javascript\n  onDeleteActionFulfilled() {\n    alert('Delete operation succeed!');\n    this.close(false);\n  }\n  ```"
@@ -16174,7 +16184,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 585,
+            "line": 593,
             "description": "This method will be invoked when delete operation completed, but failed.\nOverride this method to add some custom logic on delete operation fail.",
             "example": [
                 "\n  ```javascript\n  onDeleteActionRejected() {\n    alert('Delete operation failed!');\n  }\n  ```"
@@ -16193,7 +16203,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 602,
+            "line": 610,
             "description": "This method will be invoked always when delete operation completed,\nregardless of save promise's state (was it fulfilled or rejected).\nOverride this method to add some custom logic on delete operation completion.",
             "example": [
                 "\n  ```js\n  onDeleteActionAlways(data) {\n    alert('Delete operation completed!');\n  }\n  ```"
@@ -16212,7 +16222,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 620,
+            "line": 628,
             "description": "This method will be invoked before close method will be called.\nOverride this method to add custom logic on close method start.",
             "example": [
                 "\n  ```javascript\n  onCloseActionStarted() {\n    alert('Form will be closed right now!');\n  }\n  ```"
@@ -16224,7 +16234,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 635,
+            "line": 643,
             "description": "Method transition to parent route (corresponding list form).",
             "itemtype": "method",
             "name": "transitionToParentRoute",
@@ -16240,7 +16250,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 652,
+            "line": 665,
             "description": "Method to get type and attributes of component, which will be embeded in object-list-view cell.",
             "itemtype": "method",
             "name": "getCellComponent",
@@ -16270,7 +16280,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 719,
+            "line": 732,
             "description": "Rollback dirty hasMany relationships in the `model` recursively.\nThis method invokes by `resetController` in the `edit-form` route.",
             "itemtype": "method",
             "name": "rollbackHasManyRelationships",
@@ -16288,7 +16298,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 732,
+            "line": 745,
             "description": "Service that lets interact between agregator's and detail's form.",
             "itemtype": "property",
             "name": "flexberryDetailInteractionService",
@@ -16301,7 +16311,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 742,
+            "line": 755,
             "description": "Save dirty hasMany relationships in the `model` recursively.\nThis method invokes by `save` method.",
             "itemtype": "method",
             "name": "_saveHasManyRelationships",
@@ -16323,7 +16333,7 @@
         },
         {
             "file": "addon/controllers/edit-form.js",
-            "line": 777,
+            "line": 790,
             "description": "Destroy (delete and save) all hasMany relationships in the `model` recursively.\nThis method invokes by `delete` method.",
             "itemtype": "method",
             "name": "_destroyHasManyRelationships",
@@ -19089,7 +19099,7 @@
         },
         {
             "file": "addon/mixins/flexberry-objectlistview-route.js",
-            "line": 84,
+            "line": 87,
             "description": "This action is called when user click on refresh button.",
             "itemtype": "method",
             "name": "actions.refreshList",
@@ -19100,7 +19110,7 @@
         },
         {
             "file": "addon/mixins/flexberry-objectlistview-route.js",
-            "line": 99,
+            "line": 102,
             "description": "It forms the limit predicate for loaded data.\n\nBy default it returns `undefined`.\nIn order to set specific limit predicate, this method have to be overriden on applied-specific route.",
             "example": [
                 "\n  ``` js\n  // app/routes/limit-function-example.js\n  import Ember from 'ember';\n  import ListFormRoute from 'ember-flexberry/routes/list-form';\n  import { Query } from 'ember-flexberry-data';\n\n  const { StringPredicate } = Query;\n\n  export default ListFormRoute.extend({\n    modelProjection: 'FolvWithLimitFunctionExampleView',\n\n    modelName: 'ember-flexberry-dummy-suggestion',\n\n    objectListViewLimitPredicate: function(options) {\n      let methodOptions = Ember.merge({\n        modelName: undefined,\n        projectionName: undefined,\n        params: undefined\n      }, options);\n\n      if (methodOptions.modelName === this.get('modelName') &&\n          methodOptions.projectionName === this.get('modelProjection')) {\n        let currentPerPageValue = methodOptions.params ? methodOptions.params.perPage : undefined;\n        let limitFunction = (currentPerPageValue && currentPerPageValue % 2 === 0) ?\n                            new StringPredicate('address').contains('S') :\n                            new StringPredicate('address').contains('п');\n        return limitFunction;\n      }\n\n      return undefined;\n    }\n  });\n\n  ```"
@@ -19417,7 +19427,7 @@
         },
         {
             "file": "addon/mixins/limited-route.js",
-            "line": 140,
+            "line": 148,
             "description": "Return predicate for `QueryBuilder` or `undefined`.",
             "itemtype": "method",
             "name": "_filtersPredicate",
@@ -20039,7 +20049,7 @@
         },
         {
             "file": "addon/mixins/predicate-from-filters.js",
-            "line": 66,
+            "line": 74,
             "description": "Return predicate for `QueryBuilder` or `undefined`.",
             "itemtype": "method",
             "name": "_filtersPredicate",
@@ -20812,7 +20822,7 @@
         },
         {
             "file": "addon/routes/edit-form.js",
-            "line": 204,
+            "line": 205,
             "description": "A hook you can use to setup the controller for the current route.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_setupController).",
             "itemtype": "method",
             "name": "setupController",
