@@ -1261,9 +1261,10 @@ export default folv.extend(
     },
 
     copyJSONContent(event) {
-      Ember.$(&#x27;#OLVToolbarInfoContent&#x27;).select();
+      let infoModalDialog = this.get(&#x27;_infoModalDialog&#x27;);
+      infoModalDialog.find(&#x27;.olv-toolbar-info-modal-dialog-content textarea&#x27;).select();
       let copied = document.execCommand(&#x27;copy&#x27;);
-      let oLVToolbarInfoCopyButton = Ember.$(&#x27;#OLVToolbarInfoCopyButton&#x27;);
+      let oLVToolbarInfoCopyButton = infoModalDialog.find(&#x27;.olv-toolbar-info-modal-dialog-copy-button&#x27;);
       oLVToolbarInfoCopyButton.get(0).innerHTML = this.get(&#x27;i18n&#x27;).t(copied ? &#x27;components.olv-toolbar.copied&#x27; : &#x27;components.olv-toolbar.ctrlc&#x27;);
       oLVToolbarInfoCopyButton.addClass(&#x27;disabled&#x27;);
     },
@@ -3060,7 +3061,7 @@ export default folv.extend(
       infoModalDialog.modal(&#x27;show&#x27;);
     }
 
-    let oLVToolbarInfoCopyButton = Ember.$(&#x27;#OLVToolbarInfoCopyButton&#x27;);
+    let oLVToolbarInfoCopyButton = infoModalDialog.find(&#x27;.olv-toolbar-info-modal-dialog-copy-button&#x27;);
     oLVToolbarInfoCopyButton.get(0).innerHTML = this.get(&#x27;i18n&#x27;).t(&#x27;components.olv-toolbar.copy&#x27;);
     oLVToolbarInfoCopyButton.removeClass(&#x27;disabled&#x27;);
     return infoContent;
