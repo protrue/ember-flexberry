@@ -6040,7 +6040,7 @@ define('dummy/controllers/components-examples/flexberry-objectlistview/on-edit-f
         params: undefined
       }, options);
 
-      if (methodOptions.modelName === this.get('folvModelName') && methodOptions.projectionName === this.get('folvProjection')) {
+      if (methodOptions.modelName === this.get('folvModelName') && methodOptions.projectionName === this.get('folvProjection') && !this.get('inHierarchicalMode')) {
         var limitFunction = new _emberFlexberryDataQueryPredicate.ComplexPredicate('or', new _emberFlexberryDataQueryPredicate.StringPredicate('name').contains('1'), new _emberFlexberryDataQueryPredicate.StringPredicate('name').contains('Type'));
         return limitFunction;
       }
@@ -62653,7 +62653,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+bb4ec052"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.4+a8d6d4c2"});
 }
 
 /* jshint ignore:end */
