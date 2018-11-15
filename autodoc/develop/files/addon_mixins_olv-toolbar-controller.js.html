@@ -375,6 +375,7 @@ export default Ember.Mixin.create({
       let store = this.get(&#x27;store&#x27;);
 
       let controller = this.get(&#x27;colsconfigController&#x27;);
+      controller.set(&#x27;mainControler&#x27;, this);
 
       let loadingParams = {
         view: &#x27;application&#x27;,

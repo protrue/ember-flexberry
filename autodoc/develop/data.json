@@ -4000,7 +4000,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 426,
+            "line": 429,
             "description": "Save named settings specified in the interface as named values",
             "itemtype": "method",
             "name": "actions.saveColsSetting",
@@ -4009,7 +4009,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 469,
+            "line": 472,
             "description": "Column width is changed",
             "itemtype": "method",
             "name": "actions.widthChanged",
@@ -4018,7 +4018,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 478,
+            "line": 481,
             "description": "Column name is changed",
             "itemtype": "method",
             "name": "actions.columnNameChanged",
@@ -4027,7 +4027,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 487,
+            "line": 490,
             "description": "Config name is defined",
             "itemtype": "method",
             "name": "actions.setConfigName",
@@ -4036,7 +4036,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 496,
+            "line": 499,
             "description": "Per page value is changed",
             "itemtype": "method",
             "name": "actions.perPageChanged",
@@ -4045,7 +4045,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 505,
+            "line": 508,
             "description": "DetSeparateCols value is changed",
             "itemtype": "method",
             "name": "actions.detSeparateColsChange",
@@ -4054,7 +4054,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 514,
+            "line": 517,
             "description": "DetSeparateRows value is changed",
             "itemtype": "method",
             "name": "actions.detSeparateRowsChange",
@@ -4063,7 +4063,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 529,
+            "line": 532,
             "description": "Scrolling content to bottom.",
             "itemtype": "method",
             "name": "_scrollToBottom",
@@ -4072,7 +4072,7 @@
         },
         {
             "file": "addon/components/colsconfig-dialog-content.js",
-            "line": 541,
+            "line": 544,
             "description": "Gets current query for export excel",
             "itemtype": "method",
             "name": "_getCurrentQuery",
@@ -19891,7 +19891,7 @@
         },
         {
             "file": "addon/mixins/olv-toolbar-controller.js",
-            "line": 188,
+            "line": 189,
             "description": "Generate the columns.",
             "itemtype": "method",
             "name": "_generateColumns",
@@ -19902,14 +19902,14 @@
         },
         {
             "file": "addon/mixins/olv-toolbar-controller.js",
-            "line": 251,
+            "line": 252,
             "description": "Create the key from locales.",
             "class": "PaginatedController",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/mixins/olv-toolbar-controller.js",
-            "line": 279,
+            "line": 280,
             "description": "Create the column.",
             "itemtype": "method",
             "name": "_createColumn",
@@ -23997,7 +23997,7 @@
         },
         {
             "message": "Missing item type\nCreate the key from locales.",
-            "line": " addon/mixins/olv-toolbar-controller.js:251"
+            "line": " addon/mixins/olv-toolbar-controller.js:252"
         },
         {
             "message": "Missing item type\nInitializes required actions logic.",

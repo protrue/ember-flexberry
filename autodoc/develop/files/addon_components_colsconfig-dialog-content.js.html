@@ -594,7 +594,10 @@ export default FlexberryBaseComponent.extend({
         savePromise.then(
           record =&gt; {
             let sort = serializeSortingParam(colsConfig.sorting);
-            router.router.transitionTo(router.currentRouteName, { queryParams: { sort: sort, perPage: colsConfig.perPage || 5 } });
+            this.get(&#x27;appState&#x27;).reset();
+            this.set(&#x27;currentController.mainControler.sort&#x27;, sort);
+            this.set(&#x27;currentController.mainControler.perPage&#x27;, colsConfig.perPage || 5);
+            router.router.refresh();
           }
         ).catch((reason) =&gt; {
           this.currentController.send(&#x27;handleError&#x27;, reason);
