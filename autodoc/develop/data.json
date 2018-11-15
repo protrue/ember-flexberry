@@ -1839,7 +1839,7 @@
             "line": 10,
             "description": "Wrapper for input[type='date/datetime/datetime-local'] component.\n**Please keep in mind that these input types are not supported in all browsers, [see supported browsers](http://caniuse.com/#feat=input-datetime).**",
             "example": [
-                "\n  ```handlebars\n  {{flexberry-simpledatetime\n    type=\"datetime-local\"\n    value=model.orderDate\n    min=model.orderDateMin\n    max=model.orderDateMax\n  }}\n  ```"
+                "\n  ```handlebars\n  {{flexberry-simpledatetime\n    type=\"datetime-local\"\n    value=model.orderDate\n    min=model.orderDateMin\n    max=model.orderDateMax\n    defaultHour=defaultHour\n    defaultMinute=defaultMinute\n  }}\n  ```"
             ],
             "extends": "FlexberryBaseComponent"
         },
@@ -9346,7 +9346,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 29,
+            "line": 31,
             "description": "Store current value as Date object.",
             "itemtype": "property",
             "name": "_valueAsDate",
@@ -9359,7 +9359,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 39,
+            "line": 41,
             "description": "Convert date in `value` to appropriate input datatype.\nFor example, [see here](https://www.w3.org/TR/html-markup/input.datetime-local.html#input.datetime-local.attrs.value).",
             "itemtype": "property",
             "name": "_valueAsString",
@@ -9372,7 +9372,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 50,
+            "line": 52,
             "description": "Convert date in `min` to appropriate input datatype.\nFor example, [see here](https://www.w3.org/TR/html-markup/input.datetime-local.html#input.datetime-local.attrs.min).",
             "itemtype": "property",
             "name": "_minAsString",
@@ -9385,7 +9385,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 61,
+            "line": 63,
             "description": "Convert date in `max` to appropriate input datatype.\nFor example, [see here](https://www.w3.org/TR/html-markup/input.datetime-local.html#input.datetime-local.attrs.max).",
             "itemtype": "property",
             "name": "_maxAsString",
@@ -9398,7 +9398,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 72,
+            "line": 74,
             "description": "Checks whether the browser supports the date field.",
             "itemtype": "property",
             "name": "currentTypeSupported",
@@ -9409,7 +9409,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 89,
+            "line": 91,
             "description": "Type of date picker.",
             "itemtype": "property",
             "name": "type",
@@ -9420,7 +9420,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 98,
+            "line": 100,
             "description": "Flag indicates only flatpickr using for this component.",
             "itemtype": "property",
             "name": "useOnlyFlatpickr",
@@ -9431,7 +9431,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 107,
+            "line": 109,
             "description": "Value of date.",
             "itemtype": "property",
             "name": "value",
@@ -9441,7 +9441,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 144,
+            "line": 146,
             "description": "Minimum value of date.",
             "itemtype": "property",
             "name": "min",
@@ -9451,7 +9451,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 169,
+            "line": 171,
             "description": "Maximum value of date.",
             "itemtype": "property",
             "name": "max",
@@ -9461,7 +9461,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 194,
+            "line": 196,
             "description": "Default value of hour.",
             "itemtype": "property",
             "name": "defaultHour",
@@ -9472,7 +9472,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 203,
+            "line": 205,
             "description": "Default value of minute.",
             "itemtype": "property",
             "name": "defaultMinute",
@@ -9483,7 +9483,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 212,
+            "line": 214,
             "description": "Text to be displayed in field, if field has not been filled.",
             "itemtype": "property",
             "name": "placeholder",
@@ -9494,7 +9494,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 221,
+            "line": 223,
             "description": "Array CSS class names.\n[More info.](http://emberjs.com/api/classes/Ember.Component.html#property_classNames)",
             "itemtype": "property",
             "name": "classNames",
@@ -9505,7 +9505,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 231,
+            "line": 233,
             "description": "If true, then onClick calling flatpickr.open().",
             "itemtype": "property",
             "name": "canClick",
@@ -9515,7 +9515,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 239,
+            "line": 241,
             "description": "If undefined, then uses application locale.\nSupported locales: 'en', 'ru'.",
             "itemtype": "property",
             "name": "locale",
@@ -9525,7 +9525,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 248,
+            "line": 250,
             "description": "If true, then flatpickr has remove button.",
             "itemtype": "property",
             "name": "removeButton",
@@ -9535,14 +9535,14 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 256,
+            "line": 258,
             "description": "Initializes DOM-related component's logic.",
             "class": "FlexberrySimpledatetime",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 266,
+            "line": 268,
             "description": "Called when the element of the view is going to be destroyed. Override this function to do any teardown that requires an element, like removing event listeners.\n[More info](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement).",
             "itemtype": "method",
             "name": "willDestroyElement",
@@ -9551,7 +9551,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 277,
+            "line": 279,
             "description": "Component click handler.",
             "itemtype": "method",
             "name": "click",
@@ -9562,7 +9562,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 290,
+            "line": 292,
             "description": "Validation date and time.",
             "itemtype": "method",
             "name": "_validationDateTime",
@@ -9573,7 +9573,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 324,
+            "line": 326,
             "description": "Create Flatpickr instance, and save it into `_flatpickr` property.",
             "itemtype": "method",
             "name": "_flatpickrCreate",
@@ -9584,21 +9584,21 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 393,
+            "line": 395,
             "description": "Sets readonly attr for flatpickr.",
             "class": "FlexberrySimpledatetime",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 400,
-            "description": "Reinit flatpickr.",
+            "line": 402,
+            "description": "Reinit flatpickr (defaultHour and defaultMinute for dynamically updating because set() for this options doesn't update view).",
             "class": "FlexberrySimpledatetime",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 408,
+            "line": 410,
             "description": "Destroy Flatpickr instance.",
             "itemtype": "method",
             "name": "_flatpickrDestroy",
@@ -9609,7 +9609,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 422,
+            "line": 424,
             "description": "Convert Date object to appropriate string value for input.",
             "itemtype": "method",
             "name": "_convertDateToString",
@@ -9631,7 +9631,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 453,
+            "line": 455,
             "description": "Converts string value of input to Date object.",
             "itemtype": "method",
             "name": "_convertStringToDate",
@@ -9653,7 +9653,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 473,
+            "line": 475,
             "description": "Converts date (without time) to local date.",
             "itemtype": "method",
             "name": "_convertDateToLocal",
@@ -9675,7 +9675,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 495,
+            "line": 497,
             "description": "Clear current value.",
             "itemtype": "method",
             "name": "actions.remove",
@@ -23608,15 +23608,15 @@
         },
         {
             "message": "Missing item type\nInitializes DOM-related component's logic.",
-            "line": " addon/components/flexberry-simpledatetime.js:256"
+            "line": " addon/components/flexberry-simpledatetime.js:258"
         },
         {
             "message": "Missing item type\nSets readonly attr for flatpickr.",
-            "line": " addon/components/flexberry-simpledatetime.js:393"
+            "line": " addon/components/flexberry-simpledatetime.js:395"
         },
         {
-            "message": "Missing item type\nReinit flatpickr.",
-            "line": " addon/components/flexberry-simpledatetime.js:400"
+            "message": "Missing item type\nReinit flatpickr (defaultHour and defaultMinute for dynamically updating because set() for this options doesn't update view).",
+            "line": " addon/components/flexberry-simpledatetime.js:402"
         },
         {
             "message": "Missing item type\nSimple object list view  component.",
