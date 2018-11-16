@@ -19253,13 +19253,12 @@ define('dummy/routes/components-examples/flexberry-objectlistview/configurate-ro
     }
   });
 });
-define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter', ['exports', 'ember-flexberry/routes/list-form', 'ember-flexberry-data'], function (exports, _listForm, _emberFlexberryData) {
+define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter', ['exports', 'ember-flexberry/routes/list-form', 'ember-flexberry-data/query/predicate'], function (exports, _listForm, _predicate) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var SimplePredicate = _emberFlexberryData.Query.SimplePredicate;
   exports.default = _listForm.default.extend({
     /**
       Name of model projection to be used as record's properties limitation.
@@ -19303,11 +19302,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter'
 
     predicateForFilter: function predicateForFilter(filter) {
       if (filter.type === 'string' && filter.condition === 'empty') {
-        return new SimplePredicate(filter.name, 'eq', null);
+        return new _predicate.SimplePredicate(filter.name, 'eq', null);
       }
 
       if (filter.type === 'decimal') {
-        return new SimplePredicate(filter.name, filter.condition, filter.pattern ? Number(filter.pattern) : filter.pattern);
+        return new _predicate.SimplePredicate(filter.name, filter.condition, filter.pattern ? Number(filter.pattern) : filter.pattern);
       }
 
       return this._super.apply(this, arguments);
@@ -19320,11 +19319,11 @@ define('dummy/routes/components-examples/flexberry-objectlistview/custom-filter'
             var no = ['False', 'False', 'false', 'NO', 'No', 'no', 'НЕТ', 'Нет', 'нет', '0', '-'];
 
             if (yes.indexOf(filter) > 0) {
-              return new SimplePredicate(attribute.name, 'eq', 'true');
+              return new _predicate.SimplePredicate(attribute.name, 'eq', 'true');
             }
 
             if (no.indexOf(filter) > 0) {
-              return new SimplePredicate(attribute.name, 'eq', 'false');
+              return new _predicate.SimplePredicate(attribute.name, 'eq', 'false');
             }
 
             return null;
@@ -24537,6 +24536,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"3.0.0-beta.0+afa2c70a"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"3.0.0-beta.0+9167f3b1"});
 }
 //# sourceMappingURL=dummy.map
