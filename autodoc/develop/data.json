@@ -8833,7 +8833,7 @@
             "line": 698,
             "description": "Array of custom user buttons.",
             "example": [
-                "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...' // Button title.\n  }\n  ```",
+                "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...', // Button title.\n    disabled: true, // The state of the button is disabled if `true` or enabled if `false`.\n  }\n  ```",
                 "\n  Example of how to add user buttons:\n  1) it has to be defined computed property at corresponding controller (name of property is not fixed).\n  ```\n  import Ember from 'ember';\n  import ListFormController from 'ember-flexberry/controllers/list-form';\n\n  export default ListFormController.extend({\n    ...\n    customButtonsMethod: Ember.computed('i18n.locale', function() {\n      let i18n = this.get('i18n');\n      return [{\n        buttonName: i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-button-name'),\n        buttonAction: 'userButtonActionTest',\n        buttonClasses: 'test-click-button'\n      }];\n    })\n  });\n  ```\n\n  2) it has to be defined set as 'buttonAction' methods.\n  ```\n  import Ember from 'ember';\n  import ListFormController from 'ember-flexberry/controllers/list-form';\n\n  export default ListFormController.extend({\n    ...\n    clickCounter: 1,\n    messageForUser: undefined,\n\n    actions: {\n      userButtonActionTest: function() {\n        let i18n = this.get('i18n');\n        let clickCounter = this.get('clickCounter');\n        this.set('clickCounter', clickCounter + 1);\n        this.set('messageForUser',\n          i18n.t('forms.components-examples.flexberry-objectlistview.toolbar-custom-buttons-example.custom-message').string +\n          ' ' + clickCounter);\n      }\n    }\n  });\n  ```\n\n  3) defined methods and computed property have to be registered at component.\n  ```\n  {{flexberry-objectlistview\n    ...\n    customButtons=customButtonsMethod\n    userButtonActionTest='userButtonActionTest'\n  }}\n  ```"
             ],
             "itemtype": "property",
@@ -8844,7 +8844,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 768,
+            "line": 769,
             "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
             "example": [
                 "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonIcon: '...', // Button icon\n    buttonTitle: '...' // Button title.\n  }\n  ```"
@@ -8857,7 +8857,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 788,
+            "line": 789,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.sortByColumn",
@@ -8875,7 +8875,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 800,
+            "line": 801,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.addColumnToSorting",
@@ -8893,7 +8893,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 812,
+            "line": 813,
             "description": "Handles action from row click (action is handled at route so it can't be closure action now).",
             "itemtype": "method",
             "name": "actions.objectListViewRowClick",
@@ -8916,7 +8916,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 844,
+            "line": 845,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.previousPage",
@@ -8934,7 +8934,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 863,
+            "line": 864,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.nextPage",
@@ -8952,7 +8952,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 882,
+            "line": 883,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.gotoPage",
@@ -8975,7 +8975,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 902,
+            "line": 903,
             "description": "Handler to get user button's actions and send action to corresponding controllers's handler.",
             "itemtype": "method",
             "name": "actions.customButtonAction",
@@ -8993,7 +8993,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 917,
+            "line": 918,
             "description": "Handler to get user button's in rows actions and send action to corresponding controllers's handler.",
             "itemtype": "method",
             "name": "actions.customButtonInRowAction",
@@ -9014,7 +9014,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 932,
+            "line": 933,
             "description": "Show/hide filters.",
             "itemtype": "method",
             "name": "actions.toggleStateFilters",
@@ -9023,7 +9023,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 941,
+            "line": 942,
             "description": "Dummy action handlers, overloaded in {{#crossLink \"LimitedController\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "actions.applyFilters",
@@ -9039,7 +9039,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 952,
+            "line": 953,
             "description": "Dummy action handlers, overloaded in {{#crossLink \"LimitedController\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "actions.resetFilters",
@@ -9055,7 +9055,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 967,
+            "line": 968,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.filterByAnyMatch",
@@ -9071,7 +9071,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 978,
+            "line": 979,
             "description": "Set availability hierarchical mode, and save the attribute name in controller.",
             "itemtype": "method",
             "name": "actions.availableHierarchicalMode",
@@ -9087,7 +9087,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 989,
+            "line": 990,
             "description": "Called controller action to switch in hierarchical mode.",
             "itemtype": "method",
             "name": "actions.switchHierarchicalMode",
@@ -9096,7 +9096,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 998,
+            "line": 999,
             "description": "Called controller action to switch in collapse/expand mode.",
             "itemtype": "method",
             "name": "actions.switchExpandMode",
@@ -9105,7 +9105,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1007,
+            "line": 1008,
             "description": "Redirects the call to controller.",
             "itemtype": "method",
             "name": "actions.loadRecords",
@@ -9136,7 +9136,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1020,
+            "line": 1021,
             "description": "Called when click on perPage.",
             "itemtype": "method",
             "name": "actions.perPageClick",
@@ -9152,7 +9152,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1033,
+            "line": 1034,
             "description": "Send action with `actionName` into controller.",
             "itemtype": "method",
             "name": "actions.sendMenuItemAction",
@@ -9173,7 +9173,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1045,
+            "line": 1046,
             "description": "Hook that can be used to confirm delete row.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-objectlistview\n    ...\n    confirmDeleteRow=(action 'confirmDeleteRow')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRow() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -9189,7 +9189,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1076,
+            "line": 1077,
             "description": "Hook that can be used to confirm delete rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-objectlistview\n    ...\n    confirmDeleteRows=(action 'confirmDeleteRows')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRows() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -9205,7 +9205,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1107,
+            "line": 1108,
             "description": "Hook that executes before deleting the record.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    beforeDeleteRecord=(action 'beforeDeleteRecord')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteRecord(record, data) {\n        if (record.get('myProperty')) {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -9244,7 +9244,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1143,
+            "line": 1144,
             "description": "Hook that executes before deleting all records on all pages.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    beforeDeleteAllRecords=(action 'beforeDeleteAllRecords')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteAllRecords(modelName, data) {\n        if (modelName === 'application-user') {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -9283,14 +9283,14 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1179,
+            "line": 1180,
             "description": "An overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",
             "class": "FlexberryObjectlistviewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1202,
+            "line": 1203,
             "description": "Called after a component has been rendered, both on initial render and in subsequent rerenders.\n[More info](http://emberjs.com/api/classes/Ember.Component.html#event_didRender).",
             "itemtype": "method",
             "name": "didRender",
@@ -9299,14 +9299,14 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1213,
+            "line": 1214,
             "description": "Called when the element of the view is going to be destroyed.\nFor more information see [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
             "class": "FlexberryObjectlistviewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1226,
+            "line": 1227,
             "description": "Get the row by key.",
             "itemtype": "method",
             "name": "_getRowByKey",
@@ -9317,7 +9317,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1244,
+            "line": 1245,
             "description": "Set the active row.",
             "itemtype": "method",
             "name": "_setActiveRow",
@@ -9335,7 +9335,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1282,
+            "line": 1283,
             "description": "Clear selected records on all pages.\nThis method should be removed when we will ask user about actions with selected records.",
             "itemtype": "method",
             "name": "_clearSelectedRecords",
@@ -11379,7 +11379,7 @@
             "line": 2616,
             "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
             "example": [
-                "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...' // Button title.\n  }\n  ```"
+                "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...', // Button title.\n    disabled: true, // The state of the button is disabled if `true` or enabled if `false`.\n  }\n  ```"
             ],
             "itemtype": "property",
             "name": "customButtonsArray",
@@ -11389,7 +11389,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2634,
+            "line": 2635,
             "itemtype": "property",
             "name": "listNamedUserSettings",
             "class": "FlexberryTabBarComponent",
@@ -11397,7 +11397,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2648,
+            "line": 2649,
             "itemtype": "property",
             "name": "listNamedExportSettings",
             "class": "FlexberryTabBarComponent",
@@ -11405,7 +11405,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2665,
+            "line": 2666,
             "itemtype": "property",
             "name": "colsConfigMenu",
             "type": "Service",
@@ -11414,7 +11414,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2677,
+            "line": 2678,
             "itemtype": "property",
             "name": "colsSettingsItems",
             "readonly": "",
@@ -11423,7 +11423,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2737,
+            "line": 2738,
             "description": "Observe colsSettingsItems changes.",
             "itemtype": "property",
             "name": "_colsSettingsItems",
@@ -11433,7 +11433,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2746,
+            "line": 2747,
             "itemtype": "property",
             "name": "exportExcelItems",
             "readonly": "",
@@ -11442,7 +11442,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2789,
+            "line": 2790,
             "description": "Flag shows enable-state of delete button.\nIf there are selected rows button is enabled. Otherwise - not.",
             "itemtype": "property",
             "name": "isDeleteButtonEnabled",
@@ -11453,7 +11453,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2799,
+            "line": 2800,
             "description": "Stores the text from \"Filter by any match\" input field.",
             "itemtype": "property",
             "name": "filterByAnyMatchText",
@@ -11463,7 +11463,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2807,
+            "line": 2808,
             "description": "Caption to be displayed in info modal dialog.\nIt will be displayed only if some info occurs.",
             "itemtype": "property",
             "name": "_infoModalDialogCaption",
@@ -11476,7 +11476,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2818,
+            "line": 2819,
             "description": "Content to be displayed in info modal dialog.\nIt will be displayed only if some info occurs.",
             "itemtype": "property",
             "name": "_infoModalDialogContent",
@@ -11489,7 +11489,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2829,
+            "line": 2830,
             "description": "Selected jQuery object, containing HTML of error modal dialog.",
             "itemtype": "property",
             "name": "_errorModalDialog",
@@ -11502,7 +11502,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2839,
+            "line": 2840,
             "description": "Shows info modal dialog.",
             "itemtype": "method",
             "name": "showInfoModalDialog",
@@ -11527,7 +11527,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2861,
+            "line": 2862,
             "description": "Event handler for \"row has been selected\" event in objectlistview.",
             "itemtype": "method",
             "name": "_rowSelected",
@@ -11565,7 +11565,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2940,
+            "line": 2941,
             "description": "Select/Unselect all records on all pages.",
             "itemtype": "method",
             "name": "_selectAll",
@@ -23398,7 +23398,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/components/flexberry-simpleolv.js:2839"
+            "line": " addon/components/flexberry-simpleolv.js:2840"
         },
         {
             "message": "unknown tag: desc",
@@ -23610,11 +23610,11 @@
         },
         {
             "message": "Missing item type\nAn overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",
-            "line": " addon/components/flexberry-objectlistview.js:1179"
+            "line": " addon/components/flexberry-objectlistview.js:1180"
         },
         {
             "message": "Missing item type\nCalled when the element of the view is going to be destroyed.\nFor more information see [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
-            "line": " addon/components/flexberry-objectlistview.js:1213"
+            "line": " addon/components/flexberry-objectlistview.js:1214"
         },
         {
             "message": "Missing item type\nInitializes DOM-related component's logic.",

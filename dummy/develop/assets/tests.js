@@ -4423,7 +4423,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-tests-functions.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['exports', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('user button test', function (store, assert, app) {
     assert.expect(5);
@@ -4434,15 +4434,21 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-but
       assert.equal(currentPath(), path);
 
       var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var $testBudtton = _ember['default'].$('.test-click-button')[0];
+
+      // Enable the hi button.
+      click('.toggle-hi-button');
 
       // First click.
-      $testBudtton.click();
-      assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      });
 
       // Second click.
-      $testBudtton.click();
-      assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      });
 
       assert.notOk(controller.get('modelFromClickedRow'));
       click('.ui.button > .bug.icon:first');
