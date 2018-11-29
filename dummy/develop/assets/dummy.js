@@ -59103,11 +59103,11 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 24,
+                    "line": 25,
                     "column": 12
                   },
                   "end": {
-                    "line": 29,
+                    "line": 30,
                     "column": 12
                   }
                 },
@@ -59135,7 +59135,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
                 morphs[1] = dom.createAttrMorph(element0, 'alt');
                 return morphs;
               },
-              statements: [["attribute", "src", ["get", "_previewImageAsBase64String", ["loc", [null, [27, 22], [27, 49]]]]], ["attribute", "alt", ["subexpr", "t", ["components.flexberry-file.preview-image-alternative-text"], [], ["loc", [null, [28, 20], [28, 84]]]]]],
+              statements: [["attribute", "src", ["get", "_previewImageAsBase64String", ["loc", [null, [28, 22], [28, 49]]]]], ["attribute", "alt", ["subexpr", "t", ["components.flexberry-file.preview-image-alternative-text"], [], ["loc", [null, [29, 20], [29, 84]]]]]],
               locals: [],
               templates: []
             };
@@ -59147,11 +59147,11 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 22,
+                  "line": 23,
                   "column": 8
                 },
                 "end": {
-                  "line": 32,
+                  "line": 33,
                   "column": 8
                 }
               },
@@ -59191,7 +59191,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
               morphs[2] = dom.createAttrMorph(element2, 'class');
               return morphs;
             },
-            statements: [["element", "action", ["viewLoadedImage"], [], ["loc", [null, [23, 75], [23, 103]]]], ["block", "unless", [["get", "_previewDownloadIsInProgress", ["loc", [null, [24, 22], [24, 50]]]]], [], 0, null, ["loc", [null, [24, 12], [29, 23]]]], ["attribute", "class", ["concat", ["ui ", ["subexpr", "if", [["get", "_previewDownloadIsInProgress", ["loc", [null, [30, 32], [30, 60]]]], "active", ""], [], ["loc", [null, [30, 27], [30, 74]]]], " loader"]]]],
+            statements: [["element", "action", ["viewLoadedImage"], [], ["loc", [null, [24, 75], [24, 103]]]], ["block", "unless", [["get", "_previewDownloadIsInProgress", ["loc", [null, [25, 22], [25, 50]]]]], [], 0, null, ["loc", [null, [25, 12], [30, 23]]]], ["attribute", "class", ["concat", ["ui ", ["subexpr", "if", [["get", "_previewDownloadIsInProgress", ["loc", [null, [31, 32], [31, 60]]]], "active", ""], [], ["loc", [null, [31, 27], [31, 74]]]], " loader"]]]],
             locals: [],
             templates: [child0]
           };
@@ -59204,11 +59204,11 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 32,
+                  "line": 33,
                   "column": 8
                 },
                 "end": {
-                  "line": 34,
+                  "line": 35,
                   "column": 8
                 }
               },
@@ -59243,7 +59243,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
               morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
               return morphs;
             },
-            statements: [["content", "_fileName", ["loc", [null, [33, 16], [33, 29]]]], ["content", "_errorPreviewCaption", ["loc", [null, [33, 67], [33, 91]]]]],
+            statements: [["content", "_fileName", ["loc", [null, [34, 16], [34, 29]]]], ["content", "_errorPreviewCaption", ["loc", [null, [34, 67], [34, 91]]]]],
             locals: [],
             templates: []
           };
@@ -59255,11 +59255,11 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
             "loc": {
               "source": null,
               "start": {
-                "line": 21,
+                "line": 22,
                 "column": 6
               },
               "end": {
-                "line": 35,
+                "line": 36,
                 "column": 6
               }
             },
@@ -59282,7 +59282,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["get", "_canLoadPreview", ["loc", [null, [22, 14], [22, 29]]]]], [], 0, 1, ["loc", [null, [22, 8], [34, 15]]]]],
+          statements: [["block", "if", [["get", "_canLoadPreview", ["loc", [null, [23, 14], [23, 29]]]]], [], 0, 1, ["loc", [null, [23, 8], [35, 15]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -59298,7 +59298,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
               "column": 4
             },
             "end": {
-              "line": 36,
+              "line": 37,
               "column": 4
             }
           },
@@ -59334,7 +59334,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["inline", "flexberry-menu", [], ["class", ["subexpr", "concat", ["flexberry-file-mobile-menu left pointing", ["subexpr", "if", [["subexpr", "and", [["get", "readonly", ["loc", [null, [14, 76], [14, 84]]]], ["subexpr", "not", [["get", "showPreview", ["loc", [null, [14, 90], [14, 101]]]]], [], ["loc", [null, [14, 85], [14, 102]]]]], [], ["loc", [null, [14, 71], [14, 103]]]], " disabled", ""], [], ["loc", [null, [14, 67], [14, 119]]]]], [], ["loc", [null, [14, 16], [14, 120]]]], "items", ["subexpr", "@mut", [["get", "_menuItems", ["loc", [null, [15, 16], [15, 26]]]]], [], []], "callItemsOnClickCallbacks", false, "onItemClick", ["subexpr", "action", ["onMenuItemClick"], [], ["loc", [null, [17, 22], [17, 48]]]], "collapseMenuOnItemClick", true], ["loc", [null, [13, 8], [19, 10]]]], ["block", "if", [["get", "showPreview", ["loc", [null, [21, 12], [21, 23]]]]], [], 0, null, ["loc", [null, [21, 6], [35, 13]]]]],
+        statements: [["inline", "flexberry-menu", [], ["class", ["subexpr", "concat", ["flexberry-file-mobile-menu left pointing", ["subexpr", "if", [["subexpr", "and", [["get", "readonly", ["loc", [null, [14, 76], [14, 84]]]], ["subexpr", "not", [["get", "showPreview", ["loc", [null, [14, 90], [14, 101]]]]], [], ["loc", [null, [14, 85], [14, 102]]]]], [], ["loc", [null, [14, 71], [14, 103]]]], " disabled", ""], [], ["loc", [null, [14, 67], [14, 119]]]]], [], ["loc", [null, [14, 16], [14, 120]]]], "items", ["subexpr", "@mut", [["get", "_menuItems", ["loc", [null, [15, 16], [15, 26]]]]], [], []], "callItemsOnClickCallbacks", false, "onItemClick", ["subexpr", "action", ["onMenuItemClick"], [], ["loc", [null, [17, 22], [17, 48]]]], "collapseMenuOnItemClick", true, "onlyClickHandler", true], ["loc", [null, [13, 8], [20, 10]]]], ["block", "if", [["get", "showPreview", ["loc", [null, [22, 12], [22, 23]]]]], [], 0, null, ["loc", [null, [22, 6], [36, 13]]]]],
         locals: [],
         templates: [child0]
       };
@@ -59353,7 +59353,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 60,
+            "line": 61,
             "column": 0
           }
         },
@@ -59496,7 +59496,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
         morphs[9] = dom.createMorphAt(dom.childAt(element7, [5, 1, 1]), 3, 3);
         return morphs;
       },
-      statements: [["attribute", "id", ["get", "_fileInputId", ["loc", [null, [2, 41], [2, 53]]]]], ["attribute", "class", ["concat", ["flexberry-file-add-button ui icon ", ["get", "buttonClass", ["loc", [null, [5, 49], [5, 60]]]], " ", ["subexpr", "if", [["get", "readonly", ["loc", [null, [5, 68], [5, 76]]]], "disabled", ["subexpr", "unless", [["get", "_addButtonIsEnabled", ["loc", [null, [5, 96], [5, 115]]]], "disabled"], [], ["loc", [null, [5, 88], [5, 127]]]]], [], ["loc", [null, [5, 63], [5, 129]]]], " ", ["subexpr", "if", [["get", "_hasFile", ["loc", [null, [5, 135], [5, 143]]]], "hidden"], [], ["loc", [null, [5, 130], [5, 154]]]], " button"]]], ["attribute", "title", ["subexpr", "t", ["components.flexberry-file.add-button-title"], [], ["loc", [null, [6, 12], [6, 62]]]]], ["attribute", "for", ["get", "_fileInputId", ["loc", [null, [7, 12], [7, 24]]]]], ["element", "action", ["addButtonClick"], ["on", "click", "preventDefault", false], ["loc", [null, [8, 6], [8, 65]]]], ["inline", "t", ["components.flexberry-file.add-button-caption"], [], ["loc", [null, [9, 4], [9, 56]]]], ["block", "if", [["get", "_hasFile", ["loc", [null, [11, 10], [11, 18]]]]], [], 0, null, ["loc", [null, [11, 4], [36, 11]]]], ["content", "_errorModalDialogCaption", ["loc", [null, [44, 4], [44, 32]]]], ["content", "_errorModalDialogContent", ["loc", [null, [48, 6], [48, 34]]]], ["inline", "t", ["components.flexberry-file.error-dialog-ok-button-caption"], [], ["loc", [null, [55, 8], [55, 72]]]]],
+      statements: [["attribute", "id", ["get", "_fileInputId", ["loc", [null, [2, 41], [2, 53]]]]], ["attribute", "class", ["concat", ["flexberry-file-add-button ui icon ", ["get", "buttonClass", ["loc", [null, [5, 49], [5, 60]]]], " ", ["subexpr", "if", [["get", "readonly", ["loc", [null, [5, 68], [5, 76]]]], "disabled", ["subexpr", "unless", [["get", "_addButtonIsEnabled", ["loc", [null, [5, 96], [5, 115]]]], "disabled"], [], ["loc", [null, [5, 88], [5, 127]]]]], [], ["loc", [null, [5, 63], [5, 129]]]], " ", ["subexpr", "if", [["get", "_hasFile", ["loc", [null, [5, 135], [5, 143]]]], "hidden"], [], ["loc", [null, [5, 130], [5, 154]]]], " button"]]], ["attribute", "title", ["subexpr", "t", ["components.flexberry-file.add-button-title"], [], ["loc", [null, [6, 12], [6, 62]]]]], ["attribute", "for", ["get", "_fileInputId", ["loc", [null, [7, 12], [7, 24]]]]], ["element", "action", ["addButtonClick"], ["on", "click", "preventDefault", false], ["loc", [null, [8, 6], [8, 65]]]], ["inline", "t", ["components.flexberry-file.add-button-caption"], [], ["loc", [null, [9, 4], [9, 56]]]], ["block", "if", [["get", "_hasFile", ["loc", [null, [11, 10], [11, 18]]]]], [], 0, null, ["loc", [null, [11, 4], [37, 11]]]], ["content", "_errorModalDialogCaption", ["loc", [null, [45, 4], [45, 32]]]], ["content", "_errorModalDialogContent", ["loc", [null, [49, 6], [49, 34]]]], ["inline", "t", ["components.flexberry-file.error-dialog-ok-button-caption"], [], ["loc", [null, [56, 8], [56, 72]]]]],
       locals: [],
       templates: [child0]
     };
@@ -62753,7 +62753,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.5+81ed82e6"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0-beta.5+bb18c4ab"});
 }
 
 /* jshint ignore:end */
