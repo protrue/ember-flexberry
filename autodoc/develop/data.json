@@ -19110,7 +19110,7 @@
         },
         {
             "file": "addon/mixins/flexberry-objectlistview-route.js",
-            "line": 87,
+            "line": 78,
             "description": "This action is called when user click on refresh button.",
             "itemtype": "method",
             "name": "actions.refreshList",
@@ -19121,7 +19121,7 @@
         },
         {
             "file": "addon/mixins/flexberry-objectlistview-route.js",
-            "line": 102,
+            "line": 93,
             "description": "It forms the limit predicate for loaded data.\n\nBy default it returns `undefined`.\nIn order to set specific limit predicate, this method have to be overriden on applied-specific route.",
             "example": [
                 "\n  ``` js\n  // app/routes/limit-function-example.js\n  import Ember from 'ember';\n  import ListFormRoute from 'ember-flexberry/routes/list-form';\n  import { Query } from 'ember-flexberry-data';\n\n  const { StringPredicate } = Query;\n\n  export default ListFormRoute.extend({\n    modelProjection: 'FolvWithLimitFunctionExampleView',\n\n    modelName: 'ember-flexberry-dummy-suggestion',\n\n    objectListViewLimitPredicate: function(options) {\n      let methodOptions = Ember.merge({\n        modelName: undefined,\n        projectionName: undefined,\n        params: undefined\n      }, options);\n\n      if (methodOptions.modelName === this.get('modelName') &&\n          methodOptions.projectionName === this.get('modelProjection')) {\n        let currentPerPageValue = methodOptions.params ? methodOptions.params.perPage : undefined;\n        let limitFunction = (currentPerPageValue && currentPerPageValue % 2 === 0) ?\n                            new StringPredicate('address').contains('S') :\n                            new StringPredicate('address').contains('п');\n        return limitFunction;\n      }\n\n      return undefined;\n    }\n  });\n\n  ```"
@@ -20747,6 +20747,26 @@
         {
             "file": "addon/routes/edit-form.js",
             "line": 73,
+            "description": "Route name corresponding edit form.",
+            "itemtype": "property",
+            "name": "parentRoute",
+            "type": "String",
+            "class": "EditFormRoute",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/routes/edit-form.js",
+            "line": 81,
+            "description": "Route id corresponding edit form.",
+            "itemtype": "property",
+            "name": "parentRouteRecordId",
+            "type": "String",
+            "class": "EditFormRoute",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/routes/edit-form.js",
+            "line": 89,
             "description": "Suffix for new route (has value only on new routes).",
             "itemtype": "property",
             "name": "newSuffix",
@@ -20756,7 +20776,7 @@
         },
         {
             "file": "addon/routes/edit-form.js",
-            "line": 81,
+            "line": 97,
             "description": "Service for managing the state of the application.",
             "itemtype": "property",
             "name": "appState",
@@ -20766,7 +20786,7 @@
         },
         {
             "file": "addon/routes/edit-form.js",
-            "line": 89,
+            "line": 105,
             "description": "This hook is the first of the route entry validation hooks called when an attempt is made to transition into a route or one of its children.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_beforeModel).",
             "itemtype": "method",
             "name": "beforeModel",
@@ -20786,7 +20806,7 @@
         },
         {
             "file": "addon/routes/edit-form.js",
-            "line": 131,
+            "line": 156,
             "description": "A hook you can implement to convert the URL into the model for this route.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_model).",
             "itemtype": "method",
             "name": "model",
@@ -20807,7 +20827,7 @@
         },
         {
             "file": "addon/routes/edit-form.js",
-            "line": 160,
+            "line": 185,
             "description": "A hook you can use to reset controller values either when the model changes or the route is exiting.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_resetController).",
             "itemtype": "method",
             "name": "resetController",
@@ -20833,7 +20853,7 @@
         },
         {
             "file": "addon/routes/edit-form.js",
-            "line": 205,
+            "line": 230,
             "description": "A hook you can use to setup the controller for the current route.\n[More info](http://emberjs.com/api/classes/Ember.Route.html#method_setupController).",
             "itemtype": "method",
             "name": "setupController",

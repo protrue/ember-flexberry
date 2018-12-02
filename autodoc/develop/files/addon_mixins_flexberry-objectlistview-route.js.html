@@ -252,43 +252,34 @@ export default Ember.Mixin.create({
       let saveBeforeRouteLeave = methodOptions.saveBeforeRouteLeave;
       let onEditForm = methodOptions.onEditForm;
       let editFormRoute = methodOptions.editFormRoute;
+      let recordId = record.get(&#x27;id&#x27;) || record.get(&#x27;data.id&#x27;);
+      let thisRouteName = this.get(&#x27;router.currentRouteName&#x27;);
+      let thisRecordId = this.get(&#x27;currentModel.id&#x27;);
       let transitionOptions = {
         queryParams: {
           modelName: methodOptions.modelName,
-          customParameters:  methodOptions.customParameters
+          customParameters:  methodOptions.customParameters,
+          parentParameters: {
+            parentRoute: thisRouteName,
+            parentRouteRecordId: thisRecordId
+          }
         }
       };
       if (!editFormRoute) {
         throw new Error(&#x27;Detail\&#x27;s edit form route is undefined.&#x27;);
       }
 
-      let recordId = record.get(&#x27;id&#x27;) || record.get(&#x27;data.id&#x27;);
-      let thisRouteName = this.get(&#x27;router.currentRouteName&#x27;);
-      let thisRecordId = this.get(&#x27;currentModel.id&#x27;);
       if (!onEditForm) {
-        this.transitionTo(editFormRoute, recordId, transitionOptions)
-        .then((newRoute) =&gt; {
-          if (newRoute) {
-            newRoute.controller.set(&#x27;parentRoute&#x27;, thisRouteName);
-          }
-        });
+        this.transitionTo(editFormRoute, recordId, transitionOptions);
       } else {
         if (saveBeforeRouteLeave) {
           this.controller.save(false, true).then(() =&gt; {
-            this.transitionTo(editFormRoute, recordId, transitionOptions)
-            .then((newRoute) =&gt; {
-              newRoute.controller.set(&#x27;parentRoute&#x27;, thisRouteName);
-              newRoute.controller.set(&#x27;parentRouteRecordId&#x27;, thisRecordId);
-            });
+            this.transitionTo(editFormRoute, recordId, transitionOptions);
           }).catch((errorData) =&gt; {
             this.controller.rejectError(errorData, this.get(&#x27;i18n&#x27;).t(&#x27;forms.edit-form.save-failed-message&#x27;));
           });
         } else {
-          this.transitionTo(editFormRoute, recordId, transitionOptions)
-          .then((newRoute) =&gt; {
-            newRoute.controller.set(&#x27;parentRoute&#x27;, thisRouteName);
-            newRoute.controller.set(&#x27;parentRouteRecordId&#x27;, thisRecordId);
-          });
+          this.transitionTo(editFormRoute, recordId, transitionOptions);
         }
       }
     },
