@@ -263,12 +263,17 @@ export default Ember.Mixin.create({
       this.set(&#x27;_readonly&#x27;, false);
       let lock = this.get(&#x27;_currentLock&#x27;);
       if (lock) {
-        transition.abort();
         this.unlockObject().then((answer) =&gt; {
-          (answer ? lock.destroyRecord() : new Ember.RSVP.resolve()).then(() =&gt; {
+          if (answer) {
+            lock.destroyRecord().then((record) =&gt; {
+              // Without this next creation of lock object for this page throws an error:
+              // &#x27;modelName was saved to the server, but the response returned the new id &#x27;id&#x27;, which has already been used with another record&#x27;.
+              this.store.unloadRecord(record);
+              this.set(&#x27;_currentLock&#x27;, null);
+            });
+          } else {
             this.set(&#x27;_currentLock&#x27;, null);
-            transition.retry();
-          });
+          }
         });
       }
     }
