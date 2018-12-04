@@ -9846,10 +9846,10 @@ i.icon.text-menu-hide:before {
   color: #91a7cd !important;
 }
 .ui.icon.button > .plus.icon {
-  margin-right: 1em;
+  margin-right: 1em !important;
 }
 .ui.icon.button > .minus.icon {
-  margin-right: 1em;
+  margin-right: 1em !important;
 }
 .ui.button.icon.mini.compact {
   border: 1px solid #7ba7d9;

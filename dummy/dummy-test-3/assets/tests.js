@@ -4201,15 +4201,21 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-but
       assert.equal(currentPath(), path);
 
       var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var $testBudtton = Ember.$('.test-click-button')[0];
+
+      // Enable the hi button.
+      click('.toggle-hi-button');
 
       // First click.
-      $testBudtton.click();
-      assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      });
 
       // Second click.
-      $testBudtton.click();
-      assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      });
 
       assert.notOk(controller.get('modelFromClickedRow'));
       click('.ui.button > .bug.icon:first');
