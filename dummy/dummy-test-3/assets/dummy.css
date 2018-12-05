@@ -42,9 +42,6 @@
   width: 100%;
   display: table-row;
 }
-.flexberry-colsconfig th > .input {
-  display: table-row;
-}
 .flexberry-colsconfig th > .input input.setting-name {
   width: 250px;
 }
