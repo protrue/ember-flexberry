@@ -10172,6 +10172,9 @@ div.item-minus {
 .flexberry-file-image-preview-wrapper.ui.segment .ui.small.image {
   min-height: 57px;
 }
+.flexberry-file-image-preview-wrapper.ui.small.image .flexberry-file-image-preview {
+  max-width: 100%;
+}
 /*!
  * # Semantic UI - Input
  * http://github.com/semantic-org/semantic-ui/
