@@ -529,7 +529,7 @@ export default FlexberryBaseComponent.extend({
         sortSettings.push({ propName: colDesc.propName, sortOrder: colDesc.sortOrder, sortPriority: colDesc.sortPriority });
       }
 
-      if (this.get(&#x27;model.saveColWidthState&#x27;)) {
+      if (this.get(&#x27;model.saveColWidthState&#x27;) &amp;&amp; !isNaN(colDesc.columnWidth)) {
         widthSetting.push({ propName: colDesc.propName, width: parseInt(colDesc.columnWidth) });
       }
     }, this);
@@ -539,7 +539,7 @@ export default FlexberryBaseComponent.extend({
 
     let perPage = parseInt(this.get(&#x27;model.perPageValue&#x27;));
 
-    if (perPage === isNaN || perPage &lt;= 0) {
+    if (isNaN(perPage) || perPage &lt;= 0) {
       perPage = 5;
     }
 
