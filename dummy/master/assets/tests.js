@@ -1898,7 +1898,9 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
               assert.equal($deleteButton.hasClass('disabled'), false, 'delete are available');
 
               $checkAllButton.click();
+              $checkAllAtPageButton = _ember['default'].$('.check-all-at-page-button');
               $checkCheckBox = _ember['default'].$('.flexberry-checkbox.checked.read-only');
+              $deleteButton = _ember['default'].$('.delete-button');
 
               // Check afther unselect all.
               assert.equal($checkAllAtPageButton.hasClass('disabled'), false, 'select all at page are available');
@@ -1985,6 +1987,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-check-al
 
               $checkAllAtPageButton.click();
               $checkCheckBox = _ember['default'].$('.flexberry-checkbox.checked');
+              $deleteButton = _ember['default'].$('.delete-button');
 
               // Check afther unselect all at page.
               assert.equal($checkCheckBox.length, 0, 'all checkBox in row are unselect');
@@ -2951,28 +2954,40 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-delete-b
 
             assert.ok(recordIsChecked, 'Each entry begins with \'' + uuid + '\' is checked');
 
-            var $toolBar = _ember['default'].$('.ui.secondary.menu')[0];
-            var $deleteButton = $toolBar.children[2];
+            // Apply filter function.
+            var refreshFunction = function refreshFunction() {
+              var deleteButton = _ember['default'].$('.delete-button')[0];
+              click(deleteButton);
+              var refreshButton = _ember['default'].$('.refresh-button')[0];
+              click(refreshButton);
+            };
+
             var done = assert.async();
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
 
-            // Delete the marked records.
-            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($deleteButton, olvContainerClass, trTableClass).then(function ($list) {
-              var recordsIsDelete = $rows().every(function (element) {
-                var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
-                return nameRecord.indexOf(uuid) < 0;
+            var timeout = 500;
+            _ember['default'].run.later(function () {
+
+              // Delete the marked records.
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+
+                var recordsIsDelete = $rows().every(function (element) {
+                  var nameRecord = _ember['default'].$.trim(element.children[1].innerText);
+                  return nameRecord.indexOf(uuid) < 0;
+                });
+
+                assert.ok(recordsIsDelete, 'Each entry begins with \'' + uuid + '\' is delete with button in toolbar button');
+
+                // Check that the records have been removed into store.
+                var builder2 = new Builder(store).from(modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
+                var done3 = assert.async();
+                store.query(modelName, builder2.build()).then(function (result) {
+                  assert.notOk(result.meta.count, 'records \'' + uuid + '\'not found in store');
+                  done3();
+                });
+                done();
               });
-
-              assert.ok(recordsIsDelete, 'Each entry begins with \'' + uuid + '\' is delete with button in toolbar button');
-
-              // Check that the records have been removed into store.
-              var builder2 = new Builder(store).from(modelName).where('name', _emberFlexberryData.Query.FilterOperator.Eq, uuid).count();
-              var done3 = assert.async();
-              store.query(modelName, builder2.build()).then(function (result) {
-                assert.notOk(result.meta.count, 'records \'' + uuid + '\'not found in store');
-                done3();
-              });
-              done();
-            });
+            }, timeout);
           });
           done1();
         });
@@ -3521,39 +3536,92 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-d
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-paging-dropdown-test.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-navigation-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data/utils/generate-unique-id'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryDataUtilsGenerateUniqueId) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-paging-navigation-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data', 'ember-flexberry-data/utils/generate-unique-id'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData, _emberFlexberryDataUtilsGenerateUniqueId) {
 
-  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check paging nav', function (store, assert) {
-    assert.expect(7);
+  (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check paging nav', function (store, assert, app) {
+    assert.expect(29);
     var path = 'components-acceptance-tests/flexberry-objectlistview/folv-paging';
     var modelName = 'ember-flexberry-dummy-suggestion-type';
     var uuid = (0, _emberFlexberryDataUtilsGenerateUniqueId['default'])();
+    var arr = undefined;
+    var last = undefined;
 
     // Add records for paging.
     _ember['default'].run(function () {
       (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.addRecords)(store, modelName, uuid).then(function (resolvedPromises) {
         assert.ok(resolvedPromises, 'All records saved.');
+        var done = assert.async();
+        var builder = new _emberFlexberryData.Query.Builder(store).from(modelName).selectByProjection('SuggestionTypeE');
+        store.query(modelName, builder.build()).then(function (result) {
+          arr = result.toArray();
+        }).then(function () {
+          visit(path + '?perPage=1');
+          andThen(function () {
+            assert.equal(currentPath(), path);
+            var controller = app.__container__.lookup('controller:' + currentRouteName());
 
-        visit(path);
-        andThen(function () {
-          assert.equal(currentPath(), path);
-
-          // check paging.
-          var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
-          assert.equal($($basicButtons[0]).hasClass('disabled'), true, 'button prev is disabled');
-          assert.equal($($basicButtons[1]).hasClass('active'), true, 'page 1 is active');
-
-          var done = assert.async();
-          (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($basicButtons[2], '.object-list-view-container', 'table.object-list-view tbody tr').then(function ($list) {
-            assert.ok($list);
+            // check paging.
             var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
-            assert.equal($($basicButtons[1]).hasClass('active'), false, 'page 1 is not active');
-            assert.equal($($basicButtons[2]).hasClass('active'), true, 'page 2 is active');
-          })['catch'](function (reason) {
-            throw new Error(reason);
-          })['finally'](function () {
-            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.deleteRecords)(store, modelName, uuid, assert);
-            done();
+            last = arr.length;
+
+            assert.equal($($basicButtons[0]).hasClass('disabled'), true, 'button prev is disabled');
+            assert.equal($($basicButtons[1]).hasClass('active'), true, 'page 1 is active');
+            assert.equal($($basicButtons[1])[0].innerText, 1, '1st page is depicted');
+            assert.equal($($basicButtons[2])[0].innerText, 2, '2nd page is depicted');
+            assert.equal($($basicButtons[3])[0].innerText, 3, '3rd page is depicted');
+            assert.equal($($basicButtons[4])[0].innerText, 4, '4th page is depicted');
+            assert.equal($($basicButtons[5])[0].innerText, '...', '... page is depicted');
+            assert.equal($($basicButtons[6])[0].innerText, last, 'last page is depicted');
+
+            var done1 = assert.async();
+            var refreshFunction = function refreshFunction() {
+              var refreshButton = $basicButtons[4];
+              refreshButton.click();
+            };
+
+            (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+              var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
+              assert.equal($($basicButtons[1]).hasClass('active'), false, 'page 1 is not active');
+              assert.equal($($basicButtons[4]).hasClass('active'), true, 'page 4 is active');
+              assert.equal($($basicButtons[1])[0].innerText, 1, '1st page is depicted');
+              assert.equal($($basicButtons[2])[0].innerText, '...', '... page is depicted');
+              assert.equal($($basicButtons[3])[0].innerText, 3, '3rd page is depicted');
+              assert.equal($($basicButtons[4])[0].innerText, 4, '4th page is depicted');
+              assert.equal($($basicButtons[5])[0].innerText, 5, '5th page is depicted');
+              assert.equal($($basicButtons[6])[0].innerText, '...', '... page is depicted');
+              assert.equal($($basicButtons[7])[0].innerText, last, 'last page is depicted');
+
+              var done2 = assert.async();
+              var refreshFunction = function refreshFunction() {
+                var refreshButton = $basicButtons[7];
+                refreshButton.click();
+              };
+
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function () {
+                var $basicButtons = _ember['default'].$('.ui.button', '.ui.basic.buttons');
+                assert.equal($($basicButtons[4]).hasClass('active'), false, 'page 4 is not active');
+                assert.equal($($basicButtons[6]).hasClass('active'), true, 'last page is active');
+                assert.equal($($basicButtons[7]).hasClass('disabled'), true, 'button next is disabled');
+                assert.equal($($basicButtons[6])[0].innerText, last, 'last page is depicted');
+                assert.equal($($basicButtons[1])[0].innerText, 1, '1st page is depicted');
+                assert.equal($($basicButtons[2])[0].innerText, '...', '... page is depicted');
+                assert.equal($($basicButtons[3])[0].innerText, last - 3, 'n-3 page is depicted');
+                assert.equal($($basicButtons[4])[0].innerText, last - 2, 'n-2 page is depicted');
+                assert.equal($($basicButtons[5])[0].innerText, last - 1, 'n-1 page is depicted');
+                assert.equal($($basicButtons[6])[0].innerText, last, 'last page is depicted');
+              })['catch'](function (reason) {
+                throw new Error(reason);
+              })['finally'](function () {
+                (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.deleteRecords)(store, modelName, uuid, assert);
+                done2();
+                done();
+              });
+            })['catch'](function (reason) {
+              throw new Error(reason);
+            })['finally'](function () {
+              (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.deleteRecords)(store, modelName, uuid, assert);
+              done1();
+            });
           });
         });
       });
@@ -4355,7 +4423,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
     assert.ok(true, 'acceptance/components/flexberry-objectlistview/folv-tests-functions.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
+define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-button-test', ['exports', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test'], function (exports, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('user button test', function (store, assert, app) {
     assert.expect(5);
@@ -4366,15 +4434,21 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-user-but
       assert.equal(currentPath(), path);
 
       var controller = app.__container__.lookup('controller:' + currentRouteName());
-      var $testBudtton = _ember['default'].$('.test-click-button')[0];
+
+      // Enable the hi button.
+      click('.toggle-hi-button');
 
       // First click.
-      $testBudtton.click();
-      assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      });
 
       // Second click.
-      $testBudtton.click();
-      assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      });
 
       assert.notOk(controller.get('modelFromClickedRow'));
       click('.ui.button > .bug.icon:first');
@@ -4705,6 +4779,8 @@ define('dummy/tests/acceptance/components/readonly-test/edit-form-readonly-test'
 
       controller.set('readonly', false);
       _ember['default'].run.scheduleOnce('afterRender', function () {
+        $removeButton = _ember['default'].$('.not-in-groupedit button.ui-clear');
+        $removeButtonFge = _ember['default'].$('.in-groupedit button.ui-clear');
         assert.strictEqual($(_this).is('readonly'), false, 'Lookup don\'t readonly');
         assert.strictEqual($chooseButton.hasClass('disabled'), false, 'Flexberry-lookup\'s button \'Choose\' don\'t readonly');
         assert.strictEqual($removeButton.hasClass('disabled'), false, 'Flexberry-lookup\'s button \'Remove\' don\'t readonly');
@@ -4774,6 +4850,7 @@ define('dummy/tests/acceptance/components/readonly-test/edit-form-readonly-test'
 
       controller.set('readonly', false);
       _ember['default'].run.scheduleOnce('afterRender', function () {
+        $removeButtonRow = _ember['default'].$('.in-groupedit .object-list-view-row-delete-button');
         assert.strictEqual($(_this).is('disabled'), false, 'Flexberry-groupedit\'s button \'Add\' don\'t readonly');
         assert.strictEqual($(_this).is('disabled'), false, 'Flexberry-groupedit\'s button \'Remove\' don\'t readonly');
         assert.strictEqual($checkbox.hasClass('read-only'), false, 'Flexberry-groupedit\'s checkbox helper don\'t readonly');
@@ -6877,6 +6954,23 @@ define('dummy/tests/controllers/components-examples/flexberry-objectlistview/lim
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/limit-function-example.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/list-on-editform.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview');
+  test('controllers/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/list-on-editform.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/list-on-editform.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/list-on-editform.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -6943,6 +7037,23 @@ define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-objectlistview/on-edit-form');
+  test('controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-examples/flexberry-objectlistview/on-edit-form/user.jscs-test', ['exports'], function (exports) {
@@ -16289,7 +16400,7 @@ define('dummy/tests/integration/components/flexberry-toggler-test', ['exports', 
     assert.ok(this.$('.flexberry-toggler .content').hasClass('animating'));
     _ember['default'].run.later(function () {
       assert.ok(_this.$('.flexberry-toggler .content').hasClass('animating'));
-    }, 500);
+    }, 400);
     _ember['default'].run.later(function () {
       assert.notOk(_this.$('.flexberry-toggler .content').hasClass('animating'));
       done();
@@ -20349,6 +20460,23 @@ define('dummy/tests/routes/components-examples/flexberry-objectlistview/limit-fu
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/limit-function-example.js should pass jshint.');
   });
 });
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/list-on-editform.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview');
+  test('routes/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/list-on-editform.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/list-on-editform.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/list-on-editform.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/list-on-editform.js should pass jshint.');
+  });
+});
 define('dummy/tests/routes/components-examples/flexberry-objectlistview/lock-services-editor-view-edit.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -20415,6 +20543,23 @@ define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-objectlistview/on-edit-form');
+  test('routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-objectlistview/on-edit-form/suggestion.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-objectlistview/on-edit-form/user.jscs-test', ['exports'], function (exports) {

@@ -4836,6 +4836,9 @@ lang {
   border-radius: 5px;
   margin: 0px 5px;
 }
+.ui.button.huge {
+  height: 55px;
+}
 .ui.small.button {
   border: none;
   font-size: 12px;
@@ -5050,6 +5053,11 @@ div.ui.secondary.menu.no-margin {
   margin: 0px 2.5px!important;
 }
 .flexberry-file-upload-button.ui.icon.button:hover {
+  border-color: #3c87dc;
+  color: #3c87dc;
+  background: #FFFFFF;
+}
+.flexberry-file-mobile-menu.ui.icon.button:hover {
   border-color: #3c87dc;
   color: #3c87dc;
   background: #FFFFFF;
@@ -5292,19 +5300,19 @@ div.ui.secondary.menu.no-margin {
 /******************************************
       Not categorized buttons section
 *******************************************/
-#columnConfigurtionButtonUse {
+.flexberry-colsconfig.content .cols-config-apply {
   display: flex;
   align-items: center;
   background-color: #7dd4b4;
   border: 1px solid #7ba7d9;
 }
-#columnConfigurtionButtonUse:hover {
+.flexberry-colsconfig.content .cols-config-apply:hover {
   border: 1px solid #7dd4b4;
 }
-#columnConfigurtionButtonSave {
+.flexberry-colsconfig.content .cols-config-save {
   border: 1px solid #7ba7d9;
 }
-#columnConfigurtionButtonSave:hover {
+.flexberry-colsconfig.content .cols-config-save:hover {
   border: 1px solid #7dd4b4;
   background-color: #7dd4b4;
 }
@@ -9466,6 +9474,10 @@ i.icon.change:before:hover {
   content: "\f057";
   font-family: 'Icons';
 }
+.flexberry-menu > i.icon.setting.bordered {
+  height: 2em;
+  margin-top: -0.5em;
+}
 /**************************************
       FileControl buttons section
 ***************************************/
@@ -10159,6 +10171,9 @@ div.item-minus {
 }
 .flexberry-file-image-preview-wrapper.ui.segment .ui.small.image {
   min-height: 57px;
+}
+.flexberry-file-image-preview-wrapper.ui.small.image .flexberry-file-image-preview {
+  max-width: 100%;
 }
 /*!
  * # Semantic UI - Input
@@ -18326,14 +18341,14 @@ ol.ui.horizontal.list li:before,
   border-radius: 0px;
   outline: none;
 }
-.ember-view.example-simpledatetime input.flatpickr-input {
-  border-bottom: none;
-}
 .flexberry-simpledatetime .ui.fluid.action.input {
   border: none;
   border-bottom: 1px solid #b1cae8;
   border-radius: 0px;
   outline: none;
+}
+.flexberry-simpledatetime .ui.fluid.action.input input.flatpickr-input {
+  border-bottom: none;
 }
 input[type="checkbox"]:after {
   content: "";
