@@ -294,6 +294,10 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
 
                             </li>
                             <li class="index-item method inherited">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_actions.previewLookupValue" data-tablink="actions.previewLookupValue">actions.previewLookupValue</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#" data-tabid="#methods" data-anchor="#method_actions.removeLookupValue" data-tablink="actions.removeLookupValue">actions.removeLookupValue</a>
 
                             </li>
@@ -581,7 +585,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/FlexberryLookupMixin.html#method__reloadModalData">FlexberryLookupMixin</a>:
-                            <a href="../files/addon_mixins_flexberry-lookup-controller.js.html#l244"><code>addon&#x2F;mixins&#x2F;flexberry-lookup-controller.js:244</code></a>
+                            <a href="../files/addon_mixins_flexberry-lookup-controller.js.html#l320"><code>addon&#x2F;mixins&#x2F;flexberry-lookup-controller.js:320</code></a>
                             </p>
                     
                     
@@ -1297,6 +1301,57 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                     
                     
                     </div>
+                    <div id="method_actions.previewLookupValue" class="method item inherited">
+                        <h3 class="name"><code>actions.previewLookupValue</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>previewData</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>Inherited from
+                                    <a href="../classes/FlexberryLookupMixin.html#method_actions.previewLookupValue">FlexberryLookupMixin</a>:
+                            <a href="../files/addon_mixins_flexberry-lookup-controller.js.html#l221"><code>addon&#x2F;mixins&#x2F;flexberry-lookup-controller.js:221</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            Handlers action from FlexberryLookup preview action.
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">previewData</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            Lookup parameters: { recordId, transitionRoute, transitionOptions, showInSeparateRoute, projection, modelName, controller }.
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
                     <div id="method_actions.removeLookupValue" class="method item inherited">
                         <h3 class="name"><code>actions.removeLookupValue</code></h3>
                     
@@ -1658,7 +1713,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/FlexberryLookupMixin.html#method_actions.updateLookupValue">FlexberryLookupMixin</a>:
-                            <a href="../files/addon_mixins_flexberry-lookup-controller.js.html#l221"><code>addon&#x2F;mixins&#x2F;flexberry-lookup-controller.js:221</code></a>
+                            <a href="../files/addon_mixins_flexberry-lookup-controller.js.html#l297"><code>addon&#x2F;mixins&#x2F;flexberry-lookup-controller.js:297</code></a>
                             </p>
                     
                     
@@ -2057,48 +2112,6 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l628"><code>addon&#x2F;controllers&#x2F;edit-form.js:628</code></a>
-                            </p>
-                    
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>This method will be invoked before close method will be called.
-                    Override this method to add custom logic on close method start.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                            <div class="example">
-                                <h4>Example:</h4>
-                    
-                                <div class="example-content">
-                                    <pre class="code prettyprint"><code class="language-javascript">onCloseActionStarted() {
-                      alert('Form will be closed right now!');
-                    }
-                    </code></pre>
-                    
-                                </div>
-                            </div>
-                    </div>
-                    <div id="method_onDeleteActionStarted." class="method item">
-                        <h3 class="name"><code>onDeleteActionStarted.</code></h3>
-                    
-                            <span class="paren">()</span>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
                             <a href="../files/addon_controllers_edit-form.js.html#l560"><code>addon&#x2F;controllers&#x2F;edit-form.js:560</code></a>
                             </p>
                     
@@ -2126,16 +2139,10 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                                 </div>
                             </div>
                     </div>
-                    <div id="method_onSaveActionAlways." class="method item">
-                        <h3 class="name"><code>onSaveActionAlways.</code></h3>
+                    <div id="method_onDeleteActionStarted." class="method item">
+                        <h3 class="name"><code>onDeleteActionStarted.</code></h3>
                     
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>data</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
+                            <span class="paren">()</span>
                     
                     
                     
@@ -2147,7 +2154,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l610"><code>addon&#x2F;controllers&#x2F;edit-form.js:610</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l628"><code>addon&#x2F;controllers&#x2F;edit-form.js:628</code></a>
                             </p>
                     
                     
@@ -2155,37 +2162,19 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         </div>
                     
                         <div class="description">
-                            <p>This method will be invoked always when delete operation completed,
-                    regardless of save promise's state (was it fulfilled or rejected).
-                    Override this method to add some custom logic on delete operation completion.</p>
+                            <p>This method will be invoked before close method will be called.
+                    Override this method to add custom logic on close method start.</p>
                     
                         </div>
                     
-                            <div class="params">
-                                <h4>Parameters:</h4>
-                    
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">data</code>
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                    
-                    
-                                        <div class="param-description">
-                                            <p>Data about completed save operation.</p>
-                    
-                                        </div>
-                    
-                                    </li>
-                                </ul>
-                            </div>
                     
                     
                             <div class="example">
                                 <h4>Example:</h4>
                     
                                 <div class="example-content">
-                                    <pre class="code prettyprint"><code class="language-js">onDeleteActionAlways(data) {
-                      alert('Delete operation completed!');
+                                    <pre class="code prettyprint"><code class="language-javascript">onCloseActionStarted() {
+                      alert('Form will be closed right now!');
                     }
                     </code></pre>
                     
@@ -2252,6 +2241,72 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                                 <div class="example-content">
                                     <pre class="code prettyprint"><code class="language-js">onSaveActionAlways(data) {
                       alert('Save operation completed!');
+                    }
+                    </code></pre>
+                    
+                                </div>
+                            </div>
+                    </div>
+                    <div id="method_onSaveActionAlways." class="method item">
+                        <h3 class="name"><code>onSaveActionAlways.</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>data</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_controllers_edit-form.js.html#l610"><code>addon&#x2F;controllers&#x2F;edit-form.js:610</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>This method will be invoked always when delete operation completed,
+                    regardless of save promise's state (was it fulfilled or rejected).
+                    Override this method to add some custom logic on delete operation completion.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">data</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>Data about completed save operation.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                            <div class="example">
+                                <h4>Example:</h4>
+                    
+                                <div class="example-content">
+                                    <pre class="code prettyprint"><code class="language-js">onDeleteActionAlways(data) {
+                      alert('Delete operation completed!');
                     }
                     </code></pre>
                     

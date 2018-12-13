@@ -33308,6 +33308,12 @@ select.ui.dropdown {
 .ui.modal .content h2.ui.header {
   word-wrap: break-word;
 }
+.ui.modal.preview-model .content {
+  overflow: scroll;
+}
+.ui.modal.preview-model .content .close-button {
+  display: none;
+}
 /*!
  * # Semantic UI - Nag
  * http://github.com/semantic-org/semantic-ui/

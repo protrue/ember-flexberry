@@ -428,6 +428,82 @@ export default Ember.Mixin.create(ReloadListMixin, {
     },
 
     /**
+      Handlers action from FlexberryLookup preview action.
+
+      @method actions.previewLookupValue
+      @param {Object} previewData Lookup parameters: { recordId, transitionRoute, transitionOptions, showInSeparateRoute, projection, modelName, controller }.
+    */
+    previewLookupValue(previewData) {
+      let options = Ember.$.extend(true, {
+        recordId: undefined,
+        transitionRoute: undefined,
+        transitionOptions: undefined,
+        showInSeparateRoute: undefined,
+        modelName: undefined,
+        controller: undefined,
+        projection: undefined
+      }, previewData);
+      let recordId = options.recordId;
+      let transitionRoute = options.transitionRoute;
+
+      if (options.showInSeparateRoute) {
+        let transitionOptions = options.transitionOptions || {};
+        this.transitionToRoute(transitionRoute, recordId, transitionOptions);
+      } else {
+        let routeName = options.controller || transitionRoute;
+        let modelName = options.modelName;
+
+        let controller = Ember.getOwner(this).lookup(&#x60;controller:${routeName}&#x60;);
+        if (Ember.isNone(controller)) {
+          throw new Error(&#x60;Controller with &#x27;${routeName}&#x27; name does not exist.&#x60;);
+        }
+
+        let route = Ember.getOwner(this).lookup(&#x60;route:${transitionRoute}&#x60;);
+        let projectionName = options.projection || (route ? route.get(&#x27;modelProjection&#x27;) : undefined);
+        if (Ember.isNone(projectionName)) {
+          throw new Error(&#x27;\&#x60;previewFormProjection\&#x60; is undefined.&#x27;);
+        }
+
+        let modelConstructor = this.store.modelFor(modelName);
+        let projection = Ember.get(modelConstructor, &#x60;projections.${projectionName}&#x60;);
+        if (!projection) {
+          throw new Error(
+            &#x60;No projection with &#x27;${projectionName}&#x27; name defined in &#x27;${modelName}&#x27; model.&#x60;);
+        }
+
+        controller.setProperties({
+          readonly: true,
+          routeName: routeName,
+          modelProjection: projection
+        });
+
+        let lookupController = this.get(&#x27;lookupController&#x27;);
+        lookupController.setProperties({
+          title: this.get(&#x27;i18n&#x27;).t(&#x27;components.flexberry-lookup.preview-button-text&#x27;),
+          sizeClass: &#x27;small preview-model&#x27;,
+        });
+
+        let lookupSettings = this.get(&#x27;lookupSettings&#x27;);
+        this.send(&#x27;showModalDialog&#x27;, lookupSettings.template);
+
+        let loadingParams = {
+          view: lookupSettings.template,
+          outlet: &#x27;modal-content&#x27;
+        };
+
+        this.send(&#x27;showModalDialog&#x27;, lookupSettings.loaderTemplate, null, loadingParams);
+
+        this.store.findRecord(modelName, recordId).then(data =&gt; {
+          this.send(&#x27;removeModalDialog&#x27;, loadingParams);
+          this.send(&#x27;showModalDialog&#x27;, transitionRoute, {
+            controller: controller,
+            model: data
+          }, loadingParams);
+        });
+      }
+    },
+
+    /**
       Update relation value at model.
 
       @method actions.updateLookupValue
@@ -520,7 +596,7 @@ export default Ember.Mixin.create(ReloadListMixin, {
       reloadData.saveTo);
 
     let modelConstructor = currentContext.store.modelFor(reloadData.relatedToType);
-    let projection = Ember.get(modelConstructor, &#x27;projections&#x27;)[reloadData.projectionName];
+    let projection = Ember.get(modelConstructor, &#x60;projections.${reloadData.projectionName}&#x60;);
     if (!projection) {
       throw new Error(
         &#x60;No projection with &#x27;${reloadData.projectionName}&#x27; name defined in &#x27;${reloadData.relatedToType}&#x27; model.&#x60;);
