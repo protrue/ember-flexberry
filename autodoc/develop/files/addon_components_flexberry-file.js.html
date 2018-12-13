@@ -678,6 +678,15 @@ export default FlexberryBaseComponent.extend({
   showModalDialogOnUploadError: undefined,
 
   /**
+    Flag: download by clicking download or open file in new window.
+
+    @property openInNewWindowInsteadOfLoading
+    @type Boolean
+    @default false
+  */
+  openFileInNewWindowInsteadOfLoading: undefined,
+
+  /**
     Headers to the file upload request.
 
     @property headers
@@ -765,6 +774,7 @@ export default FlexberryBaseComponent.extend({
     this.initProperty({ propertyName: &#x27;showDownloadButton&#x27;, defaultValue: true });
     this.initProperty({ propertyName: &#x27;showModalDialogOnUploadError&#x27;, defaultValue: false });
     this.initProperty({ propertyName: &#x27;showModalDialogOnDownloadError&#x27;, defaultValue: true });
+    this.initProperty({ propertyName: &#x27;openFileInNewWindowInsteadOfLoading&#x27;, defaultValue: false });
 
     // Bind related model&#x27;s &#x27;preSave&#x27; event handler&#x27;s context &amp; subscribe on related model&#x27;s &#x27;preSave&#x27;event.
     this.set(&#x27;_onRelatedModelPreSave&#x27;, this.get(&#x27;_onRelatedModelPreSave&#x27;).bind(this));
@@ -943,6 +953,7 @@ export default FlexberryBaseComponent.extend({
       url: fileUrl,
       headers: this.get(&#x27;headers&#x27;),
       fileName: fileName,
+      openFileInNewWindowInsteadOfLoading: this.get(&#x27;openFileInNewWindowInsteadOfLoading&#x27;),
       onSuccess: () =&gt; {
         this.sendAction(&#x27;onDownloadSuccess&#x27;);
       },

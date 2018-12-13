@@ -3551,11 +3551,19 @@ define('dummy/controllers/components-examples/flexberry-file/settings-example', 
     showModalDialogOnDownloadError: true,
 
     /**
+      Flag: download by clicking download or open file in new window.
+       @property openInNewWindowInsteadOfLoading
+      @type Boolean
+      @default false
+    */
+    openFileInNewWindowInsteadOfLoading: false,
+
+    /**
       Template text for 'flexberry-textbox' component.
        @property componentTemplateText
       @type String
      */
-    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{flexberry-file<br>' + '  value=model.file<br>' + '  placeholder=placeholder<br>' + '  readonly=readonly<br>' + '  uploadUrl=uploadUrl<br>' + '  maxUploadFileSize=maxUploadFileSize<br>' + '  showPreview=showPreview<br>' + '  showUploadButton=showUploadButton<br>' + '  showDownloadButton=showDownloadButton<br>' + '  showModalDialogOnUploadError=showModalDialogOnUploadError<br>' + '  showModalDialogOnDownloadError=showModalDialogOnDownloadError<br>' + '  inputClass=inputClass<br>' + '  buttonClass=buttonClass<br>' + '}}'),
+    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{flexberry-file<br>' + '  value=model.file<br>' + '  placeholder=placeholder<br>' + '  readonly=readonly<br>' + '  uploadUrl=uploadUrl<br>' + '  maxUploadFileSize=maxUploadFileSize<br>' + '  showPreview=showPreview<br>' + '  showUploadButton=showUploadButton<br>' + '  showDownloadButton=showDownloadButton<br>' + '  showModalDialogOnUploadError=showModalDialogOnUploadError<br>' + '  showModalDialogOnDownloadError=showModalDialogOnDownloadError<br>' + '  inputClass=inputClass<br>' + '  buttonClass=buttonClass<br>' + '  openFileInNewWindowInsteadOfLoading=openFileInNewWindowInsteadOfLoading<br>' + '}}'),
 
     /**
       Component settings metadata.
@@ -3637,6 +3645,12 @@ define('dummy/controllers/components-examples/flexberry-file/settings-example', 
         settingDefaultValue: '',
         settingAvailableItems: ['purple basic', 'inverted violet', 'green colored', 'mini', 'huge'],
         bindedControllerPropertieName: 'buttonClass'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'openFileInNewWindowInsteadOfLoading',
+        settingType: 'boolean',
+        settingDefaultValue: false,
+        bindedControllerPropertieName: 'openFileInNewWindowInsteadOfLoading'
       });
 
       return componentSettingsMetadata;
@@ -25228,7 +25242,7 @@ define("dummy/templates/components-examples/flexberry-file/settings-example", ["
               "column": 2
             },
             "end": {
-              "line": 22,
+              "line": 23,
               "column": 2
             }
           },
@@ -25253,7 +25267,7 @@ define("dummy/templates/components-examples/flexberry-file/settings-example", ["
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "flexberry-file", [], ["value", ["subexpr", "@mut", [["get", "model.file", ["loc", [null, [9, 12], [9, 22]]]]], [], []], "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [10, 18], [10, 29]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [11, 15], [11, 23]]]]], [], []], "uploadUrl", ["subexpr", "@mut", [["get", "uploadUrl", ["loc", [null, [12, 16], [12, 25]]]]], [], []], "maxUploadFileSize", ["subexpr", "@mut", [["get", "maxUploadFileSize", ["loc", [null, [13, 24], [13, 41]]]]], [], []], "showPreview", ["subexpr", "@mut", [["get", "showPreview", ["loc", [null, [14, 18], [14, 29]]]]], [], []], "showUploadButton", ["subexpr", "@mut", [["get", "showUploadButton", ["loc", [null, [15, 23], [15, 39]]]]], [], []], "showDownloadButton", ["subexpr", "@mut", [["get", "showDownloadButton", ["loc", [null, [16, 25], [16, 43]]]]], [], []], "showModalDialogOnUploadError", ["subexpr", "@mut", [["get", "showModalDialogOnUploadError", ["loc", [null, [17, 35], [17, 63]]]]], [], []], "showModalDialogOnDownloadError", ["subexpr", "@mut", [["get", "showModalDialogOnDownloadError", ["loc", [null, [18, 37], [18, 67]]]]], [], []], "inputClass", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [19, 17], [19, 27]]]]], [], []], "buttonClass", ["subexpr", "@mut", [["get", "buttonClass", ["loc", [null, [20, 18], [20, 29]]]]], [], []]], ["loc", [null, [8, 4], [21, 6]]]]],
+        statements: [["inline", "flexberry-file", [], ["value", ["subexpr", "@mut", [["get", "model.file", ["loc", [null, [9, 12], [9, 22]]]]], [], []], "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [10, 18], [10, 29]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [11, 15], [11, 23]]]]], [], []], "uploadUrl", ["subexpr", "@mut", [["get", "uploadUrl", ["loc", [null, [12, 16], [12, 25]]]]], [], []], "maxUploadFileSize", ["subexpr", "@mut", [["get", "maxUploadFileSize", ["loc", [null, [13, 24], [13, 41]]]]], [], []], "showPreview", ["subexpr", "@mut", [["get", "showPreview", ["loc", [null, [14, 18], [14, 29]]]]], [], []], "showUploadButton", ["subexpr", "@mut", [["get", "showUploadButton", ["loc", [null, [15, 23], [15, 39]]]]], [], []], "showDownloadButton", ["subexpr", "@mut", [["get", "showDownloadButton", ["loc", [null, [16, 25], [16, 43]]]]], [], []], "showModalDialogOnUploadError", ["subexpr", "@mut", [["get", "showModalDialogOnUploadError", ["loc", [null, [17, 35], [17, 63]]]]], [], []], "showModalDialogOnDownloadError", ["subexpr", "@mut", [["get", "showModalDialogOnDownloadError", ["loc", [null, [18, 37], [18, 67]]]]], [], []], "inputClass", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [19, 17], [19, 27]]]]], [], []], "buttonClass", ["subexpr", "@mut", [["get", "buttonClass", ["loc", [null, [20, 18], [20, 29]]]]], [], []], "openFileInNewWindowInsteadOfLoading", ["subexpr", "@mut", [["get", "openFileInNewWindowInsteadOfLoading", ["loc", [null, [21, 42], [21, 77]]]]], [], []]], ["loc", [null, [8, 4], [22, 6]]]]],
         locals: [],
         templates: []
       };
@@ -25272,7 +25286,7 @@ define("dummy/templates/components-examples/flexberry-file/settings-example", ["
             "column": 0
           },
           "end": {
-            "line": 24,
+            "line": 25,
             "column": 0
           }
         },
@@ -25309,7 +25323,7 @@ define("dummy/templates/components-examples/flexberry-file/settings-example", ["
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.components-examples.flexberry-file.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 95]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [4, 25], [4, 29]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [5, 30], [5, 55]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [6, 26], [6, 47]]]]], [], []]], 0, null, ["loc", [null, [3, 2], [22, 23]]]]],
+      statements: [["inline", "t", ["forms.components-examples.flexberry-file.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 95]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [4, 25], [4, 29]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [5, 30], [5, 55]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [6, 26], [6, 47]]]]], [], []]], 0, null, ["loc", [null, [3, 2], [23, 23]]]]],
       locals: [],
       templates: [child0]
     };
@@ -62756,7 +62770,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"https://flexberry-ember-dummy.azurewebsites.net","backendUrls":{"root":"https://flexberry-ember-dummy.azurewebsites.net","api":"https://flexberry-ember-dummy.azurewebsites.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"https://flexberry-ember-dummy.azurewebsites.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.0.0+32c923ee"});
 }
 
 /* jshint ignore:end */
