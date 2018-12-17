@@ -15889,6 +15889,8 @@ ol.ui.horizontal.list li:before,
   bottom: 0px;
   z-index: 99;
   height: 40px;
+  width: 100% !important;
+  margin: 0px !important;
 }
 .daterangepicker .calendar td {
   color: #7ba7d9;
