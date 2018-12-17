@@ -1342,6 +1342,10 @@ input::selection {
 .bgw-fix.mobile {
   height: 50px;
 }
+.pushable .pusher.mobile {
+  height: auto;
+  min-height: auto;
+}
 .background-logo {
   height: 80px;
   position: fixed;
