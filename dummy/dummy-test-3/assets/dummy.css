@@ -1424,6 +1424,10 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 .bgw-fix.mobile {
   height: 50px;
 }
+.pushable .pusher.mobile {
+  height: auto;
+  min-height: auto;
+}
 .background-logo {
   height: 80px;
   position: fixed;
@@ -1450,8 +1454,11 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 .background-logo a img {
   padding: 7px 0px;
 }
-.flexberry-content.ui.attached.segment {
+#example-mobile .flexberry-content.ui.attached.segment,
+#example .flexberry-content.ui.attached.segment {
   border: none;
+  height: auto;
+  min-height: 100%;
 }
 .flex-container {
   width: 100%!important;
@@ -10453,6 +10460,9 @@ img.ui.bordered.image {
 .flexberry-file-image-preview-wrapper.ui.segment .ui.small.image {
   min-height: 57px;
 }
+.flexberry-file-image-preview-wrapper.ui.small.image .flexberry-file-image-preview {
+  max-width: 100%;
+}
 /*!
  * # Semantic UI - Input
  * http://github.com/semantic-org/semantic-ui/
@@ -16343,6 +16353,8 @@ ol.ui.horizontal.list li:before,
   bottom: 0px;
   z-index: 99;
   height: 40px;
+  width: 100% !important;
+  margin: 0px !important;
 }
 .daterangepicker .calendar td {
   color: #7ba7d9;
@@ -18930,6 +18942,12 @@ option {
 }
 .ui.form .field .ui.input .block-action-input input {
   width: 100%;
+}
+.flexberry-file-error-modal-dialog .flexberry-file-error-modal-dialog-content {
+  text-align: center;
+}
+.flexberry-file-error-modal-dialog .flexberry-file-error-modal-dialog-button.ui.grid {
+  padding-top: 20px;
 }
 /*!
  * # Semantic UI - Grid
@@ -34189,6 +34207,12 @@ select.ui.dropdown {
 }
 .ui.modal .content h2.ui.header {
   word-wrap: break-word;
+}
+.ui.modal.preview-model .content {
+  overflow: scroll;
+}
+.ui.modal.preview-model .content .close-button {
+  display: none;
 }
 /*!
  * # Semantic UI - Nag
