@@ -19566,7 +19566,7 @@
         },
         {
             "file": "addon/mixins/limited-route.js",
-            "line": 148,
+            "line": 155,
             "description": "Return predicate for `QueryBuilder` or `undefined`.",
             "itemtype": "method",
             "name": "_filtersPredicate",
@@ -20188,7 +20188,7 @@
         },
         {
             "file": "addon/mixins/predicate-from-filters.js",
-            "line": 74,
+            "line": 81,
             "description": "Return predicate for `QueryBuilder` or `undefined`.",
             "itemtype": "method",
             "name": "_filtersPredicate",

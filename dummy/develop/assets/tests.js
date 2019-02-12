@@ -1170,13 +1170,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
             var successful = true;
             for (var i = 0; i < filtherResult.length; i++) {
               var address = filtherResult[i]._data.address;
-              if (address === undefined) {
+              if (!_ember['default'].isNone(address)) {
                 successful = false;
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
-            assert.equal(successful, true, 'Filter successfully worked');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
+            assert.equal(successful, true, 'Filter not successfully worked');
           })['finally'](function () {
             newRecords[2].destroyRecord().then(function () {
               _ember['default'].run(function () {
@@ -1256,7 +1256,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1455,7 +1455,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
           var done1 = assert.async();
           (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
             var filtherResult = controller.model.content;
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             done1();
           });
         });
@@ -1524,7 +1524,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1594,7 +1594,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1668,7 +1668,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1697,7 +1697,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
 define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-neq-filter-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-objectlistview/execute-folv-test', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'ember-flexberry-data'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _emberFlexberryData) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewExecuteFolvTest.executeTest)('check neq filter', function (store, assert, app) {
-    assert.expect(3);
+    assert.expect(2);
     var path = 'components-acceptance-tests/flexberry-objectlistview/folv-filter';
     var modelName = 'ember-flexberry-dummy-suggestion';
     var filtreInsertOperation = 'neq';
@@ -1741,7 +1741,6 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1817,7 +1816,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
 
             var dropdown = _ember['default'].$('.flexberry-dropdown')[0];
             assert.equal(dropdown.innerText, 'like', 'Filter select like operation if it is not specified');
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -4220,7 +4219,6 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
 
       var $lastLoadCount = controller.loadCount;
       refreshFunction();
-
       _ember['default'].run(function () {
         checkIntervalId = window.setInterval(function () {
           var loadCount = controller.loadCount;
@@ -4373,18 +4371,25 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       var dropdown = _ember['default'].$(filterValueCell).find('.flexberry-dropdown');
       var textbox = _ember['default'].$(filterValueCell).find('.ember-text-field');
 
+      var fillPromise = undefined;
       if (textbox.length !== 0) {
-        fillIn(textbox, filterValue);
+        fillPromise = fillIn(textbox, filterValue);
       }
 
       if (dropdown.length !== 0) {
         dropdown.dropdown('set selected', filterValue);
       }
 
-      var timeout = 300;
-      _ember['default'].run.later(function () {
-        resolve();
-      }, timeout);
+      if (fillPromise) {
+        fillPromise.then(function () {
+          return resolve();
+        });
+      } else {
+        var timeout = 300;
+        _ember['default'].run.later(function () {
+          resolve();
+        }, timeout);
+      }
     });
   }
 
