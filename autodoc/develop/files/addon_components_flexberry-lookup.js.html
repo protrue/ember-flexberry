@@ -223,6 +223,7 @@ const {
   Condition,
   BasePredicate,
   StringPredicate,
+  SimplePredicate,
   ComplexPredicate
 } = Query;
 
@@ -512,6 +513,24 @@ export default FlexberryBaseComponent.extend({
   maxResults: 10,
 
   /**
+    Flag for remove autocomplete value if it&#x27;s not in the results (remove when false).
+
+    @property autocompletePersistValue
+    @type Boolean
+    @default false
+  */
+  autocompletePersistValue: false,
+
+  /**
+    Stores autocomplete value, when autocompletePersistValue=true and lookup value clearing.
+
+    @property autocompletePersistValueCache
+    @type String
+    @default undefined
+  */
+  autocompletePersistValueCache: undefined,
+
+  /**
     Limit function on lookup.
     It should not be just a string, it has to be predicate function (otherwise an exception will be thrown).
 
@@ -723,11 +742,8 @@ export default FlexberryBaseComponent.extend({
 
     @property displayValue
     @type String
-    @readOnly
   */
-  displayValue: Ember.computed(&#x27;value&#x27;, function() {
-    return this._buildDisplayValue();
-  }),
+  displayValue: undefined,
 
   /**
     Standard CSS class names to apply to the view&#x27;s outer element.
@@ -845,6 +861,11 @@ export default FlexberryBaseComponent.extend({
         return;
       }
 
+      if (this.get(&#x27;autocompletePersistValue&#x27;)) {
+        this.set(&#x27;autocompletePersistValueCache&#x27;, undefined);
+        this.set(&#x27;displayValue&#x27;, undefined);
+      }
+
       this.sendAction(&#x27;remove&#x27;, removeData);
     },
 
@@ -901,11 +922,15 @@ export default FlexberryBaseComponent.extend({
     this.get(&#x27;lookupEventsService&#x27;).on(&#x27;lookupDialogOnVisible&#x27;, this, this._setModalIsVisible);
     this.get(&#x27;lookupEventsService&#x27;).on(&#x27;lookupDialogOnHidden&#x27;, this, this._setModalIsHidden);
 
-    // TODO: This is necessary because of incomprehensible one-way binding on new detail form, perhaps the truth is out there, but I did not find it.
-    this.addObserver(&#x27;value&#x27;, this, this._valueObserver);
-    this.addObserver(&#x27;displayAttributeName&#x27;, this, this._valueObserver);
-    this.addObserver(&#x60;relatedModel.${this.get(&#x27;relationName&#x27;)}&#x60;, this, this._valueObserver);
+    if (this.get(&#x27;autocompletePersistValue&#x27;) &amp;&amp; Ember.isNone(this.get(&#x27;value&#x27;))) {
+      this.set(&#x27;autocompletePersistValueCache&#x27;, this.get(&#x27;displayValue&#x27;));
+    }
   },
+
+  /**
+    Observe lookup value changes.
+  */
+  valueObserver: Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;value&#x27;, &#x27;displayAttributeName&#x27;, function() { Ember.run.once(this, &#x27;_valueObserver&#x27;); })),
 
   /**
     It seems to me a mistake here, it should be [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement).
@@ -966,11 +991,6 @@ export default FlexberryBaseComponent.extend({
     this.get(&#x27;lookupEventsService&#x27;).off(&#x27;lookupDialogOnShow&#x27;, this, this._setModalIsStartToShow);
     this.get(&#x27;lookupEventsService&#x27;).off(&#x27;lookupDialogOnVisible&#x27;, this, this._setModalIsVisible);
     this.get(&#x27;lookupEventsService&#x27;).off(&#x27;lookupDialogOnHidden&#x27;, this, this._setModalIsHidden);
-
-    // TODO: This is necessary because of incomprehensible one-way binding on new detail form, perhaps the truth is out there, but I did not find it.
-    this.removeObserver(&#x27;value&#x27;, this, this._valueObserver);
-    this.removeObserver(&#x27;displayAttributeName&#x27;, this, this._valueObserver);
-    this.removeObserver(&#x60;relatedModel.${this.get(&#x27;relationName&#x27;)}&#x60;, this, this._valueObserver);
   },
 
   /**
@@ -1179,8 +1199,37 @@ export default FlexberryBaseComponent.extend({
         // and Ember won&#x27;t change computed property.
 
         if (state !== &#x27;selected&#x27;) {
-          if (_this.get(&#x27;displayValue&#x27;)) {
-            _this.set(&#x27;displayValue&#x27;, _this._buildDisplayValue());
+          let displayValue = _this.get(&#x27;displayValue&#x27;);
+          if (displayValue) {
+            if (_this.get(&#x27;autocompletePersistValue&#x27;)) {
+              let builder = new Builder(store, relationModelName).select(displayAttributeName);
+
+              let autocompletePredicate = new SimplePredicate(displayAttributeName, &#x27;eq&#x27;, displayValue);
+              let resultPredicate = _this._conjuctPredicates(_this.get(&#x27;lookupLimitPredicate&#x27;), autocompletePredicate);
+              if (resultPredicate) {
+                builder.where(resultPredicate);
+              }
+
+              Ember.run(() =&gt; {
+                store.query(relationModelName, builder.build()).then((records) =&gt; {
+                  let record = records.objectAt(0);
+                  if (Ember.isNone(record)) {
+                    _this.set(&#x27;autocompletePersistValueCache&#x27;, displayValue);
+                    _this.sendAction(&#x27;remove&#x27;, _this.get(&#x27;removeData&#x27;));
+                  } else {
+                    _this.set(&#x27;value&#x27;, record);
+                    _this.get(&#x27;currentController&#x27;).send(_this.get(&#x27;updateLookupAction&#x27;),
+                      {
+                        relationName: relationName,
+                        modelToLookup: relatedModel,
+                        newRelationValue: record
+                      });
+                  }
+                });
+              });
+            } else {
+              _this.set(&#x27;displayValue&#x27;, _this._buildDisplayValue());
+            }
           } else {
             _this.sendAction(&#x27;remove&#x27;, _this.get(&#x27;removeData&#x27;));
           }
@@ -1314,10 +1363,15 @@ export default FlexberryBaseComponent.extend({
     @private
   */
   _buildDisplayValue() {
+    let autocompletePersistValueCache = this.get(&#x27;autocompletePersistValueCache&#x27;);
+    if (autocompletePersistValueCache) {
+      this.set(&#x27;autocompletePersistValueCache&#x27;, undefined);
+    }
+
     let selectedModel = this.get(&#x27;value&#x27;);
     let displayAttributeName = this.get(&#x27;displayAttributeName&#x27;);
     if (!selectedModel) {
-      return &#x27;&#x27;;
+      return autocompletePersistValueCache ? autocompletePersistValueCache : &#x27;&#x27;;
     }
 
     if (!displayAttributeName) {
