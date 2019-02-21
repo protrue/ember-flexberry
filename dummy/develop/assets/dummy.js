@@ -4722,6 +4722,14 @@ define('dummy/controllers/components-examples/flexberry-lookup/settings-example'
     autocomplete: false,
 
     /**
+      Flag indicates whether 'flexberry-lookup' component is in 'autocompletePersistValue' mode or not.
+       @property autocompletePersistValue
+      @type Boolean
+      @default false
+    */
+    autocompletePersistValue: false,
+
+    /**
       Flag indicates whether 'flexberry-lookup' component is in 'dropdown' mode or not.
        @property dropdown
       @type Boolean
@@ -4766,7 +4774,7 @@ define('dummy/controllers/components-examples/flexberry-lookup/settings-example'
        @property componentTemplateText
       @type String
     */
-    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{flexberry-lookup<br>' + '  placeholder=placeholder<br>' + '  readonly=readonly<br>' + '  value=model.type<br>' + '  projection="SettingLookupExampleView"<br>' + '  displayAttributeName="name"<br>' + '  title="Master"<br>' + '  relatedModel=model<br>' + '  relationName="type"<br>' + '  choose="showLookupDialog"<br>' + '  remove="removeLookupValue"<br>' + '  autocomplete=autocomplete<br>' + '  dropdown=dropdown<br>' + '  chooseText=chooseText<br>' + '  removeText=removeText<br>' + '  chooseButtonClass=chooseButtonClass<br>' + '  removeButtonClass=removeButtonClass<br>' + '}}'),
+    componentTemplateText: new _ember['default'].Handlebars.SafeString('{{flexberry-lookup<br>' + '  placeholder=placeholder<br>' + '  readonly=readonly<br>' + '  value=model.type<br>' + '  projection="SettingLookupExampleView"<br>' + '  displayAttributeName="name"<br>' + '  title="Master"<br>' + '  relatedModel=model<br>' + '  relationName="type"<br>' + '  choose="showLookupDialog"<br>' + '  remove="removeLookupValue"<br>' + '  autocomplete=autocomplete<br>' + '  autocompletePersistValue=autocompletePersistValue<br>' + '  displayValue=model.lookupDisplayValue<br>' + '  dropdown=dropdown<br>' + '  chooseText=chooseText<br>' + '  removeText=removeText<br>' + '  chooseButtonClass=chooseButtonClass<br>' + '  removeButtonClass=removeButtonClass<br>' + '}}'),
 
     /**
       Component settings metadata.
@@ -4798,6 +4806,12 @@ define('dummy/controllers/components-examples/flexberry-lookup/settings-example'
         settingType: 'boolean',
         settingDefaultValue: false,
         bindedControllerPropertieName: 'autocomplete'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'autocompletePersistValue',
+        settingType: 'boolean',
+        settingDefaultValue: false,
+        bindedControllerPropertieName: 'autocompletePersistValue'
       });
       componentSettingsMetadata.pushObject({
         settingName: 'dropdown',
@@ -27889,7 +27903,7 @@ define("dummy/templates/components-examples/flexberry-lookup/settings-example", 
               "column": 4
             },
             "end": {
-              "line": 28,
+              "line": 30,
               "column": 4
             }
           },
@@ -27914,7 +27928,7 @@ define("dummy/templates/components-examples/flexberry-lookup/settings-example", 
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "flexberry-lookup", [], ["placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [10, 20], [10, 31]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [11, 17], [11, 25]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [12, 14], [12, 24]]]]], [], []], "projection", "SettingLookupExampleView", "displayAttributeName", "name", "title", ["subexpr", "@mut", [["get", "title", ["loc", [null, [15, 14], [15, 19]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [16, 21], [16, 26]]]]], [], []], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "autocomplete", ["subexpr", "@mut", [["get", "autocomplete", ["loc", [null, [20, 21], [20, 33]]]]], [], []], "dropdown", ["subexpr", "@mut", [["get", "dropdown", ["loc", [null, [21, 17], [21, 25]]]]], [], []], "chooseText", ["subexpr", "@mut", [["get", "chooseText", ["loc", [null, [22, 19], [22, 29]]]]], [], []], "removeText", ["subexpr", "@mut", [["get", "removeText", ["loc", [null, [23, 19], [23, 29]]]]], [], []], "chooseButtonClass", ["subexpr", "@mut", [["get", "chooseButtonClass", ["loc", [null, [24, 26], [24, 43]]]]], [], []], "removeButtonClass", ["subexpr", "@mut", [["get", "removeButtonClass", ["loc", [null, [25, 26], [25, 43]]]]], [], []], "multiselect", true], ["loc", [null, [9, 6], [27, 8]]]]],
+        statements: [["inline", "flexberry-lookup", [], ["placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [10, 20], [10, 31]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [11, 17], [11, 25]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [12, 14], [12, 24]]]]], [], []], "projection", "SettingLookupExampleView", "displayAttributeName", "name", "title", ["subexpr", "@mut", [["get", "title", ["loc", [null, [15, 14], [15, 19]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [16, 21], [16, 26]]]]], [], []], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "autocomplete", ["subexpr", "@mut", [["get", "autocomplete", ["loc", [null, [20, 21], [20, 33]]]]], [], []], "autocompletePersistValue", ["subexpr", "@mut", [["get", "autocompletePersistValue", ["loc", [null, [21, 33], [21, 57]]]]], [], []], "displayValue", ["subexpr", "@mut", [["get", "model.lookupDisplayValue", ["loc", [null, [22, 21], [22, 45]]]]], [], []], "dropdown", ["subexpr", "@mut", [["get", "dropdown", ["loc", [null, [23, 17], [23, 25]]]]], [], []], "chooseText", ["subexpr", "@mut", [["get", "chooseText", ["loc", [null, [24, 19], [24, 29]]]]], [], []], "removeText", ["subexpr", "@mut", [["get", "removeText", ["loc", [null, [25, 19], [25, 29]]]]], [], []], "chooseButtonClass", ["subexpr", "@mut", [["get", "chooseButtonClass", ["loc", [null, [26, 26], [26, 43]]]]], [], []], "removeButtonClass", ["subexpr", "@mut", [["get", "removeButtonClass", ["loc", [null, [27, 26], [27, 43]]]]], [], []], "multiselect", true], ["loc", [null, [9, 6], [29, 8]]]]],
         locals: [],
         templates: []
       };
@@ -27933,7 +27947,7 @@ define("dummy/templates/components-examples/flexberry-lookup/settings-example", 
             "column": 0
           },
           "end": {
-            "line": 31,
+            "line": 33,
             "column": 0
           }
         },
@@ -27979,7 +27993,7 @@ define("dummy/templates/components-examples/flexberry-lookup/settings-example", 
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2, 1]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 97]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [7, 28], [7, 49]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [28, 25]]]]],
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 97]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [7, 28], [7, 49]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [30, 25]]]]],
       locals: [],
       templates: [child0]
     };
@@ -62871,7 +62885,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.1+61beb8c9"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.1+51f9107d"});
 }
 
 /* jshint ignore:end */
