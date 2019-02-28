@@ -6520,6 +6520,19 @@
         {
             "file": "addon/components/flexberry-groupedit.js",
             "line": 96,
+            "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
+            "example": [
+                "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...', // Button title.\n\t\t    iconClasses: '' // Css classes for icon.\n  }\n  ```"
+            ],
+            "itemtype": "property",
+            "name": "customButtonsArray",
+            "type": "Array",
+            "class": "FlexberryGroupeditComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/flexberry-groupedit.js",
+            "line": 113,
             "description": "Custom classes for table.",
             "itemtype": "property",
             "name": "customTableClass",
@@ -6530,7 +6543,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 105,
+            "line": 122,
             "description": "Flag: indicates whether to show delete button at toolbar.",
             "itemtype": "property",
             "name": "deleteButton",
@@ -6541,7 +6554,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 114,
+            "line": 131,
             "description": "Flag: indicates whether to show default settings button at toolbar.",
             "itemtype": "property",
             "name": "defaultSettingsButton",
@@ -6552,7 +6565,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 123,
+            "line": 140,
             "description": "Route of edit form.",
             "example": [
                 "\nThis form is opened after row click\nif flag {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} is enabled."
@@ -6565,7 +6578,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 135,
+            "line": 152,
             "description": "Flag: indicates whether records should be edited on separate route.",
             "example": [
                 "\nIn order to enable properly editing in separate route following properties have to be defined:\n- {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} has to be set as true,\n- {{#crossLink \"FlexberryGroupeditComponent/rowClickable:property\"}}{{/crossLink}} has to be set as true,\n- {{#crossLink \"FlexberryGroupeditComponent/editFormRoute:property\"}}{{/crossLink}} has to be set,\n- {{#crossLink \"FlexberryGroupeditComponent/saveBeforeRouteLeave:property\"}}{{/crossLink}} can be set.\n\n```handlebars\n{ {flexberry-groupedit\n  ...\n  editOnSeparateRoute=true\n  rowClickable=true\n  rowClick='rowClick'\n  editFormRoute=commentsEditRoute\n  saveBeforeRouteLeave=needSaveBeforeRouteLeave\n  ...\n} }\n```"
@@ -6579,7 +6592,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 163,
+            "line": 180,
             "description": "Additional menu items for dropdown menu in last column of every row.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/exapmle.js\n  ...\n  menuItems: [{\n    icon: 'spy icon',\n    title: 'Recruit it',\n    actionName: 'recruit',\n  }],\n  ...\n  actions: {\n    ...\n    recruit(record) {\n      record.set('isSpy', true);\n    },\n    ...\n  },\n  ...\n  ```\n\n  Note: For every action in component you need to pass an additional parameter in the form of `actionName=\"actionName\"`.\n  ```javascript\n  // app/templates/example.hbs\n  ...\n  {{flexberry-groupedit\n    ...\n    menuInRowAdditionalItems=menuItems\n    recruit=\"recruit\"\n    ...\n  }}\n  ...\n  ```\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}."
@@ -6593,7 +6606,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 210,
+            "line": 227,
             "description": "Model projection which should be used to display given content.\nProperties of objects by model projection are displayed on component.",
             "itemtype": "property",
             "name": "modelProjection",
@@ -6604,7 +6617,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 220,
+            "line": 237,
             "description": "Main model projection. Accepts object projections.\nNeeds for support locales of captions.",
             "itemtype": "property",
             "name": "mainModelProjection",
@@ -6614,7 +6627,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 229,
+            "line": 246,
             "description": "Flag indicates whether ordering by clicking on column headers is allowed.",
             "example": [
                 "\nIf sorting is used then there has to be declaration:\n```handlebars\n {{flexberry-groupedit\n   ...\n   orderable=true\n   sorting=computedSorting\n   sortByColumn=(action \"sortByColumn\")\n   addColumnToSorting=(action \"addColumnToSorting\")}}\n```"
@@ -6628,7 +6641,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 249,
+            "line": 266,
             "description": "Text to be displayed in table body, if content is not defined or empty.",
             "itemtype": "property",
             "name": "placeholder",
@@ -6639,7 +6652,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 258,
+            "line": 275,
             "description": "Flag indicates whether table rows are clickable (action will be fired after row click).",
             "itemtype": "property",
             "name": "rowClickable",
@@ -6650,7 +6663,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 267,
+            "line": 284,
             "description": "Flag indicates whether to save current model before going to the detail's route.",
             "example": [
                 "\nThis flag is used when flag {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} is enabled."
@@ -6664,7 +6677,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 279,
+            "line": 296,
             "description": "Flag indicates whether to look for changes of model (and displaying corresponding changes on control) or not.\n\nIf flag is enabled component compares current detail array with used on component,\nremoves deleted and marked as deleted on model level records, adds created on model level records.",
             "itemtype": "property",
             "name": "searchForContentChange",
@@ -6675,7 +6688,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 291,
+            "line": 308,
             "description": "Flag: indicates whether to show validation messages in every row or not.",
             "itemtype": "property",
             "name": "showValidationMessages",
@@ -6686,7 +6699,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 300,
+            "line": 317,
             "description": "Flag: indicates whether to show asterisk icon in first column of every changed row.",
             "itemtype": "property",
             "name": "showAsteriskInRow",
@@ -6697,7 +6710,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 309,
+            "line": 326,
             "description": "Flag: indicates whether to show checkbox in first column of every row.",
             "itemtype": "property",
             "name": "showCheckBoxInRow",
@@ -6708,7 +6721,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 318,
+            "line": 335,
             "description": "Flag: indicates whether to show delete button in first column of every row.",
             "itemtype": "property",
             "name": "showDeleteButtonInRow",
@@ -6719,7 +6732,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 327,
+            "line": 344,
             "description": "Flag: indicates whether to show dropdown menu with delete menu item, in last column of every row.\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "showDeleteMenuItemInRow",
@@ -6730,7 +6743,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 341,
+            "line": 358,
             "description": "Flag: indicates whether to show dropdown menu with edit menu item, in last column of every row.\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "showEditMenuItemInRow",
@@ -6741,7 +6754,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 355,
+            "line": 372,
             "description": "Array with sorting data.",
             "itemtype": "property",
             "name": "sorting",
@@ -6752,7 +6765,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 364,
+            "line": 381,
             "description": "Flag: indicates whether table are striped.",
             "itemtype": "property",
             "name": "tableStriped",
@@ -6763,7 +6776,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 373,
+            "line": 390,
             "description": "Minimum column width, if width isn't defined in userSettings.",
             "itemtype": "property",
             "name": "minAutoColumnWidth",
@@ -6774,7 +6787,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 382,
+            "line": 399,
             "description": "Indicates whether or not autoresize columns for fit the page width.",
             "itemtype": "property",
             "name": "columnsWidthAutoresize",
@@ -6785,7 +6798,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 391,
+            "line": 408,
             "description": "List of component names, which can overflow table cell.",
             "itemtype": "property",
             "name": "overflowedComponents",
@@ -6796,7 +6809,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 401,
+            "line": 418,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.sortByColumn",
@@ -6812,7 +6825,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 425,
+            "line": 442,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.addColumnToSorting",
@@ -6828,7 +6841,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 476,
+            "line": 493,
             "description": "Handles click on row of component.\nSends primary action out of component.",
             "itemtype": "method",
             "name": "actions.groupEditRowClick",
@@ -6849,7 +6862,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 494,
+            "line": 511,
             "description": "Send action with `actionName` into controller.",
             "itemtype": "method",
             "name": "actions.sendMenuItemAction",
@@ -6870,7 +6883,25 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 510,
+            "line": 522,
+            "description": "Handler to get user button's actions and send action to corresponding controllers's handler.",
+            "itemtype": "method",
+            "name": "actions.customButtonAction",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "actionName",
+                    "description": "The name of action",
+                    "type": "String"
+                }
+            ],
+            "class": "FlexberryGroupeditComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/flexberry-groupedit.js",
+            "line": 541,
             "description": "Sorting records and trigger `geSortApply` action.",
             "itemtype": "method",
             "name": "sortingFunction",
@@ -6879,7 +6910,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 550,
+            "line": 581,
             "description": "Client-side sorting for groupEdit content.",
             "itemtype": "method",
             "name": "sortRecords",
@@ -6914,7 +6945,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 596,
+            "line": 627,
             "description": "Hook that can be used to confirm delete row.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-groupedit\n    ...\n    confirmDeleteRow=(action 'confirmDeleteRow')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRow() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -6930,7 +6961,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 627,
+            "line": 658,
             "description": "Hook that can be used to confirm delete rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-groupedit\n    ...\n    confirmDeleteRows=(action 'confirmDeleteRows')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRows() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -6946,7 +6977,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 658,
+            "line": 689,
             "description": "Hook that executes before deleting the record.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-groupedit\n    ...\n    beforeDeleteRecord=(action 'beforeDeleteRecord')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteRecord(record, data) {\n        if (record.get('myProperty')) {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -12817,6 +12848,30 @@
         {
             "file": "addon/components/groupedit-toolbar.js",
             "line": 54,
+            "description": "Name of action to send out, action triggered by click on user button.",
+            "itemtype": "property",
+            "name": "customButtonAction",
+            "type": "String",
+            "default": "'customButtonAction'",
+            "class": "GroupEditToolbarComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/groupedit-toolbar.js",
+            "line": 62,
+            "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
+            "example": [
+                "\n ```\n {\n   buttonName: '...', // Button displayed name.\n   buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n   buttonClasses: '...', // Css classes for button.\n   buttonTitle: '...', // Button title.\n   iconClasses: '' // Css classes for icon.\n }\n ```"
+            ],
+            "itemtype": "property",
+            "name": "customButtonsArray",
+            "type": "Array",
+            "class": "GroupEditToolbarComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/groupedit-toolbar.js",
+            "line": 79,
             "description": "Boolean property to show or hide delete button in toolbar.\nDelete record button will not display if set to false.",
             "itemtype": "property",
             "name": "deleteButton",
@@ -12827,7 +12882,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 64,
+            "line": 89,
             "description": "Flag: indicates whether to show default settings button at toolbar.",
             "itemtype": "property",
             "name": "defaultSettingsButton",
@@ -12838,7 +12893,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 74,
+            "line": 99,
             "description": "Handles add record button click and triggers add record event on\n{{#crossLink \"FlexberryGroupeditComponent\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "actions.addRow",
@@ -12847,7 +12902,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 89,
+            "line": 114,
             "description": "Handles delete records button click and triggers delete records event on\n{{#crossLink \"FlexberryGroupeditComponent\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "actions.deleteRows",
@@ -12856,7 +12911,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 112,
+            "line": 137,
             "description": "Handles default usersettings button click.",
             "itemtype": "method",
             "name": "actions.setDefaultSettings",
@@ -12865,7 +12920,25 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 139,
+            "line": 163,
+            "description": "Action for custom button.",
+            "itemtype": "method",
+            "name": "actions.customButtonAction",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The action or name of action.",
+                    "type": "Function|String"
+                }
+            ],
+            "class": "GroupEditToolbarComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/groupedit-toolbar.js",
+            "line": 181,
             "description": "An overridable method called when objects are instantiated.\nFor more information see {{#crossLink \"FlexberryBaseComponent/init:method\"}}init method{{/crossLink}}\nof {{#crossLink \"FlexberryBaseComponent\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "init",
@@ -12878,7 +12951,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 158,
+            "line": 200,
             "description": "An overridable method called when objects is teardowned.\nFor more information see {{#crossLink \"FlexberryBaseComponent/willDestroy:method\"}}willDestroy method{{/crossLink}}\nof {{#crossLink \"FlexberryBaseComponent\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "willDestroy",
@@ -12887,7 +12960,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 171,
+            "line": 213,
             "description": "Event handler for \"row has been selected\" event in {{#crossLink \"FlexberryGroupeditComponent\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "_rowSelected",
@@ -12925,7 +12998,7 @@
         },
         {
             "file": "addon/components/groupedit-toolbar.js",
-            "line": 189,
+            "line": 231,
             "description": "Event handler for \"selected rows has been deleted\" event in {{#crossLink \"FlexberryGroupeditComponent\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "_rowsDeleted",

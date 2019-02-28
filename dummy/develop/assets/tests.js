@@ -115,7 +115,7 @@ define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-
     assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass jshint.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
 
   var app = undefined;
   var path = 'components-examples/flexberry-groupedit/configurate-row-example';
@@ -164,21 +164,86 @@ define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedi
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.jscs-test', ['exports'], function (exports) {
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.jscs-test', ['exports'], function (exports) {
   'use strict';
 
   module('JSCS - acceptance/components/flexberry-groupedit');
-  test('acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jscs', function () {
-    ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jscs.');
+  test('acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.js should pass jscs.');
   });
 });
-define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.jshint', ['exports'], function (exports) {
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.jshint', ['exports'], function (exports) {
   'use strict';
 
-  QUnit.module('JSHint - acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js');
+  QUnit.module('JSHint - acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass jshint.');
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
+
+  var app = undefined;
+  var testName = 'user button test';
+
+  (0, _qunit.module)('Acceptance | flexberry-groupedit | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _dummyTestsHelpersStartApp['default'])();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+
+    afterEach: function afterEach() {
+      _ember['default'].run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(3);
+    var path = 'components-examples/flexberry-groupedit/custom-buttons-example';
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+      // Enable the hi button.
+      click('.toggle-hi-button');
+
+      // First click.
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      });
+
+      // Second click.
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-groupedit');
+  test('acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.js should pass jshint.');
   });
 });
 define('dummy/tests/acceptance/components/flexberry-lookup/change-component-lookup-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
@@ -6243,6 +6308,23 @@ define('dummy/tests/controllers/components-examples/flexberry-groupedit/configur
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-groupedit/configurate-row-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-groupedit/custom-buttons-example.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-groupedit');
+  test('controllers/components-examples/flexberry-groupedit/custom-buttons-example.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-groupedit/custom-buttons-example.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-groupedit/custom-buttons-example.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-groupedit/custom-buttons-example.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-groupedit/custom-buttons-example.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-edit-groupedit-with-lookup-with-computed-atribute.jscs-test', ['exports'], function (exports) {
@@ -19749,6 +19831,23 @@ define('dummy/tests/routes/components-examples/flexberry-groupedit/configurate-r
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-groupedit/configurate-row-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-groupedit/custom-buttons-example.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-groupedit');
+  test('routes/components-examples/flexberry-groupedit/custom-buttons-example.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-groupedit/custom-buttons-example.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-groupedit/custom-buttons-example.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-groupedit/custom-buttons-example.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-groupedit/custom-buttons-example.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-edit-groupedit-with-lookup-with-computed-atribute.jscs-test', ['exports'], function (exports) {

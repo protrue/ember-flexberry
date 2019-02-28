@@ -5259,6 +5259,20 @@ div.ui.secondary.menu.no-margin {
 .ui.ui-clear-settings.button:hover {
   background: #FFFFFF;
 }
+.ui.custom.button {
+  padding: 0px 18px;
+  height: 30px;
+  border: 1px solid #7ba7d9;
+}
+.ui.custom.icon.button {
+  padding: 0px;
+  height: 30px;
+  width: 30px;
+  border: 1px solid #7ba7d9;
+}
+.ui.custom.icon.button:hover i.icon:before {
+  color: #FFFFFF;
+}
 .right.pointing.ui.icon.dropdown.button:hover i.icon.list.layout:before {
   color: #FFFFFF;
 }
