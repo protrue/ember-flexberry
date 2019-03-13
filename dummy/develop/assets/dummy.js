@@ -957,6 +957,11 @@ define('dummy/controllers/application', ['exports', 'ember', 'dummy/config/envir
               caption: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.autocomplete-order-example.caption'),
               title: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.autocomplete-order-example.title'),
               children: null
+            }, {
+              link: 'components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list',
+              caption: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.compute-autocomplete.caption'),
+              title: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.compute-autocomplete.title'),
+              children: null
             }]
           }, {
             link: null,
@@ -4446,6 +4451,59 @@ define('dummy/controllers/components-examples/flexberry-lookup/autocomplete-orde
       @default false
     */
     autocomplete: false
+  });
+});
+define('dummy/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit', ['exports', 'ember-flexberry/controllers/edit-form', 'ember-flexberry/mixins/edit-form-controller-operations-indication'], function (exports, _emberFlexberryControllersEditForm, _emberFlexberryMixinsEditFormControllerOperationsIndication) {
+  exports['default'] = _emberFlexberryControllersEditForm['default'].extend(_emberFlexberryMixinsEditFormControllerOperationsIndication['default'], {
+    /**
+      Route name for transition after close edit form.
+       @property parentRoute
+      @type String
+      @default 'ember-flexberry-dummy-application-user-list'
+     */
+    parentRoute: 'compute-autocomplete-list',
+
+    /**
+      Method to get type and attributes of a component,
+      which will be embeded in object-list-view cell.
+       @method getCellComponent.
+      @param {Object} attr Attribute of projection property related to current table cell.
+      @param {String} bindingPath Path to model property related to current table cell.
+      @param {DS.Model} modelClass Model class of data record related to current table row.
+      @return {Object} Object containing name & properties of component, which will be used to render current table cell.
+      { componentName: 'my-component',  componentProperties: { ... } }.
+     */
+    getCellComponent: function getCellComponent(attr, bindingPath, model) {
+      var cellComponent = this._super.apply(this, arguments);
+
+      if (attr.kind === 'belongsTo') {
+        if (model.modelName === 'ember-flexberry-dummy-localized-suggestion-type' && bindingPath === 'localization') {
+          cellComponent.componentProperties = {
+            projection: 'LocalizationL',
+            displayAttributeName: 'name',
+            title: 'Localization',
+            relationName: 'localization',
+            choose: 'showLookupDialog',
+            remove: 'removeLookupValue'
+          };
+        }
+      }
+
+      return cellComponent;
+    }
+  });
+});
+define('dummy/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list', ['exports', 'ember-flexberry/controllers/list-form'], function (exports, _emberFlexberryControllersListForm) {
+  exports['default'] = _emberFlexberryControllersListForm['default'].extend({
+    /**
+      Name of related edit form route.
+       @property editFormRoute
+      @type String
+      @default 'ember-flexberry-dummy-suggestion-type-edit'
+     */
+    editFormRoute: 'components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit',
+
+    exportExcelProjection: 'SuggestionTypeEWithComputedField'
   });
 });
 define('dummy/controllers/components-examples/flexberry-lookup/customizing-window-example', ['exports', 'ember', 'ember-flexberry/controllers/edit-form'], function (exports, _ember, _emberFlexberryControllersEditForm) {
@@ -12485,6 +12543,62 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
               }
             }
           },
+          SuggestionEWithComputedField: {
+            address: {
+              __caption__: 'address'
+            },
+            text: {
+              __caption__: 'text'
+            },
+            date: {
+              __caption__: 'date'
+            },
+            votes: {
+              __caption__: 'votes'
+            },
+            moderated: {
+              __caption__: 'moderated'
+            },
+            author: {
+              __caption__: 'author',
+              name: {
+                __caption__: 'name'
+              }
+            },
+            type: {
+              __caption__: 'type',
+              name: {
+                __caption__: 'name'
+              },
+              moderated: {
+                __caption__: 'moderated'
+              },
+              computedField: {
+                __caption__: 'computedField'
+              },
+              creator: {
+                __caption__: 'creator'
+              }
+            },
+            editor1: {
+              __caption__: 'editor1',
+              name: {
+                __caption__: 'name'
+              }
+            },
+            createTime: {
+              __caption__: 'createTime'
+            },
+            creator: {
+              __caption__: 'creator'
+            },
+            editTime: {
+              __caption__: 'editTime'
+            },
+            editor: {
+              __caption__: 'editor'
+            }
+          },
           'SuggestionMainModelProjectionTest': {
             'userVotes': {
               'voteType': {
@@ -12554,6 +12668,44 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
                   __caption__: 'Name'
                 }
               }
+            }
+          },
+          SuggestionTypeEWithComputedField: {
+            name: {
+              __caption__: 'name'
+            },
+            moderated: {
+              __caption__: 'moderated'
+            },
+            computedField: {
+              __caption__: 'computedField'
+            },
+            parent: {
+              __caption__: 'parent',
+              name: {
+                __caption__: 'name'
+              },
+              moderated: {
+                __caption__: 'moderated'
+              },
+              computedField: {
+                __caption__: 'computedField'
+              },
+              creator: {
+                __caption__: 'creator'
+              }
+            },
+            createTime: {
+              __caption__: 'createTime'
+            },
+            creator: {
+              __caption__: 'creator'
+            },
+            editTime: {
+              __caption__: 'editTime'
+            },
+            editor: {
+              __caption__: 'editor'
             }
           }
         }
@@ -12768,6 +12920,10 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
               },
               'customizing-window-example': {
                 'caption': 'Window customization',
+                'title': ''
+              },
+              'compute-autocomplete': {
+                'caption': 'Example lookup with compute autocomplete',
                 'title': ''
               },
               'hierarchy-olv-in-lookup-example': {
@@ -13184,6 +13340,10 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
             'caption': 'Flexberry-lookup. Window customization',
             'titleLookup': 'Master'
           },
+          'compute-autocomplete': {
+            'caption': 'Example lookup with compute autocomplete',
+            'title': ''
+          },
           'hierarchy-olv-in-lookup-example': {
             'caption': 'Flexberry-lookup. Example hierarchical OLV in lookup',
             'titleLookup': 'Master'
@@ -13526,6 +13686,62 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
                 }
               }
             }
+          },
+          SuggestionEWithComputedField: {
+            address: {
+              __caption__: 'Адрес'
+            },
+            text: {
+              __caption__: 'Текст'
+            },
+            date: {
+              __caption__: 'Дата'
+            },
+            votes: {
+              __caption__: 'Голоса'
+            },
+            moderated: {
+              __caption__: 'Одобрено'
+            },
+            author: {
+              __caption__: 'Пользователь приложения',
+              name: {
+                __caption__: 'Наименование'
+              }
+            },
+            type: {
+              __caption__: 'Тип предложения',
+              name: {
+                __caption__: 'Наименование'
+              },
+              moderated: {
+                __caption__: 'Одобрено'
+              },
+              computedField: {
+                __caption__: 'Вычислимое поле'
+              },
+              creator: {
+                __caption__: 'creator'
+              }
+            },
+            editor1: {
+              __caption__: 'Редактор',
+              name: {
+                __caption__: 'Имя'
+              }
+            },
+            createTime: {
+              __caption__: 'createTime'
+            },
+            creator: {
+              __caption__: 'creator'
+            },
+            editTime: {
+              __caption__: 'editTime'
+            },
+            editor: {
+              __caption__: 'editor'
+            }
           }
         }
       },
@@ -13586,6 +13802,44 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
                   __caption__: 'Наименование'
                 }
               }
+            }
+          },
+          SuggestionTypeEWithComputedField: {
+            name: {
+              __caption__: 'Имя'
+            },
+            moderated: {
+              __caption__: 'Одобрено'
+            },
+            computedField: {
+              __caption__: 'Вычислимое поле'
+            },
+            parent: {
+              __caption__: 'Иерархия',
+              name: {
+                __caption__: 'Наименование'
+              },
+              moderated: {
+                __caption__: 'Одобрено'
+              },
+              computedField: {
+                __caption__: 'Вычислимое поле'
+              },
+              creator: {
+                __caption__: 'creator'
+              }
+            },
+            createTime: {
+              __caption__: 'createTime'
+            },
+            creator: {
+              __caption__: 'creator'
+            },
+            editTime: {
+              __caption__: 'editTime'
+            },
+            editor: {
+              __caption__: 'editor'
             }
           }
         }
@@ -13820,6 +14074,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
               },
               'customizing-window-example': {
                 'caption': 'Настройка окна',
+                'title': ''
+              },
+              'compute-autocomplete': {
+                'caption': 'Пример лукапа с вычислимым автокомплитом',
                 'title': ''
               },
               'hierarchy-olv-in-lookup-example': {
@@ -14235,6 +14493,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
           'customizing-window-example': {
             'caption': 'Flexberry-lookup. Настройка окна',
             'titleLookup': 'Мастер'
+          },
+          'compute-autocomplete': {
+            'caption': 'Пример лукапа с вычислимым автокомплитом',
+            'title': ''
           },
           'hierarchy-olv-in-lookup-example': {
             'caption': 'Flexberry-lookup. Пример иерархического OLV-а в lookup-e',
@@ -15411,7 +15673,7 @@ define('dummy/models/ember-flexberry-dummy-suggestion-file', ['exports', 'ember-
 
   exports['default'] = Model;
 });
-define('dummy/models/ember-flexberry-dummy-suggestion-type', ['exports', 'ember-data', 'ember-flexberry-data'], function (exports, _emberData, _emberFlexberryData) {
+define('dummy/models/ember-flexberry-dummy-suggestion-type', ['exports', 'ember', 'ember-data', 'ember-flexberry-data'], function (exports, _ember, _emberData, _emberFlexberryData) {
 
   var Model = _emberFlexberryData.Projection.Model.extend({
     name: _emberData['default'].attr('string'),
@@ -15437,6 +15699,25 @@ define('dummy/models/ember-flexberry-dummy-suggestion-type', ['exports', 'ember-
           message: 'Name is required'
         }
       }
+    },
+
+    /**
+      Non-stored property.
+       @property computedField
+    */
+    computedField: _emberData['default'].attr('string'),
+
+    moderatedChanged: _ember['default'].on('init', _ember['default'].observer('Name', function () {
+      _ember['default'].run.once(this, 'computedFieldCompute');
+    })),
+
+    nameChanged: _ember['default'].on('init', _ember['default'].observer('Moderated', function () {
+      _ember['default'].run.once(this, 'computedFieldCompute');
+    })),
+
+    computedFieldCompute: function computedFieldCompute() {
+      var result = this.get('name') + ' ' + this.get('moderated');
+      this.set('computedField', result);
     }
   });
 
@@ -15498,6 +15779,32 @@ define('dummy/models/ember-flexberry-dummy-suggestion-type', ['exports', 'ember-
   Model.defineProjection('DropDownLookupExampleView', 'ember-flexberry-dummy-suggestion-type', {
     name: _emberFlexberryData.Projection.attr('Name'),
     moderated: _emberFlexberryData.Projection.attr('Moderated')
+  });
+
+  Model.defineProjection('SuggestionTypeEWithComputedField', 'ember-flexberry-dummy-suggestion-type', {
+    name: _emberFlexberryData.Projection.attr(''),
+    moderated: _emberFlexberryData.Projection.attr(''),
+    computedField: _emberFlexberryData.Projection.attr(''),
+    parent: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-suggestion-type', '', {
+      name: _emberFlexberryData.Projection.attr(''),
+      moderated: _emberFlexberryData.Projection.attr(''),
+      computedField: _emberFlexberryData.Projection.attr('')
+    }, {
+      displayMemberPath: 'computedField'
+    }),
+    localizedTypes: _emberFlexberryData.Projection.hasMany('ember-flexberry-dummy-localized-suggestion-type', '', {
+      name: _emberFlexberryData.Projection.attr('Name'),
+      localization: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-localization', 'Localization', {
+        name: _emberFlexberryData.Projection.attr('Name', { hidden: true })
+      }, { displayMemberPath: 'name' }),
+      suggestionType: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-suggestion-type', '', {}, { hidden: true })
+    })
+  });
+
+  Model.defineProjection('AutocompleteProjectionExampleView', 'ember-flexberry-dummy-suggestion-type', {
+    name: _emberFlexberryData.Projection.attr('Name'),
+    moderated: _emberFlexberryData.Projection.attr('Moderated'),
+    computedField: _emberFlexberryData.Projection.attr('')
   });
 
   exports['default'] = Model;
@@ -15825,6 +16132,30 @@ define('dummy/models/ember-flexberry-dummy-suggestion', ['exports', 'ember', 'em
     }, {
       displayMemberPath: 'name'
     })
+  });
+
+  // Projection for lookup with computed field test.
+  Model.defineProjection('SuggestionEWithComputedField', 'ember-flexberry-dummy-suggestion', {
+    address: _emberFlexberryData.Projection.attr(''),
+    text: _emberFlexberryData.Projection.attr(''),
+    date: _emberFlexberryData.Projection.attr(''),
+    votes: _emberFlexberryData.Projection.attr(''),
+    moderated: _emberFlexberryData.Projection.attr(''),
+    author: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-application-user', '', {
+      name: _emberFlexberryData.Projection.attr('')
+    }),
+    type: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-suggestion-type', '', {
+      name: _emberFlexberryData.Projection.attr(''),
+      moderated: _emberFlexberryData.Projection.attr(''),
+      computedField: _emberFlexberryData.Projection.attr('')
+    }),
+    editor1: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-application-user', '', {
+      name: _emberFlexberryData.Projection.attr('')
+    }),
+    createTime: _emberFlexberryData.Projection.attr(''),
+    creator: _emberFlexberryData.Projection.attr(''),
+    editTime: _emberFlexberryData.Projection.attr(''),
+    editor: _emberFlexberryData.Projection.attr('')
   });
 
   exports['default'] = Model;
@@ -16435,6 +16766,8 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('components-examples/flexberry-lookup/dropdown-mode-example');
     this.route('components-examples/flexberry-lookup/default-ordering-example');
     this.route('components-examples/flexberry-lookup/autocomplete-order-example');
+    this.route('components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list');
+    this.route('components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit', { path: 'components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit/:id' });
     this.route('components-examples/flexberry-menu/settings-example');
     this.route('components-examples/flexberry-objectlistview/settings-example');
     this.route('components-examples/flexberry-objectlistview/toolbar-custom-buttons-example');
@@ -17888,6 +18221,98 @@ define('dummy/routes/components-examples/flexberry-lookup/autocomplete-order-exa
       var base = store.createRecord('ember-flexberry-dummy-suggestion');
       return base;
     }
+  });
+});
+define('dummy/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit', ['exports', 'ember-flexberry/routes/edit-form', 'ember-flexberry/mixins/edit-form-route-operations-indication'], function (exports, _emberFlexberryRoutesEditForm, _emberFlexberryMixinsEditFormRouteOperationsIndication) {
+  exports['default'] = _emberFlexberryRoutesEditForm['default'].extend(_emberFlexberryMixinsEditFormRouteOperationsIndication['default'], {
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'SuggestionTypeE'
+     */
+    modelProjection: 'SuggestionTypeEWithComputedField',
+
+    /**
+      Name of model to be used as form's record type.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion-type'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion-type',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: 'asc'|'desc' }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    @default {}
+    */
+    developerUserSettings: {
+      suggestionTypeLocalizedTypesGroupEdit: {
+        'DEFAULT': {
+          'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 55 }]
+        }
+      }
+    }
+  });
+});
+define('dummy/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list', ['exports', 'ember-flexberry/routes/list-form'], function (exports, _emberFlexberryRoutesListForm) {
+  exports['default'] = _emberFlexberryRoutesListForm['default'].extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'SuggestionTypeL'
+     */
+    modelProjection: 'SuggestionTypeEWithComputedField',
+
+    /**
+    developerUserSettings.
+    {
+    <componentName>: {
+      <settingName>: {
+          colsOrder: [ { propName :<colName>, hide: true|false }, ... ],
+          sorting: [{ propName: <colName>, direction: "asc"|"desc" }, ... ],
+          colsWidths: [ <colName>:<colWidth>, ... ],
+        },
+        ...
+      },
+      ...
+    }
+    For default userSetting use empty name ('').
+    <componentName> may contain any of properties: colsOrder, sorting, colsWidth or being empty.
+     @property developerUserSettings
+    @type Object
+    @default {}
+    */
+    developerUserSettings: {
+      SOLVSuggestionTypeObjectListView: {
+        'DEFAULT': {
+          'columnWidths': [{ 'propName': 'OlvRowToolbar', 'fixed': true, 'width': 90 }, { 'propName': 'OlvRowMenu', 'fixed': true, 'width': 68 }]
+        }
+      }
+    },
+
+    /**
+      Name of model to be used as list's records types.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion-type'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion-type'
   });
 });
 define('dummy/routes/components-examples/flexberry-lookup/customizing-window-example', ['exports', 'ember-flexberry/routes/edit-form'], function (exports, _emberFlexberryRoutesEditForm) {
@@ -27245,6 +27670,476 @@ define("dummy/templates/components-examples/flexberry-lookup/autocomplete-order-
         return morphs;
       },
       statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.autocomplete-order-example.caption"], [], ["loc", [null, [1, 22], [1, 107]]]], ["inline", "flexberry-lookup", [], ["readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [5, 17], [5, 25]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [6, 14], [6, 24]]]]], [], []], "projection", "SettingLookupExampleView", "displayAttributeName", "name", "autocompleteOrder", "moderated asc, parent desc", "title", ["subexpr", "@mut", [["get", "title", ["loc", [null, [10, 14], [10, 19]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [11, 21], [11, 26]]]]], [], []], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "autocomplete", true, "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [16, 20], [16, 31]]]]], [], []]], ["loc", [null, [4, 4], [17, 6]]]]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 30,
+                "column": 8
+              },
+              "end": {
+                "line": 32,
+                "column": 8
+              }
+            },
+            "moduleName": "dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("button");
+            dom.setAttribute(el1, "type", "submit");
+            dom.setAttribute(el1, "class", "ui button save-button");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element2 = dom.childAt(fragment, [1]);
+            var morphs = new Array(2);
+            morphs[0] = dom.createElementMorph(element2);
+            morphs[1] = dom.createMorphAt(element2, 0, 0);
+            return morphs;
+          },
+          statements: [["element", "action", ["save"], [], ["loc", [null, [31, 62], [31, 79]]]], ["inline", "t", ["forms.edit-form.save-button-text"], [], ["loc", [null, [31, 80], [31, 120]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 33,
+                "column": 8
+              },
+              "end": {
+                "line": 35,
+                "column": 8
+              }
+            },
+            "moduleName": "dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("button");
+            dom.setAttribute(el1, "type", "submit");
+            dom.setAttribute(el1, "class", "ui button save-close-button");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element1 = dom.childAt(fragment, [1]);
+            var morphs = new Array(2);
+            morphs[0] = dom.createElementMorph(element1);
+            morphs[1] = dom.createMorphAt(element1, 0, 0);
+            return morphs;
+          },
+          statements: [["element", "action", ["saveAndClose"], [], ["loc", [null, [34, 68], [34, 93]]]], ["inline", "t", ["forms.edit-form.saveAndClose-button-text"], [], ["loc", [null, [34, 94], [34, 142]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child2 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.4.6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 36,
+                "column": 8
+              },
+              "end": {
+                "line": 38,
+                "column": 8
+              }
+            },
+            "moduleName": "dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("button");
+            dom.setAttribute(el1, "type", "submit");
+            dom.setAttribute(el1, "class", "ui button save-del-button");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(2);
+            morphs[0] = dom.createElementMorph(element0);
+            morphs[1] = dom.createMorphAt(element0, 0, 0);
+            return morphs;
+          },
+          statements: [["element", "action", ["delete"], [], ["loc", [null, [37, 66], [37, 85]]]], ["inline", "t", ["forms.edit-form.delete-button-text"], [], ["loc", [null, [37, 86], [37, 128]]]]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 29,
+              "column": 6
+            },
+            "end": {
+              "line": 39,
+              "column": 6
+            }
+          },
+          "moduleName": "dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          morphs[1] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          morphs[2] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "unless", [["subexpr", "and", [["get", "hasParentRoute", ["loc", [null, [30, 23], [30, 37]]]], ["subexpr", "not", [["get", "saveBeforeRouteLeave", ["loc", [null, [30, 43], [30, 63]]]]], [], ["loc", [null, [30, 38], [30, 64]]]]], [], ["loc", [null, [30, 18], [30, 65]]]]], [], 0, null, ["loc", [null, [30, 8], [32, 19]]]], ["block", "unless", [["subexpr", "and", [["get", "hasParentRoute", ["loc", [null, [33, 23], [33, 37]]]], ["subexpr", "not", [["get", "saveBeforeRouteLeave", ["loc", [null, [33, 43], [33, 63]]]]], [], ["loc", [null, [33, 38], [33, 64]]]]], [], ["loc", [null, [33, 18], [33, 65]]]]], [], 1, null, ["loc", [null, [33, 8], [35, 19]]]], ["block", "unless", [["subexpr", "and", [["get", "model.isNew", ["loc", [null, [36, 23], [36, 34]]]], ["subexpr", "or", [["subexpr", "not", [["get", "hasParentRoute", ["loc", [null, [36, 44], [36, 58]]]]], [], ["loc", [null, [36, 39], [36, 59]]]], ["subexpr", "and", [["get", "hasParentRoute", ["loc", [null, [36, 65], [36, 79]]]], ["get", "saveBeforeRouteLeave", ["loc", [null, [36, 80], [36, 100]]]]], [], ["loc", [null, [36, 60], [36, 101]]]]], [], ["loc", [null, [36, 35], [36, 102]]]]], [], ["loc", [null, [36, 18], [36, 103]]]]], [], 2, null, ["loc", [null, [36, 8], [38, 19]]]]],
+        locals: [],
+        templates: [child0, child1, child2]
+      };
+    })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 89,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h3");
+        dom.setAttribute(el1, "class", "ui header");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "ui form flexberry-vertical-form");
+        dom.setAttribute(el1, "role", "form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "sixteen wide");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "flexberry-edit-panel");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("button");
+        dom.setAttribute(el4, "type", "submit");
+        dom.setAttribute(el4, "class", "ui button close-button");
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element3 = dom.childAt(fragment, [2]);
+        var element4 = dom.childAt(element3, [9, 1]);
+        var element5 = dom.childAt(element4, [3]);
+        var element6 = dom.childAt(element3, [11]);
+        var element7 = dom.childAt(element3, [13]);
+        var element8 = dom.childAt(element3, [15]);
+        var element9 = dom.childAt(element3, [17]);
+        var morphs = new Array(23);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
+        morphs[1] = dom.createMorphAt(element3, 1, 1);
+        morphs[2] = dom.createMorphAt(element3, 3, 3);
+        morphs[3] = dom.createMorphAt(element3, 5, 5);
+        morphs[4] = dom.createMorphAt(dom.childAt(element3, [7, 1]), 1, 1);
+        morphs[5] = dom.createMorphAt(element4, 1, 1);
+        morphs[6] = dom.createElementMorph(element5);
+        morphs[7] = dom.createMorphAt(element5, 0, 0);
+        morphs[8] = dom.createAttrMorph(element6, 'class');
+        morphs[9] = dom.createMorphAt(element6, 1, 1);
+        morphs[10] = dom.createMorphAt(element6, 3, 3);
+        morphs[11] = dom.createAttrMorph(element7, 'class');
+        morphs[12] = dom.createMorphAt(dom.childAt(element7, [1]), 0, 0);
+        morphs[13] = dom.createMorphAt(element7, 3, 3);
+        morphs[14] = dom.createMorphAt(element7, 5, 5);
+        morphs[15] = dom.createAttrMorph(element8, 'class');
+        morphs[16] = dom.createMorphAt(dom.childAt(element8, [1]), 0, 0);
+        morphs[17] = dom.createMorphAt(element8, 3, 3);
+        morphs[18] = dom.createMorphAt(element8, 5, 5);
+        morphs[19] = dom.createAttrMorph(element9, 'class');
+        morphs[20] = dom.createMorphAt(dom.childAt(element9, [1]), 0, 0);
+        morphs[21] = dom.createMorphAt(element9, 3, 3);
+        morphs[22] = dom.createMorphAt(element9, 5, 5);
+        return morphs;
+      },
+      statements: [["inline", "t", ["forms.ember-flexberry-dummy-suggestion-type-edit.caption"], [], ["loc", [null, [1, 22], [1, 86]]]], ["inline", "ui-message", [], ["type", "success", "closeable", true, "visible", ["subexpr", "@mut", [["get", "showFormSuccessMessage", ["loc", [null, [6, 12], [6, 34]]]]], [], []], "caption", ["subexpr", "@mut", [["get", "formSuccessMessageCaption", ["loc", [null, [7, 12], [7, 37]]]]], [], []], "message", ["subexpr", "@mut", [["get", "formSuccessMessage", ["loc", [null, [8, 12], [8, 30]]]]], [], []], "onShow", ["subexpr", "action", ["onSuccessMessageShow"], [], ["loc", [null, [9, 11], [9, 42]]]], "onHide", ["subexpr", "action", ["onSuccessMessageHide"], [], ["loc", [null, [10, 11], [10, 42]]]]], ["loc", [null, [3, 2], [11, 4]]]], ["inline", "ui-message", [], ["type", "error", "closeable", true, "visible", ["subexpr", "@mut", [["get", "showFormErrorMessage", ["loc", [null, [15, 12], [15, 32]]]]], [], []], "caption", ["subexpr", "@mut", [["get", "formErrorMessageCaption", ["loc", [null, [16, 12], [16, 35]]]]], [], []], "message", ["subexpr", "@mut", [["get", "formErrorMessage", ["loc", [null, [17, 12], [17, 28]]]]], [], []], "onShow", ["subexpr", "action", ["onErrorMessageShow"], [], ["loc", [null, [18, 11], [18, 40]]]], "onHide", ["subexpr", "action", ["onErrorMessageHide"], [], ["loc", [null, [19, 11], [19, 40]]]]], ["loc", [null, [12, 2], [20, 4]]]], ["inline", "flexberry-error", [], ["error", ["subexpr", "@mut", [["get", "error", ["loc", [null, [21, 26], [21, 31]]]]], [], []]], ["loc", [null, [21, 2], [21, 33]]]], ["inline", "flexberry-validationsummary", [], ["errors", ["subexpr", "@mut", [["get", "model.errors", ["loc", [null, [24, 43], [24, 55]]]]], [], []]], ["loc", [null, [24, 6], [24, 57]]]], ["block", "unless", [["get", "readonly", ["loc", [null, [29, 16], [29, 24]]]]], [], 0, null, ["loc", [null, [29, 6], [39, 17]]]], ["element", "action", ["close"], [], ["loc", [null, [40, 59], [40, 77]]]], ["inline", "t", ["forms.edit-form.close-button-text"], [], ["loc", [null, [40, 78], [40, 119]]]], ["attribute", "class", ["concat", ["field ", ["subexpr", "if", [["get", "model.errors.name", ["loc", [null, [43, 25], [43, 42]]]], "error", ""], [], ["loc", [null, [43, 20], [43, 55]]]]]]], ["inline", "flexberry-field", [], ["value", ["subexpr", "@mut", [["get", "model.name", ["loc", [null, [45, 12], [45, 22]]]]], [], []], "label", ["subexpr", "t", ["forms.ember-flexberry-dummy-suggestion-type-edit.name-caption"], [], ["loc", [null, [46, 12], [46, 79]]]], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [47, 15], [47, 23]]]]], [], []]], ["loc", [null, [44, 4], [48, 6]]]], ["inline", "flexberry-validationmessage", [], ["error", ["subexpr", "@mut", [["get", "model.errors.name", ["loc", [null, [49, 40], [49, 57]]]]], [], []], "pointing", "pointing"], ["loc", [null, [49, 4], [49, 79]]]], ["attribute", "class", ["concat", ["field ", ["subexpr", "if", [["get", "model.errors.moderated", ["loc", [null, [51, 25], [51, 47]]]], "error", ""], [], ["loc", [null, [51, 20], [51, 60]]]]]]], ["inline", "t", ["forms.ember-flexberry-dummy-suggestion-type-edit.moderated-caption"], [], ["loc", [null, [52, 11], [52, 85]]]], ["inline", "flexberry-checkbox", [], ["value", ["subexpr", "@mut", [["get", "model.moderated", ["loc", [null, [54, 12], [54, 27]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [55, 15], [55, 23]]]]], [], []]], ["loc", [null, [53, 4], [56, 6]]]], ["inline", "flexberry-validationmessage", [], ["error", ["subexpr", "@mut", [["get", "model.errors.moderated", ["loc", [null, [57, 40], [57, 62]]]]], [], []], "pointing", "pointing"], ["loc", [null, [57, 4], [57, 84]]]], ["attribute", "class", ["concat", ["field ", ["subexpr", "if", [["get", "model.errors.parent", ["loc", [null, [59, 25], [59, 44]]]], "error", ""], [], ["loc", [null, [59, 20], [59, 57]]]]]]], ["inline", "t", ["forms.ember-flexberry-dummy-suggestion-type-edit.parent-caption"], [], ["loc", [null, [60, 11], [60, 82]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.parent", ["loc", [null, [62, 12], [62, 24]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [63, 19], [63, 24]]]]], [], []], "relationName", "parent", "projection", "SuggestionTypeEWithComputedField", "title", ["subexpr", "t", ["forms.ember-flexberry-dummy-suggestion-type-edit.parent-caption"], [], ["loc", [null, [66, 12], [66, 81]]]], "choose", ["subexpr", "action", ["showLookupDialog"], [], ["loc", [null, [67, 13], [67, 40]]]], "remove", ["subexpr", "action", ["removeLookupValue"], [], ["loc", [null, [68, 13], [68, 41]]]], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [69, 15], [69, 23]]]]], [], []], "autocomplete", true, "autocompleteProjection", "AutocompleteProjectionExampleView", "displayAttributeName", "computedField"], ["loc", [null, [61, 4], [73, 6]]]], ["inline", "flexberry-validationmessage", [], ["error", ["subexpr", "@mut", [["get", "model.errors.parent", ["loc", [null, [74, 40], [74, 59]]]]], [], []], "pointing", "pointing"], ["loc", [null, [74, 4], [74, 81]]]], ["attribute", "class", ["concat", ["field ", ["subexpr", "if", [["get", "model.errors.localizedTypes", ["loc", [null, [76, 25], [76, 52]]]], "error", ""], [], ["loc", [null, [76, 20], [76, 65]]]]]]], ["inline", "t", ["forms.ember-flexberry-dummy-suggestion-type-edit.localized-types-caption"], [], ["loc", [null, [77, 11], [77, 91]]]], ["inline", "flexberry-groupedit", [], ["componentName", "suggestionTypeLocalizedTypesGroupEdit", "mainModelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [80, 26], [80, 41]]]]], [], []], "content", ["subexpr", "@mut", [["get", "model.localizedTypes", ["loc", [null, [81, 14], [81, 34]]]]], [], []], "modelProjection", ["subexpr", "@mut", [["get", "modelProjection.attributes.localizedTypes", ["loc", [null, [82, 22], [82, 63]]]]], [], []], "orderable", false, "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [84, 15], [84, 23]]]]], [], []]], ["loc", [null, [78, 4], [85, 6]]]], ["inline", "flexberry-validationmessage", [], ["error", ["subexpr", "@mut", [["get", "model.errors.localizedTypes", ["loc", [null, [86, 40], [86, 67]]]]], [], []], "pointing", "pointing"], ["loc", [null, [86, 4], [86, 89]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define("dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["wrong-type", "multiple-nodes"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 34,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "row");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 0, 0);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]), 1, 1);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["inline", "flexberry-error", [], ["error", ["subexpr", "@mut", [["get", "error", ["loc", [null, [1, 24], [1, 29]]]]], [], []]], ["loc", [null, [1, 0], [1, 31]]]], ["inline", "t", ["forms.ember-flexberry-dummy-suggestion-type-list.caption"], [], ["loc", [null, [2, 4], [2, 68]]]], ["inline", "flexberry-simpleolv", [], ["content", ["subexpr", "@mut", [["get", "model", ["loc", [null, [5, 12], [5, 17]]]]], [], []], "modelName", "ember-flexberry-dummy-suggestion-type", "modelProjection", ["subexpr", "@mut", [["get", "modelProjection", ["loc", [null, [7, 20], [7, 35]]]]], [], []], "editFormRoute", ["subexpr", "@mut", [["get", "editFormRoute", ["loc", [null, [8, 18], [8, 31]]]]], [], []], "createNewButton", false, "deleteButton", true, "refreshButton", true, "exportExcelButton", true, "sorting", ["subexpr", "@mut", [["get", "computedSorting", ["loc", [null, [13, 12], [13, 27]]]]], [], []], "orderable", true, "pages", ["subexpr", "@mut", [["get", "pages", ["loc", [null, [15, 10], [15, 15]]]]], [], []], "perPageValue", ["subexpr", "@mut", [["get", "perPageValue", ["loc", [null, [16, 17], [16, 29]]]]], [], []], "perPageValues", ["subexpr", "@mut", [["get", "perPageValues", ["loc", [null, [17, 18], [17, 31]]]]], [], []], "recordsTotalCount", ["subexpr", "@mut", [["get", "recordsTotalCount", ["loc", [null, [18, 22], [18, 39]]]]], [], []], "hasPreviousPage", ["subexpr", "@mut", [["get", "hasPreviousPage", ["loc", [null, [19, 20], [19, 35]]]]], [], []], "hasNextPage", ["subexpr", "@mut", [["get", "hasNextPage", ["loc", [null, [20, 16], [20, 27]]]]], [], []], "sortByColumn", ["subexpr", "action", ["sortByColumn"], [], ["loc", [null, [21, 17], [21, 40]]]], "addColumnToSorting", ["subexpr", "action", ["addColumnToSorting"], [], ["loc", [null, [22, 23], [22, 52]]]], "beforeDeleteAllRecords", ["subexpr", "action", ["beforeDeleteAllRecords"], [], ["loc", [null, [23, 27], [23, 60]]]], "previousPage", ["subexpr", "action", ["previousPage"], [], ["loc", [null, [24, 17], [24, 40]]]], "gotoPage", ["subexpr", "action", ["gotoPage"], [], ["loc", [null, [25, 13], [25, 32]]]], "nextPage", ["subexpr", "action", ["nextPage"], [], ["loc", [null, [26, 13], [26, 32]]]], "componentName", "SOLVSuggestionTypeObjectListView", "showCheckBoxInRow", true, "showEditMenuItemInRow", true, "showDeleteMenuItemInRow", true, "showDeleteButtonInRow", true], ["loc", [null, [4, 2], [32, 4]]]]],
       locals: [],
       templates: []
     };
@@ -63247,7 +64142,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.2"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.2+19f24f47"});
 }
 
 /* jshint ignore:end */

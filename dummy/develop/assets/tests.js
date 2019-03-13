@@ -6446,6 +6446,40 @@ define('dummy/tests/controllers/components-examples/flexberry-lookup/autocomplet
     assert.ok(true, 'controllers/components-examples/flexberry-lookup/autocomplete-order-example.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-lookup/compute-autocomplete');
+  test('controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-lookup/compute-autocomplete');
+  test('controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/components-examples/flexberry-lookup/customizing-window-example.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -19967,6 +20001,40 @@ define('dummy/tests/routes/components-examples/flexberry-lookup/autocomplete-ord
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-lookup/autocomplete-order-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-lookup/compute-autocomplete');
+  test('routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-lookup/compute-autocomplete');
+  test('routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-lookup/customizing-window-example.jscs-test', ['exports'], function (exports) {

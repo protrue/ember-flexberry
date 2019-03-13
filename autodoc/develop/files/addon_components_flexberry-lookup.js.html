@@ -693,6 +693,15 @@ export default FlexberryBaseComponent.extend({
   autocompleteOrder: null,
 
   /**
+    Projection name for autocomplete query.
+
+    @property autocompleteProjection
+    @type String
+    @default undefined
+  */
+  autocompleteProjection: undefined,
+
+  /**
     Current selected instance of the model.
 
     @property value
@@ -1061,6 +1070,7 @@ export default FlexberryBaseComponent.extend({
     }
 
     let relationModelName = getRelationType(relatedModel, relationName);
+    let projectionName = this.get(&#x27;autocompleteProjection&#x27;);
 
     let displayAttributeName = this.get(&#x27;displayAttributeName&#x27;);
     let autocompleteOrder = this.get(&#x27;autocompleteOrder&#x27;);
@@ -1107,13 +1117,30 @@ export default FlexberryBaseComponent.extend({
             return;
           }
 
+          let selectAttributes = displayAttributeName;
+          if (!Ember.isNone(projectionName)) {
+            let modelConstructor = store.modelFor(relationModelName);
+            let projection = Ember.get(modelConstructor, &#x60;projections.${projectionName}&#x60;);
+            if (!projection) {
+              throw new Error(&#x60;No projection with &#x27;${projectionName}&#x27; name defined in &#x27;${relationModelName}&#x27; model.&#x60;);
+            }
+
+            let attributes = Ember.get(projection, &#x27;attributes&#x27;);
+            let attributesKeys = Object.keys(attributes);
+            if (attributesKeys.indexOf(displayAttributeName) === -1) {
+              attributesKeys.push(displayAttributeName);
+            }
+
+            selectAttributes = attributesKeys.join(&#x27;,&#x27;);
+          }
+
           let builder;
           if (autocompleteOrder) {
             builder = new Builder(store, relationModelName)
-            .select(displayAttributeName).orderBy(&#x60;${autocompleteOrder}&#x60;);
+            .select(selectAttributes).orderBy(&#x60;${autocompleteOrder}&#x60;);
           } else {
             builder = new Builder(store, relationModelName)
-            .select(displayAttributeName)
+            .select(selectAttributes)
             .orderBy(&#x60;${displayAttributeName} ${_this.get(&#x27;sorting&#x27;)}&#x60;);
           }
 
