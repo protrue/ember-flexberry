@@ -766,6 +766,89 @@ define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limi
     assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-preview-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup preview in modal test', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-preview';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var testName = controller.testName;
+      var $inModal = _ember['default'].$('.in-modal');
+
+      click('.ui-preview', $inModal).then(function () {
+        var $modal = _ember['default'].$('.modal');
+        var $form = _ember['default'].$('.form', $modal);
+        var $field = _ember['default'].$('.flexberry-field .flexberry-textbox', $form);
+        var value = $field.children('input').val();
+        assert.equal(value, testName);
+      });
+    });
+  });
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup preview in separate route test', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-preview';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var testName = controller.testName;
+      var $inSeparateRoute = _ember['default'].$('.in-separate-route');
+
+      click('.ui-preview', $inSeparateRoute).then(function () {
+        var $form = _ember['default'].$('.form');
+        var $field = _ember['default'].$('.flexberry-field .flexberry-textbox', $form);
+        var value = $field.children('input').val();
+        assert.equal(value, testName);
+      });
+    });
+  });
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup preview in groupedit test', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-preview';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var testName = controller.testName;
+      var $inGroupedit = _ember['default'].$('.in-groupedit');
+
+      click('.ui-preview', $inGroupedit).then(function () {
+        var $form = _ember['default'].$('.form');
+        var $field = _ember['default'].$('.flexberry-field .flexberry-textbox', $form);
+        var value = $field.children('input').val();
+        assert.equal(value, testName);
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-projection-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
 
   (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup projection test', function (store, assert, app) {
@@ -5968,6 +6051,40 @@ define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/set
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-limit-function.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-acceptance-tests/flexberry-lookup');
+  test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass jscs', function () {
+    ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-acceptance-tests/flexberry-lookup');
+  test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass jscs', function () {
+    ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-projection.jscs-test', ['exports'], function (exports) {
@@ -13274,7 +13391,7 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['exports', '
   });
 
   (0, _emberQunit.test)('component renders properly', function (assert) {
-    assert.expect(30);
+    assert.expect(31);
 
     this.render(_ember['default'].HTMLBars.template((function () {
       var child0 = (function () {
@@ -13360,6 +13477,7 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['exports', '
     var $component = this.$().children();
     var $lookupFluid = $component.children('.fluid');
     var $lookupInput = $lookupFluid.children('.lookup-field');
+    var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
     var $lookupButtonChoose = $lookupFluid.children('.ui-change');
     var $lookupButtonClear = $lookupFluid.children('.ui-clear');
     var $lookupButtonClearIcon = $lookupButtonClear.children('.remove');
@@ -13384,6 +13502,9 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['exports', '
     assert.strictEqual($lookupInput.hasClass('ember-view'), true, 'Component\'s title block has \'ember-view\' css-class');
     assert.strictEqual($lookupInput.hasClass('ember-text-field'), true, 'Component\'s title block has \'ember-text-field\' css-class');
     assert.equal($lookupInput.attr('placeholder'), '(тестовое значение)', 'Component\'s container has \'input\' css-class');
+
+    // Check <preview button>.
+    assert.strictEqual($lookupButtonPreview.length === 0, true, 'Component has inner title block');
 
     // Check <choose button>.
     assert.strictEqual($lookupButtonChoose.length === 1, true, 'Component has inner title block');
@@ -13664,6 +13785,217 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['exports', '
       _ember['default'].$.ajax = originalAjaxMethod;
 
       asyncOperationsCompleted();
+    });
+  });
+
+  (0, _emberQunit.test)('preview button renders properly', function (assert) {
+    var _this2 = this;
+
+    assert.expect(11);
+
+    var store = app.__container__.lookup('service:store');
+
+    this.render(_ember['default'].HTMLBars.template((function () {
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.4.6',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 9,
+              'column': 4
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['inline', 'flexberry-lookup', [], ['value', ['subexpr', '@mut', [['get', 'model', ['loc', [null, [2, 10], [2, 15]]]]], [], []], 'relationName', 'parent', 'projection', 'SuggestionTypeL', 'displayAttributeName', 'name', 'title', 'Parent', 'showPreviewButton', true, 'previewFormRoute', 'ember-flexberry-dummy-suggestion-type-edit'], ['loc', [null, [1, 0], [9, 4]]]]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    // Retrieve component.
+    var $component = this.$().children();
+    var $lookupFluid = $component.children('.fluid');
+
+    assert.strictEqual($lookupFluid.children('.ui-preview').length === 0, true, 'Component has inner title block');
+
+    _ember['default'].run(function () {
+      _this2.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
+      var $lookupButtonPreviewIcon = $lookupButtonPreview.children('.eye');
+
+      assert.strictEqual($lookupButtonPreview.length === 1, true, 'Component has inner title block');
+      assert.strictEqual($lookupButtonPreview.prop('tagName'), 'BUTTON', 'Component\'s title block is a <button>');
+      assert.strictEqual($lookupButtonPreview.hasClass('ui'), true, 'Component\'s container has \'ui\' css-class');
+      assert.strictEqual($lookupButtonPreview.hasClass('ui-preview'), true, 'Component\'s container has \'ui-preview\' css-class');
+      assert.strictEqual($lookupButtonPreview.hasClass('button'), true, 'Component\'s container has \'button\' css-class');
+      assert.equal($lookupButtonPreview.attr('title'), 'Просмотр');
+
+      assert.strictEqual($lookupButtonPreviewIcon.length === 1, true, 'Component has inner title block');
+      assert.strictEqual($lookupButtonPreviewIcon.prop('tagName'), 'I', 'Component\'s title block is a <i>');
+      assert.strictEqual($lookupButtonPreviewIcon.hasClass('eye'), true, 'Component\'s container has \'eye\' css-class');
+      assert.strictEqual($lookupButtonPreviewIcon.hasClass('icon'), true, 'Component\'s container has \'icon\' css-class');
+    });
+  });
+
+  (0, _emberQunit.test)('preview button view previewButtonClass and previewText properly', function (assert) {
+    var _this3 = this;
+
+    assert.expect(3);
+
+    var store = app.__container__.lookup('service:store');
+
+    _ember['default'].run(function () {
+      _this3.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      _this3.set('previewButtonClass', 'previewButtonClassTest');
+      _this3.set('previewText', 'previewTextTest');
+
+      _this3.render(_ember['default'].HTMLBars.template((function () {
+        return {
+          meta: {
+            'fragmentReason': {
+              'name': 'missing-wrapper',
+              'problems': ['wrong-type']
+            },
+            'revision': 'Ember@2.4.6',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 11,
+                'column': 6
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['inline', 'flexberry-lookup', [], ['value', ['subexpr', '@mut', [['get', 'model', ['loc', [null, [2, 12], [2, 17]]]]], [], []], 'relationName', 'parent', 'projection', 'SuggestionTypeL', 'displayAttributeName', 'name', 'title', 'Parent', 'showPreviewButton', true, 'previewFormRoute', 'ember-flexberry-dummy-suggestion-type-edit', 'previewButtonClass', ['subexpr', '@mut', [['get', 'previewButtonClass', ['loc', [null, [9, 25], [9, 43]]]]], [], []], 'previewText', ['subexpr', '@mut', [['get', 'previewText', ['loc', [null, [10, 18], [10, 29]]]]], [], []]], ['loc', [null, [1, 0], [11, 6]]]]],
+          locals: [],
+          templates: []
+        };
+      })()));
+
+      // Retrieve component.
+      var $component = _this3.$().children();
+      var $lookupFluid = $component.children('.fluid');
+      var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
+
+      assert.strictEqual($lookupButtonPreview.length === 1, true, 'Component has inner title block');
+      assert.strictEqual($lookupButtonPreview.hasClass('previewButtonClassTest'), true, 'Component\'s container has \'previewButtonClassTest\' css-class');
+      assert.equal($lookupButtonPreview.text().trim(), 'previewTextTest');
+    });
+  });
+
+  (0, _emberQunit.test)('preview with readonly renders properly', function (assert) {
+    var _this4 = this;
+
+    assert.expect(1);
+
+    var store = app.__container__.lookup('service:store');
+
+    _ember['default'].run(function () {
+      _this4.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      _this4.render(_ember['default'].HTMLBars.template((function () {
+        return {
+          meta: {
+            'fragmentReason': {
+              'name': 'missing-wrapper',
+              'problems': ['wrong-type']
+            },
+            'revision': 'Ember@2.4.6',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 10,
+                'column': 6
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['inline', 'flexberry-lookup', [], ['value', ['subexpr', '@mut', [['get', 'model', ['loc', [null, [2, 12], [2, 17]]]]], [], []], 'relationName', 'parent', 'projection', 'SuggestionTypeL', 'displayAttributeName', 'name', 'title', 'Parent', 'showPreviewButton', true, 'previewFormRoute', 'ember-flexberry-dummy-suggestion-type-edit', 'readonly', true], ['loc', [null, [1, 0], [10, 6]]]]],
+          locals: [],
+          templates: []
+        };
+      })()));
+
+      // Retrieve component.
+      var $component = _this4.$().children();
+      var $lookupFluid = $component.children('.fluid');
+      var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
+
+      assert.strictEqual($lookupButtonPreview.hasClass('disabled'), false, 'Component\'s container has not \'disabled\' css-class');
     });
   });
 });
@@ -19542,6 +19874,40 @@ define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-limit-function.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-acceptance-tests/flexberry-lookup');
+  test('routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass jscs', function () {
+    ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-acceptance-tests/flexberry-lookup');
+  test('routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass jscs', function () {
+    ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-projection.jscs-test', ['exports'], function (exports) {
