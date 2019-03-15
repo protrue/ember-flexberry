@@ -17931,7 +17931,7 @@
         },
         {
             "file": "addon/mixins/dynamic-properties.js",
-            "line": 154,
+            "line": 155,
             "description": "Removes component's previously added dynamic property.\nRemoves related component's property & observer.",
             "itemtype": "method",
             "name": "_removeDynamicProperty",
@@ -17949,7 +17949,7 @@
         },
         {
             "file": "addon/mixins/dynamic-properties.js",
-            "line": 185,
+            "line": 186,
             "description": "Removes component's all previously added dynamic properties.\nRemoves related component's properties & observers.",
             "itemtype": "method",
             "name": "_removeDynamicProperties",
@@ -17960,7 +17960,7 @@
         },
         {
             "file": "addon/mixins/dynamic-properties.js",
-            "line": 201,
+            "line": 202,
             "description": "Observes & handles any changes in\n{{#crossLink \"DynamicPropertiesMixin/dynamicProperties:property\"}}'dynamicProperties'{{/crossLink}},\nassigns actual values to a component's related properties (including initialization moment).",
             "itemtype": "method",
             "name": "_dynamicPropertiesDidChange",
@@ -17971,21 +17971,21 @@
         },
         {
             "file": "addon/mixins/dynamic-properties.js",
-            "line": 244,
+            "line": 245,
             "description": "Executes component's DOM-related logic.",
             "class": "DynamicPropertiesMixin",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/mixins/dynamic-properties.js",
-            "line": 254,
+            "line": 255,
             "description": "Executes component's DOM-related clean up logic.",
             "class": "DynamicPropertiesMixin",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/mixins/dynamic-properties.js",
-            "line": 264,
+            "line": 265,
             "description": "Handles component's destroy.\nRemoves component's all previously added dynamic properties.",
             "class": "DynamicPropertiesMixin",
             "module": "ember-flexberry"
@@ -24125,15 +24125,15 @@
         },
         {
             "message": "Missing item type\nExecutes component's DOM-related logic.",
-            "line": " addon/mixins/dynamic-properties.js:244"
+            "line": " addon/mixins/dynamic-properties.js:245"
         },
         {
             "message": "Missing item type\nExecutes component's DOM-related clean up logic.",
-            "line": " addon/mixins/dynamic-properties.js:254"
+            "line": " addon/mixins/dynamic-properties.js:255"
         },
         {
             "message": "Missing item type\nHandles component's destroy.\nRemoves component's all previously added dynamic properties.",
-            "line": " addon/mixins/dynamic-properties.js:264"
+            "line": " addon/mixins/dynamic-properties.js:265"
         },
         {
             "message": "Missing item type\nAn overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",

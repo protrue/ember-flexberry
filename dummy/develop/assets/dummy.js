@@ -3938,32 +3938,43 @@ define('dummy/controllers/components-examples/flexberry-groupedit/ember-flexberr
      */
     commentsEditRoute: 'ember-flexberry-dummy-comment-edit',
 
-    /**
-      Name of model.comments edit route.
-       @property commentsEditRoute
-      @type String
-      @default 'ember-flexberry-dummy-comment-edit'
-     */
     checkboxValue: false,
+
     fieldvalue: 'Vasya',
 
     lookupReadonly: _ember['default'].observer('checkboxValue', function () {
-      if (!_ember['default'].isNone(this.get('computedProperties.dynamicProperties.readonly'))) {
-        if (this.get('checkboxValue')) {
-          this.set('computedProperties.dynamicProperties.readonly', true);
-        } else {
-          this.set('computedProperties.dynamicProperties.readonly', false);
-        }
-      }
-
-      return this.get('checkboxValue');
+      this.set('lookupDynamicProperties.readonly', this.get('checkboxValue'));
     }),
 
     lookupLimitFunction: _ember['default'].observer('fieldvalue', function () {
-      if (!_ember['default'].isNone(this.get('computedProperties.dynamicProperties.lookupLimitPredicate'))) {
-        this.set('computedProperties.dynamicProperties.lookupLimitPredicate', new StringPredicate('name').contains(this.get('fieldvalue')));
-      }
+      this.set('lookupDynamicProperties.lookupLimitPredicate', new StringPredicate('name').contains(this.get('fieldvalue')));
     }),
+
+    /**
+      An object with properties for the component `flexberry-lookup` in the component `flexberry-groupedit`.
+       @property lookupDynamicProperties
+      @type Object
+      @readOnly
+    */
+    lookupDynamicProperties: _ember['default'].computed(function () {
+      var lookupLimitPredicate = undefined;
+      var fieldvalue = this.get('fieldvalue');
+      if (fieldvalue) {
+        lookupLimitPredicate = new StringPredicate('name').contains(fieldvalue);
+      }
+
+      return {
+        choose: 'showLookupDialog',
+        remove: 'removeLookupValue',
+        displayAttributeName: 'name',
+        required: true,
+        relationName: 'author',
+        projection: 'ApplicationUserL',
+        autocomplete: true,
+        readonly: this.get('checkboxValue'),
+        lookupLimitPredicate: lookupLimitPredicate
+      };
+    }).readOnly(),
 
     /**
       Method to get type and attributes of a component,
@@ -3977,22 +3988,10 @@ define('dummy/controllers/components-examples/flexberry-groupedit/ember-flexberr
      */
     getCellComponent: function getCellComponent(attr, bindingPath, model) {
       var cellComponent = this._super.apply(this, arguments);
-      var limitFunction = new StringPredicate('name').contains('Vasya');
       if (attr.kind === 'belongsTo') {
         switch (model.modelName + '+' + bindingPath) {
           case 'ember-flexberry-dummy-vote+author':
-            cellComponent.componentProperties = {
-              choose: 'showLookupDialog',
-              remove: 'removeLookupValue',
-              displayAttributeName: 'name',
-              required: true,
-              relationName: 'author',
-              projection: 'ApplicationUserL',
-              autocomplete: true,
-              lookupLimitPredicate: limitFunction,
-              computedProperties: { thisController: this },
-              readonly: false
-            };
+            cellComponent.componentProperties = this.get('lookupDynamicProperties');
             break;
 
           case 'ember-flexberry-dummy-comment+author':
@@ -64796,7 +64795,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.2+b4e0004d"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.2+4c1ad1c9"});
 }
 
 /* jshint ignore:end */
