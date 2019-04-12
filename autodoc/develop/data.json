@@ -6566,6 +6566,17 @@
         {
             "file": "addon/components/flexberry-groupedit.js",
             "line": 140,
+            "description": "Flag indicates whether to show button fo default sorting set.",
+            "itemtype": "property",
+            "name": "defaultSortingButton",
+            "type": "Boolean",
+            "default": "true",
+            "class": "FlexberryGroupeditComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/flexberry-groupedit.js",
+            "line": 149,
             "description": "Route of edit form.",
             "example": [
                 "\nThis form is opened after row click\nif flag {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} is enabled."
@@ -6578,7 +6589,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 152,
+            "line": 161,
             "description": "Flag: indicates whether records should be edited on separate route.",
             "example": [
                 "\nIn order to enable properly editing in separate route following properties have to be defined:\n- {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} has to be set as true,\n- {{#crossLink \"FlexberryGroupeditComponent/rowClickable:property\"}}{{/crossLink}} has to be set as true,\n- {{#crossLink \"FlexberryGroupeditComponent/editFormRoute:property\"}}{{/crossLink}} has to be set,\n- {{#crossLink \"FlexberryGroupeditComponent/saveBeforeRouteLeave:property\"}}{{/crossLink}} can be set.\n\n```handlebars\n{ {flexberry-groupedit\n  ...\n  editOnSeparateRoute=true\n  rowClickable=true\n  rowClick='rowClick'\n  editFormRoute=commentsEditRoute\n  saveBeforeRouteLeave=needSaveBeforeRouteLeave\n  ...\n} }\n```"
@@ -6592,7 +6603,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 180,
+            "line": 189,
             "description": "Additional menu items for dropdown menu in last column of every row.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/exapmle.js\n  ...\n  menuItems: [{\n    icon: 'spy icon',\n    title: 'Recruit it',\n    actionName: 'recruit',\n  }],\n  ...\n  actions: {\n    ...\n    recruit(record) {\n      record.set('isSpy', true);\n    },\n    ...\n  },\n  ...\n  ```\n\n  Note: For every action in component you need to pass an additional parameter in the form of `actionName=\"actionName\"`.\n  ```javascript\n  // app/templates/example.hbs\n  ...\n  {{flexberry-groupedit\n    ...\n    menuInRowAdditionalItems=menuItems\n    recruit=\"recruit\"\n    ...\n  }}\n  ...\n  ```\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}."
@@ -6606,7 +6617,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 227,
+            "line": 236,
             "description": "Model projection which should be used to display given content.\nProperties of objects by model projection are displayed on component.",
             "itemtype": "property",
             "name": "modelProjection",
@@ -6617,7 +6628,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 237,
+            "line": 246,
             "description": "Main model projection. Accepts object projections.\nNeeds for support locales of captions.",
             "itemtype": "property",
             "name": "mainModelProjection",
@@ -6627,7 +6638,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 246,
+            "line": 255,
             "description": "Flag indicates whether ordering by clicking on column headers is allowed.",
             "example": [
                 "\nIf sorting is used then there has to be declaration:\n```handlebars\n {{flexberry-groupedit\n   ...\n   orderable=true\n   sorting=computedSorting\n   sortByColumn=(action \"sortByColumn\")\n   addColumnToSorting=(action \"addColumnToSorting\")}}\n```"
@@ -6641,7 +6652,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 266,
+            "line": 275,
             "description": "Text to be displayed in table body, if content is not defined or empty.",
             "itemtype": "property",
             "name": "placeholder",
@@ -6652,7 +6663,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 275,
+            "line": 284,
             "description": "Flag indicates whether table rows are clickable (action will be fired after row click).",
             "itemtype": "property",
             "name": "rowClickable",
@@ -6663,7 +6674,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 284,
+            "line": 293,
             "description": "Flag indicates whether to save current model before going to the detail's route.",
             "example": [
                 "\nThis flag is used when flag {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} is enabled."
@@ -6677,7 +6688,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 296,
+            "line": 305,
             "description": "Flag indicates whether to look for changes of model (and displaying corresponding changes on control) or not.\n\nIf flag is enabled component compares current detail array with used on component,\nremoves deleted and marked as deleted on model level records, adds created on model level records.",
             "itemtype": "property",
             "name": "searchForContentChange",
@@ -6688,7 +6699,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 308,
+            "line": 317,
             "description": "Flag: indicates whether to show validation messages in every row or not.",
             "itemtype": "property",
             "name": "showValidationMessages",
@@ -6699,7 +6710,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 317,
+            "line": 326,
             "description": "Flag: indicates whether to show asterisk icon in first column of every changed row.",
             "itemtype": "property",
             "name": "showAsteriskInRow",
@@ -6710,7 +6721,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 326,
+            "line": 335,
             "description": "Flag: indicates whether to show checkbox in first column of every row.",
             "itemtype": "property",
             "name": "showCheckBoxInRow",
@@ -6721,7 +6732,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 335,
+            "line": 344,
             "description": "Flag: indicates whether to show delete button in first column of every row.",
             "itemtype": "property",
             "name": "showDeleteButtonInRow",
@@ -6732,7 +6743,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 344,
+            "line": 353,
             "description": "Flag: indicates whether to show dropdown menu with delete menu item, in last column of every row.\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "showDeleteMenuItemInRow",
@@ -6743,7 +6754,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 358,
+            "line": 367,
             "description": "Flag: indicates whether to show dropdown menu with edit menu item, in last column of every row.\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "showEditMenuItemInRow",
@@ -6754,7 +6765,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 372,
+            "line": 381,
             "description": "Array with sorting data.",
             "itemtype": "property",
             "name": "sorting",
@@ -6765,7 +6776,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 381,
+            "line": 390,
             "description": "Flag: indicates whether table are striped.",
             "itemtype": "property",
             "name": "tableStriped",
@@ -6776,7 +6787,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 390,
+            "line": 399,
             "description": "Minimum column width, if width isn't defined in userSettings.",
             "itemtype": "property",
             "name": "minAutoColumnWidth",
@@ -6787,7 +6798,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 399,
+            "line": 408,
             "description": "Indicates whether or not autoresize columns for fit the page width.",
             "itemtype": "property",
             "name": "columnsWidthAutoresize",
@@ -6798,7 +6809,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 408,
+            "line": 417,
             "description": "List of component names, which can overflow table cell.",
             "itemtype": "property",
             "name": "overflowedComponents",
@@ -6809,7 +6820,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 418,
+            "line": 427,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.sortByColumn",
@@ -6825,7 +6836,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 442,
+            "line": 451,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.addColumnToSorting",
@@ -6841,7 +6852,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 493,
+            "line": 502,
             "description": "Handles click on row of component.\nSends primary action out of component.",
             "itemtype": "method",
             "name": "actions.groupEditRowClick",
@@ -6862,7 +6873,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 511,
+            "line": 520,
             "description": "Send action with `actionName` into controller.",
             "itemtype": "method",
             "name": "actions.sendMenuItemAction",
@@ -6883,7 +6894,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 522,
+            "line": 531,
             "description": "Handler to get user button's actions and send action to corresponding controllers's handler.",
             "itemtype": "method",
             "name": "actions.customButtonAction",
@@ -6901,7 +6912,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 541,
+            "line": 550,
             "description": "Sorting records and trigger `geSortApply` action.",
             "itemtype": "method",
             "name": "sortingFunction",
@@ -6910,7 +6921,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 581,
+            "line": 590,
             "description": "Client-side sorting for groupEdit content.",
             "itemtype": "method",
             "name": "sortRecords",
@@ -6945,7 +6956,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 627,
+            "line": 636,
             "description": "Hook that can be used to confirm delete row.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-groupedit\n    ...\n    confirmDeleteRow=(action 'confirmDeleteRow')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRow() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -6961,7 +6972,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 658,
+            "line": 667,
             "description": "Hook that can be used to confirm delete rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-groupedit\n    ...\n    confirmDeleteRows=(action 'confirmDeleteRows')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRows() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -6977,7 +6988,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 689,
+            "line": 698,
             "description": "Hook that executes before deleting the record.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-groupedit\n    ...\n    beforeDeleteRecord=(action 'beforeDeleteRecord')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteRecord(record, data) {\n        if (record.get('myProperty')) {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -8805,6 +8816,17 @@
         {
             "file": "addon/components/flexberry-objectlistview.js",
             "line": 480,
+            "description": "Flag indicates whether to show button fo default sorting set.",
+            "itemtype": "property",
+            "name": "defaultSortingButton",
+            "type": "Boolean",
+            "default": "true",
+            "class": "FlexberryObjectlistviewComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/flexberry-objectlistview.js",
+            "line": 489,
             "description": "Flag to use filters in OLV component.",
             "itemtype": "property",
             "name": "enableFilters",
@@ -8815,7 +8837,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 489,
+            "line": 498,
             "description": "Flag indicates whether to show filter button at toolbar.",
             "itemtype": "property",
             "name": "filterButton",
@@ -8826,7 +8848,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 498,
+            "line": 507,
             "description": "Used to specify 'filter by any match' field value.",
             "itemtype": "property",
             "name": "filterText",
@@ -8837,7 +8859,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 507,
+            "line": 516,
             "description": "If this option is enabled, search query will be split by words, search will be on lines that contain any word of search query.",
             "itemtype": "property",
             "name": "filterByAnyWord",
@@ -8848,7 +8870,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 516,
+            "line": 525,
             "description": "If this option is enabled, search query will be split by words, search will be on lines that contain each of search query word.",
             "itemtype": "property",
             "name": "filterByAllWords",
@@ -8859,7 +8881,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 525,
+            "line": 534,
             "description": "Array of pages to show.",
             "itemtype": "property",
             "name": "pages",
@@ -8870,7 +8892,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 534,
+            "line": 543,
             "description": "Current number of records to show per page.",
             "itemtype": "property",
             "name": "perPageValue",
@@ -8881,7 +8903,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 543,
+            "line": 552,
             "description": "Array of numbers of records to show on one page.",
             "itemtype": "property",
             "name": "perPageValues",
@@ -8892,7 +8914,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 552,
+            "line": 561,
             "description": "Total count records.",
             "itemtype": "property",
             "name": "recordsTotalCount",
@@ -8903,7 +8925,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 561,
+            "line": 570,
             "description": "Minimum column width, if width isn't defined in userSettings.",
             "itemtype": "property",
             "name": "minAutoColumnWidth",
@@ -8914,7 +8936,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 570,
+            "line": 579,
             "description": "Indicates whether or not autoresize columns for fit the page width.",
             "itemtype": "property",
             "name": "columnsWidthAutoresize",
@@ -8925,7 +8947,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 579,
+            "line": 588,
             "description": "List of component names, which can overflow table cell.",
             "itemtype": "property",
             "name": "overflowedComponents",
@@ -8936,7 +8958,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 588,
+            "line": 597,
             "description": "Current interval of records.",
             "itemtype": "property",
             "name": "currentIntervalRecords",
@@ -8947,7 +8969,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 621,
+            "line": 630,
             "description": "Flag indicates whether to show showingEntries.",
             "itemtype": "property",
             "name": "showShowingEntries",
@@ -8958,7 +8980,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 630,
+            "line": 639,
             "description": "Function to determine if current page has previous page.",
             "itemtype": "property",
             "name": "hasPreviousPage",
@@ -8969,7 +8991,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 639,
+            "line": 648,
             "description": "Function to determine if current page has next page.",
             "itemtype": "property",
             "name": "hasNextPage",
@@ -8980,7 +9002,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 648,
+            "line": 657,
             "description": "Current selected record of list.",
             "itemtype": "property",
             "name": "selectedRecord",
@@ -8990,7 +9012,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 656,
+            "line": 665,
             "description": "Set of properties to set for commponent (when it is used on lookup window).",
             "itemtype": "property",
             "name": "customProperties",
@@ -9000,7 +9022,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 664,
+            "line": 673,
             "description": "Flag indicates whether row by row loading mode on.",
             "itemtype": "property",
             "name": "useRowByRowLoading",
@@ -9011,7 +9033,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 673,
+            "line": 682,
             "description": "Flag indicates whether to use bottom row by row loading progress while rows in loading state.",
             "itemtype": "property",
             "name": "useRowByRowLoadingProgress",
@@ -9022,7 +9044,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 682,
+            "line": 691,
             "description": "Interface for communication between object-list-view and flexberry-objectlistview.",
             "itemtype": "property",
             "name": "eventsBus",
@@ -9032,7 +9054,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 690,
+            "line": 699,
             "description": "Service that triggers objectlistview events.",
             "itemtype": "property",
             "name": "objectlistviewEventsService",
@@ -9042,7 +9064,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 698,
+            "line": 707,
             "description": "Array of custom user buttons.",
             "example": [
                 "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...', // Button title.\n    disabled: true, // The state of the button is disabled if `true` or enabled if `false`.\n  }\n  ```",
@@ -9056,7 +9078,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 769,
+            "line": 778,
             "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
             "example": [
                 "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonIcon: '...', // Button icon\n    buttonTitle: '...' // Button title.\n  }\n  ```"
@@ -9069,7 +9091,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 789,
+            "line": 798,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.sortByColumn",
@@ -9087,7 +9109,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 801,
+            "line": 810,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.addColumnToSorting",
@@ -9105,7 +9127,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 813,
+            "line": 822,
             "description": "Handles action from row click (action is handled at route so it can't be closure action now).",
             "itemtype": "method",
             "name": "actions.objectListViewRowClick",
@@ -9128,7 +9150,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 845,
+            "line": 854,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.previousPage",
@@ -9146,7 +9168,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 864,
+            "line": 873,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.nextPage",
@@ -9164,7 +9186,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 883,
+            "line": 892,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.gotoPage",
@@ -9187,7 +9209,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 903,
+            "line": 912,
             "description": "Handler to get user button's actions and send action to corresponding controllers's handler.",
             "itemtype": "method",
             "name": "actions.customButtonAction",
@@ -9205,7 +9227,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 918,
+            "line": 927,
             "description": "Handler to get user button's in rows actions and send action to corresponding controllers's handler.",
             "itemtype": "method",
             "name": "actions.customButtonInRowAction",
@@ -9226,7 +9248,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 933,
+            "line": 942,
             "description": "Show/hide filters.",
             "itemtype": "method",
             "name": "actions.toggleStateFilters",
@@ -9235,7 +9257,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 942,
+            "line": 951,
             "description": "Dummy action handlers, overloaded in {{#crossLink \"LimitedController\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "actions.applyFilters",
@@ -9251,7 +9273,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 953,
+            "line": 962,
             "description": "Dummy action handlers, overloaded in {{#crossLink \"LimitedController\"}}{{/crossLink}}.",
             "itemtype": "method",
             "name": "actions.resetFilters",
@@ -9267,7 +9289,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 968,
+            "line": 977,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.filterByAnyMatch",
@@ -9283,7 +9305,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 979,
+            "line": 988,
             "description": "Set availability hierarchical mode, and save the attribute name in controller.",
             "itemtype": "method",
             "name": "actions.availableHierarchicalMode",
@@ -9299,7 +9321,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 990,
+            "line": 999,
             "description": "Called controller action to switch in hierarchical mode.",
             "itemtype": "method",
             "name": "actions.switchHierarchicalMode",
@@ -9308,7 +9330,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 999,
+            "line": 1008,
             "description": "Called controller action to switch in collapse/expand mode.",
             "itemtype": "method",
             "name": "actions.switchExpandMode",
@@ -9317,7 +9339,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1008,
+            "line": 1017,
             "description": "Redirects the call to controller.",
             "itemtype": "method",
             "name": "actions.loadRecords",
@@ -9348,7 +9370,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1021,
+            "line": 1030,
             "description": "Called when click on perPage.",
             "itemtype": "method",
             "name": "actions.perPageClick",
@@ -9364,7 +9386,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1034,
+            "line": 1043,
             "description": "Send action with `actionName` into controller.",
             "itemtype": "method",
             "name": "actions.sendMenuItemAction",
@@ -9385,7 +9407,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1046,
+            "line": 1055,
             "description": "Hook that can be used to confirm delete row.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-objectlistview\n    ...\n    confirmDeleteRow=(action 'confirmDeleteRow')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRow() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -9401,7 +9423,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1077,
+            "line": 1086,
             "description": "Hook that can be used to confirm delete rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-objectlistview\n    ...\n    confirmDeleteRows=(action 'confirmDeleteRows')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRows() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -9417,7 +9439,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1108,
+            "line": 1117,
             "description": "Hook that executes before deleting the record.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    beforeDeleteRecord=(action 'beforeDeleteRecord')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteRecord(record, data) {\n        if (record.get('myProperty')) {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -9456,7 +9478,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1144,
+            "line": 1153,
             "description": "Hook that executes before deleting all records on all pages.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    beforeDeleteAllRecords=(action 'beforeDeleteAllRecords')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteAllRecords(modelName, data) {\n        if (modelName === 'application-user') {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -9495,14 +9517,14 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1180,
+            "line": 1189,
             "description": "An overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",
             "class": "FlexberryObjectlistviewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1203,
+            "line": 1212,
             "description": "Called after a component has been rendered, both on initial render and in subsequent rerenders.\n[More info](http://emberjs.com/api/classes/Ember.Component.html#event_didRender).",
             "itemtype": "method",
             "name": "didRender",
@@ -9511,14 +9533,14 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1214,
+            "line": 1223,
             "description": "Called when the element of the view is going to be destroyed.\nFor more information see [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
             "class": "FlexberryObjectlistviewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1227,
+            "line": 1236,
             "description": "Get the row by key.",
             "itemtype": "method",
             "name": "_getRowByKey",
@@ -9529,7 +9551,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1245,
+            "line": 1254,
             "description": "Set the active row.",
             "itemtype": "method",
             "name": "_setActiveRow",
@@ -9547,7 +9569,7 @@
         },
         {
             "file": "addon/components/flexberry-objectlistview.js",
-            "line": 1283,
+            "line": 1292,
             "description": "Clear selected records on all pages.\nThis method should be removed when we will ask user about actions with selected records.",
             "itemtype": "method",
             "name": "_clearSelectedRecords",
@@ -11534,6 +11556,17 @@
         {
             "file": "addon/components/flexberry-simpleolv.js",
             "line": 2571,
+            "description": "Flag indicates whether to show button fo default sorting set.",
+            "itemtype": "property",
+            "name": "defaultSortingButton",
+            "type": "Boolean",
+            "default": "true",
+            "class": "FlexberryTabBarComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/flexberry-simpleolv.js",
+            "line": 2580,
             "description": "Used to specify default 'filter by any match' field text.",
             "itemtype": "property",
             "name": "filterText",
@@ -11544,7 +11577,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2580,
+            "line": 2589,
             "description": "If this option is enabled, search query will be split by words, search will be on lines that contain any word of search query.",
             "itemtype": "property",
             "name": "filterByAnyWord",
@@ -11555,7 +11588,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2589,
+            "line": 2598,
             "description": "If this option is enabled, search query will be split by words, search will be on lines that contain each of search query word.",
             "itemtype": "property",
             "name": "filterByAllWords",
@@ -11566,7 +11599,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2598,
+            "line": 2607,
             "description": "The flag to specify whether the delete button is enabled.",
             "itemtype": "property",
             "name": "enableDeleteButton",
@@ -11577,7 +11610,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2607,
+            "line": 2616,
             "description": "Name of action to send out, action triggered by click on user button.",
             "itemtype": "property",
             "name": "customButtonAction",
@@ -11588,7 +11621,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2616,
+            "line": 2625,
             "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
             "example": [
                 "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...', // Button title.\n    disabled: true, // The state of the button is disabled if `true` or enabled if `false`.\n  }\n  ```"
@@ -11601,7 +11634,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2635,
+            "line": 2644,
             "itemtype": "property",
             "name": "listNamedUserSettings",
             "class": "FlexberryTabBarComponent",
@@ -11609,7 +11642,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2649,
+            "line": 2658,
             "itemtype": "property",
             "name": "listNamedExportSettings",
             "class": "FlexberryTabBarComponent",
@@ -11617,7 +11650,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2666,
+            "line": 2675,
             "itemtype": "property",
             "name": "colsConfigMenu",
             "type": "Service",
@@ -11626,7 +11659,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2678,
+            "line": 2687,
             "itemtype": "property",
             "name": "colsSettingsItems",
             "readonly": "",
@@ -11635,7 +11668,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2738,
+            "line": 2747,
             "description": "Observe colsSettingsItems changes.",
             "itemtype": "property",
             "name": "_colsSettingsItems",
@@ -11645,7 +11678,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2747,
+            "line": 2756,
             "itemtype": "property",
             "name": "exportExcelItems",
             "readonly": "",
@@ -11654,7 +11687,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2790,
+            "line": 2799,
             "description": "Flag shows enable-state of delete button.\nIf there are selected rows button is enabled. Otherwise - not.",
             "itemtype": "property",
             "name": "isDeleteButtonEnabled",
@@ -11665,7 +11698,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2800,
+            "line": 2809,
             "description": "Stores the text from \"Filter by any match\" input field.",
             "itemtype": "property",
             "name": "filterByAnyMatchText",
@@ -11675,7 +11708,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2808,
+            "line": 2817,
             "description": "Caption to be displayed in info modal dialog.\nIt will be displayed only if some info occurs.",
             "itemtype": "property",
             "name": "_infoModalDialogCaption",
@@ -11688,7 +11721,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2819,
+            "line": 2828,
             "description": "Content to be displayed in info modal dialog.\nIt will be displayed only if some info occurs.",
             "itemtype": "property",
             "name": "_infoModalDialogContent",
@@ -11701,7 +11734,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2830,
+            "line": 2839,
             "description": "Selected jQuery object, containing HTML of error modal dialog.",
             "itemtype": "property",
             "name": "_errorModalDialog",
@@ -11714,7 +11747,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2840,
+            "line": 2849,
             "description": "Shows info modal dialog.",
             "itemtype": "method",
             "name": "showInfoModalDialog",
@@ -11739,7 +11772,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2862,
+            "line": 2871,
             "description": "Event handler for \"row has been selected\" event in objectlistview.",
             "itemtype": "method",
             "name": "_rowSelected",
@@ -11777,7 +11810,7 @@
         },
         {
             "file": "addon/components/flexberry-simpleolv.js",
-            "line": 2941,
+            "line": 2950,
             "description": "Select/Unselect all records on all pages.",
             "itemtype": "method",
             "name": "_selectAll",
@@ -23704,7 +23737,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/components/flexberry-simpleolv.js:2840"
+            "line": " addon/components/flexberry-simpleolv.js:2849"
         },
         {
             "message": "unknown tag: desc",
@@ -23920,11 +23953,11 @@
         },
         {
             "message": "Missing item type\nAn overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",
-            "line": " addon/components/flexberry-objectlistview.js:1180"
+            "line": " addon/components/flexberry-objectlistview.js:1189"
         },
         {
             "message": "Missing item type\nCalled when the element of the view is going to be destroyed.\nFor more information see [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
-            "line": " addon/components/flexberry-objectlistview.js:1214"
+            "line": " addon/components/flexberry-objectlistview.js:1223"
         },
         {
             "message": "Missing item type\nInitializes DOM-related component's logic.",
