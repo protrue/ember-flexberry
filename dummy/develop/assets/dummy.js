@@ -49151,112 +49151,112 @@ define("dummy/templates/components/object-list-view", ["exports"], function (exp
     var child0 = (function () {
       var child0 = (function () {
         var child0 = (function () {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.4.6",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 7,
+                  "column": 12
+                },
+                "end": {
+                  "line": 15,
+                  "column": 12
+                }
+              },
+              "moduleName": "dummy/templates/components/object-list-view.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("              ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("button");
+              dom.setAttribute(el1, "disabled", "disabled");
+              var el2 = dom.createTextNode("\n                  ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createElement("i");
+              dom.setAttribute(el2, "class", "check-square-o icon");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n              ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element14 = dom.childAt(fragment, [1]);
+              var morphs = new Array(3);
+              morphs[0] = dom.createAttrMorph(element14, 'class');
+              morphs[1] = dom.createAttrMorph(element14, 'title');
+              morphs[2] = dom.createElementMorph(element14);
+              return morphs;
+            },
+            statements: [["attribute", "class", ["concat", ["ui check-all-at-page-button ", ["get", "buttonClass", ["loc", [null, [9, 53], [9, 64]]]], " disabled button"]]], ["attribute", "title", ["subexpr", "t", ["components.olv-toolbar.check-all-at-page-button-text"], [], ["loc", [null, [10, 22], [10, 82]]]]], ["element", "action", ["checkAllAtPage"], [], ["loc", [null, [12, 16], [12, 43]]]]],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.4.6",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 15,
+                  "column": 12
+                },
+                "end": {
+                  "line": 22,
+                  "column": 12
+                }
+              },
+              "moduleName": "dummy/templates/components/object-list-view.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("              ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("button");
+              var el2 = dom.createTextNode("\n                  ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createElement("i");
+              dom.setAttribute(el2, "class", "check-square-o icon");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n              ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element13 = dom.childAt(fragment, [1]);
+              var morphs = new Array(3);
+              morphs[0] = dom.createAttrMorph(element13, 'class');
+              morphs[1] = dom.createAttrMorph(element13, 'title');
+              morphs[2] = dom.createElementMorph(element13);
+              return morphs;
+            },
+            statements: [["attribute", "class", ["concat", ["ui check-all-at-page-button ", ["get", "buttonClass", ["loc", [null, [17, 53], [17, 64]]]], " button"]]], ["attribute", "title", ["subexpr", "t", ["components.olv-toolbar.check-all-at-page-button-text"], [], ["loc", [null, [18, 22], [18, 82]]]]], ["element", "action", ["checkAllAtPage"], [], ["loc", [null, [19, 16], [19, 43]]]]],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child2 = (function () {
           var child0 = (function () {
-            return {
-              meta: {
-                "fragmentReason": false,
-                "revision": "Ember@2.4.6",
-                "loc": {
-                  "source": null,
-                  "start": {
-                    "line": 8,
-                    "column": 14
-                  },
-                  "end": {
-                    "line": 16,
-                    "column": 14
-                  }
-                },
-                "moduleName": "dummy/templates/components/object-list-view.hbs"
-              },
-              isEmpty: false,
-              arity: 0,
-              cachedFragment: null,
-              hasRendered: false,
-              buildFragment: function buildFragment(dom) {
-                var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode("                ");
-                dom.appendChild(el0, el1);
-                var el1 = dom.createElement("button");
-                dom.setAttribute(el1, "disabled", "disabled");
-                var el2 = dom.createTextNode("\n                    ");
-                dom.appendChild(el1, el2);
-                var el2 = dom.createElement("i");
-                dom.setAttribute(el2, "class", "check-square-o icon");
-                dom.appendChild(el1, el2);
-                var el2 = dom.createTextNode("\n                ");
-                dom.appendChild(el1, el2);
-                dom.appendChild(el0, el1);
-                var el1 = dom.createTextNode("\n");
-                dom.appendChild(el0, el1);
-                return el0;
-              },
-              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var element14 = dom.childAt(fragment, [1]);
-                var morphs = new Array(3);
-                morphs[0] = dom.createAttrMorph(element14, 'class');
-                morphs[1] = dom.createAttrMorph(element14, 'title');
-                morphs[2] = dom.createElementMorph(element14);
-                return morphs;
-              },
-              statements: [["attribute", "class", ["concat", ["ui check-all-at-page-button ", ["get", "buttonClass", ["loc", [null, [10, 55], [10, 66]]]], " disabled button"]]], ["attribute", "title", ["subexpr", "t", ["components.olv-toolbar.check-all-at-page-button-text"], [], ["loc", [null, [11, 24], [11, 84]]]]], ["element", "action", ["checkAllAtPage"], [], ["loc", [null, [13, 18], [13, 45]]]]],
-              locals: [],
-              templates: []
-            };
-          })();
-          var child1 = (function () {
-            return {
-              meta: {
-                "fragmentReason": false,
-                "revision": "Ember@2.4.6",
-                "loc": {
-                  "source": null,
-                  "start": {
-                    "line": 16,
-                    "column": 14
-                  },
-                  "end": {
-                    "line": 23,
-                    "column": 14
-                  }
-                },
-                "moduleName": "dummy/templates/components/object-list-view.hbs"
-              },
-              isEmpty: false,
-              arity: 0,
-              cachedFragment: null,
-              hasRendered: false,
-              buildFragment: function buildFragment(dom) {
-                var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode("                ");
-                dom.appendChild(el0, el1);
-                var el1 = dom.createElement("button");
-                var el2 = dom.createTextNode("\n                    ");
-                dom.appendChild(el1, el2);
-                var el2 = dom.createElement("i");
-                dom.setAttribute(el2, "class", "check-square-o icon");
-                dom.appendChild(el1, el2);
-                var el2 = dom.createTextNode("\n                ");
-                dom.appendChild(el1, el2);
-                dom.appendChild(el0, el1);
-                var el1 = dom.createTextNode("\n");
-                dom.appendChild(el0, el1);
-                return el0;
-              },
-              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var element13 = dom.childAt(fragment, [1]);
-                var morphs = new Array(3);
-                morphs[0] = dom.createAttrMorph(element13, 'class');
-                morphs[1] = dom.createAttrMorph(element13, 'title');
-                morphs[2] = dom.createElementMorph(element13);
-                return morphs;
-              },
-              statements: [["attribute", "class", ["concat", ["ui check-all-at-page-button ", ["get", "buttonClass", ["loc", [null, [18, 55], [18, 66]]]], " button"]]], ["attribute", "title", ["subexpr", "t", ["components.olv-toolbar.check-all-at-page-button-text"], [], ["loc", [null, [19, 24], [19, 84]]]]], ["element", "action", ["checkAllAtPage"], [], ["loc", [null, [20, 18], [20, 45]]]]],
-              locals: [],
-              templates: []
-            };
-          })();
-          var child2 = (function () {
             return {
               meta: {
                 "fragmentReason": false,
@@ -49309,7 +49309,7 @@ define("dummy/templates/components/object-list-view", ["exports"], function (exp
               templates: []
             };
           })();
-          var child3 = (function () {
+          var child1 = (function () {
             return {
               meta: {
                 "fragmentReason": false,
@@ -49368,7 +49368,7 @@ define("dummy/templates/components/object-list-view", ["exports"], function (exp
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 7,
+                  "line": 23,
                   "column": 12
                 },
                 "end": {
@@ -49386,24 +49386,21 @@ define("dummy/templates/components/object-list-view", ["exports"], function (exp
               var el0 = dom.createDocumentFragment();
               var el1 = dom.createComment("");
               dom.appendChild(el0, el1);
-              var el1 = dom.createComment("");
-              dom.appendChild(el0, el1);
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(2);
+              var morphs = new Array(1);
               morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              morphs[1] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               dom.insertBoundary(fragment, 0);
               dom.insertBoundary(fragment, null);
               return morphs;
             },
-            statements: [["block", "if", [["subexpr", "or", [["get", "readonly", ["loc", [null, [8, 24], [8, 32]]]], ["get", "allSelect", ["loc", [null, [8, 33], [8, 42]]]]], [], ["loc", [null, [8, 20], [8, 43]]]]], [], 0, 1, ["loc", [null, [8, 14], [23, 21]]]], ["block", "if", [["get", "readonly", ["loc", [null, [24, 20], [24, 28]]]]], [], 2, 3, ["loc", [null, [24, 14], [39, 21]]]]],
+            statements: [["block", "if", [["get", "readonly", ["loc", [null, [24, 20], [24, 28]]]]], [], 0, 1, ["loc", [null, [24, 14], [39, 21]]]]],
             locals: [],
-            templates: [child0, child1, child2, child3]
+            templates: [child0, child1]
           };
         })();
-        var child1 = (function () {
+        var child3 = (function () {
           return {
             meta: {
               "fragmentReason": false,
@@ -49482,19 +49479,22 @@ define("dummy/templates/components/object-list-view", ["exports"], function (exp
             dom.appendChild(el0, el1);
             var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(2);
+            var morphs = new Array(3);
             morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
             morphs[1] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[2] = dom.createMorphAt(fragment, 2, 2, contextualElement);
             dom.insertBoundary(fragment, 0);
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["subexpr", "not-eq", [["get", "class", ["loc", [null, [7, 26], [7, 31]]]], "groupedit-container"], [], ["loc", [null, [7, 18], [7, 54]]]]], [], 0, null, ["loc", [null, [7, 12], [40, 19]]]], ["block", "if", [["get", "defaultSortingButton", ["loc", [null, [41, 18], [41, 38]]]]], [], 1, null, ["loc", [null, [41, 12], [48, 19]]]]],
+          statements: [["block", "if", [["subexpr", "or", [["get", "readonly", ["loc", [null, [7, 22], [7, 30]]]], ["get", "allSelect", ["loc", [null, [7, 31], [7, 40]]]]], [], ["loc", [null, [7, 18], [7, 41]]]]], [], 0, 1, ["loc", [null, [7, 12], [22, 19]]]], ["block", "if", [["subexpr", "not-eq", [["get", "class", ["loc", [null, [23, 26], [23, 31]]]], "groupedit-container"], [], ["loc", [null, [23, 18], [23, 54]]]]], [], 2, null, ["loc", [null, [23, 12], [40, 19]]]], ["block", "if", [["get", "defaultSortingButton", ["loc", [null, [41, 18], [41, 38]]]]], [], 3, null, ["loc", [null, [41, 12], [48, 19]]]]],
           locals: [],
-          templates: [child0, child1]
+          templates: [child0, child1, child2, child3]
         };
       })();
       return {
@@ -64876,7 +64876,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.3+063bde5f"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.3+8ab8f9dc"});
 }
 
 /* jshint ignore:end */

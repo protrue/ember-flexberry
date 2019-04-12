@@ -115,6 +115,82 @@ define('dummy/tests/acceptance/components/flexberry-dropdown/flexberry-dropdown-
     assert.ok(true, 'acceptance/components/flexberry-dropdown/flexberry-dropdown-empty-value-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test', ['exports', 'ember', 'qunit', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions, _dummyTestsHelpersStartApp) {
+
+  var app = undefined;
+  var path = 'components-examples/flexberry-groupedit/configurate-row-example';
+  var testName = 'check all at page';
+  var olvContainerClass = '.object-list-view-container';
+  var trTableClass = 'table.object-list-view tbody tr';
+
+  (0, _qunit.module)('Acceptance | flexberry-groupedit | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _dummyTestsHelpersStartApp['default'])();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+
+    afterEach: function afterEach() {
+      _ember['default'].run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(4);
+
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var $olv = _ember['default'].$('.object-list-view ');
+      var $thead = _ember['default'].$('th.dt-head-left', $olv)[0];
+
+      _ember['default'].run(function () {
+        var done = assert.async();
+        (0, _dummyTestsAcceptanceComponentsFlexberryObjectlistviewFolvTestsFunctions.loadingList)($thead, olvContainerClass, trTableClass).then(function ($list) {
+          assert.ok($list);
+          var $rows = _ember['default'].$('.object-list-view-helper-column', $list);
+
+          click('.ui.check-all-at-page-button');
+          andThen(function () {
+            var $checkCheckBox = _ember['default'].$('.flexberry-checkbox.checked', $rows);
+            assert.equal($checkCheckBox.length, $rows.length, 'All checkBox in row are select');
+
+            click('.ui.check-all-at-page-button');
+            andThen(function () {
+              $checkCheckBox = _ember['default'].$('.flexberry-checkbox.checked', $rows);
+              assert.equal($checkCheckBox.length, 0, 'All checkBox in row are unselect');
+            });
+          });
+
+          done();
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-groupedit');
+  test('acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test', ['exports', 'ember', 'qunit', 'dummy/tests/helpers/start-app'], function (exports, _ember, _qunit, _dummyTestsHelpersStartApp) {
 
   var app = undefined;
