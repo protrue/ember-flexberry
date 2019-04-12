@@ -16140,41 +16140,29 @@ define('dummy/models/ember-flexberry-dummy-suggestion', ['exports', 'ember', 'em
 
   // List form projection.
   Model.defineProjection('SuggestionL', 'ember-flexberry-dummy-suggestion', {
-    address: _emberFlexberryData.Projection.attr('Address'),
-    text: _emberFlexberryData.Projection.attr('Text'),
-    date: _emberFlexberryData.Projection.attr('Date'),
-    votes: _emberFlexberryData.Projection.attr('Votes'),
-    moderated: _emberFlexberryData.Projection.attr('Moderated'),
+    address: _emberFlexberryData.Projection.attr('Address', { index: 0 }),
+    text: _emberFlexberryData.Projection.attr('Text', { index: 1 }),
+    date: _emberFlexberryData.Projection.attr('Date', { index: 2 }),
+    votes: _emberFlexberryData.Projection.attr('Votes', { index: 3 }),
+    moderated: _emberFlexberryData.Projection.attr('Moderated', { index: 4 }),
     type: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-suggestion-type', 'Type', {
-      name: _emberFlexberryData.Projection.attr('Name', {
-        hidden: true
-      })
-    }, {
-      displayMemberPath: 'name'
-    }),
+      name: _emberFlexberryData.Projection.attr('Name', { index: 6, hidden: true })
+    }, { index: 5, displayMemberPath: 'name' }),
     author: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-application-user', 'Author', {
-      name: _emberFlexberryData.Projection.attr('Name', {
-        hidden: true
-      }),
-      eMail: _emberFlexberryData.Projection.attr('Email')
-    }, {
-      displayMemberPath: 'name'
-    }),
+      name: _emberFlexberryData.Projection.attr('Name', { index: 8, hidden: true }),
+      eMail: _emberFlexberryData.Projection.attr('Email', { index: 9 })
+    }, { index: 7, displayMemberPath: 'name' }),
     editor1: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-application-user', 'Editor', {
-      name: _emberFlexberryData.Projection.attr('Name', {
-        hidden: true
-      })
-    }, {
-      displayMemberPath: 'name'
-    }),
-    commentsCount: _emberFlexberryData.Projection.attr('Comments Count'),
+      name: _emberFlexberryData.Projection.attr('Name', { index: 11, hidden: true })
+    }, { index: 10, displayMemberPath: 'name' }),
+    commentsCount: _emberFlexberryData.Projection.attr('Comments Count', { index: 15 }),
     comments: _emberFlexberryData.Projection.hasMany('ember-flexberry-dummy-comment', 'Comments', {
-      text: _emberFlexberryData.Projection.attr('Text'),
-      votes: _emberFlexberryData.Projection.attr('Votes'),
-      moderated: _emberFlexberryData.Projection.attr('Moderated'),
+      text: _emberFlexberryData.Projection.attr('Text', { index: 0 }),
+      votes: _emberFlexberryData.Projection.attr('Votes', { index: 1 }),
+      moderated: _emberFlexberryData.Projection.attr('Moderated', { index: 2 }),
       author: _emberFlexberryData.Projection.belongsTo('ember-flexberry-dummy-application-user', 'Author', {
-        name: _emberFlexberryData.Projection.attr('Name', { hidden: true })
-      }, { displayMemberPath: 'name' })
+        name: _emberFlexberryData.Projection.attr('Name', { index: 4, hidden: true })
+      }, { index: 3, displayMemberPath: 'name' })
     })
   });
 
@@ -64876,7 +64864,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.3+8ab8f9dc"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.3+05fad3e8"});
 }
 
 /* jshint ignore:end */

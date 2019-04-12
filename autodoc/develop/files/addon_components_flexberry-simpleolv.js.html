@@ -1936,7 +1936,7 @@ export default folv.extend(
               }
             }
 
-            columnsBuf.push(column);
+            columnsBuf.pushObject(column);
           }
 
           currentRelationshipPath += attrName + &#x27;.&#x27;;
@@ -1950,12 +1950,12 @@ export default folv.extend(
 
           let bindingPath = currentRelationshipPath + attrName;
           let column = this._createColumn(attr, attrName, bindingPath);
-          columnsBuf.push(column);
+          columnsBuf.pushObject(column);
           break;
       }
     }
 
-    return columnsBuf;
+    return columnsBuf.sortBy(&#x27;index&#x27;);
   },
 
   /**
@@ -2008,11 +2008,13 @@ export default folv.extend(
 
     let key = this._createKey(bindingPath);
     let valueFromLocales = getValueFromLocales(this.get(&#x27;i18n&#x27;), key);
+    let index = Ember.get(attr, &#x27;options.index&#x27;);
 
     let column = Ember.Object.create({
       header: valueFromLocales || attr.caption || Ember.String.capitalize(attrName),
       propName: bindingPath, // TODO: rename column.propName
       cellComponent: cellComponent,
+      index: index,
     });
 
     if (valueFromLocales) {
