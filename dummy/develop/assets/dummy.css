@@ -5259,6 +5259,26 @@ div.ui.secondary.menu.no-margin {
 .ui.ui-clear-settings.button:hover {
   background: #FFFFFF;
 }
+.ui.ui-move-up.button {
+  padding: 0px;
+  height: 30px;
+  width: 30px;
+  border: 1px solid #7ba7d9;
+  text-align: right;
+}
+.ui.ui-move-up.button:hover {
+  background: #FFFFFF;
+}
+.ui.ui-move-down.button {
+  padding: 0px;
+  height: 30px;
+  width: 30px;
+  border: 1px solid #7ba7d9;
+  text-align: right;
+}
+.ui.ui-move-down.button:hover {
+  background: #FFFFFF;
+}
 .ui.custom.button {
   padding: 0px 18px;
   height: 30px;

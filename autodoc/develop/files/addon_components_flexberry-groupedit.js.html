@@ -213,6 +213,7 @@
 
 import Ember from &#x27;ember&#x27;;
 import FlexberryBaseComponent from &#x27;./flexberry-base-component&#x27;;
+import Information from &#x27;ember-flexberry-data/utils/information&#x27;;
 import { translationMacro as t } from &#x27;ember-i18n&#x27;;
 
 /**
@@ -234,6 +235,15 @@ import { translationMacro as t } from &#x27;ember-i18n&#x27;;
   @extends FlexberryBaseComponent
 */
 export default FlexberryBaseComponent.extend({
+
+  /**
+    Ember data store.
+
+    @property store
+    @type Service
+  */
+  store: Ember.inject.service(&#x27;store&#x27;),
+
   /**
     Service that triggers {{#crossLink &quot;FlexberryGroupeditComponent&quot;}}{{/crossLink}} events.
 
@@ -757,6 +767,34 @@ export default FlexberryBaseComponent.extend({
   }),
 
   /**
+    Check in view order property.
+
+    @property orderedProperty
+    @type computed
+  */
+  orderedProperty: Ember.computed(&#x27;modelProjection&#x27;, function() {
+    let projectionName = this.get(&#x27;modelProjection&#x27;);
+
+    if (Ember.isNone(projectionName)) {
+      return;
+    }
+
+    let information = new Information(this.get(&#x27;store&#x27;));
+    let attributes = projectionName.attributes;
+    let attributesKeys = Object.keys(attributes);
+
+    let order = attributesKeys.find((key) =&gt; {
+      let attrubute = attributes[key];
+      if (attrubute.kind === &#x27;attr&#x27; &amp;&amp; information.isOrdered(projectionName.modelName, key)) {
+        this.set(&#x27;sorting&#x27;, [{ direction: &#x27;asc&#x27;, propName: key }]);
+        return key;
+      }
+    });
+
+    return order;
+  }),
+
+  /**
     Sorting records and trigger &#x60;geSortApply&#x60; action.
 
     @method sortingFunction
@@ -835,11 +873,14 @@ export default FlexberryBaseComponent.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    let developerUserSettings = this.currentController;
-    developerUserSettings = developerUserSettings ? developerUserSettings.get(&#x27;developerUserSettings&#x27;) || {} : {};
-    developerUserSettings = developerUserSettings[this.componentName] || {};
-    developerUserSettings = developerUserSettings.DEFAULT || {};
-    this.set(&#x27;sorting&#x27;, developerUserSettings.sorting || []);
+
+    if (Ember.isNone(this.get(&#x27;orderedProperty&#x27;))) {
+      let developerUserSettings = this.currentController;
+      developerUserSettings = developerUserSettings ? developerUserSettings.get(&#x27;developerUserSettings&#x27;) || {} : {};
+      developerUserSettings = developerUserSettings[this.componentName] || {};
+      developerUserSettings = developerUserSettings.DEFAULT || {};
+      this.set(&#x27;sorting&#x27;, developerUserSettings.sorting || []);
+    }
   },
 
   /**
