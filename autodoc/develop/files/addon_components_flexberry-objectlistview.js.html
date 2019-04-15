@@ -402,6 +402,15 @@ export default FlexberryBaseComponent.extend({
   allowColumnResize: true,
 
   /**
+  Flag indicates whether to fix the table head (if &#x60;true&#x60;) or not (if &#x60;false&#x60;).
+
+    @property fixedHeader
+    @type Boolean
+    @default false
+  */
+  fixedHeader: false,
+
+  /**
     Route for edit form by click row.
 
     @property editFormRoute

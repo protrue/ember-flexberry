@@ -24635,6 +24635,34 @@ div.ui.secondary.menu.no-margin.nav-bar .right.menu {
 .object-list-view-container.groupedit-container {
   overflow: visible;
 }
+.object-list-view-container.fixed-header {
+  max-height: calc(100vh - 350px);
+  width: intrinsic;
+  /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;
+  /* Firefox/Gecko */
+  width: -webkit-max-content;
+  /* Chrome */
+  width: max-content;
+}
+.object-list-view-container.fixed-header .ui.celled.table tr th {
+  border-top: 1px solid rgba(34, 36, 38, 0.1);
+  z-index: 1;
+}
+.object-list-view-container.fixed-header .ui.table {
+  border-top: 0px;
+}
+.object-list-view-container.fixed-header tr.object-list-view-filters > * {
+  position: relative;
+  background-color: #fff;
+  z-index: 1;
+}
+.object-list-view-container.fixed-header tr.object-list-view-filters:first-child > * {
+  z-index: 2;
+}
+.object-list-view-container.fixed-header tr.object-list-view-filters:last-child > * {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+}
 table.object-list-view.selectable tbody,
 table.object-list-view.selectable thead {
   cursor: pointer;
