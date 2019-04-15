@@ -761,6 +761,68 @@ define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-auto
     assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js should pass jshint.');
   });
 });
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test', ['exports', 'ember', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup autofillByLimit in readonly test', function (store, assert, app) {
+    assert.expect(1);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
+    andThen(function () {
+      var $lookupField = _ember['default'].$('.isreadonly .lookup-field');
+      var value = $lookupField.val();
+      assert.ok(_ember['default'].isBlank(value), 'Value was changed');
+    });
+  });
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup autofillByLimit is clean test', function (store, assert, app) {
+    assert.expect(2);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
+    andThen(function () {
+      var $lookupField = _ember['default'].$('.isclean .lookup-field');
+      var value = $lookupField.val();
+      assert.notOk(_ember['default'].isBlank(value), 'Value wasn\'t changed');
+
+      _ember['default'].run(function () {
+        click('.isclean .ui-clear');
+        andThen(function () {
+          var $lookupFieldUpdate = _ember['default'].$('.isclean .lookup-field');
+          var valueUpdate = $lookupFieldUpdate.val();
+          assert.ok(_ember['default'].isBlank(valueUpdate), 'Value isn\'t empty');
+        });
+      });
+    });
+  });
+
+  (0, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest.executeTest)('flexberry-lookup autofillByLimit changes select value test', function (store, assert, app) {
+    assert.expect(1);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var defaultValue = _ember['default'].get(controller, 'defaultValue.name');
+
+      var $lookupField = _ember['default'].$('.exist .lookup-field');
+      var value = $lookupField.val();
+
+      assert.notEqual(defaultValue, value, 'DefaultValue: \'' + defaultValue + '\' didn\'t change');
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - acceptance/components/flexberry-lookup');
+  test('acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.js should pass jscs', function () {
+    ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.js should pass jshint.');
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test', ['exports', 'ember', 'ember-flexberry-data', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (exports, _ember, _emberFlexberryData, _dummyTestsAcceptanceComponentsFlexberryLookupExecuteFlexberryLookupTest) {
   var StringPredicate = _emberFlexberryData.Query.StringPredicate;
 
@@ -6095,6 +6157,23 @@ define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/set
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-autocomplete.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-acceptance-tests/flexberry-lookup');
+  test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass jscs', function () {
+    ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/components-acceptance-tests/flexberry-lookup/settings-example-dropdown.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -6637,6 +6716,23 @@ define('dummy/tests/controllers/components-examples/flexberry-lookup/autocomplet
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-lookup/autocomplete-order-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-lookup/autofill-by-limit-example.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-lookup');
+  test('controllers/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-lookup/autofill-by-limit-example.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-lookup/autofill-by-limit-example.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass jshint.');
   });
 });
 define('dummy/tests/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.jscs-test', ['exports'], function (exports) {
@@ -19918,6 +20014,23 @@ define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-autocomplete.js should pass jshint.');
   });
 });
+define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-acceptance-tests/flexberry-lookup');
+  test('routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass jscs', function () {
+    ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass jshint.');
+  });
+});
 define('dummy/tests/routes/components-acceptance-tests/flexberry-lookup/settings-example-dropdown.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -20443,6 +20556,23 @@ define('dummy/tests/routes/components-examples/flexberry-lookup/autocomplete-ord
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-lookup/autocomplete-order-example.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-lookup/autofill-by-limit-example.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-lookup');
+  test('routes/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-lookup/autofill-by-limit-example.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-lookup/autofill-by-limit-example.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass jshint.');
   });
 });
 define('dummy/tests/routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.jscs-test', ['exports'], function (exports) {

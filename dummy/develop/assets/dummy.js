@@ -962,6 +962,11 @@ define('dummy/controllers/application', ['exports', 'ember', 'dummy/config/envir
               caption: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.compute-autocomplete.caption'),
               title: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.compute-autocomplete.title'),
               children: null
+            }, {
+              link: 'components-examples/flexberry-lookup/autofill-by-limit-example',
+              caption: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.autofill-by-limit-example.caption'),
+              title: i18n.t('forms.application.sitemap.components-examples.flexberry-lookup.autofill-by-limit-example.title'),
+              children: null
             }]
           }, {
             link: null,
@@ -1609,6 +1614,40 @@ define('dummy/controllers/components-acceptance-tests/flexberry-lookup/settings-
       @default 'olive'
     */
     removeButtonClass: ''
+  });
+});
+define('dummy/controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit', ['exports', 'ember', 'ember-flexberry/controllers/edit-form', 'ember-flexberry-data'], function (exports, _ember, _emberFlexberryControllersEditForm, _emberFlexberryData) {
+  var SimplePredicate = _emberFlexberryData.Query.SimplePredicate;
+  var FilterOperator = _emberFlexberryData.Query.FilterOperator;
+  exports['default'] = _emberFlexberryControllersEditForm['default'].extend({
+
+    /**
+      Current predicate to limit values for lookup.
+       @property limitValue
+      @type BasePredicate
+      @default undefined
+     */
+    limitValue: undefined,
+
+    /**
+      Current values for lookup.
+       @property limitValue
+      @type BasePredicate
+      @default undefined
+     */
+    defaultValue: undefined,
+
+    /**
+      Current predicate to limit accessible values for lookup.
+       @property lookupCustomLimitPredicate
+      @type BasePredicate
+      @default undefined
+     */
+    lookupCustomLimitPredicate: _ember['default'].computed(function () {
+      var limitValue = this.get('limitValue');
+
+      return new SimplePredicate('id', FilterOperator.Eq, limitValue.get('id'));
+    })
   });
 });
 define('dummy/controllers/components-acceptance-tests/flexberry-lookup/settings-example-dropdown', ['exports', 'ember', 'ember-flexberry/controllers/edit-form', 'ember-i18n'], function (exports, _ember, _emberFlexberryControllersEditForm, _emberI18n) {
@@ -4603,6 +4642,89 @@ define('dummy/controllers/components-examples/flexberry-lookup/autocomplete-orde
       @default false
     */
     autocomplete: false
+  });
+});
+define('dummy/controllers/components-examples/flexberry-lookup/autofill-by-limit-example', ['exports', 'ember', 'ember-flexberry/controllers/edit-form', 'ember-flexberry-data'], function (exports, _ember, _emberFlexberryControllersEditForm, _emberFlexberryData) {
+  var SimplePredicate = _emberFlexberryData.Query.SimplePredicate;
+  var FilterOperator = _emberFlexberryData.Query.FilterOperator;
+  exports['default'] = _emberFlexberryControllersEditForm['default'].extend({
+
+    /**
+      Current predicate to limit values for lookup.
+       @property limitValue
+      @type BasePredicate
+      @default undefined
+     */
+    limitValue: undefined,
+
+    /**
+      Indicates when limit predicate is enabled.
+       @property limitEnabled
+      @type Boolean
+      @default true
+     */
+    limitEnabled: true,
+
+    /**
+      Current readonly property value.
+       @property readonly
+      @type Boolean
+      @default false
+     */
+    readonly: false,
+
+    /**
+      Current autofillByLimit property value.
+       @property autofillByLimit
+      @type Boolean
+      @default true
+     */
+    autofillByLimit: true,
+
+    /**
+      Current predicate to limit accessible values for lookup.
+       @property lookupCustomLimitPredicate
+      @type BasePredicate
+      @default undefined
+     */
+    lookupCustomLimitPredicate: _ember['default'].computed('limitEnabled', function () {
+      if (!this.get('limitEnabled')) {
+        return undefined;
+      }
+
+      var limitValue = this.get('limitValue');
+
+      return new SimplePredicate('id', FilterOperator.Eq, limitValue.get('id'));
+    }),
+
+    /**
+      Component settings metadata.
+       @property componentSettingsMetadata
+      @type Object[]
+    */
+    componentSettingsMetadata: _ember['default'].computed('i18n.locale', function () {
+      var componentSettingsMetadata = _ember['default'].A();
+      componentSettingsMetadata.pushObject({
+        settingName: 'autofillByLimit',
+        settingType: 'boolean',
+        settingDefaultValue: false,
+        bindedControllerPropertieName: 'autofillByLimit'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'limitEnabled',
+        settingType: 'boolean',
+        settingDefaultValue: true,
+        bindedControllerPropertieName: 'limitEnabled'
+      });
+      componentSettingsMetadata.pushObject({
+        settingName: 'readonly',
+        settingType: 'boolean',
+        settingDefaultValue: false,
+        bindedControllerPropertieName: 'readonly'
+      });
+
+      return componentSettingsMetadata;
+    })
   });
 });
 define('dummy/controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit', ['exports', 'ember-flexberry/controllers/edit-form', 'ember-flexberry/mixins/edit-form-controller-operations-indication'], function (exports, _emberFlexberryControllersEditForm, _emberFlexberryMixinsEditFormControllerOperationsIndication) {
@@ -13114,6 +13236,10 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
                 'caption': 'Limit function example',
                 'title': ''
               },
+              'autofill-by-limit-example': {
+                'caption': 'Example autofillByLimit',
+                'title': ''
+              },
               'limit-function-through-dynamic-properties-example': {
                 'caption': 'Limit function with dinamic properties example',
                 'title': ''
@@ -13538,6 +13664,10 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
             'captionFirstLimitFunction': 'Limit function №1',
             'captionSecondLimitFunction': 'Limit function №2',
             'captionClearLimitFunction': 'Clear limit function'
+          },
+          'autofill-by-limit-example': {
+            'caption': 'Flexberry-lookup. Example autofillByLimit in lookup',
+            'titleLookup': 'Master'
           },
           'lookup-block-form-example': {
             'caption': 'Flexberry-lookup. Lookup block form example',
@@ -14268,6 +14398,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
                 'caption': 'Функция ограничения',
                 'title': ''
               },
+              'autofill-by-limit-example': {
+                'caption': 'Пример autofillByLimit',
+                'title': ''
+              },
               'limit-function-through-dynamic-properties-example': {
                 'caption': 'Функция ограничения через динамические свойства',
                 'title': ''
@@ -14680,6 +14814,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
           },
           'hierarchy-olv-in-lookup-example': {
             'caption': 'Flexberry-lookup. Пример иерархического OLV-а в lookup-e',
+            'titleLookup': 'Мастер'
+          },
+          'autofill-by-limit-example': {
+            'caption': 'Flexberry-lookup. Пример autofillByLimit в lookup-e',
             'titleLookup': 'Мастер'
           },
           'limit-function-example': {
@@ -16960,6 +17098,7 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('components-examples/flexberry-lookup/customizing-window-example');
     this.route('components-examples/flexberry-lookup/hierarchy-olv-in-lookup-example');
     this.route('components-examples/flexberry-lookup/limit-function-example');
+    this.route('components-examples/flexberry-lookup/autofill-by-limit-example');
     this.route('components-examples/flexberry-lookup/limit-function-through-dynamic-properties-example');
     this.route('components-examples/flexberry-lookup/lookup-block-form-example');
     this.route('components-examples/flexberry-lookup/lookup-in-modal');
@@ -17033,6 +17172,7 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('user-setting-forms/user-setting-delete');
 
     // Components acceptance tests forms.
+    this.route('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
     this.route('components-acceptance-tests/flexberry-lookup/base-operations');
     this.route('components-acceptance-tests/flexberry-lookup/settings-example');
     this.route('components-acceptance-tests/flexberry-lookup/settings-example-autocomplete');
@@ -17346,6 +17486,82 @@ define('dummy/routes/components-acceptance-tests/flexberry-lookup/settings-examp
       var store = this.get('store');
       var base = store.createRecord('ember-flexberry-dummy-suggestion');
       return base;
+    }
+  });
+});
+define('dummy/routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit', ['exports', 'ember', 'ember-flexberry-data'], function (exports, _ember, _emberFlexberryData) {
+  exports['default'] = _ember['default'].Route.extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'LookupWithLimitFunctionExampleView'
+     */
+    modelProjection: 'LookupWithLimitFunctionExampleView',
+
+    /**
+      Name of model to be used as form's record type.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    /**
+      Current predicate to limit values for lookup.
+       @property limitValue
+      @type BasePredicate
+      @default undefined
+     */
+    limitValue: undefined,
+
+    /**
+      Current values for lookup.
+       @property limitValue
+      @type BasePredicate
+      @default undefined
+     */
+    defaultValue: undefined,
+
+    /**
+      Returns model related to current route.
+       @method model
+     */
+    model: function model(params) {
+      var _this = this;
+
+      var store = this.get('store');
+
+      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SuggestionTypeE').top(2);
+
+      return store.query('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionTypes) {
+        var suggestionTypesArr = suggestionTypes.toArray();
+        _this.set('limitValue', suggestionTypesArr.objectAt(0));
+        _this.set('defaultValue', suggestionTypesArr.objectAt(1));
+
+        var base = store.createRecord('ember-flexberry-dummy-suggestion');
+        var readonly = store.createRecord('ember-flexberry-dummy-suggestion');
+        var exist = store.createRecord('ember-flexberry-dummy-suggestion', {
+          type: suggestionTypesArr.objectAt(1)
+        });
+
+        return {
+          base: base,
+          readonly: readonly,
+          exist: exist
+        };
+      });
+    },
+
+    /**
+      Load limit accessible values for lookup.
+       @method setupController
+     */
+    setupController: function setupController() {
+      this._super.apply(this, arguments);
+
+      this.set('controller.limitValue', this.get('limitValue'));
+      this.set('controller.defaultValue', this.get('defaultValue'));
     }
   });
 });
@@ -18520,6 +18736,62 @@ define('dummy/routes/components-examples/flexberry-lookup/autocomplete-order-exa
       var store = this.get('store');
       var base = store.createRecord('ember-flexberry-dummy-suggestion');
       return base;
+    }
+  });
+});
+define('dummy/routes/components-examples/flexberry-lookup/autofill-by-limit-example', ['exports', 'ember-flexberry/routes/edit-form', 'ember-flexberry-data'], function (exports, _emberFlexberryRoutesEditForm, _emberFlexberryData) {
+  exports['default'] = _emberFlexberryRoutesEditForm['default'].extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'LookupWithLimitFunctionExampleView'
+     */
+    modelProjection: 'LookupWithLimitFunctionExampleView',
+
+    /**
+      Name of model to be used as form's record type.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    /**
+      Current predicate to limit values for lookup.
+       @property limitValue
+      @type BasePredicate
+      @default undefined
+     */
+    limitValue: undefined,
+
+    /**
+      Returns model related to current route.
+       @method model
+     */
+    model: function model(params) {
+      var _this = this;
+
+      var store = this.get('store');
+
+      var query = new _emberFlexberryData.Query.Builder(store).from('ember-flexberry-dummy-suggestion-type').selectByProjection('SuggestionTypeE');
+
+      return store.queryRecord('ember-flexberry-dummy-suggestion-type', query.build()).then(function (suggestionType) {
+        _this.set('limitValue', suggestionType);
+
+        var base = store.createRecord('ember-flexberry-dummy-suggestion');
+        return base;
+      });
+    },
+
+    /**
+      Load limit accessible values for lookup.
+       @method setupController
+     */
+    setupController: function setupController() {
+      this._super.apply(this, arguments);
+
+      this.set('controller.limitValue', this.get('limitValue'));
     }
   });
 });
@@ -24535,6 +24807,82 @@ define("dummy/templates/components-acceptance-tests/flexberry-lookup/settings-ex
     };
   })());
 });
+define("dummy/templates/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 51,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "field base isreadonly");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "field base isclean");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "field exist");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]), 1, 1);
+        return morphs;
+      },
+      statements: [["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.readonly.type", ["loc", [null, [3, 10], [3, 29]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model.readonly", ["loc", [null, [4, 17], [4, 31]]]]], [], []], "projection", "LookupWithLimitFunctionExampleView", "displayAttributeName", "name", "title", ["subexpr", "t", ["forms.components-examples.flexberry-lookup.autofill-by-limit-example.titleLookup"], [], ["loc", [null, [7, 10], [7, 96]]]], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "readonly", true, "lookupLimitPredicate", ["subexpr", "@mut", [["get", "lookupCustomLimitPredicate", ["loc", [null, [12, 25], [12, 51]]]]], [], []], "autocomplete", true, "autofillByLimit", true], ["loc", [null, [2, 2], [15, 4]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.base.type", ["loc", [null, [20, 10], [20, 25]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model.base", ["loc", [null, [21, 17], [21, 27]]]]], [], []], "projection", "LookupWithLimitFunctionExampleView", "displayAttributeName", "name", "title", ["subexpr", "t", ["forms.components-examples.flexberry-lookup.autofill-by-limit-example.titleLookup"], [], ["loc", [null, [24, 10], [24, 96]]]], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [28, 13], [28, 21]]]]], [], []], "lookupLimitPredicate", ["subexpr", "@mut", [["get", "lookupCustomLimitPredicate", ["loc", [null, [29, 25], [29, 51]]]]], [], []], "autocomplete", true, "autofillByLimit", true], ["loc", [null, [19, 2], [32, 4]]]], ["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.exist.type", ["loc", [null, [37, 10], [37, 26]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model.exist", ["loc", [null, [38, 17], [38, 28]]]]], [], []], "projection", "LookupWithLimitFunctionExampleView", "displayAttributeName", "name", "title", ["subexpr", "t", ["forms.components-examples.flexberry-lookup.autofill-by-limit-example.titleLookup"], [], ["loc", [null, [41, 10], [41, 96]]]], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [45, 13], [45, 21]]]]], [], []], "lookupLimitPredicate", ["subexpr", "@mut", [["get", "lookupCustomLimitPredicate", ["loc", [null, [46, 25], [46, 51]]]]], [], []], "autocomplete", true, "autofillByLimit", true], ["loc", [null, [36, 2], [49, 4]]]]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define("dummy/templates/components-acceptance-tests/flexberry-lookup/settings-example-dropdown", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -28355,6 +28703,116 @@ define("dummy/templates/components-examples/flexberry-lookup/autocomplete-order-
       statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.autocomplete-order-example.caption"], [], ["loc", [null, [1, 22], [1, 107]]]], ["inline", "flexberry-lookup", [], ["readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [5, 17], [5, 25]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [6, 14], [6, 24]]]]], [], []], "projection", "SettingLookupExampleView", "displayAttributeName", "name", "autocompleteOrder", "moderated asc, parent desc", "title", ["subexpr", "@mut", [["get", "title", ["loc", [null, [10, 14], [10, 19]]]]], [], []], "relatedModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [11, 21], [11, 26]]]]], [], []], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "autocomplete", true, "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [16, 20], [16, 31]]]]], [], []]], ["loc", [null, [4, 4], [17, 6]]]]],
       locals: [],
       templates: []
+    };
+  })());
+});
+define("dummy/templates/components-examples/flexberry-lookup/autofill-by-limit-example", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 4,
+              "column": 4
+            },
+            "end": {
+              "line": 20,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/components-examples/flexberry-lookup/autofill-by-limit-example.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "flexberry-lookup", [], ["value", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [9, 14], [9, 24]]]]], [], []], "projection", "LookupWithLimitFunctionExampleView", "displayAttributeName", "name", "title", ["subexpr", "t", ["forms.components-examples.flexberry-lookup.autofill-by-limit-example.titleLookup"], [], ["loc", [null, [12, 14], [12, 100]]]], "relationName", "type", "choose", "showLookupDialog", "remove", "removeLookupValue", "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [16, 17], [16, 25]]]]], [], []], "lookupLimitPredicate", ["subexpr", "@mut", [["get", "lookupCustomLimitPredicate", ["loc", [null, [17, 29], [17, 55]]]]], [], []], "autofillByLimit", ["subexpr", "@mut", [["get", "autofillByLimit", ["loc", [null, [18, 24], [18, 39]]]]], [], []]], ["loc", [null, [8, 6], [19, 8]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 23,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/components-examples/flexberry-lookup/autofill-by-limit-example.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h3");
+        dom.setAttribute(el1, "class", "ui header");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "ui form flexberry-vertical-form");
+        dom.setAttribute(el1, "role", "form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2, 1]), 1, 1);
+        return morphs;
+      },
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.autofill-by-limit-example.caption"], [], ["loc", [null, [1, 22], [1, 106]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [20, 25]]]]],
+      locals: [],
+      templates: [child0]
     };
   })());
 });
@@ -64864,7 +65322,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.3+05fad3e8"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.3+06c07130"});
 }
 
 /* jshint ignore:end */

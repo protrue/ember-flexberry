@@ -470,6 +470,32 @@ export default FlexberryBaseComponent.extend({
   sorting: &#x27;asc&#x27;,
 
   /**
+    Flag to fill value by limitPredicate.
+
+    @property autofillByLimit
+    @type Boolean
+    @default false
+  */
+  autofillByLimit: false,
+
+  /**
+    Observer on &#x27;autofillByLimit&#x27;.
+
+    @property _autofillByLimitObserver
+  */
+  _autofillByLimitObserver: Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;autofillByLimit&#x27;, function() {
+    if (this.get(&#x27;autofillByLimit&#x27;)) {
+      this.addObserver(&#x27;relatedModel&#x27;, this, this._autofillByLimitObserverFunction);
+      this.addObserver(&#x27;relationName&#x27;, this, this._autofillByLimitObserverFunction);
+      this.addObserver(&#x27;lookupLimitPredicate&#x27;, this, this._autofillByLimitObserverFunction);
+    } else {
+      this.removeObserver(&#x27;relatedModel&#x27;, this, this._autofillByLimitObserverFunction);
+      this.removeObserver(&#x27;relationName&#x27;, this, this._autofillByLimitObserverFunction);
+      this.removeObserver(&#x27;lookupLimitPredicate&#x27;, this, this._autofillByLimitObserverFunction);
+    }
+  })),
+
+  /**
     Classes by property of autocomplete.
 
     @property autocompleteClass
@@ -934,6 +960,10 @@ export default FlexberryBaseComponent.extend({
     if (this.get(&#x27;autocompletePersistValue&#x27;) &amp;&amp; Ember.isNone(this.get(&#x27;value&#x27;))) {
       this.set(&#x27;autocompletePersistValueCache&#x27;, this.get(&#x27;displayValue&#x27;));
     }
+
+    if (this.get(&#x27;autofillByLimit&#x27;)) {
+      this._onAutofillByLimit();
+    }
   },
 
   /**
@@ -1000,6 +1030,11 @@ export default FlexberryBaseComponent.extend({
     this.get(&#x27;lookupEventsService&#x27;).off(&#x27;lookupDialogOnShow&#x27;, this, this._setModalIsStartToShow);
     this.get(&#x27;lookupEventsService&#x27;).off(&#x27;lookupDialogOnVisible&#x27;, this, this._setModalIsVisible);
     this.get(&#x27;lookupEventsService&#x27;).off(&#x27;lookupDialogOnHidden&#x27;, this, this._setModalIsHidden);
+    if (this.get(&#x27;autofillByLimit&#x27;)) {
+      this.removeObserver(&#x27;relatedModel&#x27;, this, this._autofillByLimitObserverFunction);
+      this.removeObserver(&#x27;relationName&#x27;, this, this._autofillByLimitObserverFunction);
+      this.removeObserver(&#x27;lookupLimitPredicate&#x27;, this, this._autofillByLimitObserverFunction);
+    }
   },
 
   /**
@@ -1452,6 +1487,59 @@ export default FlexberryBaseComponent.extend({
     } else if (this.get(&#x27;dropdown&#x27;)) {
       this._onDropdown();
     }
+  },
+
+  /**
+    Function for autofillByLimit observer.
+
+    @method _autofillByLimitObserverFunction
+    @private
+  */
+  _autofillByLimitObserverFunction() {
+    Ember.run.once(this, &#x27;_onAutofillByLimit&#x27;);
+  },
+
+  /**
+    Handles changing properties affecting the sample.
+
+    @method _onAutofillByLimit
+    @private
+  */
+  _onAutofillByLimit() {
+    if (this.get(&#x27;readonly&#x27;)) {
+      return;
+    }
+
+    let _this = this;
+    let relationName = this.get(&#x27;relationName&#x27;);
+    if (!relationName) {
+      throw new Error(&#x27;relationName is not defined.&#x27;);
+    }
+
+    let store = this.get(&#x27;store&#x27;);
+    let relatedModel = this.get(&#x27;relatedModel&#x27;);
+    let relationModelName = getRelationType(relatedModel, relationName);
+
+    let builder = new Builder(store, relationModelName).selectByProjection(this.get(&#x27;projection&#x27;));
+
+    let lookupLimitPredicate = this.get(&#x27;lookupLimitPredicate&#x27;);
+    if (lookupLimitPredicate) {
+      builder.where(lookupLimitPredicate);
+    }
+
+    builder.top(2);
+    store.query(relationModelName, builder.build()).then((records) =&gt; {
+      if (Ember.get(records, &#x27;length&#x27;) === 1) {
+        let record = records.objectAt(0);
+        _this.set(&#x27;value&#x27;, record);
+        _this.get(&#x27;currentController&#x27;).send(_this.get(&#x27;updateLookupAction&#x27;),
+          {
+            relationName: relationName,
+            modelToLookup: relatedModel,
+            newRelationValue: record
+          });
+      }
+    });
   }
 });
 
