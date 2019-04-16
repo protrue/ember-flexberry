@@ -630,7 +630,66 @@ define('dummy/tests/acceptance/components/flexberry-groupedit-test', ['qunit', '
     });
   });
 });
-define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test', ['qunit', 'dummy/tests/helpers/start-app'], function (_qunit, _startApp) {
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test', ['qunit', 'dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-functions', 'dummy/tests/helpers/start-app'], function (_qunit, _folvTestsFunctions, _startApp) {
+  'use strict';
+
+  var app = void 0;
+  var path = 'components-examples/flexberry-groupedit/configurate-row-example';
+  var testName = 'check all at page';
+  var olvContainerClass = '.object-list-view-container';
+  var trTableClass = 'table.object-list-view tbody tr';
+
+  (0, _qunit.module)('Acceptance | flexberry-groupedit | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _startApp.default)();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+    afterEach: function afterEach() {
+      Ember.run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(4);
+
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var $olv = Ember.$('.object-list-view ');
+      var $thead = Ember.$('th.dt-head-left', $olv)[0];
+
+      Ember.run(function () {
+        var done = assert.async();
+        (0, _folvTestsFunctions.loadingList)($thead, olvContainerClass, trTableClass).then(function ($list) {
+          assert.ok($list);
+          var $rows = Ember.$('.object-list-view-helper-column', $list);
+
+          click('.ui.check-all-at-page-button');
+          andThen(function () {
+            var $checkCheckBox = Ember.$('.flexberry-checkbox.checked', $rows);
+            assert.equal($checkCheckBox.length, $rows.length, 'All checkBox in row are select');
+
+            click('.ui.check-all-at-page-button');
+            andThen(function () {
+              $checkCheckBox = Ember.$('.flexberry-checkbox.checked', $rows);
+              assert.equal($checkCheckBox.length, 0, 'All checkBox in row are unselect');
+            });
+          });
+
+          done();
+        });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test', ['qunit', 'dummy/tests/helpers/start-app'], function (_qunit, _startApp) {
   'use strict';
 
   var app = void 0;
@@ -676,6 +735,54 @@ define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedi
         var $textField = Ember.$('.field .flexberry-textbox input', $row);
         assert.equal($textField[0].value, i + 1 + 'test', 'TextBox have currect text');
       }
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test', ['qunit', 'dummy/tests/helpers/start-app'], function (_qunit, _startApp) {
+  'use strict';
+
+  var app = void 0;
+  var testName = 'user button test';
+
+  (0, _qunit.module)('Acceptance | flexberry-groupedit | ' + testName, {
+    beforeEach: function beforeEach() {
+
+      // Start application.
+      app = (0, _startApp.default)();
+
+      // Enable acceptance test mode in application controller (to hide unnecessary markup from application.hbs).
+      var applicationController = app.__container__.lookup('controller:application');
+      applicationController.set('isInAcceptanceTestMode', true);
+    },
+    afterEach: function afterEach() {
+      Ember.run(app, 'destroy');
+    }
+  });
+
+  (0, _qunit.test)(testName, function (assert) {
+    assert.expect(3);
+    var path = 'components-examples/flexberry-groupedit/custom-buttons-example';
+
+    visit(path);
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+
+      // Enable the hi button.
+      click('.toggle-hi-button');
+
+      // First click.
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 2, 'Test button was pressed');
+      });
+
+      // Second click.
+      click('.test-click-button');
+      andThen(function () {
+        return assert.equal(controller.clickCounter, 3, 'Test button was pressed');
+      });
     });
   });
 });
@@ -1024,6 +1131,52 @@ define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-auto
     });
   });
 });
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup autofillByLimit in readonly test', function (store, assert) {
+    assert.expect(1);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
+    andThen(function () {
+      var $lookupField = Ember.$('.isreadonly .lookup-field');
+      var value = $lookupField.val();
+      assert.ok(Ember.isBlank(value), 'Value was changed');
+    });
+  });
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup autofillByLimit is clean test', function (store, assert) {
+    assert.expect(2);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
+    andThen(function () {
+      var $lookupField = Ember.$('.isclean .lookup-field');
+      var value = $lookupField.val();
+      assert.notOk(Ember.isBlank(value), 'Value wasn\'t changed');
+
+      Ember.run(function () {
+        click('.isclean .ui-clear');
+        andThen(function () {
+          var $lookupFieldUpdate = Ember.$('.isclean .lookup-field');
+          var valueUpdate = $lookupFieldUpdate.val();
+          assert.ok(Ember.isBlank(valueUpdate), 'Value isn\'t empty');
+        });
+      });
+    });
+  });
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup autofillByLimit changes select value test', function (store, assert, app) {
+    assert.expect(1);
+    visit('components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit');
+    andThen(function () {
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var defaultValue = Ember.get(controller, 'defaultValue.name');
+
+      var $lookupField = Ember.$('.exist .lookup-field');
+      var value = $lookupField.val();
+
+      assert.notEqual(defaultValue, value, 'DefaultValue: \'' + defaultValue + '\' didn\'t change');
+    });
+  });
+});
 define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test', ['ember-flexberry-data/query/builder', 'ember-flexberry-data/query/predicate', 'dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_builder, _predicate, _executeFlexberryLookupTest) {
   'use strict';
 
@@ -1084,6 +1237,73 @@ define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-limi
             done();
           }, 2000);
         });
+      });
+    });
+  });
+});
+define('dummy/tests/acceptance/components/flexberry-lookup/flexberry-lookup-preview-test', ['dummy/tests/acceptance/components/flexberry-lookup/execute-flexberry-lookup-test'], function (_executeFlexberryLookupTest) {
+  'use strict';
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup preview in modal test', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-preview';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var testName = controller.testName;
+      var $inModal = Ember.$('.in-modal');
+
+      click('.ui-preview', $inModal).then(function () {
+        var $modal = Ember.$('.modal');
+        var $form = Ember.$('.form', $modal);
+        var $field = Ember.$('.flexberry-field .flexberry-textbox', $form);
+        var value = $field.children('input').val();
+        assert.equal(value, testName);
+      });
+    });
+  });
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup preview in separate route test', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-preview';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var testName = controller.testName;
+      var $inSeparateRoute = Ember.$('.in-separate-route');
+
+      click('.ui-preview', $inSeparateRoute).then(function () {
+        var $form = Ember.$('.form');
+        var $field = Ember.$('.flexberry-field .flexberry-textbox', $form);
+        var value = $field.children('input').val();
+        assert.equal(value, testName);
+      });
+    });
+  });
+
+  (0, _executeFlexberryLookupTest.executeTest)('flexberry-lookup preview in groupedit test', function (store, assert, app) {
+    assert.expect(2);
+    var path = 'components-acceptance-tests/flexberry-lookup/settings-example-preview';
+    visit(path);
+
+    andThen(function () {
+      assert.equal(currentPath(), path);
+
+      var controller = app.__container__.lookup('controller:' + currentRouteName());
+      var testName = controller.testName;
+      var $inGroupedit = Ember.$('.in-groupedit');
+
+      click('.ui-preview', $inGroupedit).then(function () {
+        var $form = Ember.$('.form');
+        var $field = Ember.$('.flexberry-field .flexberry-textbox', $form);
+        var value = $field.children('input').val();
+        assert.equal(value, testName);
       });
     });
   });
@@ -1465,13 +1685,13 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
             var successful = true;
             for (var i = 0; i < filtherResult.length; i++) {
               var address = filtherResult[i]._data.address;
-              if (address === undefined) {
+              if (!Ember.isNone(address)) {
                 successful = false;
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
-            assert.equal(successful, true, 'Filter successfully worked');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
+            assert.equal(successful, true, 'Filter not successfully worked');
           }).finally(function () {
             newRecords[2].destroyRecord().then(function () {
               Ember.run(function () {
@@ -1537,7 +1757,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1711,7 +1931,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
           /* eslint-disable no-unused-vars */
           (0, _folvTestsFunctions.refreshListByFunction)(refreshFunction, controller).then(function ($list) {
             var filtherResult = controller.model.content;
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             done1();
           });
           /* eslint-enable no-unused-vars */
@@ -1767,7 +1987,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1823,7 +2043,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1883,7 +2103,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -1896,7 +2116,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
   'use strict';
 
   (0, _executeFolvTest.executeTest)('check neq filter', function (store, assert, app) {
-    assert.expect(3);
+    assert.expect(2);
     var path = 'components-acceptance-tests/flexberry-objectlistview/folv-filter';
     var modelName = 'ember-flexberry-dummy-suggestion';
     var filtreInsertOperation = 'neq';
@@ -1942,7 +2162,6 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
               }
             }
 
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -2004,7 +2223,7 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/filther/folv-
 
             var dropdown = Ember.$('.flexberry-dropdown')[0];
             assert.equal(dropdown.innerText, 'like', 'Filter select like operation if it is not specified');
-            assert.equal(filtherResult.length >= 1, true, 'Filtered list is not empty');
+            assert.equal(filtherResult.length >= 1, true, 'Filtered list is empty');
             assert.equal(successful, true, 'Filter successfully worked');
             done1();
           });
@@ -4155,19 +4374,25 @@ define('dummy/tests/acceptance/components/flexberry-objectlistview/folv-tests-fu
       var dropdown = Ember.$(filterValueCell).find('.flexberry-dropdown');
       var textbox = Ember.$(filterValueCell).find('.ember-text-field');
 
+      var fillPromise = void 0;
       if (textbox.length !== 0) {
-        textbox.val(filterValue);
-        textbox.change();
+        fillPromise = fillIn(textbox, filterValue);
       }
 
       if (dropdown.length !== 0) {
         dropdown.dropdown('set selected', filterValue);
       }
 
-      var timeout = 300;
-      Ember.run.later(function () {
-        resolve();
-      }, timeout);
+      if (fillPromise) {
+        fillPromise.then(function () {
+          return resolve();
+        });
+      } else {
+        var timeout = 300;
+        Ember.run.later(function () {
+          resolve();
+        }, timeout);
+      }
     });
   }
 
@@ -5189,6 +5414,11 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-autocomplete.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-dropdown.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-dropdown.js should pass ESLint\n\n');
@@ -5197,6 +5427,16 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-limit-function.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-limit-function.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/components-acceptance-tests/flexberry-lookup/settings-example-projection.js', function (assert) {
@@ -5284,6 +5524,11 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/components-examples/flexberry-field/settings-example.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/components-examples/flexberry-file/flexberry-file-in-modal.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-file/flexberry-file-in-modal.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/components-examples/flexberry-file/settings-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-file/settings-example.js should pass ESLint\n\n');
@@ -5292,6 +5537,11 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('controllers/components-examples/flexberry-groupedit/configurate-row-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-groupedit/configurate-row-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-groupedit/custom-buttons-example.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-groupedit/custom-buttons-example.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-edit-groupedit-with-lookup-with-computed-atribute.js', function (assert) {
@@ -5327,6 +5577,21 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('controllers/components-examples/flexberry-lookup/autocomplete-order-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/components-examples/flexberry-lookup/autocomplete-order-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-lookup/autofill-by-limit-example.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/components-examples/flexberry-lookup/customizing-window-example.js', function (assert) {
@@ -6024,6 +6289,11 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-autocomplete.js should pass ESLint\n\n');
   });
 
+  QUnit.test('routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-autofill-by-limit.js should pass ESLint\n\n');
+  });
+
   QUnit.test('routes/components-acceptance-tests/flexberry-lookup/settings-example-dropdown.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-dropdown.js should pass ESLint\n\n');
@@ -6032,6 +6302,16 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('routes/components-acceptance-tests/flexberry-lookup/settings-example-limit-function.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-limit-function.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-preview-page.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-acceptance-tests/flexberry-lookup/settings-example-preview.js should pass ESLint\n\n');
   });
 
   QUnit.test('routes/components-acceptance-tests/flexberry-lookup/settings-example-projection.js', function (assert) {
@@ -6114,6 +6394,11 @@ define('dummy/tests/app.lint-test', [], function () {
     assert.ok(true, 'routes/components-examples/flexberry-field/settings-example.js should pass ESLint\n\n');
   });
 
+  QUnit.test('routes/components-examples/flexberry-file/flexberry-file-in-modal.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-file/flexberry-file-in-modal.js should pass ESLint\n\n');
+  });
+
   QUnit.test('routes/components-examples/flexberry-file/settings-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-file/settings-example.js should pass ESLint\n\n');
@@ -6122,6 +6407,11 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('routes/components-examples/flexberry-groupedit/configurate-row-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-groupedit/configurate-row-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-groupedit/custom-buttons-example.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-groupedit/custom-buttons-example.js should pass ESLint\n\n');
   });
 
   QUnit.test('routes/components-examples/flexberry-groupedit/ember-flexberry-dummy-suggestion-edit-groupedit-with-lookup-with-computed-atribute.js', function (assert) {
@@ -6157,6 +6447,21 @@ define('dummy/tests/app.lint-test', [], function () {
   QUnit.test('routes/components-examples/flexberry-lookup/autocomplete-order-example.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/components-examples/flexberry-lookup/autocomplete-order-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-lookup/autofill-by-limit-example.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-lookup/autofill-by-limit-example.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-edit.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-lookup/compute-autocomplete/compute-autocomplete-list.js should pass ESLint\n\n');
   });
 
   QUnit.test('routes/components-examples/flexberry-lookup/customizing-window-example.js', function (assert) {
@@ -9214,7 +9519,7 @@ define('dummy/tests/integration/components/flexberry-groupedit-test', ['ember-te
     });
   });
 });
-define('dummy/tests/integration/components/flexberry-lookup-test', ['ember-flexberry-data/query/builder', 'ember-flexberry-data/query/filter-operator', 'ember-i18n/services/i18n', 'ember-flexberry/locales/ru/translations', 'ember-flexberry/locales/en/translations', 'ember-qunit', 'dummy/tests/helpers/start-app', 'dummy/tests/helpers/destroy-app'], function (_builder, _filterOperator, _i18n, _translations, _translations2, _emberQunit, _startApp, _destroyApp) {
+define('dummy/tests/integration/components/flexberry-lookup-test', ['ember-i18n/services/i18n', 'ember-flexberry/locales/ru/translations', 'ember-flexberry/locales/en/translations', 'ember-qunit', 'dummy/tests/helpers/start-app', 'dummy/tests/helpers/destroy-app'], function (_i18n, _translations, _translations2, _emberQunit, _startApp, _destroyApp) {
   'use strict';
 
   var app = void 0;
@@ -9244,7 +9549,7 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['ember-flexb
   });
 
   (0, _emberQunit.test)('component renders properly', function (assert) {
-    assert.expect(30);
+    assert.expect(31);
 
     this.render(Ember.HTMLBars.template({
       "id": "E9riANNk",
@@ -9256,6 +9561,7 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['ember-flexb
     var $component = this.$().children();
     var $lookupFluid = $component.children('.fluid');
     var $lookupInput = $lookupFluid.children('.lookup-field');
+    var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
     var $lookupButtonChoose = $lookupFluid.children('.ui-change');
     var $lookupButtonClear = $lookupFluid.children('.ui-clear');
     var $lookupButtonClearIcon = $lookupButtonClear.children('.remove');
@@ -9280,6 +9586,9 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['ember-flexb
     assert.strictEqual($lookupInput.hasClass('ember-view'), true, 'Component\'s title block has \'ember-view\' css-class');
     assert.strictEqual($lookupInput.hasClass('ember-text-field'), true, 'Component\'s title block has \'ember-text-field\' css-class');
     assert.equal($lookupInput.attr('placeholder'), '(тестовое значение)', 'Component\'s container has \'input\' css-class');
+
+    // Check <preview button>.
+    assert.strictEqual($lookupButtonPreview.length === 0, true, 'Component has inner title block');
 
     // Check <choose button>.
     assert.strictEqual($lookupButtonChoose.length === 1, true, 'Component has inner title block');
@@ -9364,58 +9673,147 @@ define('dummy/tests/integration/components/flexberry-lookup-test', ['ember-flexb
       return originalAjaxMethod.apply(this, arguments);
     };
 
-    // First, load model with existing master.
-    var modelName = 'ember-flexberry-dummy-suggestion-type';
-    var query = new _builder.default(store).from(modelName).selectByProjection('SuggestionTypeE').where('parent', _filterOperator.default.Neq, null).top(1);
-
     var asyncOperationsCompleted = assert.async();
-    store.query(modelName, query.build()).then(function (suggestionTypes) {
-      suggestionTypes = suggestionTypes.toArray();
-      (true && !(suggestionTypes.length > 0) && Ember.emberAssert('One or more \'' + modelName + '\' must exist', suggestionTypes.length > 0));
 
+    this.set('actions.showLookupDialog', function () {});
+    this.set('actions.removeLookupValue', function () {});
 
-      // Remember model & render component.
-      _this.set('model', suggestionTypes[0]);
+    this.render(Ember.HTMLBars.template({
+      "id": "t6Fqi2rh",
+      "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relatedModel\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"choose\",\"remove\",\"readonly\",\"autocomplete\"],[[22,[\"model\",\"parent\"]],[22,[\"model\"]],\"parent\",\"SuggestionTypeL\",\"name\",\"Parent\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],true,true]]],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
 
-      _this.set('actions.showLookupDialog', function () {});
-      _this.set('actions.removeLookupValue', function () {});
+    // Retrieve component.
+    var $component = this.$();
+    var $componentInput = Ember.$('input', $component);
 
-      _this.render(Ember.HTMLBars.template({
-        "id": "t6Fqi2rh",
-        "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relatedModel\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"choose\",\"remove\",\"readonly\",\"autocomplete\"],[[22,[\"model\",\"parent\"]],[22,[\"model\"]],\"parent\",\"SuggestionTypeL\",\"name\",\"Parent\",[26,\"action\",[[21,0,[]],\"showLookupDialog\"],null],[26,\"action\",[[21,0,[]],\"removeLookupValue\"],null],true,true]]],false]],\"hasEval\":false}",
+    Ember.run(function () {
+      _this.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      var testPromise = new Ember.RSVP.Promise(function (resolve) {
+        ajaxMethodHasBeenCalled = false;
+
+        // Imitate focus on component, which can cause async data-requests.
+        $componentInput.focusin();
+
+        // Wait for some time which can pass after focus, before possible async data-request will be sent.
+        Ember.run.later(function () {
+          resolve();
+        }, 300);
+      });
+
+      testPromise.then(function () {
+        // Check that store.query hasn\'t been called after focus.
+        assert.strictEqual(ajaxMethodHasBeenCalled, false, '$.ajax hasn\'t been called after click on autocomplete lookup in readonly mode');
+      }).finally(function () {
+        // Restore original method.
+        Ember.$.ajax = originalAjaxMethod;
+
+        asyncOperationsCompleted();
+      });
+    });
+  });
+
+  (0, _emberQunit.test)('preview button renders properly', function (assert) {
+    var _this2 = this;
+
+    assert.expect(11);
+
+    var store = app.__container__.lookup('service:store');
+
+    this.render(Ember.HTMLBars.template({
+      "id": "yfTeYiZT",
+      "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"showPreviewButton\",\"previewFormRoute\"],[[22,[\"model\"]],\"parent\",\"SuggestionTypeL\",\"name\",\"Parent\",true,\"ember-flexberry-dummy-suggestion-type-edit\"]]],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    // Retrieve component.
+    var $component = this.$().children();
+    var $lookupFluid = $component.children('.fluid');
+
+    assert.strictEqual($lookupFluid.children('.ui-preview').length === 0, true, 'Component has inner title block');
+
+    Ember.run(function () {
+      _this2.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
+      var $lookupButtonPreviewIcon = $lookupButtonPreview.children('.eye');
+
+      assert.strictEqual($lookupButtonPreview.length === 1, true, 'Component has inner title block');
+      assert.strictEqual($lookupButtonPreview.prop('tagName'), 'BUTTON', 'Component\'s title block is a <button>');
+      assert.strictEqual($lookupButtonPreview.hasClass('ui'), true, 'Component\'s container has \'ui\' css-class');
+      assert.strictEqual($lookupButtonPreview.hasClass('ui-preview'), true, 'Component\'s container has \'ui-preview\' css-class');
+      assert.strictEqual($lookupButtonPreview.hasClass('button'), true, 'Component\'s container has \'button\' css-class');
+      assert.equal($lookupButtonPreview.attr('title'), 'Просмотр');
+
+      assert.strictEqual($lookupButtonPreviewIcon.length === 1, true, 'Component has inner title block');
+      assert.strictEqual($lookupButtonPreviewIcon.prop('tagName'), 'I', 'Component\'s title block is a <i>');
+      assert.strictEqual($lookupButtonPreviewIcon.hasClass('eye'), true, 'Component\'s container has \'eye\' css-class');
+      assert.strictEqual($lookupButtonPreviewIcon.hasClass('icon'), true, 'Component\'s container has \'icon\' css-class');
+    });
+  });
+
+  (0, _emberQunit.test)('preview button view previewButtonClass and previewText properly', function (assert) {
+    var _this3 = this;
+
+    assert.expect(3);
+
+    var store = app.__container__.lookup('service:store');
+
+    Ember.run(function () {
+      _this3.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      _this3.set('previewButtonClass', 'previewButtonClassTest');
+      _this3.set('previewText', 'previewTextTest');
+
+      _this3.render(Ember.HTMLBars.template({
+        "id": "qXjDh8Be",
+        "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"showPreviewButton\",\"previewFormRoute\",\"previewButtonClass\",\"previewText\"],[[22,[\"model\"]],\"parent\",\"SuggestionTypeL\",\"name\",\"Parent\",true,\"ember-flexberry-dummy-suggestion-type-edit\",[22,[\"previewButtonClass\"]],[22,[\"previewText\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
       // Retrieve component.
-      var $component = _this.$();
-      var $componentInput = Ember.$('input', $component);
+      var $component = _this3.$().children();
+      var $lookupFluid = $component.children('.fluid');
+      var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
 
-      /* eslint-disable no-unused-vars */
-      return new Ember.RSVP.Promise(function (resolve, reject) {
-        Ember.run(function () {
-          ajaxMethodHasBeenCalled = false;
+      assert.strictEqual($lookupButtonPreview.length === 1, true, 'Component has inner title block');
+      assert.strictEqual($lookupButtonPreview.hasClass('previewButtonClassTest'), true, 'Component\'s container has \'previewButtonClassTest\' css-class');
+      assert.equal($lookupButtonPreview.text().trim(), 'previewTextTest');
+    });
+  });
 
-          // Imitate focus on component, which can cause async data-requests.
-          $componentInput.focusin();
+  (0, _emberQunit.test)('preview with readonly renders properly', function (assert) {
+    var _this4 = this;
 
-          // Wait for some time which can pass after focus, before possible async data-request will be sent.
-          Ember.run.later(function () {
-            resolve();
-          }, 300);
-        });
-      });
-      /* eslint-enable no-unused-vars */
-    }).then(function () {
-      // Check that store.query hasn\'t been called after focus.
-      assert.strictEqual(ajaxMethodHasBeenCalled, false, '$.ajax hasn\'t been called after click on autocomplete lookup in readonly mode');
-    }).catch(function (e) {
-      // Error output.
-      assert.ok(false, e);
-    }).finally(function () {
-      // Restore original method.
-      Ember.$.ajax = originalAjaxMethod;
+    assert.expect(1);
 
-      asyncOperationsCompleted();
+    var store = app.__container__.lookup('service:store');
+
+    Ember.run(function () {
+      _this4.set('model', store.createRecord('ember-flexberry-dummy-suggestion-type', {
+        name: 'TestTypeName'
+      }));
+
+      _this4.render(Ember.HTMLBars.template({
+        "id": "ASa0a1tB",
+        "block": "{\"symbols\":[],\"statements\":[[1,[26,\"flexberry-lookup\",null,[[\"value\",\"relationName\",\"projection\",\"displayAttributeName\",\"title\",\"showPreviewButton\",\"previewFormRoute\",\"readonly\"],[[22,[\"model\"]],\"parent\",\"SuggestionTypeL\",\"name\",\"Parent\",true,\"ember-flexberry-dummy-suggestion-type-edit\",true]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Retrieve component.
+      var $component = _this4.$().children();
+      var $lookupFluid = $component.children('.fluid');
+      var $lookupButtonPreview = $lookupFluid.children('.ui-preview');
+
+      assert.strictEqual($lookupButtonPreview.hasClass('disabled'), false, 'Component\'s container has not \'disabled\' css-class');
     });
   });
 });
@@ -11311,9 +11709,19 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-groupedit-test.js should pass ESLint\n\n');
   });
 
-  QUnit.test('acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js', function (assert) {
+  QUnit.test('acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit configurate-row-test.js should pass ESLint\n\n');
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-check-all-at-page-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-configurate-row-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-groupedit/flexberry-groupedit-user-button-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('acceptance/components/flexberry-lookup/change-component-lookup-test.js', function (assert) {
@@ -11346,9 +11754,19 @@ define('dummy/tests/tests.lint-test', [], function () {
     assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autocomplete-ru-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-autofill-by-limit-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-limit-function-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'acceptance/components/flexberry-lookup/flexberry-lookup-preview-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('acceptance/components/flexberry-lookup/flexberry-lookup-projection-test.js', function (assert) {
@@ -11984,6 +12402,11 @@ define('dummy/tests/tests.lint-test', [], function () {
   QUnit.test('unit/utils/get-current-agregator-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/utils/get-current-agregator-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/utils/get-projection-by-name-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/utils/get-projection-by-name-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/utils/need-save-current-agregator-test.js', function (assert) {
@@ -14355,6 +14778,22 @@ define('dummy/tests/unit/utils/get-current-agregator-test', ['qunit', 'dummy/tes
     detailInteractionService.pushValue('modelCurrentAgregators', agregatorsArray, agregator);
     var result = _getCurrentAgregator.default.call(agregator);
     assert.ok(result);
+  });
+});
+define('dummy/tests/unit/utils/get-projection-by-name-test', ['dummy/utils/get-projection-by-name', 'qunit'], function (_getProjectionByName, _qunit) {
+  'use strict';
+
+  (0, _qunit.module)('Unit | Utility | get projection by name');
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    var store = {};
+    store.modelFor = function () {
+      return { projections: { testProjection: { success: true } } };
+    };
+
+    var result = (0, _getProjectionByName.default)('testProjection', 'testModel', store);
+    assert.ok(result && result.success);
   });
 });
 define('dummy/tests/unit/utils/need-save-current-agregator-test', ['qunit', 'dummy/tests/helpers/start-app', 'dummy/utils/need-save-current-agregator'], function (_qunit, _startApp, _needSaveCurrentAgregator) {
