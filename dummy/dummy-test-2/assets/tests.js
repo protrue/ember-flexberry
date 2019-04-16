@@ -6548,6 +6548,23 @@ define('dummy/tests/controllers/components-examples/flexberry-field/settings-exa
     assert.ok(true, 'controllers/components-examples/flexberry-field/settings-example.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/components-examples/flexberry-file/flexberry-file-in-modal.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/components-examples/flexberry-file');
+  test('controllers/components-examples/flexberry-file/flexberry-file-in-modal.js should pass jscs', function () {
+    ok(true, 'controllers/components-examples/flexberry-file/flexberry-file-in-modal.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/components-examples/flexberry-file/flexberry-file-in-modal.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/components-examples/flexberry-file/flexberry-file-in-modal.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/components-examples/flexberry-file/flexberry-file-in-modal.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/components-examples/flexberry-file/settings-example.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -20388,6 +20405,23 @@ define('dummy/tests/routes/components-examples/flexberry-field/settings-example.
     assert.ok(true, 'routes/components-examples/flexberry-field/settings-example.js should pass jshint.');
   });
 });
+define('dummy/tests/routes/components-examples/flexberry-file/flexberry-file-in-modal.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/components-examples/flexberry-file');
+  test('routes/components-examples/flexberry-file/flexberry-file-in-modal.js should pass jscs', function () {
+    ok(true, 'routes/components-examples/flexberry-file/flexberry-file-in-modal.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/components-examples/flexberry-file/flexberry-file-in-modal.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/components-examples/flexberry-file/flexberry-file-in-modal.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/components-examples/flexberry-file/flexberry-file-in-modal.js should pass jshint.');
+  });
+});
 define('dummy/tests/routes/components-examples/flexberry-file/settings-example.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -25821,6 +25855,38 @@ define('dummy/tests/unit/utils/get-current-agregator-test.jshint', ['exports'], 
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/utils/get-current-agregator-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/unit/utils/get-projection-by-name-test', ['exports', 'dummy/utils/get-projection-by-name', 'qunit'], function (exports, _dummyUtilsGetProjectionByName, _qunit) {
+
+  (0, _qunit.module)('Unit | Utility | get projection by name');
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    var store = {};
+    store.modelFor = function (modelName) {
+      return { projections: { testProjection: { success: true } } };
+    };
+
+    var result = (0, _dummyUtilsGetProjectionByName['default'])('testProjection', 'testModel', store);
+    assert.ok(result && result.success);
+  });
+});
+define('dummy/tests/unit/utils/get-projection-by-name-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - unit/utils');
+  test('unit/utils/get-projection-by-name-test.js should pass jscs', function () {
+    ok(true, 'unit/utils/get-projection-by-name-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/unit/utils/get-projection-by-name-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/utils/get-projection-by-name-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/utils/get-projection-by-name-test.js should pass jshint.');
   });
 });
 define('dummy/tests/unit/utils/need-save-current-agregator-test', ['exports', 'dummy/utils/need-save-current-agregator', 'qunit', 'dummy/tests/helpers/start-app', 'ember'], function (exports, _dummyUtilsNeedSaveCurrentAgregator, _qunit, _dummyTestsHelpersStartApp, _ember) {
