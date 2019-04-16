@@ -217,6 +217,7 @@ import FlexberryFileCompatibleComponentMixin from &#x27;../mixins/flexberry-file
 import { translationMacro as t } from &#x27;ember-i18n&#x27;;
 import { getValueFromLocales } from &#x27;ember-flexberry-data/utils/model-functions&#x27;;
 import serializeSortingParam from &#x27;../utils/serialize-sorting-param&#x27;;
+import getProjectionByName from &#x27;../utils/get-projection-by-name&#x27;;
 
 /**
   Object list view component.
@@ -293,13 +294,10 @@ export default FlexberryBaseComponent.extend(
     },
     set(key, value) {
       if (typeof value === &#x27;string&#x27;) {
+        let projectionName = value;
         let modelName = this.get(&#x27;modelName&#x27;);
-        Ember.assert(&#x27;For define projection by name, model name is required.&#x27;, modelName);
-        let modelConstructor = this.get(&#x27;store&#x27;).modelFor(modelName);
-        Ember.assert(&#x60;Model with name &#x27;${modelName}&#x27; is not found.&#x60;, modelConstructor);
-        let projections = Ember.get(modelConstructor, &#x27;projections&#x27;);
-        Ember.assert(&#x60;Projection with name &#x27;${value}&#x27; for model with name &#x27;${modelName}&#x27; is not found.&#x60;, projections[value]);
-        value = projections[value];
+        value = getProjectionByName(projectionName, modelName, this.get(&#x27;store&#x27;));
+        Ember.assert(&#x60;Projection with name &#x27;${projectionName}&#x27; for model with name &#x27;${modelName}&#x27; is not found.&#x60;, value);
       } else if (typeof value !== &#x27;object&#x27;) {
         throw new Error(&#x60;Property &#x27;modelProjection&#x27; should be a string or object.&#x60;);
       }

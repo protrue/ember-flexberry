@@ -1219,6 +1219,13 @@
             },
             "namespaces": {}
         },
+        "addon/utils/get-projection-by-name.js": {
+            "name": "addon/utils/get-projection-by-name.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/utils/serialize-sorting-param.js": {
             "name": "addon/utils/serialize-sorting-param.js",
             "modules": {},
@@ -1716,7 +1723,7 @@
             "module": "ember-flexberry",
             "namespace": "",
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 10,
+            "line": 11,
             "description": "Component for create, edit and delete detail objects.",
             "example": [
                 "\nIn order to add component following template can be used:\n```handlebars\n{{flexberry-groupedit\n componentName=\"userVotesGroupEdit\"\n modelProjection=modelProjection.attributes.userVotes\n content=model.userVotes\n readonly=readonly\n orderable=false\n}}\n```"
@@ -2082,7 +2089,7 @@
             "module": "ember-flexberry",
             "namespace": "",
             "file": "addon/components/object-list-view.js",
-            "line": 12,
+            "line": 13,
             "description": "Object list view component.",
             "extends": "FlexberryBaseComponent",
             "uses": [
@@ -6427,7 +6434,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 30,
+            "line": 31,
             "description": "Ember data store.",
             "itemtype": "property",
             "name": "store",
@@ -6437,7 +6444,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 38,
+            "line": 39,
             "description": "Service that triggers {{#crossLink \"FlexberryGroupeditComponent\"}}{{/crossLink}} events.",
             "itemtype": "property",
             "name": "_groupEditEventsService",
@@ -6449,7 +6456,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 47,
+            "line": 48,
             "description": "Name of action to handle row click.\nAction will be send out of the component.",
             "itemtype": "property",
             "name": "action",
@@ -6460,7 +6467,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 57,
+            "line": 58,
             "description": "Flag: indicates whether allow to resize columns (if `true`) or not (if `false`).\n\nIf {{#crossLink \"UserSettingsService\"}}{{/crossLink}} is enabled then saved widths of columns are displayed on component.",
             "itemtype": "property",
             "name": "allowColumnResize",
@@ -6471,7 +6478,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 68,
+            "line": 69,
             "description": "Classes for buttons (both toolbar and inrow buttons).",
             "itemtype": "property",
             "name": "buttonClass",
@@ -6481,7 +6488,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 76,
+            "line": 77,
             "description": "Default cell component that will be used to display values in columns cells.",
             "itemtype": "property",
             "name": "cellComponent",
@@ -6507,7 +6514,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 88,
+            "line": 89,
             "description": "Content to be displayed (models collection).",
             "itemtype": "property",
             "name": "content",
@@ -6518,7 +6525,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 97,
+            "line": 98,
             "description": "Flag: indicates whether to show creation button at toolbar.",
             "itemtype": "property",
             "name": "createNewButton",
@@ -6529,7 +6536,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 106,
+            "line": 107,
             "description": "Array of custom buttons of special structures [{ buttonName: ..., buttonAction: ..., buttonClasses: ... }, {...}, ...].",
             "example": [
                 "\n  ```\n  {\n    buttonName: '...', // Button displayed name.\n    buttonAction: '...', // Action that is called from controller on this button click (it has to be registered at component).\n    buttonClasses: '...', // Css classes for button.\n    buttonTitle: '...', // Button title.\n\t\t    iconClasses: '' // Css classes for icon.\n  }\n  ```"
@@ -6542,7 +6549,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 123,
+            "line": 124,
             "description": "Custom classes for table.",
             "itemtype": "property",
             "name": "customTableClass",
@@ -6553,7 +6560,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 132,
+            "line": 133,
             "description": "Flag: indicates whether to show delete button at toolbar.",
             "itemtype": "property",
             "name": "deleteButton",
@@ -6564,7 +6571,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 141,
+            "line": 142,
             "description": "Flag: indicates whether to show default settings button at toolbar.",
             "itemtype": "property",
             "name": "defaultSettingsButton",
@@ -6575,7 +6582,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 150,
+            "line": 151,
             "description": "Flag indicates whether to show button fo default sorting set.",
             "itemtype": "property",
             "name": "defaultSortingButton",
@@ -6586,7 +6593,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 159,
+            "line": 160,
             "description": "Route of edit form.",
             "example": [
                 "\nThis form is opened after row click\nif flag {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} is enabled."
@@ -6599,7 +6606,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 171,
+            "line": 172,
             "description": "Flag: indicates whether records should be edited on separate route.",
             "example": [
                 "\nIn order to enable properly editing in separate route following properties have to be defined:\n- {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} has to be set as true,\n- {{#crossLink \"FlexberryGroupeditComponent/rowClickable:property\"}}{{/crossLink}} has to be set as true,\n- {{#crossLink \"FlexberryGroupeditComponent/editFormRoute:property\"}}{{/crossLink}} has to be set,\n- {{#crossLink \"FlexberryGroupeditComponent/saveBeforeRouteLeave:property\"}}{{/crossLink}} can be set.\n\n```handlebars\n{ {flexberry-groupedit\n  ...\n  editOnSeparateRoute=true\n  rowClickable=true\n  rowClick='rowClick'\n  editFormRoute=commentsEditRoute\n  saveBeforeRouteLeave=needSaveBeforeRouteLeave\n  ...\n} }\n```"
@@ -6613,7 +6620,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 199,
+            "line": 200,
             "description": "Additional menu items for dropdown menu in last column of every row.",
             "example": [
                 "\n  ```javascript\n  // app/controllers/exapmle.js\n  ...\n  menuItems: [{\n    icon: 'spy icon',\n    title: 'Recruit it',\n    actionName: 'recruit',\n  }],\n  ...\n  actions: {\n    ...\n    recruit(record) {\n      record.set('isSpy', true);\n    },\n    ...\n  },\n  ...\n  ```\n\n  Note: For every action in component you need to pass an additional parameter in the form of `actionName=\"actionName\"`.\n  ```javascript\n  // app/templates/example.hbs\n  ...\n  {{flexberry-groupedit\n    ...\n    menuInRowAdditionalItems=menuItems\n    recruit=\"recruit\"\n    ...\n  }}\n  ...\n  ```\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}."
@@ -6627,7 +6634,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 246,
+            "line": 247,
             "description": "Model projection which should be used to display given content.\nProperties of objects by model projection are displayed on component.",
             "itemtype": "property",
             "name": "modelProjection",
@@ -6638,7 +6645,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 256,
+            "line": 257,
             "description": "Main model projection. Accepts object projections.\nNeeds for support locales of captions.",
             "itemtype": "property",
             "name": "mainModelProjection",
@@ -6648,7 +6655,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 265,
+            "line": 266,
             "description": "Flag indicates whether ordering by clicking on column headers is allowed.",
             "example": [
                 "\nIf sorting is used then there has to be declaration:\n```handlebars\n {{flexberry-groupedit\n   ...\n   orderable=true\n   sorting=computedSorting\n   sortByColumn=(action \"sortByColumn\")\n   addColumnToSorting=(action \"addColumnToSorting\")}}\n```"
@@ -6662,7 +6669,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 285,
+            "line": 286,
             "description": "Text to be displayed in table body, if content is not defined or empty.",
             "itemtype": "property",
             "name": "placeholder",
@@ -6673,7 +6680,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 294,
+            "line": 295,
             "description": "Flag indicates whether table rows are clickable (action will be fired after row click).",
             "itemtype": "property",
             "name": "rowClickable",
@@ -6684,7 +6691,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 303,
+            "line": 304,
             "description": "Flag indicates whether to save current model before going to the detail's route.",
             "example": [
                 "\nThis flag is used when flag {{#crossLink \"FlexberryGroupeditComponent/editOnSeparateRoute:property\"}}{{/crossLink}} is enabled."
@@ -6698,7 +6705,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 315,
+            "line": 316,
             "description": "Flag indicates whether to look for changes of model (and displaying corresponding changes on control) or not.\n\nIf flag is enabled component compares current detail array with used on component,\nremoves deleted and marked as deleted on model level records, adds created on model level records.",
             "itemtype": "property",
             "name": "searchForContentChange",
@@ -6709,7 +6716,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 327,
+            "line": 328,
             "description": "Flag: indicates whether to show validation messages in every row or not.",
             "itemtype": "property",
             "name": "showValidationMessages",
@@ -6720,7 +6727,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 336,
+            "line": 337,
             "description": "Flag: indicates whether to show asterisk icon in first column of every changed row.",
             "itemtype": "property",
             "name": "showAsteriskInRow",
@@ -6731,7 +6738,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 345,
+            "line": 346,
             "description": "Flag: indicates whether to show checkbox in first column of every row.",
             "itemtype": "property",
             "name": "showCheckBoxInRow",
@@ -6742,7 +6749,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 354,
+            "line": 355,
             "description": "Flag: indicates whether to show delete button in first column of every row.",
             "itemtype": "property",
             "name": "showDeleteButtonInRow",
@@ -6753,7 +6760,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 363,
+            "line": 364,
             "description": "Flag: indicates whether to show dropdown menu with delete menu item, in last column of every row.\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "showDeleteMenuItemInRow",
@@ -6764,7 +6771,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 377,
+            "line": 378,
             "description": "Flag: indicates whether to show dropdown menu with edit menu item, in last column of every row.\n\nFor in-row menu following properties are used:\n- {{#crossLink \"FlexberryGroupeditComponent/showDeleteMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/showEditMenuItemInRow:property\"}}{{/crossLink}},\n- {{#crossLink \"FlexberryGroupeditComponent/menuInRowAdditionalItems:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "showEditMenuItemInRow",
@@ -6775,7 +6782,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 391,
+            "line": 392,
             "description": "Array with sorting data.",
             "itemtype": "property",
             "name": "sorting",
@@ -6786,7 +6793,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 400,
+            "line": 401,
             "description": "Flag: indicates whether table are striped.",
             "itemtype": "property",
             "name": "tableStriped",
@@ -6797,7 +6804,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 409,
+            "line": 410,
             "description": "Minimum column width, if width isn't defined in userSettings.",
             "itemtype": "property",
             "name": "minAutoColumnWidth",
@@ -6808,7 +6815,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 418,
+            "line": 419,
             "description": "Indicates whether or not autoresize columns for fit the page width.",
             "itemtype": "property",
             "name": "columnsWidthAutoresize",
@@ -6819,7 +6826,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 427,
+            "line": 428,
             "description": "List of component names, which can overflow table cell.",
             "itemtype": "property",
             "name": "overflowedComponents",
@@ -6830,7 +6837,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 437,
+            "line": 438,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.sortByColumn",
@@ -6846,7 +6853,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 461,
+            "line": 462,
             "description": "Handles action from object-list-view when no handler for this component is defined.",
             "itemtype": "method",
             "name": "actions.addColumnToSorting",
@@ -6862,7 +6869,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 512,
+            "line": 513,
             "description": "Handles click on row of component.\nSends primary action out of component.",
             "itemtype": "method",
             "name": "actions.groupEditRowClick",
@@ -6883,7 +6890,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 530,
+            "line": 531,
             "description": "Send action with `actionName` into controller.",
             "itemtype": "method",
             "name": "actions.sendMenuItemAction",
@@ -6904,7 +6911,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 541,
+            "line": 542,
             "description": "Handler to get user button's actions and send action to corresponding controllers's handler.",
             "itemtype": "method",
             "name": "actions.customButtonAction",
@@ -6922,7 +6929,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 560,
+            "line": 561,
             "description": "Check in view order property.",
             "itemtype": "property",
             "name": "orderedProperty",
@@ -6932,7 +6939,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 588,
+            "line": 593,
             "description": "Sorting records and trigger `geSortApply` action.",
             "itemtype": "method",
             "name": "sortingFunction",
@@ -6941,7 +6948,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 628,
+            "line": 633,
             "description": "Client-side sorting for groupEdit content.",
             "itemtype": "method",
             "name": "sortRecords",
@@ -6976,7 +6983,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 677,
+            "line": 682,
             "description": "Hook that can be used to confirm delete row.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-groupedit\n    ...\n    confirmDeleteRow=(action 'confirmDeleteRow')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRow() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -6992,7 +6999,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 708,
+            "line": 713,
             "description": "Hook that can be used to confirm delete rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/example.hbs -->\n  {{flexberry-groupedit\n    ...\n    confirmDeleteRows=(action 'confirmDeleteRows')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/example.js\n  ...\n  actions: {\n    ...\n    confirmDeleteRows() {\n      return confirm('You sure?');\n    }\n    ...\n  }\n  ...\n  ```"
@@ -7008,7 +7015,7 @@
         },
         {
             "file": "addon/components/flexberry-groupedit.js",
-            "line": 739,
+            "line": 744,
             "description": "Hook that executes before deleting the record.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-groupedit\n    ...\n    beforeDeleteRecord=(action 'beforeDeleteRecord')\n    ...\n  }}\n  ```\n\n  ```javascript\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      beforeDeleteRecord(record, data) {\n        if (record.get('myProperty')) {\n          data.cancel = true;\n        }\n      }\n    }\n  });\n  ```"
@@ -13752,7 +13759,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 24,
+            "line": 25,
             "description": "Projection set by property {{#crossLink \"ObjectListViewComponent/modelProjection:property\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "_modelProjection",
@@ -13765,7 +13772,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 51,
+            "line": 52,
             "description": "Title for table headers.",
             "itemtype": "property",
             "name": "sortTitleCompute",
@@ -13775,7 +13782,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 65,
+            "line": 66,
             "description": "Flag indicates on availability in view order property.",
             "itemtype": "property",
             "name": "orderedProperty",
@@ -13785,7 +13792,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 73,
+            "line": 74,
             "description": "Model projection which should be used to display given content.\nAccepts object or name projections.",
             "itemtype": "property",
             "name": "modelProjection",
@@ -13796,7 +13803,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 103,
+            "line": 101,
             "description": "Main model projection. Accepts object projections.\nNeeds for support locales of captions.",
             "itemtype": "property",
             "name": "mainModelProjection",
@@ -13806,14 +13813,14 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 112,
+            "line": 110,
             "description": "Default classes for component wrapper.",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 117,
+            "line": 115,
             "description": "Table row click action name.",
             "itemtype": "property",
             "name": "action",
@@ -13825,7 +13832,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 127,
+            "line": 125,
             "description": "Flag indicates whether allow to resize columns (if `true`) or not (if `false`).",
             "itemtype": "property",
             "name": "allowColumnResize",
@@ -13836,7 +13843,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 136,
+            "line": 134,
             "description": "Flag indicates whether to fix the table head (if `true`) or not (if `false`).",
             "itemtype": "property",
             "name": "fixedHeader",
@@ -13847,7 +13854,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 145,
+            "line": 143,
             "description": "Table add column to sorting action name.",
             "itemtype": "property",
             "name": "addColumnToSorting",
@@ -13859,7 +13866,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 155,
+            "line": 153,
             "description": "Table sort by column action name.",
             "itemtype": "property",
             "name": "sortByColumn",
@@ -13871,7 +13878,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 165,
+            "line": 163,
             "description": "Default left padding in cells.",
             "itemtype": "property",
             "name": "defaultLeftPadding",
@@ -13882,7 +13889,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 179,
+            "line": 177,
             "description": "Flag indicates whether to look for changes of model (and displaying corresponding changes on control) or not.\n\nIf flag is enabled component compares current detail array with used on component,\nremoves deleted and marked as deleted on model level records, adds created on model level records.",
             "itemtype": "property",
             "name": "searchForContentChange",
@@ -13893,7 +13900,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 191,
+            "line": 189,
             "description": "Flag indicates whether table are striped.",
             "itemtype": "property",
             "name": "tableStriped",
@@ -13904,7 +13911,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 200,
+            "line": 198,
             "description": "Flag indicates whether table rows are clickable.",
             "itemtype": "property",
             "name": "rowClickable",
@@ -13915,7 +13922,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 209,
+            "line": 207,
             "description": "Flag indicates whether component on edit form (for FOLV).",
             "itemtype": "property",
             "name": "onEditForm",
@@ -13926,7 +13933,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 218,
+            "line": 216,
             "description": "Custom classes for table.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    customTableClass=\"inverted blue\"\n    ...\n  }}\n  ```"
@@ -13940,7 +13947,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 236,
+            "line": 234,
             "description": "The flag is selected for all records.",
             "itemtype": "property",
             "name": "allSelect",
@@ -13951,7 +13958,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 245,
+            "line": 243,
             "description": "Classes for table.",
             "itemtype": "property",
             "name": "tableClass",
@@ -13962,7 +13969,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 273,
+            "line": 271,
             "description": "Path to component's settings in application configuration (JSON from ./config/environment.js).",
             "itemtype": "property",
             "name": "appConfigSettingsPath",
@@ -13973,7 +13980,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 282,
+            "line": 280,
             "description": "Default cell component that will be used to display values in columns cells.",
             "itemtype": "property",
             "name": "cellComponent",
@@ -13999,7 +14006,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 294,
+            "line": 292,
             "description": "Custom data for the editform",
             "itemtype": "property",
             "name": "customParameters",
@@ -14009,7 +14016,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 301,
+            "line": 299,
             "description": "Flag: indicates whether to show validation messages in every row or not.",
             "itemtype": "property",
             "name": "showValidationMessages",
@@ -14020,7 +14027,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 310,
+            "line": 308,
             "description": "Flag indicates whether to show asterisk icon in first column of every changed row.",
             "itemtype": "property",
             "name": "showAsteriskInRow",
@@ -14031,7 +14038,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 319,
+            "line": 317,
             "description": "Flag indicates whether to show checkbox in first column of every row.",
             "itemtype": "property",
             "name": "showCheckBoxInRow",
@@ -14042,7 +14049,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 328,
+            "line": 326,
             "description": "Flag indicates whether to show delete button in first column of every row.",
             "itemtype": "property",
             "name": "showDeleteButtonInRow",
@@ -14053,7 +14060,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 337,
+            "line": 335,
             "description": "Flag indicates whether to show edit button in first column of every row.",
             "itemtype": "property",
             "name": "showEditButtonInRow",
@@ -14064,7 +14071,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 346,
+            "line": 344,
             "description": "Flag indicates whether to not use userSetting from backend",
             "itemtype": "property",
             "name": "notUseUserSettings",
@@ -14075,7 +14082,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 354,
+            "line": 352,
             "description": "Flag indicates whether to show helper column or not.",
             "itemtype": "property",
             "name": "showHelperColumn",
@@ -14086,7 +14093,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 381,
+            "line": 379,
             "description": "Flag indicates whether to show dropdown menu with edit menu item, in last column of every row.",
             "itemtype": "property",
             "name": "showEditMenuItemInRow",
@@ -14097,7 +14104,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 390,
+            "line": 388,
             "description": "Flag indicates whether to show dropdown menu with delete menu item, in last column of every row.",
             "itemtype": "property",
             "name": "showDeleteMenuItemInRow",
@@ -14108,7 +14115,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 399,
+            "line": 397,
             "description": "Additional menu items for dropdown menu in last column of every row.",
             "itemtype": "property",
             "name": "menuInRowAdditionalItems",
@@ -14119,7 +14126,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 408,
+            "line": 406,
             "description": "Flag indicates whether additional menu items for dropdown menu in last column of every row are defined.",
             "itemtype": "property",
             "name": "menuInRowHasAdditionalItems",
@@ -14130,7 +14137,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 420,
+            "line": 418,
             "description": "Flag indicates whether to show menu column or not.",
             "itemtype": "property",
             "name": "showMenuColumn",
@@ -14141,7 +14148,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 436,
+            "line": 434,
             "description": "Table columns related to current model projection.",
             "itemtype": "property",
             "name": "columns",
@@ -14152,7 +14159,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 539,
+            "line": 537,
             "description": "Total columns count (including additional columns).",
             "itemtype": "property",
             "name": "colspan",
@@ -14163,7 +14170,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 562,
+            "line": 560,
             "description": "Flag indicates whether some column contains editable component instead of default cellComponent.\nDon't work if change `componentName` inside `cellComponent`.",
             "itemtype": "property",
             "name": "hasEditableValues",
@@ -14174,7 +14181,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 582,
+            "line": 580,
             "description": "Content to be displayed (models collection).",
             "itemtype": "property",
             "name": "content",
@@ -14185,7 +14192,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 591,
+            "line": 589,
             "description": "Array of models from content collection with some synthetic keys related to them.",
             "itemtype": "property",
             "name": "contentWithKeys",
@@ -14196,7 +14203,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 602,
+            "line": 600,
             "description": "Flag indicates whether row by row loading mode on.",
             "itemtype": "property",
             "name": "useRowByRowLoading",
@@ -14207,7 +14214,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 611,
+            "line": 609,
             "description": "Flag indicates whether to show row by row loading in progress.",
             "itemtype": "property",
             "name": "rowByRowLoadingProgress",
@@ -14218,7 +14225,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 620,
+            "line": 618,
             "description": "Flag indicates whether to use bottom row by row loading progress while rows in loading state.",
             "itemtype": "property",
             "name": "useRowByRowLoadingProgress",
@@ -14229,7 +14236,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 629,
+            "line": 627,
             "description": "Flag indicates whether content is defined.",
             "itemtype": "property",
             "name": "hasContent",
@@ -14240,7 +14247,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 640,
+            "line": 638,
             "description": "Text to be displayed in table body, if content is not defined or empty.",
             "itemtype": "property",
             "name": "placeholder",
@@ -14251,7 +14258,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 649,
+            "line": 647,
             "description": "Flag indicates whether table headers are clickable.",
             "itemtype": "property",
             "name": "orderable",
@@ -14262,7 +14269,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 658,
+            "line": 656,
             "description": "Dictionary with sorting data related to columns.",
             "itemtype": "property",
             "name": "sorting",
@@ -14273,7 +14280,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 667,
+            "line": 665,
             "description": "Last selected record.",
             "itemtype": "property",
             "name": "selectedRecord",
@@ -14284,7 +14291,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 676,
+            "line": 674,
             "description": "All selected records.",
             "itemtype": "property",
             "name": "selectedRecords",
@@ -14295,7 +14302,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 685,
+            "line": 683,
             "description": "Custom attributes which will be added to each generated column.",
             "itemtype": "property",
             "name": "customColumnAttributes",
@@ -14306,7 +14313,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 694,
+            "line": 692,
             "description": "Filter setting.",
             "itemtype": "property",
             "name": "filterByAnyMatch",
@@ -14317,7 +14324,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 703,
+            "line": 701,
             "description": "Hook for configurate rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    configurateRow=(action \"configurateRow\")\n    ...\n  }}\n  ```\n\n  ```js\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      configurateRow(rowConfig, record) {\n        Ember.set(rowConfig, 'canBeDeleted', false);\n        if (record.get('isMyFavoriteRecord')) {\n          Ember.set(rowConfig, 'customClass', 'my-fav-record');\n        }\n\n        let readonlyColumns = [];\n        if (record.get('isNameColumnReadonly')) {\n          readonlyColumns.push('name');\n        }\n\n        Ember.set(rowConfig, 'readonlyColumns', readonlyColumns);\n      }\n    }\n  });\n  ```"
@@ -14341,7 +14348,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 747,
+            "line": 745,
             "description": "Hook for configurate selected rows.",
             "example": [
                 "\n  ```handlebars\n  <!-- app/templates/employees.hbs -->\n  {{flexberry-objectlistview\n    ...\n    configurateSelectedRows=(action \"configurateSelectedRows\")\n    ...\n  }}\n  ```\n\n  ```js\n  // app/controllers/employees.js\n  import ListFormController from './list-form';\n\n  export default ListFormController.extend({\n    actions: {\n      configurateSelectedRows(selectedRecords) {\n        // do something\n      }\n    }\n  });\n  ```"
@@ -14360,7 +14367,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 787,
+            "line": 785,
             "description": "Default settings for rows.",
             "itemtype": "property",
             "name": "defaultRowConfig",
@@ -14393,7 +14400,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 803,
+            "line": 801,
             "description": "Flag indicates whether DELETE request should be immediately sended to server (on each deleted record) or not.",
             "itemtype": "property",
             "name": "immediateDelete",
@@ -14404,7 +14411,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 812,
+            "line": 810,
             "description": "Flag indicates whether records should be edited on separate route.",
             "itemtype": "property",
             "name": "editOnSeparateRoute",
@@ -14415,7 +14422,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 821,
+            "line": 819,
             "description": "Flag indicates whether to save current model before going to the detail's route.",
             "itemtype": "property",
             "name": "saveBeforeRouteLeave",
@@ -14426,7 +14433,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 830,
+            "line": 828,
             "description": "Ember data store.",
             "itemtype": "property",
             "name": "store",
@@ -14436,7 +14443,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 838,
+            "line": 836,
             "description": "Service that triggers objectlistview events.",
             "itemtype": "property",
             "name": "objectlistviewEventsService",
@@ -14446,7 +14453,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 846,
+            "line": 844,
             "description": "Service for managing the state of the application.",
             "itemtype": "property",
             "name": "appState",
@@ -14456,7 +14463,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 854,
+            "line": 852,
             "description": "Used to identify objectListView on the page.",
             "itemtype": "property",
             "name": "componentName",
@@ -14467,7 +14474,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 864,
+            "line": 862,
             "description": "Just redirects action up to {{#crossLink \"FlexberryObjectlistviewComponent\"}}`flexberry-objectlistview`{{/crossLink}} component.",
             "itemtype": "method",
             "name": "actions.customButtonInRowAction",
@@ -14488,7 +14495,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 875,
+            "line": 873,
             "description": "This action is called when user click on row.",
             "itemtype": "method",
             "name": "actions.rowClick",
@@ -14540,7 +14547,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 928,
+            "line": 926,
             "description": "This action is called when user click on header.",
             "itemtype": "method",
             "name": "actions.headerCellClick",
@@ -14563,7 +14570,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 945,
+            "line": 943,
             "description": "This action is called when user click on menu in row.",
             "itemtype": "method",
             "name": "actions.deleteRow",
@@ -14586,7 +14593,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 971,
+            "line": 969,
             "description": "This action is called when user select the row.",
             "itemtype": "method",
             "name": "actions.selectRow",
@@ -14609,7 +14616,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1003,
+            "line": 1001,
             "description": "This action is called when click check all at page button.",
             "itemtype": "method",
             "name": "actions.checkAllAtPage",
@@ -14627,7 +14634,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1053,
+            "line": 1051,
             "description": "This action is called when click check all at all button.",
             "itemtype": "method",
             "name": "actions.checkAll",
@@ -14645,7 +14652,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1068,
+            "line": 1066,
             "description": "This action is called when click clear sorting button.",
             "itemtype": "method",
             "name": "actions.clearSorting",
@@ -14663,14 +14670,14 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1104,
+            "line": 1102,
             "description": "An overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1143,
+            "line": 1141,
             "description": "Handler for updateWidth action.",
             "itemtype": "method",
             "name": "setColumnWidths",
@@ -14686,14 +14693,14 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1161,
+            "line": 1159,
             "description": "Called when the element of the view has been inserted into the DOM or after the view was re-rendered.\nFor more information see [didInsertElement](http://emberjs.com/api/classes/Ember.Component.html#event_didInsertElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1192,
+            "line": 1190,
             "description": "Flag indicates whether columns resizable plugin already was initialized.",
             "itemtype": "property",
             "name": "_colResizableInit",
@@ -14706,7 +14713,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1202,
+            "line": 1200,
             "description": "Field contains index for already rendered row.",
             "itemtype": "property",
             "name": "_colResizableInit",
@@ -14719,28 +14726,28 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1212,
+            "line": 1210,
             "description": "Called after a component has been rendered, both on initial render and in subsequent rerenders.\nFor more information see [didRender](http://emberjs.com/api/classes/Ember.Component.html#method_didRender) method of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1295,
+            "line": 1293,
             "description": "Override to implement teardown.\nFor more information see [willDestroy](http://emberjs.com/api/classes/Ember.Component.html#method_willDestroy) method of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1317,
+            "line": 1315,
             "description": "Called when the element of the view is going to be destroyed.\nFor more information see [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1327,
+            "line": 1325,
             "description": "It reinits plugin for column resize.\nReinit is important for proper position of resize elements.",
             "itemtype": "method",
             "name": "_reinitResizablePlugin",
@@ -14751,7 +14758,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1385,
+            "line": 1383,
             "description": "It handles the end of getting user setting with column widths.",
             "itemtype": "method",
             "name": "_setColumnWidths",
@@ -14769,7 +14776,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1496,
+            "line": 1494,
             "description": "It handles the end of column resize.\nNew column widths are send to user settings service for saving.",
             "itemtype": "method",
             "name": "_afterColumnResize",
@@ -14787,7 +14794,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1528,
+            "line": 1526,
             "description": "This method returns property name for column.\nProperty name is got from atribute `data-olv-header-property-name` of column header.\nIf property name won't be found, exeption will be thrown.",
             "itemtype": "method",
             "name": "_getColumnPropertyName",
@@ -14809,7 +14816,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1551,
+            "line": 1549,
             "description": "Generate the columns.",
             "itemtype": "method",
             "name": "_generateColumns",
@@ -14820,7 +14827,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1608,
+            "line": 1606,
             "description": "Set current columns width for currentController.",
             "itemtype": "method",
             "name": "_setCurrentColumnsWidth",
@@ -14831,14 +14838,14 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1632,
+            "line": 1630,
             "description": "Create the key from locales.",
             "class": "ObjectListViewComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1660,
+            "line": 1658,
             "description": "Create the column.",
             "itemtype": "method",
             "name": "_createColumn",
@@ -14849,7 +14856,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1728,
+            "line": 1726,
             "description": "Add filter parameters for column.",
             "itemtype": "method",
             "name": "_addFilterForColumn",
@@ -14875,7 +14882,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1769,
+            "line": 1767,
             "description": "Return attribute of model.",
             "itemtype": "method",
             "name": "_getAttribute",
@@ -14900,7 +14907,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1796,
+            "line": 1794,
             "description": "Return available conditions for filter.",
             "itemtype": "method",
             "name": "_conditionsByType",
@@ -14920,7 +14927,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1823,
+            "line": 1821,
             "description": "Return object with parameters for component.",
             "itemtype": "method",
             "name": "_getFilterComponent",
@@ -14945,7 +14952,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1894,
+            "line": 1892,
             "description": "Sets content for component.",
             "itemtype": "method",
             "name": "_setContent",
@@ -14966,7 +14973,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1946,
+            "line": 1944,
             "description": "Refresh list with the entered filter.",
             "itemtype": "method",
             "name": "_refreshList",
@@ -14984,7 +14991,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 1984,
+            "line": 1982,
             "description": "Get the row by key.",
             "itemtype": "method",
             "name": "_getRowByKey",
@@ -14995,7 +15002,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2007,
+            "line": 2005,
             "description": "Get the key of model.",
             "itemtype": "method",
             "name": "_getModelKey",
@@ -15006,7 +15013,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2022,
+            "line": 2020,
             "description": "Remove the model with key.",
             "itemtype": "method",
             "name": "_removeModelWithKey",
@@ -15017,7 +15024,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2046,
+            "line": 2044,
             "description": "Adds detail model to current model, generates unique key for detail model.\nIf record is deleted then `undefined` is returned and record isn't added to list.",
             "itemtype": "method",
             "name": "_addModel",
@@ -15039,7 +15046,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2101,
+            "line": 2099,
             "description": "Adds row to component and calls click on row action if detail is edited on separate route.\nThis method is triggered on toolbar's add batton click.",
             "itemtype": "method",
             "name": "_addRow",
@@ -15057,7 +15064,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2130,
+            "line": 2128,
             "description": "Handler for \"delete all rows on all pages\" event in objectlistview.",
             "itemtype": "method",
             "name": "_deleteRows",
@@ -15078,7 +15085,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2172,
+            "line": 2170,
             "description": "Actually delete the all records on all pages.",
             "itemtype": "method",
             "name": "_actualDeleteAllRecords",
@@ -15106,7 +15113,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2216,
+            "line": 2214,
             "description": "Handler for \"delete selected rows\" event in objectlistview.",
             "itemtype": "method",
             "name": "_deleteRows",
@@ -15127,7 +15134,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2239,
+            "line": 2237,
             "description": "Delete the record.",
             "itemtype": "method",
             "name": "_deleteRecord",
@@ -15150,7 +15157,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2279,
+            "line": 2277,
             "description": "Actually delete the record.",
             "itemtype": "method",
             "name": "_actualDeleteRecord",
@@ -15173,7 +15180,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2311,
+            "line": 2309,
             "description": "Delete all hasMany relationships in the `record`.",
             "itemtype": "method",
             "name": "_deleteHasManyRelationships",
@@ -15200,7 +15207,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2334,
+            "line": 2332,
             "description": "The handler for \"filter by any match\" event triggered in objectlistview events service.",
             "itemtype": "method",
             "name": "_filterByAnyMatch",
@@ -15218,7 +15225,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2352,
+            "line": 2350,
             "description": "Set the active record.",
             "itemtype": "method",
             "name": "_setActiveRecord",
@@ -15236,7 +15243,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2380,
+            "line": 2378,
             "description": "It observes changes of flag {{#crossLink \"ObjectListViewComponent/searchForContentChange:property\"}}searchForContentChange{{/crossLink}}.\n\nIf flag {{#crossLink \"ObjectListViewComponent/searchForContentChange:property\"}}{{/crossLink}} changes its value\nobserver on component content is set otherwise it is removed.",
             "itemtype": "method",
             "name": "_searchForContentChange",
@@ -15247,7 +15254,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2398,
+            "line": 2396,
             "description": "It observes changes of model's data that are displayed on component\nif flag {{#crossLink \"ObjectListViewComponent/searchForContentChange:property\"}}{{/crossLink}} is enabled.\n\nProperty changing displayes automatically.\nComponent compares current detail array with used on component,\nremoves deleted and marked as deleted on model level records, adds created on model level records.",
             "itemtype": "method",
             "name": "_contentDidChange",
@@ -15258,7 +15265,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2452,
+            "line": 2450,
             "description": "Get attributes name from model.",
             "itemtype": "method",
             "name": "_getAttributesName",
@@ -15269,7 +15276,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2469,
+            "line": 2467,
             "description": "Restore selected records after refreshing or transition to other page.",
             "itemtype": "method",
             "name": "_restoreSelectedRecords",
@@ -15280,7 +15287,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2508,
+            "line": 2506,
             "description": "Select/Unselect all records on all pages.",
             "itemtype": "method",
             "name": "_selectAll",
@@ -15291,7 +15298,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2546,
+            "line": 2544,
             "description": "It observes changes of flag {{#crossLink \"FlexberryObjectlistviewComponent/showFilters:property\"}}showFilters{{/crossLink}}.\n\nIf flag {{#crossLink \"FlexberryObjectlistviewComponent/showFilters:property\"}}{{/crossLink}} changes its value\nand flag is true trigger scroll.",
             "itemtype": "method",
             "name": "_showFiltersObserver",
@@ -15302,7 +15309,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2564,
+            "line": 2562,
             "description": "Set style of table parent.",
             "itemtype": "method",
             "name": "_setParent",
@@ -15313,7 +15320,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2604,
+            "line": 2602,
             "description": "Set fixed cells backgrounds.",
             "itemtype": "method",
             "name": "_setBackground",
@@ -15324,7 +15331,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2628,
+            "line": 2626,
             "description": "Fixed table head.",
             "itemtype": "method",
             "name": "_setBackground",
@@ -15335,7 +15342,7 @@
         },
         {
             "file": "addon/components/object-list-view.js",
-            "line": 2674,
+            "line": 2672,
             "description": "Move all selected records.",
             "itemtype": "method",
             "name": "_moveRow",
@@ -23785,6 +23792,36 @@
             "module": "ember-flexberry"
         },
         {
+            "file": "addon/utils/get-projection-by-name.js",
+            "line": 7,
+            "description": "Used for getting projection object by projection name.",
+            "itemtype": "method",
+            "name": "getProjectionByName",
+            "params": [
+                {
+                    "name": "projectionName",
+                    "description": "Projection name.",
+                    "type": "Object"
+                },
+                {
+                    "name": "modelName",
+                    "description": "Model Name.",
+                    "type": "String"
+                },
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Projection by name.",
+                "type": "Object"
+            },
+            "class": "Utils.Layers",
+            "module": "ember-flexberry"
+        },
+        {
             "file": "addon/utils/serialize-sorting-param.js",
             "line": 1,
             "description": "Convert object with sorting parameters into string.",
@@ -24360,31 +24397,31 @@
         },
         {
             "message": "Missing item type\nDefault classes for component wrapper.",
-            "line": " addon/components/object-list-view.js:112"
+            "line": " addon/components/object-list-view.js:110"
         },
         {
             "message": "Missing item type\nAn overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",
-            "line": " addon/components/object-list-view.js:1104"
+            "line": " addon/components/object-list-view.js:1102"
         },
         {
             "message": "Missing item type\nCalled when the element of the view has been inserted into the DOM or after the view was re-rendered.\nFor more information see [didInsertElement](http://emberjs.com/api/classes/Ember.Component.html#event_didInsertElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
-            "line": " addon/components/object-list-view.js:1161"
+            "line": " addon/components/object-list-view.js:1159"
         },
         {
             "message": "Missing item type\nCalled after a component has been rendered, both on initial render and in subsequent rerenders.\nFor more information see [didRender](http://emberjs.com/api/classes/Ember.Component.html#method_didRender) method of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
-            "line": " addon/components/object-list-view.js:1212"
+            "line": " addon/components/object-list-view.js:1210"
         },
         {
             "message": "Missing item type\nOverride to implement teardown.\nFor more information see [willDestroy](http://emberjs.com/api/classes/Ember.Component.html#method_willDestroy) method of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
-            "line": " addon/components/object-list-view.js:1295"
+            "line": " addon/components/object-list-view.js:1293"
         },
         {
             "message": "Missing item type\nCalled when the element of the view is going to be destroyed.\nFor more information see [willDestroyElement](http://emberjs.com/api/classes/Ember.Component.html#event_willDestroyElement) event of [Ember.Component](http://emberjs.com/api/classes/Ember.Component.html).",
-            "line": " addon/components/object-list-view.js:1317"
+            "line": " addon/components/object-list-view.js:1315"
         },
         {
             "message": "Missing item type\nCreate the key from locales.",
-            "line": " addon/components/object-list-view.js:1632"
+            "line": " addon/components/object-list-view.js:1630"
         },
         {
             "message": "Missing item type\nAn overridable method called when objects are instantiated.\nFor more information see [init](http://emberjs.com/api/classes/Ember.View.html#method_init) method of [Ember.View](http://emberjs.com/api/classes/Ember.View.html).",

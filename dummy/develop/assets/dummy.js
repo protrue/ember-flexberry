@@ -867,6 +867,11 @@ define('dummy/controllers/application', ['exports', 'ember', 'dummy/config/envir
               caption: i18n.t('forms.application.sitemap.components-examples.flexberry-file.settings-example.caption'),
               title: i18n.t('forms.application.sitemap.components-examples.flexberry-file.settings-example.title'),
               children: null
+            }, {
+              link: 'components-examples/flexberry-file/flexberry-file-in-modal',
+              caption: i18n.t('forms.application.sitemap.components-examples.flexberry-file.flexberry-file-in-modal.caption'),
+              title: i18n.t('forms.application.sitemap.components-examples.flexberry-file.flexberry-file-in-modal.title'),
+              children: null
             }]
           }, {
             link: null,
@@ -3662,6 +3667,67 @@ define('dummy/controllers/components-examples/flexberry-field/settings-example',
 
       return componentSettingsMetadata;
     })
+  });
+});
+define('dummy/controllers/components-examples/flexberry-file/flexberry-file-in-modal', ['exports', 'ember', 'ember-flexberry/controllers/edit-form', 'dummy/config/environment'], function (exports, _ember, _emberFlexberryControllersEditForm, _dummyConfigEnvironment) {
+  exports['default'] = _emberFlexberryControllersEditForm['default'].extend({
+    /**
+      Defaul style of modal context.
+       @property readonly
+      @type String
+      @default #example
+    */
+    _style: '#example',
+
+    /**
+      File upload URL for 'flexberry-file' component 'uploadUrl' property.
+       @property uploadUrl
+      @type String
+     */
+    uploadUrl: _dummyConfigEnvironment['default'].APP.components.flexberryFile.uploadUrl,
+
+    /**
+      Flag for 'flexberry-file' component 'showPreview' property.
+       @property showPreview
+      @type Boolean
+     */
+    showPreview: true,
+
+    /**
+      Flag for 'flexberry-file' component 'showUploadButton' property.
+       @property showUploadButton
+      @type Boolean
+     */
+    showUploadButton: true,
+
+    /**
+      Flag for 'flexberry-file' component 'showDownloadButton' property.
+       @property showDownloadButton
+      @type Boolean
+     */
+    showDownloadButton: true,
+
+    actions: {
+      modalWindow: function modalWindow(style) {
+        if (!_ember['default'].isNone(style)) {
+          this.set('_style', style);
+        }
+
+        var repeatWindow = _ember['default'].$('#repeat-window').modal({
+          closable: false,
+          autofocus: false,
+          detachable: true,
+          allowMultiple: true
+        });
+
+        this.set('repeatWindow', repeatWindow);
+        this.get('repeatWindow').modal('show').modal('refresh');
+      },
+
+      logOut: function logOut() {
+        this.get('repeatWindow').modal('hide');
+      }
+    }
   });
 });
 define('dummy/controllers/components-examples/flexberry-file/settings-example', ['exports', 'ember', 'ember-flexberry/controllers/edit-form', 'ember-i18n', 'dummy/config/environment'], function (exports, _ember, _emberFlexberryControllersEditForm, _emberI18n, _dummyConfigEnvironment) {
@@ -11815,6 +11881,19 @@ define('dummy/ember-flexberry/tests/modules/ember-flexberry/utils/get-current-ag
     assert.ok(true, 'modules/ember-flexberry/utils/get-current-agregator.js should pass jshint.');
   });
 });
+define('dummy/ember-flexberry/tests/modules/ember-flexberry/utils/get-projection-by-name.jscs-test', ['exports'], function (exports) {
+  module('JSCS - modules/ember-flexberry/utils');
+  test('modules/ember-flexberry/utils/get-projection-by-name.js should pass jscs', function () {
+    ok(true, 'modules/ember-flexberry/utils/get-projection-by-name.js should pass jscs.');
+  });
+});
+define('dummy/ember-flexberry/tests/modules/ember-flexberry/utils/get-projection-by-name.jshint', ['exports'], function (exports) {
+  QUnit.module('JSHint - modules/ember-flexberry/utils/get-projection-by-name.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'modules/ember-flexberry/utils/get-projection-by-name.js should pass jshint.');
+  });
+});
 define('dummy/ember-flexberry/tests/modules/ember-flexberry/utils/need-save-current-agregator.jscs-test', ['exports'], function (exports) {
   module('JSCS - modules/ember-flexberry/utils');
   test('modules/ember-flexberry/utils/need-save-current-agregator.js should pass jscs', function () {
@@ -13209,6 +13288,10 @@ define('dummy/locales/en/translations', ['exports', 'ember', 'ember-flexberry/lo
               'settings-example': {
                 'caption': 'Settings example',
                 'title': ''
+              },
+              'flexberry-file-in-modal': {
+                'caption': 'Flexberry file in modal window',
+                'title': ''
               }
             },
             'flexberry-groupedit': {
@@ -14370,6 +14453,10 @@ define('dummy/locales/ru/translations', ['exports', 'ember', 'ember-flexberry/lo
               'title': '',
               'settings-example': {
                 'caption': 'Пример работы с настройками',
+                'title': ''
+              },
+              'flexberry-file-in-modal': {
+                'caption': 'Пример файла в модальном окне',
                 'title': ''
               }
             },
@@ -17117,6 +17204,7 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
     this.route('components-examples/flexberry-dropdown/items-example');
     this.route('components-examples/flexberry-field/settings-example');
     this.route('components-examples/flexberry-file/settings-example');
+    this.route('components-examples/flexberry-file/flexberry-file-in-modal');
     this.route('components-examples/flexberry-groupedit/settings-example');
     this.route('components-examples/flexberry-groupedit/model-update-example');
     this.route('components-examples/flexberry-groupedit/custom-buttons-example');
@@ -18349,6 +18437,35 @@ define('dummy/routes/components-examples/flexberry-field/settings-example', ['ex
 
       var base = store.createRecord('components-examples/flexberry-field/settings-example/base', {});
 
+      return base;
+    }
+  });
+});
+define('dummy/routes/components-examples/flexberry-file/flexberry-file-in-modal', ['exports', 'ember-flexberry/routes/edit-form'], function (exports, _emberFlexberryRoutesEditForm) {
+  exports['default'] = _emberFlexberryRoutesEditForm['default'].extend({
+    /**
+      Name of model projection to be used as record's properties limitation.
+       @property modelProjection
+      @type String
+      @default 'LookupInBlockFormView'
+     */
+    modelProjection: 'LookupInBlockFormView',
+
+    /**
+      Name of model to be used as form's record type.
+       @property modelName
+      @type String
+      @default 'ember-flexberry-dummy-suggestion'
+     */
+    modelName: 'ember-flexberry-dummy-suggestion',
+
+    /**
+      Returns model related to current route.
+       @method model
+     */
+    model: function model(params) {
+      var store = this.get('store');
+      var base = store.createRecord('ember-flexberry-dummy-suggestion');
       return base;
     }
   });
@@ -26868,6 +26985,158 @@ define("dummy/templates/components-examples/flexberry-field/settings-example", [
         return morphs;
       },
       statements: [["inline", "t", ["forms.components-examples.flexberry-field.settings-example.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["block", "settings-example", [], ["controllerProperties", ["subexpr", "@mut", [["get", "this", ["loc", [null, [5, 27], [5, 31]]]]], [], []], "componentSettingsMetadata", ["subexpr", "@mut", [["get", "componentSettingsMetadata", ["loc", [null, [6, 32], [6, 57]]]]], [], []], "componentTemplateText", ["subexpr", "@mut", [["get", "componentTemplateText", ["loc", [null, [7, 28], [7, 49]]]]], [], []]], 0, null, ["loc", [null, [4, 4], [18, 25]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define("dummy/templates/components-examples/flexberry-file/flexberry-file-in-modal", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.4.6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 7,
+              "column": 0
+            },
+            "end": {
+              "line": 30,
+              "column": 0
+            }
+          },
+          "moduleName": "dummy/templates/components-examples/flexberry-file/flexberry-file-in-modal.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "header");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "content");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui form flexberry-vertical-form");
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("button");
+          dom.setAttribute(el3, "class", "ui button");
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [3, 1]);
+          var element1 = dom.childAt(element0, [3]);
+          var morphs = new Array(4);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+          morphs[2] = dom.createElementMorph(element1);
+          morphs[3] = dom.createMorphAt(element1, 0, 0);
+          return morphs;
+        },
+        statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.captionModal"], [], ["loc", [null, [8, 22], [8, 101]]]], ["inline", "flexberry-file", [], ["value", ["subexpr", "@mut", [["get", "model.file", ["loc", [null, [13, 16], [13, 26]]]]], [], []], "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [14, 22], [14, 33]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [15, 19], [15, 27]]]]], [], []], "uploadUrl", ["subexpr", "@mut", [["get", "uploadUrl", ["loc", [null, [16, 20], [16, 29]]]]], [], []], "maxUploadFileSize", ["subexpr", "@mut", [["get", "maxUploadFileSize", ["loc", [null, [17, 28], [17, 45]]]]], [], []], "showPreview", ["subexpr", "@mut", [["get", "showPreview", ["loc", [null, [18, 22], [18, 33]]]]], [], []], "showUploadButton", ["subexpr", "@mut", [["get", "showUploadButton", ["loc", [null, [19, 27], [19, 43]]]]], [], []], "showDownloadButton", ["subexpr", "@mut", [["get", "showDownloadButton", ["loc", [null, [20, 29], [20, 47]]]]], [], []], "showModalDialogOnUploadError", ["subexpr", "@mut", [["get", "showModalDialogOnUploadError", ["loc", [null, [21, 39], [21, 67]]]]], [], []], "showModalDialogOnDownloadError", ["subexpr", "@mut", [["get", "showModalDialogOnDownloadError", ["loc", [null, [22, 41], [22, 71]]]]], [], []], "inputClass", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [23, 21], [23, 31]]]]], [], []], "buttonClass", ["subexpr", "@mut", [["get", "buttonClass", ["loc", [null, [24, 22], [24, 33]]]]], [], []]], ["loc", [null, [12, 8], [25, 10]]]], ["element", "action", ["logOut"], [], ["loc", [null, [27, 32], [27, 51]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonClose"], [], ["loc", [null, [27, 52], [27, 130]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes", "wrong-type"]
+        },
+        "revision": "Ember@2.4.6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 31,
+            "column": 0
+          }
+        },
+        "moduleName": "dummy/templates/components-examples/flexberry-file/flexberry-file-in-modal.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h3");
+        dom.setAttribute(el1, "class", "ui header");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "ui form flexberry-vertical-form");
+        dom.setAttribute(el1, "role", "form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "class", "ui button");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element2 = dom.childAt(fragment, [2, 1]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
+        morphs[1] = dom.createElementMorph(element2);
+        morphs[2] = dom.createMorphAt(element2, 0, 0);
+        morphs[3] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["element", "action", ["modalWindow", "#example"], [], ["loc", [null, [4, 28], [4, 63]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModal"], [], ["loc", [null, [4, 64], [4, 142]]]], ["block", "ui-modal", [], ["id", "repeat-window"], 0, null, ["loc", [null, [7, 0], [30, 13]]]]],
       locals: [],
       templates: [child0]
     };
@@ -43437,7 +43706,7 @@ define("dummy/templates/components/flexberry-file", ["exports"], function (expor
             morphs[2] = dom.createAttrMorph(element2, 'class');
             return morphs;
           },
-          statements: [["element", "action", ["viewLoadedImage"], [], ["loc", [null, [49, 65], [49, 93]]]], ["block", "unless", [["get", "_previewDownloadIsInProgress", ["loc", [null, [50, 16], [50, 44]]]]], [], 0, null, ["loc", [null, [50, 6], [55, 17]]]], ["attribute", "class", ["concat", ["ui ", ["subexpr", "if", [["get", "_previewDownloadIsInProgress", ["loc", [null, [56, 26], [56, 54]]]], "active", ""], [], ["loc", [null, [56, 21], [56, 68]]]], " loader"]]]],
+          statements: [["element", "action", ["viewLoadedImage"], [], ["loc", [null, [49, 65], [49, 93]]]], ["block", "unless", [["get", "_previewDownloadIsInProgress", ["loc", [null, [50, 16], [50, 44]]]]], [], 0, null, ["loc", [null, [50, 6], [55, 17]]]], ["attribute", "class", ["concat", ["ui ", ["subexpr", "if", [["get", "_previewDownloadIsInProgress", ["loc", [null, [56, 26], [56, 54]]]], "active", "disabled"], [], ["loc", [null, [56, 21], [56, 76]]]], " loader"]]]],
           locals: [],
           templates: [child0]
         };
@@ -61865,7 +62134,7 @@ define("dummy/templates/mobile/components/flexberry-file", ["exports"], function
               morphs[2] = dom.createAttrMorph(element2, 'class');
               return morphs;
             },
-            statements: [["element", "action", ["viewLoadedImage"], [], ["loc", [null, [24, 75], [24, 103]]]], ["block", "unless", [["get", "_previewDownloadIsInProgress", ["loc", [null, [25, 22], [25, 50]]]]], [], 0, null, ["loc", [null, [25, 12], [30, 23]]]], ["attribute", "class", ["concat", ["ui ", ["subexpr", "if", [["get", "_previewDownloadIsInProgress", ["loc", [null, [31, 32], [31, 60]]]], "active", ""], [], ["loc", [null, [31, 27], [31, 74]]]], " loader"]]]],
+            statements: [["element", "action", ["viewLoadedImage"], [], ["loc", [null, [24, 75], [24, 103]]]], ["block", "unless", [["get", "_previewDownloadIsInProgress", ["loc", [null, [25, 22], [25, 50]]]]], [], 0, null, ["loc", [null, [25, 12], [30, 23]]]], ["attribute", "class", ["concat", ["ui ", ["subexpr", "if", [["get", "_previewDownloadIsInProgress", ["loc", [null, [31, 32], [31, 60]]]], "active", "disabled"], [], ["loc", [null, [31, 27], [31, 82]]]], " loader"]]]],
             locals: [],
             templates: [child0]
           };
@@ -65360,6 +65629,14 @@ define('dummy/utils/get-current-agregator', ['exports', 'ember-flexberry/utils/g
     }
   });
 });
+define('dummy/utils/get-projection-by-name', ['exports', 'ember-flexberry/utils/get-projection-by-name'], function (exports, _emberFlexberryUtilsGetProjectionByName) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFlexberryUtilsGetProjectionByName['default'];
+    }
+  });
+});
 define('dummy/utils/i18n/compile-template', ['exports', 'ember-i18n/utils/i18n/compile-template'], function (exports, _emberI18nUtilsI18nCompileTemplate) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -65427,7 +65704,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.4"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0-beta.4+a9f2d6dc"});
 }
 
 /* jshint ignore:end */
