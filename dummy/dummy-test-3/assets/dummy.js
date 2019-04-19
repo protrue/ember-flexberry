@@ -16486,15 +16486,6 @@ define('dummy/models/ember-flexberry-dummy-suggestion-type', ['exports', 'ember-
       async: false
     }),
 
-    // Model validation rules.
-    validations: {
-      name: {
-        presence: {
-          message: 'Name is required'
-        }
-      }
-    },
-
     /**
       Non-stored property.
        @property computedField
@@ -26038,6 +26029,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"3.1.0-beta.0+9502de6d"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://flexberry.northeurope.cloudapp.azure.com","backendUrls":{"root":"http://flexberry.northeurope.cloudapp.azure.com","api":"http://flexberry.northeurope.cloudapp.azure.com/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://flexberry.northeurope.cloudapp.azure.com/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"3.1.0-beta.0+899b17ab"});
 }
 //# sourceMappingURL=dummy.map
