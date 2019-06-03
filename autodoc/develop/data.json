@@ -6143,7 +6143,18 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 490,
+            "line": 489,
+            "description": "Settings for preview modal dialog.",
+            "itemtype": "property",
+            "name": "previewSettings",
+            "type": "Object",
+            "default": "null",
+            "class": "FlexberryFileComponent",
+            "module": "ember-flexberry"
+        },
+        {
+            "file": "addon/components/flexberry-file.js",
+            "line": 499,
             "description": "Handles click on selected image preview and sends action with data outside component\nin order to view selected image at modal window.",
             "itemtype": "method",
             "name": "actions.viewLoadedImage",
@@ -6154,7 +6165,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 508,
+            "line": 520,
             "description": "Handles click on add button.",
             "itemtype": "method",
             "name": "actions.addButtonClick",
@@ -6165,7 +6176,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 519,
+            "line": 531,
             "description": "Handles click on remove button.",
             "itemtype": "method",
             "name": "actions.removeButtonClick",
@@ -6176,7 +6187,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 529,
+            "line": 541,
             "description": "Handles click on upload button.",
             "itemtype": "method",
             "name": "actions.uploadButtonClick",
@@ -6187,7 +6198,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 539,
+            "line": 551,
             "description": "Handles click on download button.",
             "itemtype": "method",
             "name": "actions.downloadButtonClick",
@@ -6198,35 +6209,35 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 550,
+            "line": 562,
             "description": "Initializes {{#crossLink \"FlexberryFileComponent\"}}flexberry-file{{/crossLink}} component.",
             "class": "FlexberryFileComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 575,
+            "line": 587,
             "description": "Initializes {{#crossLink \"FlexberryFileComponent\"}}flexberry-file{{/crossLink}} component DOM-related properties.",
             "class": "FlexberryFileComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 635,
+            "line": 647,
             "description": "Changes url in jQuery fileupload when uploadUrl changed.",
             "class": "FlexberryFileComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 650,
+            "line": 662,
             "description": "Destroys {{#crossLink \"FlexberryFileComponent\"}}flexberry-file{{/crossLink}} component.",
             "class": "FlexberryFileComponent",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 662,
+            "line": 674,
             "description": "Removes selected file.",
             "itemtype": "method",
             "name": "removeFile",
@@ -6235,7 +6246,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 674,
+            "line": 686,
             "description": "Uploads selected file.",
             "itemtype": "method",
             "name": "uploadFile",
@@ -6244,7 +6255,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 731,
+            "line": 743,
             "description": "Downloads previously uploaded file.",
             "itemtype": "method",
             "name": "downloadFile",
@@ -6253,7 +6264,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 757,
+            "line": 769,
             "description": "Shows error modal dialog.",
             "itemtype": "method",
             "name": "showErrorModalDialog",
@@ -6278,7 +6289,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 780,
+            "line": 792,
             "description": "Shows file size errors if there were some.",
             "itemtype": "method",
             "name": "showUploadErrorModalDialog",
@@ -6308,7 +6319,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 803,
+            "line": 815,
             "description": "Shows errors if there were some during file upload.",
             "itemtype": "method",
             "name": "showUploadErrorModalDialog",
@@ -6333,7 +6344,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 825,
+            "line": 837,
             "description": "Shows errors if there were some during file download.",
             "itemtype": "method",
             "name": "showDownloadErrorModalDialog",
@@ -6354,7 +6365,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 847,
+            "line": 859,
             "description": "Handles related model's 'preSave' event.",
             "itemtype": "method",
             "name": "_onRelatedModelPreSave",
@@ -6379,7 +6390,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 866,
+            "line": 878,
             "description": "Subscribes on related model's 'preSave' event.",
             "itemtype": "method",
             "name": "_subscribeOnRelatedModelPreSaveEvent",
@@ -6390,7 +6401,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 886,
+            "line": 898,
             "description": "Unsubscribes from related model's 'preSave' event.",
             "itemtype": "method",
             "name": "_unsubscribeFromRelatedModelPresaveEvent",
@@ -6401,7 +6412,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 901,
+            "line": 913,
             "description": "Value change handler.",
             "itemtype": "method",
             "name": "_valueDidChange",
@@ -6412,7 +6423,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 914,
+            "line": 926,
             "description": "Upload data change handler.",
             "itemtype": "method",
             "name": "_uploadDataDidChange",
@@ -6423,7 +6434,7 @@
         },
         {
             "file": "addon/components/flexberry-file.js",
-            "line": 937,
+            "line": 949,
             "description": "Preview options change handler.",
             "itemtype": "method",
             "name": "_previewOptionsDidChange",
@@ -18851,7 +18862,7 @@
         },
         {
             "file": "addon/mixins/flexberry-file-controller.js",
-            "line": 69,
+            "line": 71,
             "description": "Handles corresponding route's willTransition action.\nIt sends message about transition to modal dialog's controller.",
             "access": "public",
             "tagname": "",
@@ -24001,15 +24012,15 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/components/flexberry-file.js:757"
+            "line": " addon/components/flexberry-file.js:769"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/components/flexberry-file.js:780"
+            "line": " addon/components/flexberry-file.js:792"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/components/flexberry-file.js:803"
+            "line": " addon/components/flexberry-file.js:815"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -24153,19 +24164,19 @@
         },
         {
             "message": "Missing item type\nInitializes {{#crossLink \"FlexberryFileComponent\"}}flexberry-file{{/crossLink}} component.",
-            "line": " addon/components/flexberry-file.js:550"
+            "line": " addon/components/flexberry-file.js:562"
         },
         {
             "message": "Missing item type\nInitializes {{#crossLink \"FlexberryFileComponent\"}}flexberry-file{{/crossLink}} component DOM-related properties.",
-            "line": " addon/components/flexberry-file.js:575"
+            "line": " addon/components/flexberry-file.js:587"
         },
         {
             "message": "Missing item type\nChanges url in jQuery fileupload when uploadUrl changed.",
-            "line": " addon/components/flexberry-file.js:635"
+            "line": " addon/components/flexberry-file.js:647"
         },
         {
             "message": "Missing item type\nDestroys {{#crossLink \"FlexberryFileComponent\"}}flexberry-file{{/crossLink}} component.",
-            "line": " addon/components/flexberry-file.js:650"
+            "line": " addon/components/flexberry-file.js:662"
         },
         {
             "message": "Missing item type\nReference to component's CSS-classes names.\nMust be also a component's instance property to be available from component's .hbs template.",

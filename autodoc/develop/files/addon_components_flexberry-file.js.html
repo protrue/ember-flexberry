@@ -692,8 +692,17 @@ export default FlexberryBaseComponent.extend({
     @property headers
     @type Object
     @default null
-   */
+  */
   headers: null,
+
+  /**
+    Settings for preview modal dialog.
+
+    @property previewSettings
+    @type Object
+    @default null
+  */
+  previewSettings: null,
 
   actions: {
     /**
@@ -707,9 +716,12 @@ export default FlexberryBaseComponent.extend({
       let fileName = this.get(&#x27;_fileName&#x27;);
       let previewImageAsBase64String = this.get(&#x27;_previewImageAsBase64String&#x27;);
       if (!Ember.isBlank(fileName) &amp;&amp; !Ember.isBlank(previewImageAsBase64String)) {
+        let settings = this.get(&#x27;previewSettings&#x27;);
+
         this.sendAction(&#x27;viewImageAction&#x27;, {
           fileSrc: previewImageAsBase64String,
-          fileName: fileName
+          fileName: fileName,
+          settings: settings
         });
       }
     },

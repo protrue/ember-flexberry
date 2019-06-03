@@ -3707,6 +3707,16 @@ define('dummy/controllers/components-examples/flexberry-file/flexberry-file-in-m
      */
     showDownloadButton: true,
 
+    /**
+      Settings for preview modal dialog.
+       @property previewSettings
+      @type Object
+    */
+    previewSettings: {
+      detachable: true,
+      context: 'body'
+    },
+
     actions: {
       modalWindow: function modalWindow(style) {
         if (!_ember['default'].isNone(style)) {
@@ -27004,7 +27014,7 @@ define("dummy/templates/components-examples/flexberry-file/flexberry-file-in-mod
               "column": 0
             },
             "end": {
-              "line": 30,
+              "line": 31,
               "column": 0
             }
           },
@@ -27069,7 +27079,7 @@ define("dummy/templates/components-examples/flexberry-file/flexberry-file-in-mod
           morphs[3] = dom.createMorphAt(element1, 0, 0);
           return morphs;
         },
-        statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.captionModal"], [], ["loc", [null, [8, 22], [8, 101]]]], ["inline", "flexberry-file", [], ["value", ["subexpr", "@mut", [["get", "model.file", ["loc", [null, [13, 16], [13, 26]]]]], [], []], "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [14, 22], [14, 33]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [15, 19], [15, 27]]]]], [], []], "uploadUrl", ["subexpr", "@mut", [["get", "uploadUrl", ["loc", [null, [16, 20], [16, 29]]]]], [], []], "maxUploadFileSize", ["subexpr", "@mut", [["get", "maxUploadFileSize", ["loc", [null, [17, 28], [17, 45]]]]], [], []], "showPreview", ["subexpr", "@mut", [["get", "showPreview", ["loc", [null, [18, 22], [18, 33]]]]], [], []], "showUploadButton", ["subexpr", "@mut", [["get", "showUploadButton", ["loc", [null, [19, 27], [19, 43]]]]], [], []], "showDownloadButton", ["subexpr", "@mut", [["get", "showDownloadButton", ["loc", [null, [20, 29], [20, 47]]]]], [], []], "showModalDialogOnUploadError", ["subexpr", "@mut", [["get", "showModalDialogOnUploadError", ["loc", [null, [21, 39], [21, 67]]]]], [], []], "showModalDialogOnDownloadError", ["subexpr", "@mut", [["get", "showModalDialogOnDownloadError", ["loc", [null, [22, 41], [22, 71]]]]], [], []], "inputClass", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [23, 21], [23, 31]]]]], [], []], "buttonClass", ["subexpr", "@mut", [["get", "buttonClass", ["loc", [null, [24, 22], [24, 33]]]]], [], []]], ["loc", [null, [12, 8], [25, 10]]]], ["element", "action", ["logOut"], [], ["loc", [null, [27, 32], [27, 51]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonClose"], [], ["loc", [null, [27, 52], [27, 130]]]]],
+        statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.captionModal"], [], ["loc", [null, [8, 22], [8, 101]]]], ["inline", "flexberry-file", [], ["value", ["subexpr", "@mut", [["get", "model.file", ["loc", [null, [13, 16], [13, 26]]]]], [], []], "placeholder", ["subexpr", "@mut", [["get", "placeholder", ["loc", [null, [14, 22], [14, 33]]]]], [], []], "readonly", ["subexpr", "@mut", [["get", "readonly", ["loc", [null, [15, 19], [15, 27]]]]], [], []], "uploadUrl", ["subexpr", "@mut", [["get", "uploadUrl", ["loc", [null, [16, 20], [16, 29]]]]], [], []], "maxUploadFileSize", ["subexpr", "@mut", [["get", "maxUploadFileSize", ["loc", [null, [17, 28], [17, 45]]]]], [], []], "showPreview", ["subexpr", "@mut", [["get", "showPreview", ["loc", [null, [18, 22], [18, 33]]]]], [], []], "showUploadButton", ["subexpr", "@mut", [["get", "showUploadButton", ["loc", [null, [19, 27], [19, 43]]]]], [], []], "showDownloadButton", ["subexpr", "@mut", [["get", "showDownloadButton", ["loc", [null, [20, 29], [20, 47]]]]], [], []], "showModalDialogOnUploadError", ["subexpr", "@mut", [["get", "showModalDialogOnUploadError", ["loc", [null, [21, 39], [21, 67]]]]], [], []], "showModalDialogOnDownloadError", ["subexpr", "@mut", [["get", "showModalDialogOnDownloadError", ["loc", [null, [22, 41], [22, 71]]]]], [], []], "inputClass", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [23, 21], [23, 31]]]]], [], []], "buttonClass", ["subexpr", "@mut", [["get", "buttonClass", ["loc", [null, [24, 22], [24, 33]]]]], [], []], "previewSettings", ["subexpr", "@mut", [["get", "previewSettings", ["loc", [null, [25, 26], [25, 41]]]]], [], []]], ["loc", [null, [12, 8], [26, 10]]]], ["element", "action", ["logOut"], [], ["loc", [null, [28, 32], [28, 51]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonClose"], [], ["loc", [null, [28, 52], [28, 130]]]]],
         locals: [],
         templates: []
       };
@@ -27088,7 +27098,7 @@ define("dummy/templates/components-examples/flexberry-file/flexberry-file-in-mod
             "column": 0
           },
           "end": {
-            "line": 31,
+            "line": 32,
             "column": 0
           }
         },
@@ -27136,7 +27146,7 @@ define("dummy/templates/components-examples/flexberry-file/flexberry-file-in-mod
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["element", "action", ["modalWindow", "#example"], [], ["loc", [null, [4, 28], [4, 63]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModal"], [], ["loc", [null, [4, 64], [4, 142]]]], ["block", "ui-modal", [], ["id", "repeat-window"], 0, null, ["loc", [null, [7, 0], [30, 13]]]]],
+      statements: [["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.caption"], [], ["loc", [null, [1, 22], [1, 96]]]], ["element", "action", ["modalWindow", "#example"], [], ["loc", [null, [4, 28], [4, 63]]]], ["inline", "t", ["forms.components-examples.flexberry-lookup.lookup-in-modal.buttonModal"], [], ["loc", [null, [4, 64], [4, 142]]]], ["block", "ui-modal", [], ["id", "repeat-window"], 0, null, ["loc", [null, [7, 0], [31, 13]]]]],
       locals: [],
       templates: [child0]
     };
@@ -58137,7 +58147,7 @@ define("dummy/templates/flexberry-file-view-dialog", ["exports"], function (expo
               "column": 0
             },
             "end": {
-              "line": 9,
+              "line": 10,
               "column": 0
             }
           },
@@ -58165,7 +58175,7 @@ define("dummy/templates/flexberry-file-view-dialog", ["exports"], function (expo
           morphs[1] = dom.createAttrMorph(element0, 'alt');
           return morphs;
         },
-        statements: [["attribute", "src", ["concat", [["get", "imageSrc", ["loc", [null, [8, 49], [8, 57]]]]]]], ["attribute", "alt", ["subexpr", "t", ["components.flexberry-file.preview-image-alternative-text"], [], ["loc", [null, [8, 65], [8, 129]]]]]],
+        statements: [["attribute", "src", ["concat", [["get", "imageSrc", ["loc", [null, [9, 49], [9, 57]]]]]]], ["attribute", "alt", ["subexpr", "t", ["components.flexberry-file.preview-image-alternative-text"], [], ["loc", [null, [9, 65], [9, 129]]]]]],
         locals: [],
         templates: []
       };
@@ -58184,7 +58194,7 @@ define("dummy/templates/flexberry-file-view-dialog", ["exports"], function (expo
             "column": 0
           },
           "end": {
-            "line": 10,
+            "line": 11,
             "column": 0
           }
         },
@@ -58207,7 +58217,7 @@ define("dummy/templates/flexberry-file-view-dialog", ["exports"], function (expo
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "modal-dialog", [], ["title", ["subexpr", "@mut", [["get", "title", ["loc", [null, [2, 8], [2, 13]]]]], [], []], "useOkButton", false, "close", "removeModalDialog", "created", "createdModalDialog", "viewImageContent", true, "sizeClass", ["subexpr", "@mut", [["get", "sizeClass", ["loc", [null, [7, 12], [7, 21]]]]], [], []]], 0, null, ["loc", [null, [1, 0], [9, 17]]]]],
+      statements: [["block", "modal-dialog", [], ["title", ["subexpr", "@mut", [["get", "title", ["loc", [null, [2, 8], [2, 13]]]]], [], []], "useOkButton", false, "close", "removeModalDialog", "created", "createdModalDialog", "viewImageContent", true, "sizeClass", ["subexpr", "@mut", [["get", "sizeClass", ["loc", [null, [7, 12], [7, 21]]]]], [], []], "settings", ["subexpr", "@mut", [["get", "settings", ["loc", [null, [8, 11], [8, 19]]]]], [], []]], 0, null, ["loc", [null, [1, 0], [10, 17]]]]],
       locals: [],
       templates: [child0]
     };
@@ -65704,7 +65714,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://stands-backend.flexberry.net","backendUrls":{"root":"http://stands-backend.flexberry.net","api":"http://stands-backend.flexberry.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://stands-backend.flexberry.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://stands-backend.flexberry.net","backendUrls":{"root":"http://stands-backend.flexberry.net","api":"http://stands-backend.flexberry.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://stands-backend.flexberry.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0+529322ad"});
 }
 
 /* jshint ignore:end */
