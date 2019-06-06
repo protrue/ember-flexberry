@@ -39431,6 +39431,9 @@ img.item-minus {
   border-bottom: none;
   height: 100%;
 }
+.flexberry-dropdown.search.selection.ember-view.ui.dropdown.blue {
+  background: blue;
+}
 .flexberry-word-break {
   word-break: break-all !important;
 }
