@@ -4073,10 +4073,15 @@ define('dummy/controllers/components-examples/flexberry-groupedit/ember-flexberr
     */
     lookupDynamicProperties: _ember['default'].computed(function () {
       var lookupLimitPredicate = undefined;
+      var lookupAdditionalLimitFunction = undefined;
       var fieldvalue = this.get('fieldvalue');
       if (fieldvalue) {
         lookupLimitPredicate = new StringPredicate('name').contains(fieldvalue);
       }
+
+      lookupAdditionalLimitFunction = function (relationModel) {
+        return new StringPredicate('eMail').contains(relationModel.get('voteType'));
+      };
 
       return {
         choose: 'showLookupDialog',
@@ -4087,7 +4092,8 @@ define('dummy/controllers/components-examples/flexberry-groupedit/ember-flexberr
         projection: 'ApplicationUserL',
         autocomplete: true,
         readonly: this.get('checkboxValue'),
-        lookupLimitPredicate: lookupLimitPredicate
+        lookupLimitPredicate: lookupLimitPredicate,
+        lookupAdditionalLimitFunction: lookupAdditionalLimitFunction
       };
     }).readOnly(),
 
@@ -65747,7 +65753,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://stands-backend.flexberry.net","backendUrls":{"root":"http://stands-backend.flexberry.net","api":"http://stands-backend.flexberry.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://stands-backend.flexberry.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0+6e9490a6"});
+  require("dummy/app")["default"].create({"name":"dummy","backendUrl":"http://stands-backend.flexberry.net","backendUrls":{"root":"http://stands-backend.flexberry.net","api":"http://stands-backend.flexberry.net/odata"},"log":{"enabled":true,"storeErrorMessages":true,"storeWarnMessages":true,"storeLogMessages":false,"storeInfoMessages":true,"storeDebugMessages":true,"storeDeprecationMessages":true,"storePromiseErrors":true,"showPromiseErrors":true},"perf":{"enabled":false},"lock":{"enabled":true,"openReadOnly":true,"unlockObject":true},"useUserSettingsService":true,"components":{"flexberryFile":{"uploadUrl":"http://stands-backend.flexberry.net/api/File","maxUploadFileSize":null,"uploadOnModelPreSave":true,"showUploadButton":true,"showModalDialogOnUploadError":true,"showModalDialogOnDownloadError":true}},"version":"2.1.0+1090f456"});
 }
 
 /* jshint ignore:end */
