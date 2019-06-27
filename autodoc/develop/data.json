@@ -9938,21 +9938,21 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 395,
+            "line": 398,
             "description": "Sets readonly attr for flatpickr.",
             "class": "FlexberrySimpledatetime",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 402,
+            "line": 405,
             "description": "Reinit flatpickr (defaultHour and defaultMinute for dynamically updating because set() for this options doesn't update view).",
             "class": "FlexberrySimpledatetime",
             "module": "ember-flexberry"
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 410,
+            "line": 413,
             "description": "Destroy Flatpickr instance.",
             "itemtype": "method",
             "name": "_flatpickrDestroy",
@@ -9963,7 +9963,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 424,
+            "line": 427,
             "description": "Convert Date object to appropriate string value for input.",
             "itemtype": "method",
             "name": "_convertDateToString",
@@ -9985,7 +9985,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 455,
+            "line": 458,
             "description": "Converts string value of input to Date object.",
             "itemtype": "method",
             "name": "_convertStringToDate",
@@ -10007,7 +10007,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 475,
+            "line": 478,
             "description": "Converts date (without time) to local date.",
             "itemtype": "method",
             "name": "_convertDateToLocal",
@@ -10029,7 +10029,7 @@
         },
         {
             "file": "addon/components/flexberry-simpledatetime.js",
-            "line": 497,
+            "line": 500,
             "description": "Clear current value.",
             "itemtype": "method",
             "name": "actions.remove",
@@ -24285,11 +24285,11 @@
         },
         {
             "message": "Missing item type\nSets readonly attr for flatpickr.",
-            "line": " addon/components/flexberry-simpledatetime.js:395"
+            "line": " addon/components/flexberry-simpledatetime.js:398"
         },
         {
             "message": "Missing item type\nReinit flatpickr (defaultHour and defaultMinute for dynamically updating because set() for this options doesn't update view).",
-            "line": " addon/components/flexberry-simpledatetime.js:402"
+            "line": " addon/components/flexberry-simpledatetime.js:405"
         },
         {
             "message": "Missing item type\nSimple object list view  component.",

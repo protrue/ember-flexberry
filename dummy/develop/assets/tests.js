@@ -14271,6 +14271,55 @@ define('dummy/tests/integration/components/flexberry-simpledatetime-test', ['exp
     assert.ok(true);
   });
 
+  (0, _emberQunit.test)('check locale at month scroll hint', function (assert) {
+    this.render(_ember['default'].HTMLBars.template((function () {
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.4.6',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 28
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'flexberry-simpledatetime', ['loc', [null, [1, 0], [1, 28]]]]],
+        locals: [],
+        templates: []
+      };
+    })()));
+    this.set('i18n.locale', 'ru');
+    assert.equal(_ember['default'].$('.flatpickr-current-month .cur-month')[0].title, this.get('i18n').t('components.flexberry-simpledatetime.scroll-caption-text'), 'Locale ru is correct');
+    this.set('i18n.locale', 'en');
+    assert.equal(_ember['default'].$('.flatpickr-current-month .cur-month')[0].title, this.get('i18n').t('components.flexberry-simpledatetime.scroll-caption-text'), 'Locale en is correct');
+  });
+
   (0, _emberQunit.test)('render with type before value', function (assert) {
     assert.expect(1);
     var typeName = 'date';
