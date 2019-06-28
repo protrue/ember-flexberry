@@ -8027,6 +8027,57 @@ define('dummy/tests/controllers/ember-flexberry-dummy-localization-list.jshint',
     assert.ok(true, 'controllers/ember-flexberry-dummy-localization-list.js should pass jshint.');
   });
 });
+define('dummy/tests/controllers/ember-flexberry-dummy-multi-list-user-edit.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers');
+  test('controllers/ember-flexberry-dummy-multi-list-user-edit.js should pass jscs', function () {
+    ok(true, 'controllers/ember-flexberry-dummy-multi-list-user-edit.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/ember-flexberry-dummy-multi-list-user-edit.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/ember-flexberry-dummy-multi-list-user-edit.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/ember-flexberry-dummy-multi-list-user-edit.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/ember-flexberry-dummy-multi-list-user-edit/new.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers/ember-flexberry-dummy-multi-list-user-edit');
+  test('controllers/ember-flexberry-dummy-multi-list-user-edit/new.js should pass jscs', function () {
+    ok(true, 'controllers/ember-flexberry-dummy-multi-list-user-edit/new.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/ember-flexberry-dummy-multi-list-user-edit/new.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/ember-flexberry-dummy-multi-list-user-edit/new.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/ember-flexberry-dummy-multi-list-user-edit/new.js should pass jshint.');
+  });
+});
+define('dummy/tests/controllers/ember-flexberry-dummy-multi-list.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - controllers');
+  test('controllers/ember-flexberry-dummy-multi-list.js should pass jscs', function () {
+    ok(true, 'controllers/ember-flexberry-dummy-multi-list.js should pass jscs.');
+  });
+});
+define('dummy/tests/controllers/ember-flexberry-dummy-multi-list.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - controllers/ember-flexberry-dummy-multi-list.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/ember-flexberry-dummy-multi-list.js should pass jshint.');
+  });
+});
 define('dummy/tests/controllers/ember-flexberry-dummy-suggestion-edit.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -21933,6 +21984,57 @@ define('dummy/tests/routes/ember-flexberry-dummy-localization-list.jshint', ['ex
     assert.ok(true, 'routes/ember-flexberry-dummy-localization-list.js should pass jshint.');
   });
 });
+define('dummy/tests/routes/ember-flexberry-dummy-multi-list-user-edit.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes');
+  test('routes/ember-flexberry-dummy-multi-list-user-edit.js should pass jscs', function () {
+    ok(true, 'routes/ember-flexberry-dummy-multi-list-user-edit.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/ember-flexberry-dummy-multi-list-user-edit.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/ember-flexberry-dummy-multi-list-user-edit.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/ember-flexberry-dummy-multi-list-user-edit.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/ember-flexberry-dummy-multi-list-user-edit/new.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes/ember-flexberry-dummy-multi-list-user-edit');
+  test('routes/ember-flexberry-dummy-multi-list-user-edit/new.js should pass jscs', function () {
+    ok(true, 'routes/ember-flexberry-dummy-multi-list-user-edit/new.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/ember-flexberry-dummy-multi-list-user-edit/new.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/ember-flexberry-dummy-multi-list-user-edit/new.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/ember-flexberry-dummy-multi-list-user-edit/new.js should pass jshint.');
+  });
+});
+define('dummy/tests/routes/ember-flexberry-dummy-multi-list.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - routes');
+  test('routes/ember-flexberry-dummy-multi-list.js should pass jscs', function () {
+    ok(true, 'routes/ember-flexberry-dummy-multi-list.js should pass jscs.');
+  });
+});
+define('dummy/tests/routes/ember-flexberry-dummy-multi-list.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - routes/ember-flexberry-dummy-multi-list.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/ember-flexberry-dummy-multi-list.js should pass jshint.');
+  });
+});
 define('dummy/tests/routes/ember-flexberry-dummy-suggestion-edit.jscs-test', ['exports'], function (exports) {
   'use strict';
 
@@ -24046,6 +24148,114 @@ define('dummy/tests/unit/mixins/modal-application-route-test.jshint', ['exports'
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/mixins/modal-application-route-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-controller-test', ['exports', 'ember', 'ember-flexberry/mixins/multi-list-controller', 'qunit'], function (exports, _ember, _emberFlexberryMixinsMultiListController, _qunit) {
+
+  (0, _qunit.module)('Unit | Mixin | multi list controller');
+
+  (0, _qunit.test)('it works', function (assert) {
+    var MultiListControllerObject = _ember['default'].Object.extend(_emberFlexberryMixinsMultiListController['default']);
+    var subject = MultiListControllerObject.create();
+    assert.ok(subject);
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-controller-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - unit/mixins');
+  test('unit/mixins/multi-list-controller-test.js should pass jscs', function () {
+    ok(true, 'unit/mixins/multi-list-controller-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-controller-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/mixins/multi-list-controller-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/mixins/multi-list-controller-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-model-edit-test', ['exports', 'ember', 'ember-flexberry/mixins/multi-list-model-edit', 'qunit'], function (exports, _ember, _emberFlexberryMixinsMultiListModelEdit, _qunit) {
+
+  (0, _qunit.module)('Unit | Mixin | multi list model edit');
+
+  (0, _qunit.test)('it works', function (assert) {
+    var MultiListModelEditObject = _ember['default'].Object.extend(_emberFlexberryMixinsMultiListModelEdit['default']);
+    var subject = MultiListModelEditObject.create();
+    assert.ok(subject);
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-model-edit-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - unit/mixins');
+  test('unit/mixins/multi-list-model-edit-test.js should pass jscs', function () {
+    ok(true, 'unit/mixins/multi-list-model-edit-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-model-edit-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/mixins/multi-list-model-edit-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/mixins/multi-list-model-edit-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-model-test', ['exports', 'ember', 'ember-flexberry/mixins/multi-list-model', 'qunit'], function (exports, _ember, _emberFlexberryMixinsMultiListModel, _qunit) {
+
+  (0, _qunit.module)('Unit | Mixin | multi list model');
+
+  (0, _qunit.test)('it works', function (assert) {
+    var MultiListModelObject = _ember['default'].Object.extend(_emberFlexberryMixinsMultiListModel['default']);
+    var subject = MultiListModelObject.create();
+    assert.ok(subject);
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-model-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - unit/mixins');
+  test('unit/mixins/multi-list-model-test.js should pass jscs', function () {
+    ok(true, 'unit/mixins/multi-list-model-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-model-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/mixins/multi-list-model-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/mixins/multi-list-model-test.js should pass jshint.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-route-test', ['exports', 'ember', 'ember-flexberry/mixins/multi-list-route', 'qunit'], function (exports, _ember, _emberFlexberryMixinsMultiListRoute, _qunit) {
+
+  (0, _qunit.module)('Unit | Mixin | multi list route');
+
+  (0, _qunit.test)('it works', function (assert) {
+    var MultiListRouteObject = _ember['default'].Object.extend(_emberFlexberryMixinsMultiListRoute['default']);
+    var subject = MultiListRouteObject.create();
+    assert.ok(subject);
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-route-test.jscs-test', ['exports'], function (exports) {
+  'use strict';
+
+  module('JSCS - unit/mixins');
+  test('unit/mixins/multi-list-route-test.js should pass jscs', function () {
+    ok(true, 'unit/mixins/multi-list-route-test.js should pass jscs.');
+  });
+});
+define('dummy/tests/unit/mixins/multi-list-route-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/mixins/multi-list-route-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/mixins/multi-list-route-test.js should pass jshint.');
   });
 });
 define('dummy/tests/unit/mixins/paginated-controller-test', ['exports', 'ember', 'ember-flexberry/mixins/paginated-controller', 'qunit'], function (exports, _ember, _emberFlexberryMixinsPaginatedController, _qunit) {

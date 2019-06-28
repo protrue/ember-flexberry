@@ -88,6 +88,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Mobile.ObjectListViewRowComponent",
         "ModalApplicationRoute",
         "ModalDialog",
+        "MultiListModelEditMixin",
         "NewPlatformFlexberryFlexberryUserSettingModel",
         "NewPlatformFlexberryFlexberryUserSettingSerializer",
         "NewPlatformFlexberryServicesLockListController",
