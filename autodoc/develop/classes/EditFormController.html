@@ -258,6 +258,10 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                                 <a href="#" data-tabid="#methods" data-anchor="#method__destroyHasManyRelationships" data-tablink="_destroyHasManyRelationships">_destroyHasManyRelationships</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method__getModelWithHasMany" data-tablink="_getModelWithHasMany">_getModelWithHasMany</a>
+
+                            </li>
                             <li class="index-item method private inherited">
                                 <a href="#" data-tabid="#methods" data-anchor="#method__reloadModalData" data-tablink="_reloadModalData">_reloadModalData</a>
 
@@ -523,7 +527,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l811"><code>addon&#x2F;controllers&#x2F;edit-form.js:811</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l820"><code>addon&#x2F;controllers&#x2F;edit-form.js:820</code></a>
                             </p>
                     
                     
@@ -560,6 +564,71 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                                 <div class="returns-description">
                                             <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>:
                                         <p>A promise that will be resolved to array of destroyed records.</p>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method__getModelWithHasMany" class="method item">
+                        <h3 class="name"><code>_getModelWithHasMany</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>model</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="http://emberjs.com/api/classes/Ember.NativeArray.html" class="crosslink external" target="_blank">Ember.NativeArray</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_controllers_edit-form.js.html#l797"><code>addon&#x2F;controllers&#x2F;edit-form.js:797</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Returns an array with the model and all its <code>hasMany</code> relationships, obtained recursively, for each model.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">model</code>
+                                            <span class="type"><a href="http://emberjs.com/api/data/classes/DS.Model.html" class="crosslink external" target="_blank">DS.Model</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>The object model.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="http://emberjs.com/api/classes/Ember.NativeArray.html" class="crosslink external" target="_blank">Ember.NativeArray</a></span>:
+                                        <p>An array with the model and all its <code>hasMany</code> relationships.</p>
                     
                                 </div>
                             </div>
@@ -830,7 +899,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l776"><code>addon&#x2F;controllers&#x2F;edit-form.js:776</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l762"><code>addon&#x2F;controllers&#x2F;edit-form.js:762</code></a>
                             </p>
                     
                     
@@ -1772,7 +1841,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l498"><code>addon&#x2F;controllers&#x2F;edit-form.js:498</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l484"><code>addon&#x2F;controllers&#x2F;edit-form.js:484</code></a>
                             </p>
                     
                     
@@ -1839,7 +1908,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l453"><code>addon&#x2F;controllers&#x2F;edit-form.js:453</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l439"><code>addon&#x2F;controllers&#x2F;edit-form.js:439</code></a>
                             </p>
                     
                     
@@ -1908,7 +1977,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l686"><code>addon&#x2F;controllers&#x2F;edit-form.js:686</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l672"><code>addon&#x2F;controllers&#x2F;edit-form.js:672</code></a>
                             </p>
                     
                     
@@ -1992,7 +2061,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l596"><code>addon&#x2F;controllers&#x2F;edit-form.js:596</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l582"><code>addon&#x2F;controllers&#x2F;edit-form.js:582</code></a>
                             </p>
                     
                     
@@ -2058,7 +2127,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l614"><code>addon&#x2F;controllers&#x2F;edit-form.js:614</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l600"><code>addon&#x2F;controllers&#x2F;edit-form.js:600</code></a>
                             </p>
                     
                     
@@ -2117,7 +2186,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l581"><code>addon&#x2F;controllers&#x2F;edit-form.js:581</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l567"><code>addon&#x2F;controllers&#x2F;edit-form.js:567</code></a>
                             </p>
                     
                     
@@ -2159,7 +2228,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l649"><code>addon&#x2F;controllers&#x2F;edit-form.js:649</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l635"><code>addon&#x2F;controllers&#x2F;edit-form.js:635</code></a>
                             </p>
                     
                     
@@ -2207,73 +2276,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l563"><code>addon&#x2F;controllers&#x2F;edit-form.js:563</code></a>
-                            </p>
-                    
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>This method will be invoked always when save operation completed,
-                    regardless of save promise's state (was it fulfilled or rejected).
-                    Override this method to add some custom logic on save operation completion.</p>
-                    
-                        </div>
-                    
-                            <div class="params">
-                                <h4>Parameters:</h4>
-                    
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">data</code>
-                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                    
-                    
-                                        <div class="param-description">
-                                            <p>Data about completed save operation.</p>
-                    
-                                        </div>
-                    
-                                    </li>
-                                </ul>
-                            </div>
-                    
-                    
-                            <div class="example">
-                                <h4>Example:</h4>
-                    
-                                <div class="example-content">
-                                    <pre class="code prettyprint"><code class="language-js">onSaveActionAlways(data) {
-                      alert('Save operation completed!');
-                    }
-                    </code></pre>
-                    
-                                </div>
-                            </div>
-                    </div>
-                    <div id="method_onSaveActionAlways." class="method item">
-                        <h3 class="name"><code>onSaveActionAlways.</code></h3>
-                    
-                            <div class="args">
-                                <span class="paren">(</span><ul class="args-list inline commas">
-                                    <li class="arg">
-                                            <code>data</code>
-                                    </li>
-                                </ul><span class="paren">)</span>
-                            </div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l631"><code>addon&#x2F;controllers&#x2F;edit-form.js:631</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l617"><code>addon&#x2F;controllers&#x2F;edit-form.js:617</code></a>
                             </p>
                     
                     
@@ -2318,6 +2321,72 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                                 </div>
                             </div>
                     </div>
+                    <div id="method_onSaveActionAlways." class="method item">
+                        <h3 class="name"><code>onSaveActionAlways.</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>data</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/addon_controllers_edit-form.js.html#l549"><code>addon&#x2F;controllers&#x2F;edit-form.js:549</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>This method will be invoked always when save operation completed,
+                    regardless of save promise's state (was it fulfilled or rejected).
+                    Override this method to add some custom logic on save operation completion.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">data</code>
+                                            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                                        <div class="param-description">
+                                            <p>Data about completed save operation.</p>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                            <div class="example">
+                                <h4>Example:</h4>
+                    
+                                <div class="example-content">
+                                    <pre class="code prettyprint"><code class="language-js">onSaveActionAlways(data) {
+                      alert('Save operation completed!');
+                    }
+                    </code></pre>
+                    
+                                </div>
+                            </div>
+                    </div>
                     <div id="method_onSaveActionFulfilled." class="method item">
                         <h3 class="name"><code>onSaveActionFulfilled.</code></h3>
                     
@@ -2333,7 +2402,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l528"><code>addon&#x2F;controllers&#x2F;edit-form.js:528</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l514"><code>addon&#x2F;controllers&#x2F;edit-form.js:514</code></a>
                             </p>
                     
                     
@@ -2381,7 +2450,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l543"><code>addon&#x2F;controllers&#x2F;edit-form.js:543</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l529"><code>addon&#x2F;controllers&#x2F;edit-form.js:529</code></a>
                             </p>
                     
                     
@@ -2440,7 +2509,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l513"><code>addon&#x2F;controllers&#x2F;edit-form.js:513</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l499"><code>addon&#x2F;controllers&#x2F;edit-form.js:499</code></a>
                             </p>
                     
                     
@@ -2554,7 +2623,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l753"><code>addon&#x2F;controllers&#x2F;edit-form.js:753</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l739"><code>addon&#x2F;controllers&#x2F;edit-form.js:739</code></a>
                             </p>
                     
                     
@@ -2686,7 +2755,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l664"><code>addon&#x2F;controllers&#x2F;edit-form.js:664</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l650"><code>addon&#x2F;controllers&#x2F;edit-form.js:650</code></a>
                             </p>
                     
                     
@@ -2887,7 +2956,7 @@ So, you can inherit from <code>./edit-form</code>, even if file <code>app/contro
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/addon_controllers_edit-form.js.html#l766"><code>addon&#x2F;controllers&#x2F;edit-form.js:766</code></a>
+                            <a href="../files/addon_controllers_edit-form.js.html#l752"><code>addon&#x2F;controllers&#x2F;edit-form.js:752</code></a>
                             </p>
                     
                     

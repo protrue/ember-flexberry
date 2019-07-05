@@ -213,6 +213,8 @@
  */
 
 import Ember from &#x27;ember&#x27;;
+import generateUniqueId from &#x27;ember-flexberry-data/utils/generate-unique-id&#x27;;
+
 import EditFormRoute from &#x27;./edit-form&#x27;;
 
 /**
@@ -245,11 +247,11 @@ export default EditFormRoute.extend({
     @method model
     @param {Object} params
     @param {Object} transition
-   */
+  */
   model(params, transition) {
-    let flexberryDetailInteractionService = this.get(&#x27;flexberryDetailInteractionService&#x27;);
-    let modelCurrentNotSaved = flexberryDetailInteractionService.get(&#x27;modelCurrentNotSaved&#x27;);
-    let modelSelectedDetail = flexberryDetailInteractionService.get(&#x27;modelSelectedDetail&#x27;);
+    const flexberryDetailInteractionService = this.get(&#x27;flexberryDetailInteractionService&#x27;);
+    const modelCurrentNotSaved = flexberryDetailInteractionService.get(&#x27;modelCurrentNotSaved&#x27;);
+    const modelSelectedDetail = flexberryDetailInteractionService.get(&#x27;modelSelectedDetail&#x27;);
     flexberryDetailInteractionService.set(&#x27;modelCurrentNotSaved&#x27;, undefined);
     flexberryDetailInteractionService.set(&#x27;modelSelectedDetail&#x27;, undefined);
 
@@ -261,10 +263,8 @@ export default EditFormRoute.extend({
       return modelSelectedDetail;
     }
 
-    // NOTE: record.id is null.
-    let modelName = transition.queryParams.modelName || this.modelName;
-    let record = this.store.createRecord(modelName);
-    return record;
+    const modelName = transition.queryParams.modelName || this.modelName;
+    return this.store.createRecord(modelName, { id: generateUniqueId() });
   },
 
   /**
@@ -274,9 +274,9 @@ export default EditFormRoute.extend({
     @method renderTemplate
     @param {Object} controller
     @param {Object} model
-   */
+  */
   renderTemplate(controller, model) {
-    var templateName = this.get(&#x27;templateName&#x27;);
+    const templateName = this.get(&#x27;templateName&#x27;);
     Ember.assert(&#x27;Template name must be defined.&#x27;, templateName);
     this.render(templateName, {
       model,

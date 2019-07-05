@@ -212,11 +212,13 @@
   @module ember-flexberry
 */
 import Ember from &#x27;ember&#x27;;
+import { translationMacro as t } from &#x27;ember-i18n&#x27;;
+import { getValueFromLocales } from &#x27;ember-flexberry-data/utils/model-functions&#x27;;
+import generateUniqueId from &#x27;ember-flexberry-data/utils/generate-unique-id&#x27;;
+
 import FlexberryBaseComponent from &#x27;./flexberry-base-component&#x27;;
 import FlexberryLookupCompatibleComponentMixin from &#x27;../mixins/flexberry-lookup-compatible-component&#x27;;
 import FlexberryFileCompatibleComponentMixin from &#x27;../mixins/flexberry-file-compatible-component&#x27;;
-import { translationMacro as t } from &#x27;ember-i18n&#x27;;
-import { getValueFromLocales } from &#x27;ember-flexberry-data/utils/model-functions&#x27;;
 import getProjectionByName from &#x27;../utils/get-projection-by-name&#x27;;
 
 /**
@@ -2323,8 +2325,8 @@ export default FlexberryBaseComponent.extend(
         // Depending on settings current model has to be saved before adding detail.
         this.send(&#x27;rowClick&#x27;, undefined, undefined);
       } else {
-        let modelName = this.get(&#x27;modelProjection&#x27;).modelName;
-        let modelToAdd = this.get(&#x27;store&#x27;).createRecord(modelName, {});
+        const modelName = this.get(&#x27;modelProjection&#x27;).modelName;
+        const modelToAdd = this.get(&#x27;store&#x27;).createRecord(modelName, { id: generateUniqueId() });
         if (!Ember.isNone(this.get(&#x27;orderedProperty&#x27;))) {
           modelToAdd.set(&#x60;${this.get(&#x27;orderedProperty&#x27;)}&#x60;, this.get(&#x27;content&#x27;).length + 1);
         }
