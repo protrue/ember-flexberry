@@ -4,17 +4,21 @@
   <div class="field">
     <div class="flexberry-edit-panel">
       {{#unless readonly}}
-        {{#unless (and hasParentRoute (not saveBeforeRouteLeave))}}
-          <button type="submit" class="ui button save-button" {{action "save"}}>{{t "forms.edit-form.save-button-text"}}</button>
-        {{/unless}}
-        {{#unless (and hasParentRoute (not saveBeforeRouteLeave))}}
-          <button type="submit" class="ui button save-close-button" {{action "saveAndClose"}}>{{t "forms.edit-form.saveAndClose-button-text"}}</button>
-        {{/unless}}
-        {{#unless (and model.isNew (or (not hasParentRoute) (and hasParentRoute saveBeforeRouteLeave)))}}
-          <button type="submit" class="ui button save-del-button" {{action "delete"}}>{{t "forms.edit-form.delete-button-text"}}</button>
-        {{/unless}}
+      {{#unless (and hasParentRoute (not saveBeforeRouteLeave))}}
+      <button type="submit" class="ui button save-button"
+        {{action "save"}}>{{t "forms.edit-form.save-button-text"}}</button>
       {{/unless}}
-      <button type="submit" class="ui button close-button" {{action 'close'}}>{{t "forms.edit-form.close-button-text"}}</button>
+      {{#unless (and hasParentRoute (not saveBeforeRouteLeave))}}
+      <button type="submit" class="ui button save-close-button"
+        {{action "saveAndClose"}}>{{t "forms.edit-form.saveAndClose-button-text"}}</button>
+      {{/unless}}
+      {{#unless (and model.isNew (or (not hasParentRoute) (and hasParentRoute saveBeforeRouteLeave)))}}
+      <button type="submit" class="ui button save-del-button"
+        {{action "delete"}}>{{t "forms.edit-form.delete-button-text"}}</button>
+      {{/unless}}
+      {{/unless}}
+      <button type="submit" class="ui button close-button"
+        {{action 'close'}}>{{t "forms.edit-form.close-button-text"}}</button>
     </div>
   </div>
   <div class="field flexberry-validationsummary-container">
@@ -129,12 +133,7 @@
         }}
         {{flexberry-validationmessage error=(v-get validationObject "editor1" "messages")}}
       </div>
-    </div>
-  </div>
-  {{#flexberry-toggler
-    caption=(t "forms.ember-flexberry-dummy-suggestion-edit.files-caption")
-    expanded=true}}
-    <div class="field">
+      <div class="field">
       {{flexberry-groupedit
         componentName="filesGroupEdit"
         content=model.files
@@ -142,27 +141,17 @@
         modelProjection=modelProjection.attributes.files
         orderable=true
         readonly=readonly
+        flexberryButtonIconClass="icon-guideline-list"
+        flexberryButtonCaption=(t "forms.ember-flexberry-dummy-suggestion-edit.files-caption")
+        flexberryButtonTooltip=(t "forms.ember-flexberry-dummy-suggestion-edit.files-caption")
+        flexberryButtonClass="sidepage-open"
+        modalDialogTitle=(t "forms.ember-flexberry-dummy-suggestion-edit.files-caption")
+        modalDialogUseSidePageMode=true
+        modalDialogUseOkButton=false
+        modalDialogUseCloseButton=false
       }}
-    </div>
-  {{/flexberry-toggler}}
-  {{#flexberry-toggler
-    caption=(t "forms.ember-flexberry-dummy-suggestion-edit.userVotes-caption")
-    expanded=true}}
-    <div class="field">
-      {{flexberry-groupedit
-        componentName="suggestionUserVotesGroupEdit"
-        content=model.userVotes
-        mainModelProjection=modelProjection
-        modelProjection=modelProjection.attributes.userVotes
-        orderable=true
-        readonly=readonly
-      }}
-    </div>
-  {{/flexberry-toggler}}
-  {{#flexberry-toggler
-    caption=(t "forms.ember-flexberry-dummy-suggestion-edit.comments-caption")
-    expanded=true}}
-    <div class="field">
+      </div>
+      <div class="field">
       {{flexberry-groupedit
         componentName="suggestionCommentsGroupEdit"
         content=model.comments
@@ -175,7 +164,34 @@
         saveBeforeRouteLeave=true
         orderable=true
         readonly=readonly
+        flexberryButtonIconClass="icon-guideline-list"
+        flexberryButtonCaption=(t "forms.ember-flexberry-dummy-suggestion-edit.comments-caption")
+        flexberryButtonTooltip=(t "forms.ember-flexberry-dummy-suggestion-edit.comments-caption")
+        flexberryButtonClass="sidepage-open"
+        modalDialogTitle=(t "forms.ember-flexberry-dummy-suggestion-edit.comments-caption")
+        modalDialogUseSidePageMode=true
+        modalDialogUseOkButton=false
+        modalDialogUseCloseButton=false
       }}
+      </div>
+      <div class="field">
+      {{flexberry-groupedit
+        componentName="suggestionUserVotesGroupEdit"
+        content=model.userVotes
+        mainModelProjection=modelProjection
+        modelProjection=modelProjection.attributes.userVotes
+        orderable=true
+        readonly=readonly
+        flexberryButtonIconClass="icon-guideline-list"
+        flexberryButtonCaption=(t "forms.ember-flexberry-dummy-suggestion-edit.userVotes-caption")
+        flexberryButtonTooltip=(t "forms.ember-flexberry-dummy-suggestion-edit.userVotes-caption")
+        flexberryButtonClass="sidepage-open"
+        modalDialogTitle=(t "forms.ember-flexberry-dummy-suggestion-edit.userVotes-caption")
+        modalDialogUseSidePageMode=true
+        modalDialogUseOkButton=false
+        modalDialogUseCloseButton=false
+      }}
+      </div>
     </div>
-  {{/flexberry-toggler}}
+  </div>
 </form>
